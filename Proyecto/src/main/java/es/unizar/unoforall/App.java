@@ -1,14 +1,14 @@
 package es.unizar.unoforall;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * JavaFX App
@@ -17,7 +17,6 @@ public class App extends Application {
 
     private static Scene scene;
 
-    @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"));
         stage.setResizable(false);
@@ -40,3 +39,12 @@ public class App extends Application {
     }
 
 }
+
+//@SpringBootApplication
+//public class UnoforallApplication {
+//
+//	public static void main(String[] args) {
+//		SpringApplication.run(UnoforallApplication.class, args);
+//	}
+//
+//}
