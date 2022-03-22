@@ -1,15 +1,15 @@
 package es.unizar.unoforall;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
+import es.unizar.unoforall.api.WebSocketAPI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
-import es.unizar.pruebaCliente.PruebaClienteApplication;
 
 /**
  * JavaFX App
@@ -17,7 +17,8 @@ import es.unizar.pruebaCliente.PruebaClienteApplication;
 public class App extends Application {
 
     private static Scene scene;
-
+    private static Object LOCK = new Object();
+    
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
@@ -35,12 +36,28 @@ public class App extends Application {
     }
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        launch();
-        test();
+    	test();
+    	launch();
+        
     }
     
     public static void test() throws InterruptedException, ExecutionException {
-    	PruebaClienteApplication.main(null);
+    	
+    	WebSocketAPI api = new WebSocketAPI();
+    	
+    	api.openConnection();
+    	
+    	//Nos suscribimos a un canal de mensajes en el que el servidor nos envia 
+    	//la respuesta tras el siguiente send
+    	//   tenemos que poner el tipo de dato de respueta; no se pueden recibir strings
+    	api.subscribe("/topic/greetings", Integer.class, i -> {
+    		System.out.println(i);
+    	
+    	});
+    	
+    	// se envía "ey", y el servidor nos responderá por /topic/greeting
+    	api.sendObject("/app/hello", "ey");
+    	
     }
 
 }
