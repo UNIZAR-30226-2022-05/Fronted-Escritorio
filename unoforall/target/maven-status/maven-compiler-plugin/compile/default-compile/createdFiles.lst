@@ -6,6 +6,7 @@ es\unizar\unoforall\ConfirmCorreoController.class
 es\unizar\unoforall\PrincipalController.class
 es\unizar\unoforall\LoginController.class
 es\unizar\unoforall\api\WebSocketAPI.class
+es\unizar\unoforall\api\RespuestaLogin.class
 es\unizar\unoforall\api\WebSocketAPI$2.class
 es\unizar\unoforall\RegistroController.class
 es\unizar\unoforall\RecupContrasenyaController.class

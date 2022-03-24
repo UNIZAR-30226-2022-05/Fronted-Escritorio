@@ -2,6 +2,8 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 
+import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.api.RespuestaLogin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -30,20 +32,50 @@ public class LoginController {
     	
     	//Chequeo provisional
 
-		try {
-	    	if (cajaCorreo.getText().equals("a@unizar") && cajaContrasenya.getText().equals("1234")) {
-	    		labelInformacion.setText("Correo y contraseña correctos. Aplicación incorrecta");
+//		try {
+//	    	if (cajaCorreo.getText().equals("a@unizar") && cajaContrasenya.getText().equals("1234")) {
+//	    		labelInformacion.setText("Correo y contraseña correctos. Aplicación incorrecta");
+//	    		App.setRoot("principal");
+//	    	} else {
+//	    		labelInformacion.setText("Correo y contraseña incorrectos. Pruebe otra cosa");
+////	    		labelInformacion.setTextAlignment(TextAlignment.CENTER);
+//	    		cajaCorreo.setText("");
+//	    		cajaContrasenya.setText("");
+//	    	}
+//		}
+//		catch (IOException e) {
+//			System.out.print(e);
+//		}
+
+    	try {
+//	    	String correo = cajaCorreo.getText();
+//	    	String contrasenya = cajaContrasenya.getText();
+    		
+    		String correo = "prueba.info@gmail.com";
+	    	String contrasenya = "asdfasdf";
+    		
+	    	RestAPI api = new RestAPI("/api/login");
+	    	api.addParameter("correo", correo);
+	    	api.addParameter("contrasenna", contrasenya);
+	    	api.setOnError(e -> {System.out.println(e);});
+	    	
+	    	api.openConnection();
+	    	RespuestaLogin resp = api.receiveObject(RespuestaLogin.class);
+	    	
+	    	if (resp.isExito()) {
 	    		App.setRoot("principal");
-	    	} else {
-	    		labelInformacion.setText("Correo y contraseña incorrectos. Pruebe otra cosa");
-//	    		labelInformacion.setTextAlignment(TextAlignment.CENTER);
 	    		cajaCorreo.setText("");
 	    		cajaContrasenya.setText("");
+	    	} else {
+	    		cajaCorreo.setText("");
+	    		cajaContrasenya.setText("");
+	    		
+		    	System.out.println("Exito: " + resp.isExito());
+		    	System.out.println("Tipo de error: " + resp.getErrorInfo());
 	    	}
-		}
-		catch (IOException e) {
-			System.out.print(e);
-		}
+    	} catch (Exception e) {
+    		System.out.println(e);
+    	}
 	}
     
     @FXML
