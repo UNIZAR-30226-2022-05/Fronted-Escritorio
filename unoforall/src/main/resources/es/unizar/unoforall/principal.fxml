@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,9 +9,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PrincipalController">
    <children>
-      <ImageView fitHeight="547.0" fitWidth="725.0" layoutX="598.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="391.0" fitWidth="578.0" layoutX="703.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/arista.png" />
+            <Image url="@images/UnoForAll.PNG" />
          </image>
       </ImageView>
       <Button layoutX="1585.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToLogin" prefHeight="51.0" prefWidth="321.0" text="Cerrar Sesión">
@@ -62,15 +61,12 @@
             </ButtonBar>
          </buttons>
       </ButtonBar>
-      <Button layoutX="598.0" layoutY="808.0" mnemonicParsing="false" onAction="#makeRoom" style="-fx-background-color: #60A917; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Crear Sala" textFill="WHITE">
+      <Button layoutX="606.0" layoutY="778.0" mnemonicParsing="false" onAction="#makeRoom" style="-fx-background-color: #60A917; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Crear Sala" textFill="WHITE">
          <font>
             <Font size="48.0" />
          </font>
-         <effect>
-            <ColorAdjust brightness="0.21" contrast="0.4" />
-         </effect>
       </Button>
-      <Button layoutX="1019.0" layoutY="808.0" mnemonicParsing="false" onAction="#searchRooms" prefWidth="304.0" style="-fx-background-color: #60A917; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Buscar Sala" textFill="WHITE">
+      <Button layoutX="1036.0" layoutY="778.0" mnemonicParsing="false" onAction="#searchRooms" prefWidth="304.0" style="-fx-background-color: #60A917; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Buscar Sala" textFill="WHITE">
          <font>
             <Font size="48.0" />
          </font>

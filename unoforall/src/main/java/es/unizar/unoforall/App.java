@@ -8,7 +8,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 
@@ -30,6 +36,11 @@ public class App extends Application {
         stage.setMinHeight(600);
         stage.setTitle("UnoForAll");
         stage.show();
+        
+        stage.setOnCloseRequest(event -> {
+        	event.consume();
+        	logout();
+        });
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -44,12 +55,26 @@ public class App extends Application {
     
     static void setFullScreen() throws IOException {
     	stage.setFullScreen(true);
+    	stage.setFullScreenExitHint("Q para salir de pantalla completa");
+    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("q"));
     }
     
     static void setWindowed() throws IOException {
     	stage.setFullScreen(false);
         stage.setMinWidth(800);
         stage.setMinHeight(600);
+    }
+    
+    static void logout() {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Cierre de Sesión");
+    	alert.setHeaderText("¡Estás a punto de cerrar sesión!");
+    	alert.setContentText("¿Estás seguro de querer salir de la aplicación?: ");
+    	
+    	if (alert.showAndWait().get() == ButtonType.OK) {
+    		System.out.println("Has salido de la aplicación correctamente");
+    		stage.close();
+    	}
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

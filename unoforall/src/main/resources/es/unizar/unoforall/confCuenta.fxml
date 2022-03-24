@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.ConfCuentaController">
+   <children>
+      <ImageView fitHeight="317.0" fitWidth="327.0" layoutX="797.0" layoutY="29.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/UnoForAll.PNG" />
+         </image>
+      </ImageView>
+      <Button layoutX="26.0" layoutY="29.0" mnemonicParsing="false" onAction="#goBack" style="-fx-border-color: black; -fx-border-radius: 20; -fx-background-radius: 20;" text="⇦ Atrás">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <GridPane layoutX="196.0" layoutY="308.0" prefHeight="688.0" prefWidth="1450.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="411.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="736.0" minWidth="10.0" prefWidth="612.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="693.0" minWidth="10.0" prefWidth="406.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Nombre: ">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <Label text="Correo: " GridPane.rowIndex="1">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <Label text="Contraseña: " GridPane.rowIndex="2">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <TextField fx:id="cajaNombre" GridPane.columnIndex="1">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="cajaCorreo" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </TextField>
+            <Button mnemonicParsing="false" onAction="#changeNomUsuario" prefHeight="77.0" prefWidth="363.0" text="Cambiar" GridPane.columnIndex="2">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#changeCorreo" prefHeight="77.0" prefWidth="363.0" text="Cambiar" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#changeContrasenya" prefHeight="77.0" prefWidth="363.0" text="Cambiar" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#deleteAccount" prefHeight="77.0" prefWidth="561.0" style="-fx-background-color: #E51400; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20;" text="Eliminar Cuenta" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Button>
+            <Label text="Confirmar Contraseña: " GridPane.rowIndex="3">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="cajaContrasenya" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </PasswordField>
+            <PasswordField fx:id="cajaContrasenya2" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </PasswordField>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
