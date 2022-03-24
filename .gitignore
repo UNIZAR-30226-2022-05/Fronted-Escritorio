@@ -24,3 +24,6 @@ hs_err_pid*
 
 # carpeta de pruebas local
 ignorar/
+
+#ignorar target
+unoforall/target
