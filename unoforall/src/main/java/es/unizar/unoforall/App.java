@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -17,17 +18,38 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Scene scene;
+    private static Stage stage;
     private static Object LOCK = new Object();
     
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+    public void start(Stage s) throws IOException {
+        scene = new Scene(loadFXML("login"));
+        stage = s;
         stage.setScene(scene);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+        stage.setTitle("UnoForAll");
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
+    	if (fxml.equals("principal")) {
+    		setFullScreen();
+    	}
+    	else if (fxml.equals("login")) {
+    		setWindowed();
+    	}
         scene.setRoot(loadFXML(fxml));
+    }
+    
+    static void setFullScreen() throws IOException {
+    	stage.setFullScreen(true);
+    }
+    
+    static void setWindowed() throws IOException {
+    	stage.setFullScreen(false);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
