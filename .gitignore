@@ -27,3 +27,5 @@ ignorar/
 
 #ignorar target
 unoforall/target
+
+*.lst
