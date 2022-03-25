@@ -11,9 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -44,19 +41,22 @@ public class App extends Application {
     }
 
     static void setRoot(String fxml) throws IOException {
+        scene.setRoot(loadFXML(fxml));
+        
     	if (fxml.equals("principal")) {
     		setFullScreen();
     	}
     	else if (fxml.equals("login")) {
     		setWindowed();
     	}
-        scene.setRoot(loadFXML(fxml));
     }
     
     static void setFullScreen() throws IOException {
-    	stage.setFullScreen(true);
     	stage.setFullScreenExitHint("Q para salir de pantalla completa");
-    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("q"));
+    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Q"));
+//    	Para imposibilitar salir de pantalla completa:
+//    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    	stage.setFullScreen(true);
     }
     
     static void setWindowed() throws IOException {

@@ -1,18 +1,46 @@
 package es.unizar.unoforall;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.input.MouseEvent;
 
-public class PrincipalController {
+public class PrincipalController implements Initializable {
+	
+	@FXML private ChoiceBox<String> configChoiceBox;
+	private String[] configChoices = {"Configuración de Cuenta", "Configuración de Aspecto", "Cerrar Sesión"};
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		configChoiceBox.getItems().addAll(configChoices);
+		configChoiceBox.setOnAction(this::getConfigChoice);
+	}
+	
+	@FXML
+	public void getConfigChoice(ActionEvent event) {
+		String choice = configChoiceBox.getValue();
+		
+		if (choice.equals(configChoices[0])) {
+			goToConfCuenta(event);
+		} else if (choice.equals(configChoices[1])) {
+			goToConfAspecto(event);
+		} else {
+			goToLogin(event);
+		}
+	}
 
 	@FXML
-    private void goToLogin(ActionEvent event) {
+    private void goToLogin(Event event) {
     	try {
         	App.setRoot("login");
     	} catch (IOException e) {
-			System.out.print(e);
+			System.out.println(e);
     	}
     }
 	
@@ -23,7 +51,7 @@ public class PrincipalController {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("buscarSala");
+		System.out.println("buscarSala");
     }
 	
 	@FXML
@@ -33,7 +61,7 @@ public class PrincipalController {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("crearSala");
+		System.out.println("crearSala");
     }
 	
 	@FXML
@@ -43,47 +71,37 @@ public class PrincipalController {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("vistaSala");
+		System.out.println("vistaSala");
     }
 
 	@FXML
-    private void goToNotificaciones(ActionEvent event) {
+    private void goToNotificaciones(MouseEvent event) {
 //    	try {
 //        	App.setRoot("notificaciones");
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("notificaciones");
+		System.out.println("notificaciones");
     }
 
 	@FXML
-    private void goToAmigos(ActionEvent event) {
+    private void goToAmigos(MouseEvent event) {
 //    	try {
 //        	App.setRoot("amigos");
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("amigos");
+		System.out.println("amigos");
     }
 
 	@FXML
-    private void goToHistorial(ActionEvent event) {
+    private void goToHistorial(MouseEvent event) {
 //    	try {
 //        	App.setRoot("historial");
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("historial");
-    }
-
-	@FXML
-    private void goToEstadisticas(ActionEvent event) {
-//    	try {
-//        	App.setRoot("estadisticas");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
-		System.out.print("estadisticas");
+		System.out.println("historial");
     }
 
 	@FXML
@@ -93,7 +111,7 @@ public class PrincipalController {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("confAspecto");
+		System.out.println("confAspecto");
     }
 
 	@FXML
@@ -103,6 +121,6 @@ public class PrincipalController {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.print("confCuenta");
+		System.out.println("confCuenta");
     }
 }
