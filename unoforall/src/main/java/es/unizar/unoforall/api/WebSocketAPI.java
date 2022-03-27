@@ -1,4 +1,4 @@
-package es.unizar.unoforall.api;
+package es.unizar.pruebaCliente;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.converter.MessageConversionException;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -16,14 +17,19 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import com.google.gson.Gson;
+
 public class WebSocketAPI {
 	
-	private static final String SERVER_IP = "ws://localhost/gs-guide-websocket";
+	private static final String SERVER_IP = "ws://localhost/unoforall";
 
     public static final int GLOBAL_ERROR = 0;
     public static final int SUBSCRIPTION_ERROR = 1;
 
     private final Object LOCK = new Object();
+    
+    private final Map<String, Type> receptores;
+    private final Map<String, Consumer> consumidores;
     
     private final Map<String, Subscription> suscripciones;
     private WebSocketStompClient client;
@@ -34,10 +40,20 @@ public class WebSocketAPI {
     public void setOnError(Consumer<Throwable> onError){
         this.onError = onError;
     }
+    
+    private Gson gson = null;
+    private Gson getGson(){
+        if(gson == null){
+            gson = new Gson();
+        }
+        return gson;
+    }
 
     
     public WebSocketAPI(){
-        suscripciones = new HashMap<>();
+    	suscripciones = new HashMap<>();
+    	receptores = new HashMap<>();
+    	consumidores = new HashMap<>();
         
         WebSocketClient c = new StandardWebSocketClient();
         client = new WebSocketStompClient(c);
@@ -68,7 +84,20 @@ public class WebSocketAPI {
 			}
 			@Override
 			public void handleException(StompSession session, StompCommand command, StompHeaders headers,
-					byte[] payload, Throwable exception) {
+					byte[] payload, Throwable exception) {				
+				if (exception instanceof MessageConversionException) {
+					String message = new String(payload);
+					String topic = headers.getDestination();
+					
+					Type tipo = receptores.get(topic);
+					Consumer consumidor = consumidores.get(topic);
+					
+					Object objeto = getGson().fromJson(message, tipo);
+					
+					consumidor.accept(objeto);
+				} else {
+					onError.accept(exception);
+				}
 			}
 			@Override
 			public void handleTransportError(StompSession session, Throwable exception) {
@@ -90,9 +119,8 @@ public class WebSocketAPI {
             return;
         }
     	
-    	if (expectedClass.equals(String.class)) {    		
-    		throw new IllegalArgumentException("No se soporta la recepción de Strings");
-    	}
+    	receptores.put(topic, expectedClass);
+    	consumidores.put(topic, consumer);
     	
     	StompSessionHandler sessionHandler = new StompSessionHandler() {
 			@Override
@@ -110,6 +138,7 @@ public class WebSocketAPI {
 			@Override
 			public void handleException(StompSession session, StompCommand command, StompHeaders headers,
 					byte[] payload, Throwable exception) {
+				onError.accept(exception);
 			}
 			@Override
 			public void handleTransportError(StompSession session, Throwable exception) {
@@ -125,6 +154,9 @@ public class WebSocketAPI {
     	if(closed){
             return;
         }
+    	
+    	receptores.remove(topic);
+    	consumidores.remove(topic);
     	
     	Subscription suscripcion = suscripciones.remove(topic);
         if(suscripcion != null){
