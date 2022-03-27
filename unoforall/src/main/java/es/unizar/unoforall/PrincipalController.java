@@ -116,11 +116,11 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToConfCuenta(ActionEvent event) {
-//    	try {
-//        	App.setRoot("confCuenta");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
+    	try {
+        	App.setRoot("confCuenta");
+    	} catch (IOException e) {
+			System.out.print(e);
+    	}
 		System.out.println("confCuenta");
     }
 }

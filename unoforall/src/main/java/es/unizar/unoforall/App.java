@@ -52,9 +52,11 @@ public class App extends Application {
     }
     
     static void setFullScreen() throws IOException {
-    	stage.setFullScreenExitHint("Q para salir de pantalla completa");
-    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Q"));
-//    	Para imposibilitar salir de pantalla completa:
+//	Para cambiar la tecla para salir de pantalla completa:
+//    	stage.setFullScreenExitHint("Q para salir de pantalla completa");
+//    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Q"));
+    	
+//	Para imposibilitar salir de pantalla completa:
 //    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     	stage.setFullScreen(true);
     }

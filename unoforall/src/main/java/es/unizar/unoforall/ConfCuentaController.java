@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -24,7 +25,7 @@ public class ConfCuentaController {
 	}
 
 	@FXML
-    private void goToMain(ActionEvent event) {
+    private void goToMain(Event event) {
 		try {
 	    	App.setRoot("principal");
 		} catch (IOException e) {
@@ -60,6 +61,7 @@ public class ConfCuentaController {
     private void deleteAccount(ActionEvent event) {
 		try {
 	    	App.setRoot("login");
+			System.out.println("Cuenta eliminada");
 		} catch (IOException e) {
 			System.out.print(e);
 		}
