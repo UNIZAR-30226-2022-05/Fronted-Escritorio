@@ -221,7 +221,8 @@ public class CrearSalaController implements Initializable {
 			System.out.print("Evitar Cartas Especiales: ");
 			if (evitarEspeciales) System.out.println("Si"); else System.out.println("No");
 			
-	    	App.setRoot("principal");
+	    	App.setRoot("vistaSala");
+	    	VistaSalaController.deDondeVengo = "crearSala";
 		} catch (IOException e) {
 			System.out.print(e);
 		}
