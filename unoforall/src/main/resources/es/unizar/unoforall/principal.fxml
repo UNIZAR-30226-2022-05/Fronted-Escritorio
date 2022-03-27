@@ -17,7 +17,7 @@
       <HBox prefHeight="199.0" prefWidth="1240.0">
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="185.0">
+            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="200.0">
                <children>
                   <ImageView fitHeight="94.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -40,7 +40,7 @@
                </image>
             </ImageView>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="185.0">
+            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="200.0">
                <children>
                   <ImageView fitHeight="94.0" fitWidth="83.0" onMouseClicked="#goToHistorial" pickOnBounds="true" preserveRatio="true">
                      <image>

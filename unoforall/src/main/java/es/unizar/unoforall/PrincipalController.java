@@ -46,22 +46,20 @@ public class PrincipalController implements Initializable {
 	
 	@FXML
     private void searchRooms(ActionEvent event) {
-//    	try {
-//        	App.setRoot("buscarSala");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
-		System.out.println("buscarSala");
+    	try {
+        	App.setRoot("buscarSala");
+    	} catch (IOException e) {
+			System.out.print(e);
+    	}
     }
 	
 	@FXML
     private void makeRoom(ActionEvent event) {
-//    	try {
-//        	App.setRoot("crearSala");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
-		System.out.println("crearSala");
+    	try {
+        	App.setRoot("crearSala");
+    	} catch (IOException e) {
+			System.out.print(e);
+    	}
     }
 	
 	@FXML
@@ -106,12 +104,11 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToConfAspecto(ActionEvent event) {
-//    	try {
-//        	App.setRoot("confAspecto");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
-		System.out.println("confAspecto");
+    	try {
+        	App.setRoot("confAspecto");
+    	} catch (IOException e) {
+			System.out.print(e);
+    	}
     }
 
 	@FXML

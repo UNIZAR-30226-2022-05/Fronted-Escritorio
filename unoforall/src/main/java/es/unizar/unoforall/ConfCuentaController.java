@@ -10,10 +10,10 @@ import javafx.scene.control.TextField;
 
 public class ConfCuentaController {
 	
-	TextField cajaNombre;	
-	TextField cajaCorreo;	
-	PasswordField cajaContrasenya;
-	PasswordField cajaContrasenya2;
+	@FXML TextField cajaNombre;	
+	@FXML TextField cajaCorreo;	
+	@FXML PasswordField cajaContrasenya;
+	@FXML PasswordField cajaContrasenya2;
 	
 	@FXML
     private void goBack(ActionEvent event) {

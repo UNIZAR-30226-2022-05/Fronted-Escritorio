@@ -59,6 +59,8 @@ public class App extends Application {
 //	Para imposibilitar salir de pantalla completa:
 //    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     	stage.setFullScreen(true);
+        stage.setMinWidth(1280);
+        stage.setMinHeight(720);
     }
     
     static void setWindowed() throws IOException {
