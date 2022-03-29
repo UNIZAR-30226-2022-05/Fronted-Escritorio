@@ -17,8 +17,6 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import com.google.gson.Gson;
-
 public class WebSocketAPI {
 	
 	private static final String SERVER_IP = "ws://localhost/unoforall";
@@ -40,14 +38,6 @@ public class WebSocketAPI {
     public void setOnError(Consumer<Throwable> onError){
         this.onError = onError;
     }
-    
-    private Gson gson = null;
-    private Gson getGson(){
-        if(gson == null){
-            gson = new Gson();
-        }
-        return gson;
-    }
 
     
     public WebSocketAPI(){
@@ -60,7 +50,7 @@ public class WebSocketAPI {
         client.setMessageConverter(new MappingJackson2MessageConverter());
         sesion = null;
         closed = false;
-        onError = t -> t.printStackTrace();
+        onError = t -> {t.printStackTrace(); close();}
     }
     
     public void openConnection() throws InterruptedException, ExecutionException{
@@ -92,7 +82,7 @@ public class WebSocketAPI {
 					Type tipo = receptores.get(topic);
 					Consumer consumidor = consumidores.get(topic);
 					
-					Object objeto = getGson().fromJson(message, tipo);
+					Object objeto = Serializar.deserializar(message, tipo);
 					
 					consumidor.accept(objeto);
 				} else {
