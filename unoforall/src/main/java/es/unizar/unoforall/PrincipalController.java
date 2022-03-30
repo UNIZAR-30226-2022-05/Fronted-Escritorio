@@ -118,6 +118,5 @@ public class PrincipalController implements Initializable {
     	} catch (IOException e) {
 			System.out.print(e);
     	}
-		System.out.println("confCuenta");
     }
 }

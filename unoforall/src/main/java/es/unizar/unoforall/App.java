@@ -3,6 +3,8 @@ package es.unizar.unoforall;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import es.unizar.unoforall.model.RespuestaLogin;
+import es.unizar.unoforall.model.salas.RespuestaSala;
 //import es.unizar.unoforall.api.WebSocketAPI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.KeyCombination;
+//import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 
@@ -22,6 +24,9 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
+	private static String sesionID;
+	private static RespuestaLogin respLogin;
+	private static RespuestaSala respSala;
     
     @Override
     public void start(Stage s) throws IOException {
@@ -37,15 +42,33 @@ public class App extends Application {
         	event.consume();
         	logout();
         });
+    }   
+    
+    public static void setRespLogin(RespuestaLogin r) {
+    	respLogin = r;
     }
-
+    public static RespuestaLogin getRespLogin() {
+    	return respLogin;
+    }
+    
+    public static void setRespSala(RespuestaSala r) {
+    	respSala = r;
+    }
+    public static RespuestaSala getRespSala() {
+    	return respSala;
+    }
+    
+    public static void setSessionID(String sID) {
+    	sesionID = sID;
+    }
+    public static String getSessionID() {
+    	return sesionID;
+    }
+    
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
-        
-    	if (fxml.equals("principal")) {
-    		setFullScreen();
-    	}
-    	else if (fxml.equals("login")) {
+
+    	if (fxml.equals("login")) {
     		setWindowed();
     	}
     }

@@ -1,4 +1,4 @@
-package es.unizar.unoforall.model.salas;
+ package es.unizar.unoforall.model.salas;
 
 
 import java.util.HashMap;

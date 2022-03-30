@@ -28,7 +28,7 @@ public class ConfirmCorreoController {
 			apirest.openConnection();
 	    	String error = apirest.receiveObject(String.class);
 	    	
-	    	if (!error.equals("null")) System.out.println(error);
+	    	if (error != null) System.out.println(error);
 	    	
         	App.setRoot("registro");
     	} catch (IOException e) {
@@ -49,8 +49,8 @@ public class ConfirmCorreoController {
 			apirest.openConnection();
 	    	String error = apirest.receiveObject(String.class);
 	    	
-	    	if (error.equals("null")) {
-	        	App.setRoot("principal");
+	    	if (error == null) {
+	        	App.setRoot("login");
 	    	} else {
 	    		System.out.println(error);
 	    	}

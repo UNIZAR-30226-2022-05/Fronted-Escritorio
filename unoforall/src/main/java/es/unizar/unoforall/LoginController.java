@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.TextAlignment;
 
 public class LoginController {
 	
@@ -20,17 +19,16 @@ public class LoginController {
 	@FXML private PasswordField cajaContrasenya;
 	
 	private static Object LOCK = new Object();
-	public static String sesionID = "EMPTY";
     
     @FXML
     private void login(ActionEvent event) {
 
     	try {
-//	    	String correo = cajaCorreo.getText();
-//	    	String contrasenna = cajaContrasenya.getText();
+	    	String correo = cajaCorreo.getText();
+	    	String contrasenna = cajaContrasenya.getText();
     		
-    		String correo = "prueba.info@gmail.com";
-	    	String contrasenna = "asdfasdf";
+//    		String correo = "prueba.info@gmail.com";
+//	    	String contrasenna = "asdfasdf";
 
 	    	///LOGIN
 			RestAPI apirest = new RestAPI("/api/login");
@@ -42,6 +40,8 @@ public class LoginController {
 	    	RespuestaLogin resp = apirest.receiveObject(RespuestaLogin.class);
 	    	
 	    	if (resp.isExito()) {
+	    		//GUARDAR RESPUESTALOGIN EN CASO DE NECESITARLO
+	    		App.setRespLogin(resp);
 	    		System.out.println("clave inicio: " + resp.getClaveInicio());
 	    		
 	    		//CONEXION
@@ -53,8 +53,8 @@ public class LoginController {
 		    		if (s == null) {
 		    			System.out.println("Error al iniciar sesión (se queda bloqueado el cliente)");
 		    		} else {
-		    			sesionID = s;
-		    			System.out.println("ID sesión: " + sesionID);
+		    			App.setSessionID(s);
+		    			System.out.println("ID sesión: " + App.getSessionID());
 			    		synchronized (LOCK) {
 							LOCK.notify();
 						}
@@ -69,8 +69,9 @@ public class LoginController {
 				}
 				System.out.println("Sesión iniciada");
 				
-				//Entrar a la aplicación
+				//ENTRAR A LA APLICACION
 	    		App.setRoot("principal");
+				App.setFullScreen();
 	    	} else {
 	    		cajaCorreo.setText("");
 	    		cajaContrasenya.setText("");

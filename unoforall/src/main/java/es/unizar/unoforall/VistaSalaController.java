@@ -13,7 +13,8 @@ import javafx.scene.image.ImageView;
 
 public class VistaSalaController implements Initializable {
 	
-	public int numJugadores;
+	public static int tamanyoSala;
+	private int numJugadores;
 	
 	private String[] nombresBots = {"StrikkerFurro", "12000C", "Raul", "Vendo Mandarinas"};
 	
@@ -45,8 +46,8 @@ public class VistaSalaController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		nomJug1.setText(nombresBots[0]);
 		nomJug2.setText(nombresBots[1]);
-		nomJug3.setText(nombresBots[2]);
-		nomJug4.setText(nombresBots[3]);
+		if (tamanyoSala > 2) nomJug3.setText(nombresBots[2]);
+		if (tamanyoSala > 3) nomJug4.setText(nombresBots[3]);
 	}
 	
 	@FXML
