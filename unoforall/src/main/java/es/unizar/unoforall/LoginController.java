@@ -3,7 +3,7 @@ package es.unizar.unoforall;
 import java.io.IOException;
 
 import es.unizar.unoforall.api.RestAPI;
-import es.unizar.unoforall.api.RespuestaLogin;
+import es.unizar.unoforall.model.RespuestaLogin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

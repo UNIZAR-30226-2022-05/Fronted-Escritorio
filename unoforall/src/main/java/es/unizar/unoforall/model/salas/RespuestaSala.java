@@ -1,42 +1,36 @@
-package es.unizar.unoforall.api;
+package es.unizar.unoforall.model.salas;
 
 import java.util.UUID;
 
-public class RespuestaLogin {
+public class RespuestaSala {
 	private boolean exito;
 	private String errorInfo;
-	private UUID sesionID;
+	private UUID salaID;
 	
-	public RespuestaLogin(boolean exito, String errorInfo, UUID sessionID) {
+	public RespuestaSala(boolean exito, String errorInfo, UUID salaID) {
 		super();
 		this.exito = exito;
 		this.errorInfo = errorInfo;
-		this.sesionID = sessionID;
+		this.salaID = salaID;
 	}
-
+	
 	public boolean isExito() {
 		return exito;
 	}
-
 	public void setExito(boolean exito) {
 		this.exito = exito;
 	}
-
 	public String getErrorInfo() {
 		return errorInfo;
 	}
-
 	public void setErrorInfo(String errorInfo) {
 		this.errorInfo = errorInfo;
 	}
-
-	public UUID getSesionID() {
-		return sesionID;
+	public UUID getSalaID() {
+		return salaID;
 	}
-
-	public void setSesionID(UUID sessionID) {
-		this.sesionID = sessionID;
+	public void setSalaID(UUID salaID) {
+		this.salaID = salaID;
 	}
-	
 	
 }
