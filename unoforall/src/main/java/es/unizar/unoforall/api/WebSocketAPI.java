@@ -1,4 +1,4 @@
-package es.unizar.pruebaCliente;
+package es.unizar.unoforall.api;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ public class WebSocketAPI {
         client.setMessageConverter(new MappingJackson2MessageConverter());
         sesion = null;
         closed = false;
-        onError = t -> {t.printStackTrace(); close();}
+        onError = t -> {t.printStackTrace(); close();};
     }
     
     public void openConnection() throws InterruptedException, ExecutionException{

@@ -91,8 +91,7 @@ public class RestAPI{
         }
         try {
             InputStream responseBody = conexion.getInputStream();
-            InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
-            T dato = Serializar.deserializar(responseBodyReader, requestedClass);
+            T dato = Serializar.deserializar(responseBody, requestedClass);
             if(autoClose){
                 close();
             }

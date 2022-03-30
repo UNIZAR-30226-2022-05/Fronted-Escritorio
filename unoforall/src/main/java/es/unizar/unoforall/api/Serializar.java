@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 public class Serializar {
@@ -19,16 +20,16 @@ public class Serializar {
         }
     }
 
-    public static <T> T deserializar(String mensaje, Class<T> expectedClass){
+    public static <T> T deserializar(String mensaje, Type expectedClass){
         if(DEBUG){
             System.out.println("Mensaje recibido: " + mensaje);
         }
 
         if(expectedClass.equals(String.class)){
             if(mensaje.equals("null")){
-                return expectedClass.cast(null);
+                return (T) null;
             }else{
-                return expectedClass.cast(mensaje);
+                return (T) mensaje;
             }
         }else{
             return new Gson().fromJson(mensaje, expectedClass);

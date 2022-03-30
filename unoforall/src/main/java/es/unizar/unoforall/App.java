@@ -22,7 +22,6 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
-    private static Object LOCK = new Object();
     
     @Override
     public void start(Stage s) throws IOException {
