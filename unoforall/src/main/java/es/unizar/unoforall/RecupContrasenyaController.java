@@ -32,17 +32,18 @@ public class RecupContrasenyaController {
 	    	///RESTABLECER PASO 2
 			RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepTwo");
 			apirest.addParameter("correo", correo);
+			apirest.addParameter("codigo", codigo);
 			apirest.setOnError(e -> {System.out.println(e);});
 	    	
 			apirest.openConnection();
 	    	String error = apirest.receiveObject(String.class);
 	    	
-	    	if (error.equals("null")) {
-//	    		String contrasenna = cajaContrasenya.getText();
-//	    		String contrasenna2 = cajaContrasenya2.getText();
+	    	if (error == null) {
+	    		String contrasenna = cajaContrasenya.getText();
+	    		String contrasenna2 = cajaContrasenya2.getText();
 
-		    	String contrasenna = "asdfasdf";
-		    	String contrasenna2 = "asdfasdf";
+//		    	String contrasenna = "asdfasdf";
+//		    	String contrasenna2 = "asdfasdf";
 	    		
 	    		if (contrasenna.equals(contrasenna2)) {
 	    			///RESTABLECER PASO 3
@@ -54,8 +55,8 @@ public class RecupContrasenyaController {
 					apirest.openConnection();
 			    	error = apirest.receiveObject(String.class);
 			    	
-			    	if (error.equals("null")) {
-			    		App.setRoot("principal");
+			    	if (error == null) {
+			    		App.setRoot("login");
 			    	} else {
 			    		System.out.println(error);
 			    	}

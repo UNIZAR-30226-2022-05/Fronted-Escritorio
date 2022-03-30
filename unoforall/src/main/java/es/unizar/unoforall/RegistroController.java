@@ -49,7 +49,7 @@ public class RegistroController {
 				apirest.openConnection();
 		    	String error = apirest.receiveObject(String.class);
 		    	
-		    	if (error.equals("null")) {
+		    	if (error == null) {	    	
 		    		ConfirmCorreoController.correo = correo;
 		        	App.setRoot("confirmacionCorreo");
 		    	} else {

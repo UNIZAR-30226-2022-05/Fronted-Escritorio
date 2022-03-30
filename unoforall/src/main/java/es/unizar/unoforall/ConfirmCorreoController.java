@@ -1,14 +1,19 @@
 package es.unizar.unoforall;
 
 import java.io.IOException;
-
+import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.api.RestAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.DataFormat;
 
 public class ConfirmCorreoController {
 	
+	Clipboard systemClipboard = Clipboard.getSystemClipboard();
+	String clipboardText = systemClipboard.getString();
+
 	@FXML private TextField cajaCodigo;
 	public static String correo = null;
 	
@@ -53,4 +58,13 @@ public class ConfirmCorreoController {
 			System.out.print(e);
     	}
     }
+	/*@FXML
+	public void paste() {
+		if( !systemClipboard.hasContent(DataFormat.PLAIN_TEXT) ) {
+			adjustForEmptyClipboard();
+			return;
+		}
+	
+	
+	}*/
 }
