@@ -2,6 +2,7 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 
+import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import javafx.event.ActionEvent;
@@ -17,55 +18,59 @@ public class LoginController {
 
 	@FXML private TextField cajaCorreo;
 	@FXML private PasswordField cajaContrasenya;
-
-//    @FXML
-//    private void switchToSecondary() throws IOException {
-//        App.setRoot("secondary");
-//    }
+	
+	private static Object LOCK = new Object();
+	public static String sesionID = "EMPTY";
     
     @FXML
     private void login(ActionEvent event) {
-    	
-    	//Mandar datos a la BD
-    	
-    	//Verificar resultado de la llamada
-    	
-    	//Chequeo provisional
-
-//		try {
-//	    	if (cajaCorreo.getText().equals("a@unizar") && cajaContrasenya.getText().equals("1234")) {
-//	    		labelInformacion.setText("Correo y contraseña correctos. Aplicación incorrecta");
-//	    		App.setRoot("principal");
-//	    	} else {
-//	    		labelInformacion.setText("Correo y contraseña incorrectos. Pruebe otra cosa");
-////	    		labelInformacion.setTextAlignment(TextAlignment.CENTER);
-//	    		cajaCorreo.setText("");
-//	    		cajaContrasenya.setText("");
-//	    	}
-//		}
-//		catch (IOException e) {
-//			System.out.print(e);
-//		}
 
     	try {
 //	    	String correo = cajaCorreo.getText();
-//	    	String contrasenya = cajaContrasenya.getText();
+//	    	String contrasenna = cajaContrasenya.getText();
     		
     		String correo = "prueba.info@gmail.com";
-	    	String contrasenya = "asdfasdf";
-    		
-	    	RestAPI api = new RestAPI("/api/login");
-	    	api.addParameter("correo", correo);
-	    	api.addParameter("contrasenna", contrasenya);
-	    	api.setOnError(e -> {System.out.println(e);});
+	    	String contrasenna = "asdfasdf";
+
+	    	///LOGIN
+			RestAPI apirest = new RestAPI("/api/login");
+			apirest.addParameter("correo", correo);
+			apirest.addParameter("contrasenna", contrasenna);
+			apirest.setOnError(e -> {System.out.println(e);});
 	    	
-	    	api.openConnection();
-	    	RespuestaLogin resp = api.receiveObject(RespuestaLogin.class);
+			apirest.openConnection();
+	    	RespuestaLogin resp = apirest.receiveObject(RespuestaLogin.class);
 	    	
 	    	if (resp.isExito()) {
+	    		System.out.println("clave inicio: " + resp.getClaveInicio());
+	    		
+	    		//CONEXION
+				WebSocketAPI apiweb = new WebSocketAPI();
+		    	
+				apiweb.openConnection();
+		    	
+				apiweb.subscribe("/topic/conectarse/" + resp.getClaveInicio(), String.class, s -> {
+		    		if (s == null) {
+		    			System.out.println("Error al iniciar sesión (se queda bloqueado el cliente)");
+		    		} else {
+		    			sesionID = s;
+		    			System.out.println("ID sesión: " + sesionID);
+			    		synchronized (LOCK) {
+							LOCK.notify();
+						}
+		    		}
+		    	});
+		    	
+				apiweb.sendObject("/app/conectarse/" + resp.getClaveInicio(), "vacio");
+				
+		    	System.out.println("Esperando inicio sesión... ");
+				synchronized (LOCK) {
+					LOCK.wait();
+				}
+				System.out.println("Sesión iniciada");
+				
+				//Entrar a la aplicación
 	    		App.setRoot("principal");
-	    		cajaCorreo.setText("");
-	    		cajaContrasenya.setText("");
 	    	} else {
 	    		cajaCorreo.setText("");
 	    		cajaContrasenya.setText("");
@@ -73,6 +78,7 @@ public class LoginController {
 		    	System.out.println("Exito: " + resp.isExito());
 		    	System.out.println("Tipo de error: " + resp.getErrorInfo());
 	    	}
+	    	
     	} catch (Exception e) {
     		System.out.println(e);
     	}
