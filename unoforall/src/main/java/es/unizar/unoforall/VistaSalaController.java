@@ -8,9 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import es.unizar.unoforall.model.UsuarioVO;
-import es.unizar.unoforall.model.salas.RespuestaSala;
 import es.unizar.unoforall.model.salas.Sala;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;

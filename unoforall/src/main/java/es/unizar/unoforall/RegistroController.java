@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
+import es.unizar.unoforall.utils.HashUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -42,7 +43,7 @@ public class RegistroController {
 	    		///REGISTRO
 				RestAPI apirest = new RestAPI("/api/registerStepOne");
 				apirest.addParameter("correo", correo);
-				apirest.addParameter("contrasenna", contrasenna);
+				apirest.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
 				apirest.addParameter("nombre", nombre);
 				apirest.setOnError(e -> {System.out.println(e);});
 

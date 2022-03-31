@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
+import es.unizar.unoforall.utils.HashUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -95,7 +96,7 @@ public class ConfCuentaController implements Initializable {
 			apirest.addParameter("sessionID",sesionID);
 			apirest.addParameter("correoNuevo",nuevoCorreo);
 			apirest.addParameter("nombre",nuevoNombre);
-			apirest.addParameter("contrasenna",nuevaContrasenna);
+			apirest.addParameter("contrasenna",HashUtils.cifrarContrasenna(nuevaContrasenna));
 			apirest.setOnError(e -> {System.out.println(e);});
 			
 			apirest.openConnection();

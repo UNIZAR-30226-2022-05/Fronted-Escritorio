@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
-import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.model.salas.RespuestaSala;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;

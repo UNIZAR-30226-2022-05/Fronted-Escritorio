@@ -144,9 +144,9 @@
             <Insets bottom="5.0" top="10.0" />
          </VBox.margin>
       </GridPane>
-      <ScrollPane pannable="true" VBox.vgrow="ALWAYS">
+      <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" VBox.vgrow="ALWAYS">
          <content>
-            <ListView fx:id="listaSalas" />
+            <ListView fx:id="listaSalas" prefHeight="418.0" prefWidth="1238.0" />
          </content>
       </ScrollPane>
    </children>

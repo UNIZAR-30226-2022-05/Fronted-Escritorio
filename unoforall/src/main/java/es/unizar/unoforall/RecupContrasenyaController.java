@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import java.io.IOException;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.utils.HashUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -49,7 +50,7 @@ public class RecupContrasenyaController {
 	    			///RESTABLECER PASO 3
 					apirest = new RestAPI("/api/reestablecerContrasennaStepThree");
 					apirest.addParameter("correo", correo);
-					apirest.addParameter("contrasenna", contrasenna);
+					apirest.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
 					apirest.setOnError(e -> {System.out.println(e);});
 			    	
 					apirest.openConnection();

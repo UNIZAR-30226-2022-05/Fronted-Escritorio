@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
+import es.unizar.unoforall.utils.HashUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,7 +29,7 @@ public class LoginController {
     	///LOGIN
 		RestAPI apirest = new RestAPI("/api/login");
 		apirest.addParameter("correo", correo);
-		apirest.addParameter("contrasenna", contrasenna);
+		apirest.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
 		apirest.setOnError(e -> {System.out.println(e);});
     	
 		apirest.openConnection();

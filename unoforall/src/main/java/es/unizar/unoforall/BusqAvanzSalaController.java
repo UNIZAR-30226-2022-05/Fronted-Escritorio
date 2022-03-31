@@ -2,8 +2,14 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.model.salas.ConfigSala;
+import es.unizar.unoforall.model.salas.ReglasEspeciales;
+import es.unizar.unoforall.model.salas.RespuestaSalas;
+import es.unizar.unoforall.model.salas.ConfigSala.ModoJuego;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -17,41 +23,66 @@ public class BusqAvanzSalaController implements Initializable {
 	private String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
 	private String selectedGamemode = gamemodes[0];
 	
-	private int numParticipantes = 4;
+	private static int maxParticipantes = 4;
 	@FXML private RadioButton part2;
 	@FXML private RadioButton part3;
 	@FXML private RadioButton part4;
 	
-	private boolean rayosX = false;
+	private static boolean rayosX = false;
 	@FXML private RadioButton rayosXSi;
 	@FXML private RadioButton rayosXNo;
 	
-	private boolean intercambio = false;
+	private static boolean intercambio = false;
 	@FXML private RadioButton intercambioSi;
 	@FXML private RadioButton intercambioNo;
 	
-	private boolean modifX2 = false;
+	private static boolean modifX2 = false;
 	@FXML private RadioButton modifX2Si;
 	@FXML private RadioButton modifX2No;
 	
-	private boolean encadenar = false;
+	private static boolean encadenar = false;
 	@FXML private RadioButton encadenarSi;
 	@FXML private RadioButton encadenarNo;
 	
-	private boolean redirigir = false;
+	private static boolean redirigir = false;
 	@FXML private RadioButton redirigirSi;
 	@FXML private RadioButton redirigirNo;
 	
-	private boolean jugarVarias = false;
+	private static boolean jugarVarias = false;
 	@FXML private RadioButton jugarVariasSi;
 	@FXML private RadioButton jugarVariasNo;
 	
-	private boolean evitarEspeciales = false;
+	private static boolean evitarEspeciales = false;
 	@FXML private RadioButton evitarEspecialesSi;
 	@FXML private RadioButton evitarEspecialesNo;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		part2.setSelected(maxParticipantes==2);
+		part3.setSelected(maxParticipantes==3);
+		part4.setSelected(maxParticipantes==4);
+		
+		rayosXSi.setSelected(rayosX);
+		rayosXNo.setSelected(!rayosX);
+
+		intercambioSi.setSelected(intercambio);
+		intercambioNo.setSelected(!intercambio);
+
+		modifX2Si.setSelected(modifX2);
+		modifX2No.setSelected(!modifX2);
+
+		encadenarSi.setSelected(encadenar);
+		encadenarNo.setSelected(!encadenar);
+
+		redirigirSi.setSelected(redirigir);
+		redirigirNo.setSelected(!redirigir);
+
+		jugarVariasSi.setSelected(jugarVarias);
+		jugarVariasNo.setSelected(!jugarVarias);
+
+		evitarEspecialesSi.setSelected(evitarEspeciales);
+		evitarEspecialesNo.setSelected(!evitarEspeciales);
+		
 		GameModeChoiceBox.getItems().addAll(gamemodes);
 		GameModeChoiceBox.setOnAction(this::getGameMode);
 	}
@@ -62,22 +93,16 @@ public class BusqAvanzSalaController implements Initializable {
 		
 		if (choice.equals(gamemodes[0])) {
 			selectedGamemode = gamemodes[0];
-//			goToConfCuenta(event);
 		} else if (choice.equals(gamemodes[1])) {
 			selectedGamemode = gamemodes[1];
-//			goToConfAspecto(event);
 		} else {
 			selectedGamemode = gamemodes[2];
-//			goToLogin(event);
 		}
 	}
 	
 	@FXML
     private void goBack(ActionEvent event) {
 		try {
-			BuscarSalaController.addSearchParameters(selectedGamemode, numParticipantes, rayosX,
-					intercambio, modifX2, encadenar, redirigir, jugarVarias, evitarEspeciales);
-			
 	    	App.setRoot("buscarSala");
 		} catch (IOException e) {
 			System.out.print(e);
@@ -96,13 +121,13 @@ public class BusqAvanzSalaController implements Initializable {
 	@FXML
     private void selectNumParticip(ActionEvent event) {
 		if (part2.isSelected()) {
-			numParticipantes = 2;
+			maxParticipantes = 2;
 		}
 		else if (part3.isSelected()) {
-			numParticipantes = 3;
+			maxParticipantes = 3;
 		}
 		else if (part4.isSelected()) {
-			numParticipantes = 4;
+			maxParticipantes = 4;
 		}
 	}
 	
@@ -179,34 +204,10 @@ public class BusqAvanzSalaController implements Initializable {
 	@FXML
     private void findRooms (ActionEvent event) {
 		try {
-			System.out.println("Buscadas Salas de tipo:");
+			BuscarSalaController.addSearchParameters(selectedGamemode, maxParticipantes, rayosX,
+					intercambio, modifX2, encadenar, redirigir, jugarVarias, evitarEspeciales);
 			
-			System.out.println("Número de participantes: " + numParticipantes);
-			
-			System.out.print("Rayos X: ");
-			if (rayosX) System.out.println("Si"); else System.out.println("No");
-			
-			System.out.print("Intercambio: ");
-			if (intercambio) System.out.println("Si"); else System.out.println("No");
-			
-			System.out.print("X2: ");
-			if (modifX2) System.out.println("Si"); else System.out.println("No");
-			
-			System.out.println("Modo de juego: " + selectedGamemode);
-			
-			System.out.print("Encadenar +2 y +4: ");
-			if (encadenar) System.out.println("Si"); else System.out.println("No");
-			
-			System.out.print("Redirigir +2 y +4: ");
-			if (redirigir) System.out.println("Si"); else System.out.println("No");
-			
-			System.out.print("Jugar Varias Cartas: ");
-			if (jugarVarias) System.out.println("Si"); else System.out.println("No");
-
-			System.out.print("Evitar Cartas Especiales: ");
-			if (evitarEspeciales) System.out.println("Si"); else System.out.println("No");
-			
-	    	App.setRoot("principal");
+	    	App.setRoot("buscarSala");
 		} catch (IOException e) {
 			System.out.print(e);
 		}
