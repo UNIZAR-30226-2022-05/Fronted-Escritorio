@@ -36,7 +36,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="cajaCorreo" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1">
+                  <TextField fx:id="cajaCorreo" onAction="#onEnter" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>

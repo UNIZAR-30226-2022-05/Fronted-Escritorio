@@ -62,4 +62,24 @@ public class RegistroController {
 			System.out.print(e);
     	}
     }
+	
+	@FXML
+    private void onGoCajaContrasenya(ActionEvent event) {
+    	cajaContrasenya.requestFocus();
+    }
+	
+	@FXML
+    private void onGoCajaContrasenya2(ActionEvent event) {
+    	cajaContrasenya2.requestFocus();
+    }
+	
+	@FXML
+    private void onGoCajaNomUsuario(ActionEvent event) {
+    	cajaNomUsuario.requestFocus();
+    }
+	
+    @FXML
+    private void onEnter(ActionEvent event) {
+    	register(event);
+    }
 }

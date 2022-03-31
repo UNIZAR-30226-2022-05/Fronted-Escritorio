@@ -35,9 +35,9 @@
               </rowConstraints>
                <children>
                   <Label text="Correo:" textAlignment="RIGHT" />
-                  <TextField fx:id="cajaCorreo" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="cajaCorreo" onAction="#onGoCajaContrasenya" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" />
                   <Label text="Contraseña:" GridPane.rowIndex="1" />
-                  <PasswordField fx:id="cajaContrasenya" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="cajaContrasenya" onAction="#onEnter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane layoutX="132.0" layoutY="273.0" prefHeight="90.0" prefWidth="186.0">

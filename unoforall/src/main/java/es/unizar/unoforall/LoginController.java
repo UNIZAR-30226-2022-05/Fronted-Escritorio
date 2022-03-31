@@ -103,4 +103,13 @@ public class LoginController {
     	}
     	
     }
+    @FXML
+    private void onGoCajaContrasenya(ActionEvent event) {
+    	cajaContrasenya.requestFocus();
+    }
+    
+    @FXML
+    private void onEnter(ActionEvent event) {
+    	login(event);
+    }
 }

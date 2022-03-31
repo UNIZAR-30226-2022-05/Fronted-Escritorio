@@ -70,4 +70,19 @@ public class RecupContrasenyaController {
 			System.out.print(e);
     	}
     }
+	
+	@FXML
+    private void onGoCajaContrasenya(ActionEvent event) {
+    	cajaContrasenya.requestFocus();
+    }
+	
+	@FXML
+    private void onGoCajaContrasenya2(ActionEvent event) {
+    	cajaContrasenya2.requestFocus();
+    }
+	
+    @FXML
+    private void onEnter(ActionEvent event) {
+    	confirmCode(event);
+    }
 }

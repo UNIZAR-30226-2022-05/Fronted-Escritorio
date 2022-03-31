@@ -34,13 +34,13 @@
               </rowConstraints>
                <children>
                   <Label text="Correo:" textAlignment="RIGHT" />
-                  <TextField fx:id="cajaCorreo" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="cajaCorreo" onAction="#onGoCajaContrasenya" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" />
                   <Label text="Contraseña:" GridPane.rowIndex="1" />
-                  <PasswordField fx:id="cajaContrasenya" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="cajaContrasenya" onAction="#onGoCajaContrasenya2" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Confirmar Contraseña:" GridPane.rowIndex="2" />
-                  <PasswordField fx:id="cajaContrasenya2" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <PasswordField fx:id="cajaContrasenya2" onAction="#onGoCajaNomUsuario" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Nombre de usuario:" GridPane.rowIndex="3" />
-                  <TextField fx:id="cajaNomUsuario" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="cajaNomUsuario" onAction="#onEnter" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <Button layoutX="184.0" layoutY="337.0" mnemonicParsing="false" onAction="#register" text="Registrar" />

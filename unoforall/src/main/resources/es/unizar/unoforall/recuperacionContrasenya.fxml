@@ -39,7 +39,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="cajaCodigo" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1">
+                  <TextField fx:id="cajaCodigo" onAction="#onGoCajaContrasenya" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -54,8 +54,8 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="cajaContrasenya" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <PasswordField fx:id="cajaContrasenya2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <PasswordField fx:id="cajaContrasenya" onAction="#onGoCajaContrasenya2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="cajaContrasenya2" onAction="#onEnter" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <Button alignment="CENTER" layoutX="180.0" layoutY="324.0" mnemonicParsing="false" onAction="#confirmCode" text="Recuperar" />

@@ -58,6 +58,11 @@ public class ConfirmCorreoController {
 			System.out.print(e);
     	}
     }
+	
+	@FXML
+    private void onEnter(ActionEvent event) {
+    	confirmCode(event);
+    }
 	/*@FXML
 	public void paste() {
 		if( !systemClipboard.hasContent(DataFormat.PLAIN_TEXT) ) {

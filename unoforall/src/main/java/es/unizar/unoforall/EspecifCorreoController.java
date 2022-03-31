@@ -46,4 +46,8 @@ public class EspecifCorreoController {
 			System.out.print(e);
     	}
     }
+	@FXML
+    private void onEnter(ActionEvent event) {
+    	sendCode(event);
+    }
 }
