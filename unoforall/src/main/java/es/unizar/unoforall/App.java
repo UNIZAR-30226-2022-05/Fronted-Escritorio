@@ -3,9 +3,9 @@ package es.unizar.unoforall;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.model.salas.RespuestaSala;
-//import es.unizar.unoforall.api.WebSocketAPI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,6 +27,11 @@ public class App extends Application {
 	private static String sesionID;
 	private static RespuestaLogin respLogin;
 	private static RespuestaSala respSala;
+	public static WebSocketAPI apiweb;
+	
+	static {
+		apiweb = new WebSocketAPI();
+	}
     
     @Override
     public void start(Stage s) throws IOException {
@@ -80,7 +85,7 @@ public class App extends Application {
     	
 //	Para imposibilitar salir de pantalla completa:
 //    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-    	stage.setFullScreen(true);
+//    	stage.setFullScreen(true);
         stage.setMinWidth(1280);
         stage.setMinHeight(720);
     }

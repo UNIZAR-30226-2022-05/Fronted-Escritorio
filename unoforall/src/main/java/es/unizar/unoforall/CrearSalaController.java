@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.model.salas.RespuestaSala;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
@@ -22,7 +23,7 @@ public class CrearSalaController implements Initializable {
 	private String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
 	private String selectedGamemode = gamemodes[0];
 	
-	private int numParticipantes = 4;
+	private int maxParticipantes = 4;
 	@FXML private RadioButton part2;
 	@FXML private RadioButton part3;
 	@FXML private RadioButton part4;
@@ -110,13 +111,13 @@ public class CrearSalaController implements Initializable {
 	@FXML
     private void selectNumParticip(ActionEvent event) {
 		if (part2.isSelected()) {
-			numParticipantes = 2;
+			maxParticipantes = 2;
 		}
 		else if (part3.isSelected()) {
-			numParticipantes = 3;
+			maxParticipantes = 3;
 		}
 		else if (part4.isSelected()) {
-			numParticipantes = 4;
+			maxParticipantes = 4;
 		}
 	}
 	
@@ -192,60 +193,57 @@ public class CrearSalaController implements Initializable {
 	
 	@FXML
     private void createRoom (ActionEvent event) {
-		try {
-//			System.out.println("Creada Sala de tipo:");
-//			System.out.println("Número de participantes: " + numParticipantes);
-//			System.out.print("Tipo de sala: ");
-//			if (tipoPublica) System.out.println("Publica"); else System.out.println("Privada");
-//			System.out.print("Rayos X: ");
-//			if (rayosX) System.out.println("Si"); else System.out.println("No");
-//			System.out.print("Intercambio: ");
-//			if (intercambio) System.out.println("Si"); else System.out.println("No");
-//			System.out.print("X2: ");
-//			if (modifX2) System.out.println("Si"); else System.out.println("No");
-//			System.out.println("Modo de juego: " + selectedGamemode);
-//			System.out.print("Encadenar +2 y +4: ");
-//			if (encadenar) System.out.println("Si"); else System.out.println("No");
-//			System.out.print("Redirigir +2 y +4: ");
-//			if (redirigir) System.out.println("Si"); else System.out.println("No");
-//			System.out.print("Jugar Varias Cartas: ");
-//			if (jugarVarias) System.out.println("Si"); else System.out.println("No");
-//			System.out.print("Evitar Cartas Especiales: ");
-//			if (evitarEspeciales) System.out.println("Si"); else System.out.println("No");		
-			
-			ReglasEspeciales reglas = new ReglasEspeciales(encadenar, redirigir, jugarVarias,
-					evitarEspeciales, rayosX, intercambio, modifX2);
-			
-			ConfigSala.ModoJuego modoJuego;
-			if (selectedGamemode.equals(gamemodes[0])) modoJuego = ModoJuego.Original;
-			else if (selectedGamemode.equals(gamemodes[1])) modoJuego = ModoJuego.Attack;
-			else modoJuego = ModoJuego.Parejas;
-			
-			ConfigSala config = new ConfigSala(modoJuego, reglas, numParticipantes, tipoPublica);
-			
-			///CREAR SALA					
-			RestAPI apirest = new RestAPI("/api/crearSala");
-			apirest.addParameter("sesionID", App.getSessionID());
-			apirest.addParameter("configuracion", config);
-			apirest.setOnError(e -> {System.out.println(e);});
-	    	
-			apirest.openConnection();
-			RespuestaSala salaID = apirest.receiveObject(RespuestaSala.class);
-			if (salaID.isExito()) {
-	    		//GUARDAR RESPUESTASALA EN CASO DE NECESITARLO
-				App.setRespSala(salaID);
-				
-				//IR A LA VISTA DE LA SALA
-				System.out.println("sala creada:" + salaID.getSalaID());
-				VistaSalaController.tamanyoSala = numParticipantes;
-		    	App.setRoot("vistaSala");
+//		System.out.println("Creada Sala de tipo:");
+//		System.out.println("Número de participantes: " + maxParticipantes);
+//		System.out.print("Tipo de sala: ");
+//		if (tipoPublica) System.out.println("Publica"); else System.out.println("Privada");
+//		System.out.print("Rayos X: ");
+//		if (rayosX) System.out.println("Si"); else System.out.println("No");
+//		System.out.print("Intercambio: ");
+//		if (intercambio) System.out.println("Si"); else System.out.println("No");
+//		System.out.print("X2: ");
+//		if (modifX2) System.out.println("Si"); else System.out.println("No");
+//		System.out.println("Modo de juego: " + selectedGamemode);
+//		System.out.print("Encadenar +2 y +4: ");
+//		if (encadenar) System.out.println("Si"); else System.out.println("No");
+//		System.out.print("Redirigir +2 y +4: ");
+//		if (redirigir) System.out.println("Si"); else System.out.println("No");
+//		System.out.print("Jugar Varias Cartas: ");
+//		if (jugarVarias) System.out.println("Si"); else System.out.println("No");
+//		System.out.print("Evitar Cartas Especiales: ");
+//		if (evitarEspeciales) System.out.println("Si"); else System.out.println("No");		
+		
+		ReglasEspeciales reglas = new ReglasEspeciales(encadenar, redirigir, jugarVarias,
+				evitarEspeciales, rayosX, intercambio, modifX2);
+		
+		ConfigSala.ModoJuego modoJuego;
+		if (selectedGamemode.equals(gamemodes[0])) modoJuego = ModoJuego.Original;
+		else if (selectedGamemode.equals(gamemodes[1])) modoJuego = ModoJuego.Attack;
+		else modoJuego = ModoJuego.Parejas;
+		
+		ConfigSala config = new ConfigSala(modoJuego, reglas, maxParticipantes, tipoPublica);
+		
+		///CREAR SALA					
+		RestAPI apirest = new RestAPI("/api/crearSala");
+		apirest.addParameter("sesionID", App.getSessionID());
+		apirest.addParameter("configuracion", config);
+		apirest.setOnError(e -> {System.out.println(e);});
+    	
+		apirest.openConnection();
+		RespuestaSala salaID = apirest.receiveObject(RespuestaSala.class);
+		if (salaID.isExito()) {
+			System.out.println("sala creada:" + salaID.getSalaID());
+    		//GUARDAR RESPUESTASALA EN CASO DE NECESITARLO
+			App.setRespSala(salaID);
+			//IR A LA VISTA DE LA SALA
+	    	try {
 		    	VistaSalaController.deDondeVengo = "crearSala";
-			} else {
-				System.out.println("error:" + salaID.getErrorInfo());
-			}
-			
-		} catch (IOException e) {
-			System.out.print(e);
+	    		App.setRoot("vistaSala");
+	    	} catch (Exception e) {
+	    		System.out.println(e);
+	    	}
+		} else {
+			System.out.println("error:" + salaID.getErrorInfo());
 		}
 	}
 

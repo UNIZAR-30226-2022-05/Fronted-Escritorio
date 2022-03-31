@@ -46,7 +46,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <HBox fx:id="caja1" alignment="CENTER_LEFT" disable="true" prefHeight="100.0" prefWidth="200.0" visible="false">
                <children>
                   <ImageView fx:id="rdyIconJug1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" HBox.hgrow="NEVER">
                      <image>
@@ -74,7 +74,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <HBox fx:id="caja3" alignment="CENTER_LEFT" disable="true" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1">
                <children>
                   <ImageView fx:id="rdyIconJug3" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" HBox.hgrow="NEVER">
                      <image>
@@ -102,7 +102,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <HBox fx:id="caja2" alignment="CENTER_LEFT" disable="true" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.rowIndex="1">
                <children>
                   <ImageView fx:id="rdyIconJug2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" HBox.hgrow="NEVER">
                      <image>
@@ -130,7 +130,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox fx:id="caja4" alignment="CENTER_LEFT" disable="true" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <ImageView fx:id="rdyIconJug4" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" HBox.hgrow="NEVER">
                      <image>

@@ -17,6 +17,8 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import javafx.application.Platform;
+
 public class WebSocketAPI {
 	
 	private static final String SERVER_IP = "ws://localhost/unoforall";
@@ -84,7 +86,7 @@ public class WebSocketAPI {
 					
 					Object objeto = Serializar.deserializar(message, tipo);
 					
-					consumidor.accept(objeto);
+					Platform.runLater(()->consumidor.accept(objeto));
 				} else {
 					onError.accept(exception);
 				}

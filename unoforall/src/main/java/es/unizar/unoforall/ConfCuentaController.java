@@ -1,16 +1,20 @@
 package es.unizar.unoforall;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.model.UsuarioVO;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class ConfCuentaController {
+public class ConfCuentaController implements Initializable {
 	
 	@FXML TextField cajaNombre;	
 	@FXML TextField cajaCorreo;	
@@ -19,6 +23,21 @@ public class ConfCuentaController {
 	
 	@FXML VBox contenedorOculto;
 	@FXML TextField cajaCodigo;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {	
+		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
+		String sesionID = App.getSessionID();
+		apirest.addParameter("sessionID",sesionID);
+		apirest.setOnError(e -> {System.out.println(e);});
+		
+		apirest.openConnection();
+    	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
+    	if (retorno.isExito()) {
+    		cajaNombre.setText(retorno.getNombre());
+    		cajaCorreo.setText(retorno.getCorreo());
+    	}
+	}
 	
 	@FXML
     private void goBack(ActionEvent event) {
@@ -66,9 +85,9 @@ public class ConfCuentaController {
 		String nuevoNombre = cajaNombre.getText();
 		String nuevaContrasenna = cajaContrasenya.getText();
 		String confirmarContrasenna = cajaContrasenya2.getText();
-		
-		if (/*nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null
-				||*/ !nuevaContrasenna.equals(confirmarContrasenna)) {
+    	
+		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null
+				|| !nuevaContrasenna.equals(confirmarContrasenna)) {
 			System.out.println("Faltan parámetros o hay parámetros incorrectos");
 		} else {
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
