@@ -47,7 +47,7 @@ public class VistaSalaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		UUID salaID = App.getRespSala().getSalaID();
+		UUID salaID = App.getSalaID();
 		App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> actualizarSala(s, salaID));
 		App.apiweb.sendObject("/app/salas/unirse/" + salaID, "vacio");
 	}
@@ -149,7 +149,7 @@ public class VistaSalaController implements Initializable {
 	@FXML
     private void goBack(ActionEvent event) {
 		try {
-			UUID salaID = App.getRespSala().getSalaID();
+			UUID salaID = App.getSalaID();
 			App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
 			App.apiweb.unsubscribe("/topic/salas/" + salaID);
 	    	App.setRoot(deDondeVengo);
@@ -161,7 +161,7 @@ public class VistaSalaController implements Initializable {
 	@FXML
     private void goToMain(Event event) {
 		try {
-			UUID salaID = App.getRespSala().getSalaID();
+			UUID salaID = App.getSalaID();
 			App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
 			App.apiweb.unsubscribe("/topic/salas/" + salaID);
 	    	App.setRoot("principal");
@@ -173,7 +173,7 @@ public class VistaSalaController implements Initializable {
 	@FXML
     private void leaveRoom(ActionEvent event) {
 		try {
-			UUID salaID = App.getRespSala().getSalaID();
+			UUID salaID = App.getSalaID();
 			App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
 			App.apiweb.unsubscribe("/topic/salas/" + salaID);
 	    	App.setRoot(deDondeVengo);
@@ -184,7 +184,7 @@ public class VistaSalaController implements Initializable {
 	
 	@FXML
     private void ready(ActionEvent event) {
-		UUID salaID = App.getRespSala().getSalaID();
+		UUID salaID = App.getSalaID();
 		App.apiweb.sendObject("/app/salas/listo/" + salaID, "vacio");
 	}
 }

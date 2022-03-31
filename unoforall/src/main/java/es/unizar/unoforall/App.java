@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import es.unizar.unoforall.api.WebSocketAPI;
@@ -26,7 +27,7 @@ public class App extends Application {
     private static Stage stage;
 	private static String sesionID;
 	private static RespuestaLogin respLogin;
-	private static RespuestaSala respSala;
+	private static UUID salaID;
 	public static WebSocketAPI apiweb;
 	
 	static {
@@ -56,11 +57,11 @@ public class App extends Application {
     	return respLogin;
     }
     
-    public static void setRespSala(RespuestaSala r) {
-    	respSala = r;
+    public static void setSalaID(UUID r) {
+    	salaID = r;
     }
-    public static RespuestaSala getRespSala() {
-    	return respSala;
+    public static UUID getSalaID() {
+    	return salaID;
     }
     
     public static void setSessionID(String sID) {

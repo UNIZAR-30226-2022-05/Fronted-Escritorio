@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.salas.Sala;
@@ -25,8 +26,7 @@ public class BuscarSalaController implements Initializable {
 	@FXML TextField cajaIdSala;
 	
 	@FXML ListView<String> listaSalas;
-	private int idSalaSelec;
-	private String salaSelec;
+	private ArrayList<UUID> IDsalas;
 
 	private static String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
 	private static String selectedGamemode = null;
@@ -45,9 +45,18 @@ public class BuscarSalaController implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				salaSelec = listaSalas.getSelectionModel().getSelectedItem();
-				idSalaSelec = listaSalas.getSelectionModel().getSelectedIndex();
-			}		
+				String salaSelec = listaSalas.getSelectionModel().getSelectedItem();
+				int idxSalaSelec = listaSalas.getSelectionModel().getSelectedIndex();
+				UUID idSala = IDsalas.get(idxSalaSelec);
+				App.setSalaID(idSala);
+				
+				try {
+//					App.setRoot("Juego");
+					System.out.println("Entrado a la sala: " + salaSelec);
+				} catch (Exception e) {
+					System.out.println("Error entrando a la sala: " + salaSelec);
+				}
+			}
 		});
 	}
 	
@@ -173,6 +182,7 @@ public class BuscarSalaController implements Initializable {
 				System.out.println("Salas encontradas:");
 				r.getSalas().forEach((k,v) -> {
 					listaSalas.getItems().add(v.toString());
+					IDsalas.add(k);
 					System.out.println(v.toString());
 				});
 			} else {

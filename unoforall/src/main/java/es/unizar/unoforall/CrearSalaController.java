@@ -233,7 +233,7 @@ public class CrearSalaController implements Initializable {
 		if (salaID.isExito()) {
 			System.out.println("sala creada:" + salaID.getSalaID());
     		//GUARDAR RESPUESTASALA EN CASO DE NECESITARLO
-			App.setRespSala(salaID);
+			App.setSalaID(salaID.getSalaID());
 			//IR A LA VISTA DE LA SALA
 	    	try {
 		    	VistaSalaController.deDondeVengo = "crearSala";
