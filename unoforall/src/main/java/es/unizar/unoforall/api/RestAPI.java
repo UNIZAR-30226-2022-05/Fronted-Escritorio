@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class RestAPI{
-    private static final String SERVER_IP = "http://localhost";
+    private static String SERVER_URL = "http://localhost";
     private static final int HTTP_OK = 200;
     private static final int CONNECTION_TIMEOUT_MS = 3000;
 
@@ -23,10 +23,14 @@ public class RestAPI{
     private HttpURLConnection conexion;
     private boolean closed;
     private Consumer<Exception> onError = ex -> {ex.printStackTrace(); close();};
+    
+    public static void setServerIP(String serverIP){
+        RestAPI.SERVER_URL = "http://" + serverIP;
+    }
 
     public RestAPI(String seccion){
         parameters = new HashMap<>();
-        fullIP = SERVER_IP + seccion;
+        fullIP = SERVER_URL + seccion;
         conexion = null;
         closed = false;
     }

@@ -21,7 +21,7 @@ import javafx.application.Platform;
 
 public class WebSocketAPI {
 	
-	private static final String SERVER_IP = "ws://localhost/unoforall";
+	private static String SERVER_URL = "ws://localhost/unoforall";
 
     public static final int GLOBAL_ERROR = 0;
     public static final int SUBSCRIPTION_ERROR = 1;
@@ -39,6 +39,10 @@ public class WebSocketAPI {
     private Consumer<Throwable> onError;
     public void setOnError(Consumer<Throwable> onError){
         this.onError = onError;
+    }
+    
+    public static void setServerIP(String serverIP){
+        WebSocketAPI.SERVER_URL = "ws://" + serverIP + "/unoforall";
     }
 
     
@@ -97,7 +101,7 @@ public class WebSocketAPI {
 			}
 		};
     	
-    	sesion = client.connect(SERVER_IP, sessionHandler).get();
+    	sesion = client.connect(SERVER_URL, sessionHandler).get();
 		
 		while(!sesion.isConnected()) {
 			synchronized (LOCK) {
