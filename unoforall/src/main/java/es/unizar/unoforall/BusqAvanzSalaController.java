@@ -20,7 +20,7 @@ import javafx.scene.control.RadioButton;
 public class BusqAvanzSalaController implements Initializable {
 	
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
-	private String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
+	private String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas" };
 	private String selectedGamemode = gamemodes[0];
 	
 	private static int maxParticipantes = 4;
@@ -85,6 +85,8 @@ public class BusqAvanzSalaController implements Initializable {
 		
 		GameModeChoiceBox.getItems().addAll(gamemodes);
 		GameModeChoiceBox.setOnAction(this::getGameMode);
+		GameModeChoiceBox.getSelectionModel().selectFirst();
+		GameModeChoiceBox.getSelectionModel().select(0);
 	}
 	
 	@FXML

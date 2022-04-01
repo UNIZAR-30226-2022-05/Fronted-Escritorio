@@ -63,6 +63,7 @@ public class CrearSalaController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		GameModeChoiceBox.getItems().addAll(gamemodes);
 		GameModeChoiceBox.setOnAction(this::getGameMode);
+		GameModeChoiceBox.getSelectionModel().select(0);
 	}
 	
 	@FXML

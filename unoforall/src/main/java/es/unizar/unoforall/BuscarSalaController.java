@@ -26,10 +26,10 @@ public class BuscarSalaController implements Initializable {
 	@FXML TextField cajaIdSala;
 	
 	@FXML ListView<String> listaSalas;
-	private ArrayList<UUID> IDsalas;
+	private ArrayList<UUID> IDsalas = new ArrayList<UUID>();
 
-	private static String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
-	private static String selectedGamemode = null;
+	private static String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas"};
+	private static String selectedGamemode = gamemodes[0];
 	private static int maxParticipantes = 4;
 	private static boolean rayosX = false;
 	private static boolean intercambio = false;
@@ -51,7 +51,7 @@ public class BuscarSalaController implements Initializable {
 				App.setSalaID(idSala);
 				
 				try {
-//					App.setRoot("Juego");
+					App.setRoot("vistaSala");
 					System.out.println("Entrado a la sala: " + salaSelec);
 				} catch (Exception e) {
 					System.out.println("Error entrando a la sala: " + salaSelec);
@@ -118,9 +118,12 @@ public class BuscarSalaController implements Initializable {
 	private void findRooms (ActionEvent event) {
 		//BORRAR RESULTADOS ANTERIORES DE LA VENTANA DE RESULTADOS
 		listaSalas.getItems().clear();
+		IDsalas.clear();
 		
 		String sesionID = App.getSessionID();
-		if (cajaIdSala.getText().equals(null)) {
+		String test = cajaIdSala.getText();
+		System.out.println(test);
+		if (!cajaIdSala.getText().equals("")) {
 			String salaID = cajaIdSala.getText();
 			System.out.println("Buscando sala con id: " + salaID);
 			
@@ -161,8 +164,9 @@ public class BuscarSalaController implements Initializable {
 					evitarEspeciales, rayosX, intercambio, modifX2);
 			
 			ConfigSala.ModoJuego modoJuego;
-			if (selectedGamemode.equals(gamemodes[0])) modoJuego = ModoJuego.Original;
-			else if (selectedGamemode.equals(gamemodes[1])) modoJuego = ModoJuego.Attack;
+			if (selectedGamemode.equals(gamemodes[0])) modoJuego = ModoJuego.Undefined;
+			else if (selectedGamemode.equals(gamemodes[1])) modoJuego = ModoJuego.Original;
+			else if (selectedGamemode.equals(gamemodes[2])) modoJuego = ModoJuego.Attack;
 			else modoJuego = ModoJuego.Parejas;
 			
 			ConfigSala config = new ConfigSala(modoJuego, reglas, maxParticipantes, true);

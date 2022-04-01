@@ -69,6 +69,9 @@ public class VistaSalaController implements Initializable {
 				System.out.println("En partida");
 			} else {
 				//RECARGAR LA VISTA DE SALA
+//				Map<UsuarioVO, Boolean> participantes = sala.getParticipantes();
+//		        List<UsuarioVO> usuarios = new ArrayList<>(participantes.keySet());
+//		        usuarios.sort(Comparator.comparing(UsuarioVO::getNombre));
 				int numParticipantes = s.numParticipantes();
 				HashMap<UsuarioVO, Boolean> participantes = s.getParticipantes();
 				cargarParticipantes(numParticipantes, participantes);
