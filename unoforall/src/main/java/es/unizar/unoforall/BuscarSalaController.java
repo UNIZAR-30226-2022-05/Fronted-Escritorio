@@ -9,6 +9,7 @@ import java.util.UUID;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.model.salas.ConfigSala;
+import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.model.salas.RespuestaSalas;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,7 +27,8 @@ public class BuscarSalaController implements Initializable {
 	@FXML ListView<String> listaSalas;
 	private ArrayList<UUID> IDsalas = new ArrayList<UUID>();
 	
-	private static ConfigSala config = new ConfigSala(ConfigSala.ModoJuego.Undefined, null, -1, true);
+	private static ConfigSala config =
+			new ConfigSala(ConfigSala.ModoJuego.Undefined, new ReglasEspeciales(), -1, true);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -56,7 +58,7 @@ public class BuscarSalaController implements Initializable {
 	@FXML
     private void cleanSearchParameters() {
 		cajaIdSala.clear();
-		config = new ConfigSala(ConfigSala.ModoJuego.Undefined, null, -1, true);
+		config = new ConfigSala(ConfigSala.ModoJuego.Undefined, new ReglasEspeciales(), -1, true);
 		BusqAvanzSalaController.cleanSearchParameters();
 	}
 
