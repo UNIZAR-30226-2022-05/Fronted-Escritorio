@@ -36,7 +36,7 @@ public class App extends Application {
     
     @Override
     public void start(Stage s) throws IOException {
-        scene = new Scene(loadFXML("login"));
+        scene = new Scene(loadFXML("cambiarIP"));
         stage = s;
         stage.setScene(scene);
         stage.setMinWidth(800);
