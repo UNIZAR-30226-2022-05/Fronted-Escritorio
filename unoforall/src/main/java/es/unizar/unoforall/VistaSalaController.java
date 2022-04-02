@@ -2,9 +2,11 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.UUID;
 
 import es.unizar.unoforall.model.UsuarioVO;
@@ -69,9 +71,6 @@ public class VistaSalaController implements Initializable {
 				System.out.println("En partida");
 			} else {
 				//RECARGAR LA VISTA DE SALA
-//				Map<UsuarioVO, Boolean> participantes = sala.getParticipantes();
-//		        List<UsuarioVO> usuarios = new ArrayList<>(participantes.keySet());
-//		        usuarios.sort(Comparator.comparing(UsuarioVO::getNombre));
 				int numParticipantes = s.numParticipantes();
 				HashMap<UsuarioVO, Boolean> participantes = s.getParticipantes();
 				cargarParticipantes(numParticipantes, participantes);
@@ -108,7 +107,8 @@ public class VistaSalaController implements Initializable {
 			if (caja3.isVisible())	{caja3.setDisable(false); caja3.setVisible(true);}
 			if (caja4.isVisible())	{caja4.setDisable(false); caja4.setVisible(true);}
 		}
-		Set<UsuarioVO> usuariosVO = participantes.keySet();
+		List<UsuarioVO> usuariosVO = new ArrayList<>(participantes.keySet());
+		usuariosVO.sort(Comparator.comparing(UsuarioVO::getNombre));
 		
 		//POR DEFECTO, PONER NOMBRES DE BOTS
 		nomJug1.setText(nombresBots[0]);

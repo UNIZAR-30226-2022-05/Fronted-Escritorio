@@ -2,31 +2,37 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
-import es.unizar.unoforall.model.salas.RespuestaSalas;
-import es.unizar.unoforall.model.salas.ConfigSala.ModoJuego;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.GridPane;
 
 public class BusqAvanzSalaController implements Initializable {
 	
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
-	private String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas" };
-	private String selectedGamemode = gamemodes[0];
+	private static final String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas" };
+	private static String selectedGamemode = gamemodes[0];
 	
-	private static int maxParticipantes = 4;
+	private static int maxParticipantes = -1;
+	@FXML private RadioButton partTodos;
 	@FXML private RadioButton part2;
 	@FXML private RadioButton part3;
 	@FXML private RadioButton part4;
+	
+	//PARA NO FILTRAR POR REGLAS EN CASO DE QUE NO SE HAYA ESPECIFICADO
+	private static boolean filtrarPorReglas = false;
+	@FXML private RadioButton filtrarReglasSi;
+	@FXML private RadioButton filtrarReglasNo;
+	
+	//CUADRO DONDE SE PUEDEN SELECCIONAR LAS REGLAS A FILTRAR
+	@FXML private GridPane cajaReglas;
 	
 	private static boolean rayosX = false;
 	@FXML private RadioButton rayosXSi;
@@ -58,9 +64,26 @@ public class BusqAvanzSalaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		partTodos.setSelected(maxParticipantes==-1);
 		part2.setSelected(maxParticipantes==2);
 		part3.setSelected(maxParticipantes==3);
 		part4.setSelected(maxParticipantes==4);
+		
+		GameModeChoiceBox.getItems().addAll(gamemodes);
+		GameModeChoiceBox.setOnAction(this::getGameMode);
+		GameModeChoiceBox.getSelectionModel().select(selectedGamemode);;
+
+		filtrarReglasSi.setSelected(filtrarPorReglas);
+		filtrarReglasNo.setSelected(!filtrarPorReglas);
+
+		if (filtrarPorReglas) {
+			cajaReglas.setDisable(false);
+			cajaReglas.setVisible(true);
+		} else {
+			cajaReglas.setDisable(true);
+			cajaReglas.setVisible(false);
+		}
 		
 		rayosXSi.setSelected(rayosX);
 		rayosXNo.setSelected(!rayosX);
@@ -82,11 +105,6 @@ public class BusqAvanzSalaController implements Initializable {
 
 		evitarEspecialesSi.setSelected(evitarEspeciales);
 		evitarEspecialesNo.setSelected(!evitarEspeciales);
-		
-		GameModeChoiceBox.getItems().addAll(gamemodes);
-		GameModeChoiceBox.setOnAction(this::getGameMode);
-		GameModeChoiceBox.getSelectionModel().selectFirst();
-		GameModeChoiceBox.getSelectionModel().select(0);
 	}
 	
 	@FXML
@@ -97,8 +115,10 @@ public class BusqAvanzSalaController implements Initializable {
 			selectedGamemode = gamemodes[0];
 		} else if (choice.equals(gamemodes[1])) {
 			selectedGamemode = gamemodes[1];
-		} else {
+		} else if (choice.equals(gamemodes[2])) {
 			selectedGamemode = gamemodes[2];
+		} else {
+			selectedGamemode = gamemodes[3];
 		}
 	}
 	
@@ -120,6 +140,20 @@ public class BusqAvanzSalaController implements Initializable {
 		}
 	}
 	
+    public static void cleanSearchParameters() {
+		selectedGamemode = gamemodes[0];
+		maxParticipantes = -1;
+		filtrarPorReglas = false;
+		
+		rayosX = false;
+		intercambio = false;
+		modifX2 = false;
+		encadenar = false;
+		redirigir = false;
+		jugarVarias = false;
+		evitarEspeciales = false;
+	}
+	
 	@FXML
     private void selectNumParticip(ActionEvent event) {
 		if (part2.isSelected()) {
@@ -130,6 +164,20 @@ public class BusqAvanzSalaController implements Initializable {
 		}
 		else if (part4.isSelected()) {
 			maxParticipantes = 4;
+		}
+	}
+	
+	@FXML
+	private void filtrarPorReglas(ActionEvent event) {
+		if (filtrarReglasSi.isSelected()) {
+			filtrarPorReglas = true;
+			cajaReglas.setDisable(false);
+			cajaReglas.setVisible(true);
+		}
+		else if (filtrarReglasNo.isSelected()) {
+			filtrarPorReglas = false;
+			cajaReglas.setDisable(true);
+			cajaReglas.setVisible(false);
 		}
 	}
 	
@@ -205,10 +253,25 @@ public class BusqAvanzSalaController implements Initializable {
 	
 	@FXML
     private void findRooms (ActionEvent event) {
-		try {
-			BuscarSalaController.addSearchParameters(selectedGamemode, maxParticipantes, rayosX,
-					intercambio, modifX2, encadenar, redirigir, jugarVarias, evitarEspeciales);
-			
+		ReglasEspeciales reglas;
+		if (filtrarPorReglas) {
+			reglas = new ReglasEspeciales(encadenar, redirigir, jugarVarias,
+			evitarEspeciales, rayosX, intercambio, modifX2);
+		} else {
+			reglas = new ReglasEspeciales();
+		}
+
+		ConfigSala.ModoJuego modoJuego;
+		if (selectedGamemode.equals(gamemodes[0])) modoJuego = ConfigSala.ModoJuego.Undefined;
+		else if (selectedGamemode.equals(gamemodes[1])) modoJuego = ConfigSala.ModoJuego.Original;
+		else if (selectedGamemode.equals(gamemodes[2])) modoJuego = ConfigSala.ModoJuego.Attack;
+		else modoJuego = ConfigSala.ModoJuego.Parejas;
+
+		ConfigSala config = new ConfigSala(modoJuego, reglas, maxParticipantes, true);
+		
+		BuscarSalaController.addSearchParameters(config);
+
+		try {	
 	    	App.setRoot("buscarSala");
 		} catch (IOException e) {
 			System.out.print(e);
