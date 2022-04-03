@@ -55,6 +55,7 @@
                   <Hyperlink onAction="#forgotPass" prefHeight="23.0" text="He olvidado mi contraseña" textAlignment="CENTER" GridPane.rowIndex="2" />
                </children>
             </GridPane>
+            <Button mnemonicParsing="false" onAction="#cambiarIP" text="IP" />
          </children>
       </AnchorPane>
    </children>

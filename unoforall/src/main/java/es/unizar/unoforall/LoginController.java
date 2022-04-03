@@ -18,6 +18,15 @@ public class LoginController {
 	@FXML private TextField cajaCorreo;
 	@FXML private PasswordField cajaContrasenya;
     
+	@FXML
+	private void cambiarIP (ActionEvent event) {
+		try {
+			App.setRoot("cambiarIP");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
     @FXML
     private void login(ActionEvent event) {
     	String correo = cajaCorreo.getText();
