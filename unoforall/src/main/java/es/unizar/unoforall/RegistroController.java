@@ -4,6 +4,7 @@ import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.utils.HashUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -11,6 +12,7 @@ public class RegistroController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
+	@FXML private Label labelError;
 	@FXML private TextField cajaCorreo;
 	@FXML private PasswordField cajaContrasenya;
 	@FXML private PasswordField cajaContrasenya2;
@@ -23,6 +25,7 @@ public class RegistroController {
     
 	@FXML
     private void register(ActionEvent event) {
+		labelError.setText("");
     	String correo = cajaCorreo.getText();
     	String contrasenna = cajaContrasenya.getText();
     	String contrasenna2 = cajaContrasenya2.getText();
@@ -43,9 +46,11 @@ public class RegistroController {
 	    		ConfirmCorreoController.correo = correo;
 	        	App.setRoot("confirmacionCorreo");
 	    	} else {
+	    		labelError.setText(error);
 	    		if (DEBUG) System.out.println(error);
 	    	}
-    	} else {	    		
+    	} else {
+    		labelError.setText("Las contraseñas no coinciden.");
     		if (DEBUG) System.out.println("Las contraseñas no coinciden.");
     	}
     }

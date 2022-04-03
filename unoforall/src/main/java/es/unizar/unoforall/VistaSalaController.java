@@ -23,7 +23,8 @@ import javafx.scene.layout.HBox;
 public class VistaSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
-	
+
+	@FXML private Label labelError;
 	private String[] nombresBots = {"StrikkerFurro", "12000C", "Raul", "Vendo Mandarinas"};
 	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
@@ -62,14 +63,12 @@ public class VistaSalaController implements Initializable {
 	}
 	
 	private void actualizarSala(Sala s, UUID salaID) {
+		labelError.setText("");
 		if (s.isNoExiste()) {
-			try {
-				if (DEBUG) System.out.println("Error al conectarse a la sala");
-				App.apiweb.unsubscribe("/topic/salas/" + salaID);
-				App.setRoot(deDondeVengo);
-			} catch (Exception e) {
-				if (DEBUG) System.out.println(e);
-			}
+			labelError.setText(s.getError());
+			if (DEBUG) System.out.println(s.getError());
+			App.apiweb.unsubscribe("/topic/salas/" + salaID);
+			App.setRoot(deDondeVengo);
 		} else {
 			if (DEBUG) System.out.println("Estado de la sala: " + s);
 			if (s.isEnPartida()) {

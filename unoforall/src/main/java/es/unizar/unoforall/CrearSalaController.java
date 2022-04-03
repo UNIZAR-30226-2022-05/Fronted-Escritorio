@@ -13,12 +13,14 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 
 public class CrearSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
-	
+
+	@FXML private Label labelError;
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
 	private String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
 	private String selectedGamemode = gamemodes[0];
@@ -186,6 +188,7 @@ public class CrearSalaController implements Initializable {
 	
 	@FXML
     private void createRoom (ActionEvent event) {
+		labelError.setText("");
 		
 		ReglasEspeciales reglas = new ReglasEspeciales(encadenar, redirigir, jugarVarias,
 				evitarEspeciales, rayosX, intercambio, modifX2);
@@ -215,7 +218,8 @@ public class CrearSalaController implements Initializable {
 		    VistaSalaController.deDondeVengo = "crearSala";
 	    	App.setRoot("vistaSala");
 		} else {
-			if (DEBUG) System.out.println("error:" + salaID.getErrorInfo());
+			labelError.setText("error: " + salaID.getErrorInfo());
+			if (DEBUG) System.out.println("error: " + salaID.getErrorInfo());
 		}
 	}
 

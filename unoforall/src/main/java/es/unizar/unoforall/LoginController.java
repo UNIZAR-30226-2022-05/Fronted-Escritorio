@@ -14,6 +14,7 @@ public class LoginController {
 	private static final boolean DEBUG = true;
 	
 	@FXML private Label labelInformacion;
+	@FXML private Label labelError;
 
 	@FXML private TextField cajaCorreo;
 	@FXML private PasswordField cajaContrasenya;
@@ -25,6 +26,7 @@ public class LoginController {
 	
     @FXML
     private void login(ActionEvent event) {
+		labelError.setText("");
     	String correo = cajaCorreo.getText();
     	String contrasenna = cajaContrasenya.getText();
 
@@ -51,7 +53,8 @@ public class LoginController {
 	    	
 			App.apiweb.subscribe("/topic/conectarse/" + resp.getClaveInicio(), String.class, s -> {
 	    		if (s == null) {
-	    			if (DEBUG) System.out.println("Error al iniciar sesión");
+	    			labelError.setText("Error al conectarse al servidor");
+	    			if (DEBUG) System.out.println("Error al conectarse al servidor");
 	    		} else {
 	    			App.setSessionID(s);
 	    			if (DEBUG) {
@@ -65,10 +68,11 @@ public class LoginController {
 	    		}
 	    	});
 	    	
-			App.apiweb.sendObject("/app/conectarse/" + resp.getClaveInicio(), "vacio");			
+			App.apiweb.sendObject("/app/conectarse/" + resp.getClaveInicio(), "vacio");		
 			if (DEBUG) System.out.println("Esperando inicio sesión... ");
     	} else {
     		if (DEBUG) {
+    			labelError.setText(resp.getErrorInfo());
 		    	System.out.println("Exito: " + resp.isExito());
 		    	System.out.println("Tipo de error: " + resp.getErrorInfo());
     		}

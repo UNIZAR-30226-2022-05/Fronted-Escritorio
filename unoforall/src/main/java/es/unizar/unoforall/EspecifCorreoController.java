@@ -3,12 +3,14 @@ package es.unizar.unoforall;
 import es.unizar.unoforall.api.RestAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class EspecifCorreoController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
-	
+
+	@FXML private Label labelError;
 	@FXML private TextField cajaCorreo;
 	
 	@FXML
@@ -18,6 +20,7 @@ public class EspecifCorreoController {
     
 	@FXML
     private void sendCode(ActionEvent event) {
+		labelError.setText("");
     	String correo = cajaCorreo.getText();
 
     	///RESTABLECER PASO 1
@@ -32,6 +35,7 @@ public class EspecifCorreoController {
     		RecupContrasenyaController.correo = correo;
         	App.setRoot("recuperacionContrasenya");
     	} else {
+    		labelError.setText(error);
     		if (DEBUG) System.out.println(error);
     	}
     }

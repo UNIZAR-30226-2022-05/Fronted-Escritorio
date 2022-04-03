@@ -16,13 +16,15 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 public class BuscarSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
-	
+
+	@FXML private Label labelError;
 	@FXML TextField cajaIdSala;
 	
 	@FXML ListView<String> listaSalas;
@@ -52,6 +54,7 @@ public class BuscarSalaController implements Initializable {
 	
 	@FXML
     private void cleanSearchParameters() {
+		labelError.setText("");
 		cajaIdSala.clear();
 		config = new ConfigSala(ConfigSala.ModoJuego.Undefined, new ReglasEspeciales(), -1, true);
 		BusqAvanzSalaController.cleanSearchParameters();
@@ -74,6 +77,7 @@ public class BuscarSalaController implements Initializable {
 	
 	@FXML
 	private void findRooms (ActionEvent event) {
+		labelError.setText("");
 		//BORRAR RESULTADOS ANTERIORES DE LA VENTANA DE RESULTADOS
 		listaSalas.getItems().clear();
 		IDsalas.clear();
@@ -92,7 +96,8 @@ public class BuscarSalaController implements Initializable {
 			Sala r = apirest.receiveObject(Sala.class);
 			
 			if (r.isNoExiste()) {
-				if (DEBUG) System.out.println("No se ha encontrado ninguna sala");
+				labelError.setText("No se ha encontrado ninguna sala con ese ID");
+				if (DEBUG) System.out.println("No se ha encontrado ninguna sala con ese ID");
     		} else {
     			listaSalas.getItems().add(r.toString());
     			IDsalas.add(UUID.fromString(salaID));
@@ -122,6 +127,7 @@ public class BuscarSalaController implements Initializable {
 					if (DEBUG) System.out.println(v.toString());
 				});
 			} else {
+				labelError.setText("Ha habido un error al filtrar las salas.");
 				if (DEBUG) System.out.println("Ha habido un error al filtrar las salas.");
 			}
 		}

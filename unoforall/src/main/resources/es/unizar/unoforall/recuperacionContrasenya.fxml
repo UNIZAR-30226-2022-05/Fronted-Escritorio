@@ -61,6 +61,7 @@
             <Button alignment="CENTER" layoutX="180.0" layoutY="324.0" mnemonicParsing="false" onAction="#confirmCode" text="Recuperar" />
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" text="Volver" />
             <TextArea fx:id="labelInfo" editable="false" layoutX="37.0" layoutY="126.0" prefHeight="49.0" prefWidth="360.0" text="Por favor introduzca el código de confirmación que le ha llegado a su correo y la nueva contraseña de la cuenta." wrapText="true" />
+            <Label fx:id="labelError" alignment="CENTER" layoutY="386.0" prefHeight="17.0" prefWidth="430.0" textAlignment="CENTER" textFill="RED" />
          </children>
       </AnchorPane>
    </children>

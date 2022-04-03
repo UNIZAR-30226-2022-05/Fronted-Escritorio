@@ -56,6 +56,7 @@
                </children>
             </GridPane>
             <Button mnemonicParsing="false" onAction="#cambiarIP" text="IP" />
+            <Label fx:id="labelError" alignment="CENTER" layoutY="378.0" prefHeight="17.0" prefWidth="450.0" textAlignment="CENTER" textFill="RED" />
          </children>
       </AnchorPane>
    </children>

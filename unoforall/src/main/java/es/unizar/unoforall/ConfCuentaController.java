@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -17,7 +18,8 @@ import javafx.scene.layout.VBox;
 public class ConfCuentaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
-	
+
+	@FXML private Label labelError;
 	@FXML TextField cajaNombre;	
 	@FXML TextField cajaCorreo;	
 	@FXML PasswordField cajaContrasenya;
@@ -36,6 +38,7 @@ public class ConfCuentaController implements Initializable {
 		apirest.openConnection();
     	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
     	if (retorno.isExito()) {
+    		labelError.setText("No se han podido autocompletar los datos de la cuenta");
     		cajaNombre.setText(retorno.getNombre());
     		cajaCorreo.setText(retorno.getCorreo());
     	}
@@ -43,6 +46,7 @@ public class ConfCuentaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
+		labelError.setText("");
 		if (contenedorOculto.isVisible()) {
 			RestAPI apirest = new RestAPI("/api/actualizarCancel");
 			String sesionID = App.getSessionID();
@@ -51,14 +55,19 @@ public class ConfCuentaController implements Initializable {
 			apirest.openConnection();
 	    	String retorno = apirest.receiveObject(String.class);
 	    	if (retorno != null) {
+	    		labelError.setText(retorno);
 	    		if (DEBUG) System.out.println(retorno);
-	    	}
+	    	} else {
+				App.setRoot("principal");
+			}
+		} else {
+			App.setRoot("principal");
 		}
-    	App.setRoot("principal");
 	}
 
 	@FXML
     private void goToMain(Event event) {
+		labelError.setText("");
 		if (contenedorOculto.isVisible()) {
 			RestAPI apirest = new RestAPI("/api/actualizarCancel");
 			String sesionID = App.getSessionID();
@@ -67,6 +76,7 @@ public class ConfCuentaController implements Initializable {
 			apirest.openConnection();
 	    	String retorno = apirest.receiveObject(String.class);
 	    	if (retorno != null) {
+	    		labelError.setText(retorno);
 	    		if (DEBUG) System.out.println(retorno);
 	    	}
 		}
@@ -75,14 +85,18 @@ public class ConfCuentaController implements Initializable {
 
 	@FXML
 	private void actualizarCuenta(ActionEvent event) {
+		labelError.setText("");
 		String nuevoCorreo = cajaCorreo.getText();
 		String nuevoNombre = cajaNombre.getText();
 		String nuevaContrasenna = cajaContrasenya.getText();
 		String confirmarContrasenna = cajaContrasenya2.getText();
     	
-		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null
-				|| !nuevaContrasenna.equals(confirmarContrasenna)) {
-			if (DEBUG) System.out.println("Faltan parámetros o hay parámetros incorrectos");
+		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null ) {
+			labelError.setText("Faltan parámetros");
+			if (DEBUG) System.out.println("Faltan parámetros");
+		} else if (!nuevaContrasenna.equals(confirmarContrasenna)) {
+			labelError.setText("Las contraseñas no coinciden");
+			if (DEBUG) System.out.println("Las contraseñas no coinciden");
 		} else {
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
 			String sesionID = App.getSessionID();
@@ -97,6 +111,7 @@ public class ConfCuentaController implements Initializable {
 	    	if (retorno == null) {
 	    		desocultarContenedorOculto();
 	    	} else {
+	    		labelError.setText(retorno);
 	    		if (DEBUG) System.out.println(retorno);
 	    	}
 		}
@@ -109,6 +124,7 @@ public class ConfCuentaController implements Initializable {
 	
 	@FXML
 	private void confirmarCodigo (ActionEvent event) {
+		labelError.setText("");
 		Integer codigo = Integer.parseInt(cajaCodigo.getText());
 		RestAPI apirest = new RestAPI("/api/actualizarCuentaStepTwo");
 		String sesionID = App.getSessionID();
@@ -124,6 +140,7 @@ public class ConfCuentaController implements Initializable {
     		contenedorOculto.setDisable(true);
     		contenedorOculto.setVisible(false);
     	} else {
+    		labelError.setText(retorno);
     		if (DEBUG) System.out.println(retorno);
     	}
 	}
@@ -141,6 +158,7 @@ public class ConfCuentaController implements Initializable {
 	    	App.setRoot("login");
 	    	if (DEBUG) System.out.println("Cuenta eliminada");
     	} else {
+    		labelError.setText(retorno);
     		if (DEBUG) System.out.println(retorno);
     	}
 	}
