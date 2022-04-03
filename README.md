@@ -1,2 +1,2 @@
 # Fronted-Escritorio
-Repositorio para el fronted de escritorio
+Repositorio para el frontend de escritorio
