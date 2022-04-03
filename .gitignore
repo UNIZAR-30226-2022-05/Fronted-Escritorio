@@ -29,3 +29,5 @@ ignorar/
 unoforall/target
 
 *.lst
+
+unoforall/dependency-reduced-pom.xml
