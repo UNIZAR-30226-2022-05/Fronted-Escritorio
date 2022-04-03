@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 //import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -37,6 +38,8 @@ public class App extends Application {
     public void start(Stage s) throws IOException {
         scene = new Scene(loadFXML("cambiarIP"));
         stage = s;
+        Image icon = new Image(getClass().getResourceAsStream("images/logoUno.png"));
+        stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.setMinWidth(800);
         stage.setMinHeight(600);

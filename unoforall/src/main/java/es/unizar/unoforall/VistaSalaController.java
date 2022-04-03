@@ -15,7 +15,9 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -23,6 +25,10 @@ public class VistaSalaController implements Initializable {
 	
 	private String[] nombresBots = {"StrikkerFurro", "12000C", "Raul", "Vendo Mandarinas"};
 	
+	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
+	private static Image notready = new Image(VistaSalaController.class.getResourceAsStream("images/notready.png"));
+	@FXML private Button botonListo;
+
 	@FXML private HBox caja1;
 	@FXML private ImageView pfpJug1;
 	@FXML private ImageView rdyIconJug1;
@@ -125,25 +131,45 @@ public class VistaSalaController implements Initializable {
 				nomJug1.setText(nombre);
 				//PONER ICONO DE USUARIO 1
 				//PONER A LISTO USUARIO 1
-				if (listo) System.out.println("Usuario 1 (" + nombre + ") listo");
+				if (listo) {
+					rdyIconJug1.setImage(ready);
+					System.out.println("Usuario 1 (" + nombre + ") listo");
+				} else {
+					rdyIconJug1.setImage(notready);
+				}
 			} else if (i == 2) {	//EN LA CAJA 2
 				//PONER NOMBRE DE USUARIO 2
 				nomJug2.setText(nombre);
 				//PONER ICONO DE USUARIO 2
 				//PONER A LISTO USUARIO 2
-				if (listo) System.out.println("Usuario 2 (" + nombre + ") listo");
+				if (listo) {
+					rdyIconJug2.setImage(ready);
+					System.out.println("Usuario 2 (" + nombre + ") listo");
+				} else {
+					rdyIconJug2.setImage(notready);
+				}
 			} else if (i == 3) {	//EN LA CAJA 3
 				//PONER NOMBRE DE USUARIO 3
 				nomJug3.setText(nombre);
 				//PONER ICONO DE USUARIO 3
 				//PONER A LISTO USUARIO 3
-				if (listo) System.out.println("Usuario 3 (" + nombre + ") listo");
+				if (listo) {
+					rdyIconJug3.setImage(ready);
+					System.out.println("Usuario 3 (" + nombre + ") listo");
+				} else {
+					rdyIconJug3.setImage(notready);
+				}
 			} else {	//EN LA CAJA 4
 				//PONER NOMBRE DE USUARIO 4
 				nomJug4.setText(nombre);
 				//PONER ICONO DE USUARIO 4
 				//PONER A LISTO USUARIO 4
-				if (listo) System.out.println("Usuario 4 (" + nombre + ") listo");
+				if (listo) {
+					rdyIconJug4.setImage(ready);
+					System.out.println("Usuario 4 (" + nombre + ") listo");
+				} else {
+					rdyIconJug4.setImage(notready);
+				}
 			}
 			i++;
 		}
@@ -189,5 +215,7 @@ public class VistaSalaController implements Initializable {
     private void ready(ActionEvent event) {
 		UUID salaID = App.getSalaID();
 		App.apiweb.sendObject("/app/salas/listo/" + salaID, "vacio");
+		botonListo.setVisible(false);
+		botonListo.setDisable(true);
 	}
 }
