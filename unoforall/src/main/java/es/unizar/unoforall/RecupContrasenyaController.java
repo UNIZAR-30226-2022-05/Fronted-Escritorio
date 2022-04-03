@@ -1,7 +1,5 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
-
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.utils.HashUtils;
 import javafx.event.ActionEvent;
@@ -10,6 +8,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class RecupContrasenyaController {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	@FXML private TextField cajaCodigo;
 	@FXML private PasswordField cajaContrasenya;
@@ -18,57 +18,46 @@ public class RecupContrasenyaController {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-    	try {
-        	App.setRoot("especificacionCorreo");
-    	} catch (IOException e) {
-			System.out.print(e);
-    	}
+		App.setRoot("especificacionCorreo");
     }
     
 	@FXML
     private void confirmCode(ActionEvent event) {
-    	try {
-    		String codigo = cajaCodigo.getText();
+		String codigo = cajaCodigo.getText();
 
-	    	///RESTABLECER PASO 2
-			RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepTwo");
-			apirest.addParameter("correo", correo);
-			apirest.addParameter("codigo", codigo);
-			apirest.setOnError(e -> {System.out.println(e);});
-	    	
-			apirest.openConnection();
-	    	String error = apirest.receiveObject(String.class);
-	    	
-	    	if (error == null) {
-	    		String contrasenna = cajaContrasenya.getText();
-	    		String contrasenna2 = cajaContrasenya2.getText();
-
-//		    	String contrasenna = "asdfasdf";
-//		    	String contrasenna2 = "asdfasdf";
-	    		
-	    		if (contrasenna.equals(contrasenna2)) {
-	    			///RESTABLECER PASO 3
-					apirest = new RestAPI("/api/reestablecerContrasennaStepThree");
-					apirest.addParameter("correo", correo);
-					apirest.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
-					apirest.setOnError(e -> {System.out.println(e);});
-			    	
-					apirest.openConnection();
-			    	error = apirest.receiveObject(String.class);
-			    	
-			    	if (error == null) {
-			    		App.setRoot("login");
-			    	} else {
-			    		System.out.println(error);
-			    	}
-	    		} else {
-		    		System.out.println("Las contraseñas no coinciden.");
-	    		}
-	    	} else {
-	    		System.out.println(error);
-	    	}
-    	} catch (IOException e) {
-			System.out.print(e);
+    	///RESTABLECER PASO 2
+		RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepTwo");
+		apirest.addParameter("correo", correo);
+		apirest.addParameter("codigo", codigo);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+    	
+		apirest.openConnection();
+    	String error = apirest.receiveObject(String.class);
+    	
+    	if (error == null) {
+    		String contrasenna = cajaContrasenya.getText();
+    		String contrasenna2 = cajaContrasenya2.getText();
+    		
+    		if (contrasenna.equals(contrasenna2)) {
+    			///RESTABLECER PASO 3
+				apirest = new RestAPI("/api/reestablecerContrasennaStepThree");
+				apirest.addParameter("correo", correo);
+				apirest.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
+				apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+		    	
+				apirest.openConnection();
+		    	error = apirest.receiveObject(String.class);
+		    	
+		    	if (error == null) {
+		    		App.setRoot("login");
+		    	} else {
+		    		if (DEBUG) System.out.println(error);
+		    	}
+    		} else {
+    			if (DEBUG) System.out.println("Las contraseñas no coinciden.");
+    		}
+    	} else {
+    		if (DEBUG) System.out.println(error);
     	}
     }
 	

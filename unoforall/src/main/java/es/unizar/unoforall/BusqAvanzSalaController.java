@@ -1,6 +1,5 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,6 +14,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.GridPane;
 
 public class BusqAvanzSalaController implements Initializable {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
 	private static final String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas" };
@@ -124,20 +125,12 @@ public class BusqAvanzSalaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-		try {
-	    	App.setRoot("buscarSala");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+	    App.setRoot("buscarSala");
 	}
 
 	@FXML
     private void goToMain(Event event) {
-		try {
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+	    App.setRoot("principal");
 	}
 	
     public static void cleanSearchParameters() {
@@ -271,11 +264,6 @@ public class BusqAvanzSalaController implements Initializable {
 		
 		BuscarSalaController.addSearchParameters(config);
 
-		try {	
-	    	App.setRoot("buscarSala");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+	    App.setRoot("buscarSala");
 	}
-
 }

@@ -22,6 +22,8 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class App extends Application {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 
     private static Scene scene;
     private static Stage stage;
@@ -73,7 +75,7 @@ public class App extends Application {
     	return sesionID;
     }
     
-    static void setRoot(String fxml) throws IOException {
+    static void setRoot(String fxml) {
         scene.setRoot(loadFXML(fxml));
 
     	if (fxml.equals("login")) {
@@ -81,7 +83,7 @@ public class App extends Application {
     	}
     }
     
-    static void setFullScreen() throws IOException {
+    static void setFullScreen() {
 //	Para cambiar la tecla para salir de pantalla completa:
 //    	stage.setFullScreenExitHint("Q para salir de pantalla completa");
 //    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Q"));
@@ -93,7 +95,7 @@ public class App extends Application {
         stage.setMinHeight(720);
     }
     
-    static void setWindowed() throws IOException {
+    static void setWindowed() {
     	stage.setFullScreen(false);
         stage.setMinWidth(800);
         stage.setMinHeight(600);
@@ -106,14 +108,20 @@ public class App extends Application {
     	alert.setContentText("¿Estás seguro de querer salir de la aplicación?: ");
     	
     	if (alert.showAndWait().get() == ButtonType.OK) {
-    		System.out.println("Has salido de la aplicación correctamente");
+    		if (DEBUG) System.out.println("Has salido de la aplicación correctamente");
     		stage.close();
     	}
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    private static Parent loadFXML(String fxml) {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+        Parent result = null;
+        try {
+        	result = fxmlLoader.load();
+		} catch (IOException e) {
+			if (DEBUG) e.printStackTrace();
+		}
+        return result;
     }
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {

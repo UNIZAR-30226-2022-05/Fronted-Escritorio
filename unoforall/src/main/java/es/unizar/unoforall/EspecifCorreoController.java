@@ -1,49 +1,38 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
-
 import es.unizar.unoforall.api.RestAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 public class EspecifCorreoController {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	@FXML private TextField cajaCorreo;
 	
 	@FXML
     private void goBack(ActionEvent event) {
-    	try {
-        	App.setRoot("login");
-    	} catch (IOException e) {
-			System.out.print(e);
-    	}
+        App.setRoot("login");
     }
     
 	@FXML
     private void sendCode(ActionEvent event) {
-    	try {
-	    	String correo = cajaCorreo.getText();
-    		
-//    		String correo = "prueba.info@gmail.com";
+    	String correo = cajaCorreo.getText();
 
-	    	///RESTABLECER PASO 1
-    		RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepOne");
-			apirest.addParameter("correo", correo);
-			apirest.setOnError(e -> {System.out.println(e);});
-	    	
-			apirest.openConnection();
-	    	String error = apirest.receiveObject(String.class);
-	    	
-	    	if (error == null) {
-	    		RecupContrasenyaController.correo = correo;
-	        	App.setRoot("recuperacionContrasenya");
-	    	} else {
-	    		System.out.println(error);
-	    	}
-	    	
-    	} catch (IOException e) {
-			System.out.print(e);
+    	///RESTABLECER PASO 1
+		RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepOne");
+		apirest.addParameter("correo", correo);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+    	
+		apirest.openConnection();
+    	String error = apirest.receiveObject(String.class);
+    	
+    	if (error == null) {
+    		RecupContrasenyaController.correo = correo;
+        	App.setRoot("recuperacionContrasenya");
+    	} else {
+    		if (DEBUG) System.out.println(error);
     	}
     }
 	@FXML

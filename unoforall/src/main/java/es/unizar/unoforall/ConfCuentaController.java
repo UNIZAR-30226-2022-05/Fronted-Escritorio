@@ -1,6 +1,5 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class ConfCuentaController implements Initializable {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	@FXML TextField cajaNombre;	
 	@FXML TextField cajaCorreo;	
@@ -30,7 +31,7 @@ public class ConfCuentaController implements Initializable {
 		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
 		String sesionID = App.getSessionID();
 		apirest.addParameter("sessionID",sesionID);
-		apirest.setOnError(e -> {System.out.println(e);});
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
 		apirest.openConnection();
     	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
@@ -42,42 +43,34 @@ public class ConfCuentaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-		try {
-			if (contenedorOculto.isVisible()) {
-				RestAPI apirest = new RestAPI("/api/actualizarCancel");
-				String sesionID = App.getSessionID();
-				apirest.addParameter("sessionID",sesionID);
-				
-				apirest.openConnection();
-		    	String retorno = apirest.receiveObject(String.class);
-		    	if (retorno != null) {
-		    		System.out.println(retorno);
-		    	}
-			}
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
+		if (contenedorOculto.isVisible()) {
+			RestAPI apirest = new RestAPI("/api/actualizarCancel");
+			String sesionID = App.getSessionID();
+			apirest.addParameter("sessionID",sesionID);
+			
+			apirest.openConnection();
+	    	String retorno = apirest.receiveObject(String.class);
+	    	if (retorno != null) {
+	    		if (DEBUG) System.out.println(retorno);
+	    	}
 		}
+    	App.setRoot("principal");
 	}
 
 	@FXML
     private void goToMain(Event event) {
-		try {
-			if (contenedorOculto.isVisible()) {
-				RestAPI apirest = new RestAPI("/api/actualizarCancel");
-				String sesionID = App.getSessionID();
-				apirest.addParameter("sessionID",sesionID);
-				
-				apirest.openConnection();
-		    	String retorno = apirest.receiveObject(String.class);
-		    	if (retorno != null) {
-		    		System.out.println(retorno);
-		    	}
-			}
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
+		if (contenedorOculto.isVisible()) {
+			RestAPI apirest = new RestAPI("/api/actualizarCancel");
+			String sesionID = App.getSessionID();
+			apirest.addParameter("sessionID",sesionID);
+			
+			apirest.openConnection();
+	    	String retorno = apirest.receiveObject(String.class);
+	    	if (retorno != null) {
+	    		if (DEBUG) System.out.println(retorno);
+	    	}
 		}
+    	App.setRoot("principal");
 	}
 
 	@FXML
@@ -89,7 +82,7 @@ public class ConfCuentaController implements Initializable {
     	
 		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null
 				|| !nuevaContrasenna.equals(confirmarContrasenna)) {
-			System.out.println("Faltan parámetros o hay parámetros incorrectos");
+			if (DEBUG) System.out.println("Faltan parámetros o hay parámetros incorrectos");
 		} else {
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
 			String sesionID = App.getSessionID();
@@ -97,14 +90,14 @@ public class ConfCuentaController implements Initializable {
 			apirest.addParameter("correoNuevo",nuevoCorreo);
 			apirest.addParameter("nombre",nuevoNombre);
 			apirest.addParameter("contrasenna",HashUtils.cifrarContrasenna(nuevaContrasenna));
-			apirest.setOnError(e -> {System.out.println(e);});
+			apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 			
 			apirest.openConnection();
 	    	String retorno = apirest.receiveObject(String.class);
 	    	if (retorno == null) {
 	    		desocultarContenedorOculto();
 	    	} else {
-	    		System.out.println(retorno);
+	    		if (DEBUG) System.out.println(retorno);
 	    	}
 		}
 	}
@@ -116,72 +109,40 @@ public class ConfCuentaController implements Initializable {
 	
 	@FXML
 	private void confirmarCodigo (ActionEvent event) {
-		try {
-			Integer codigo = Integer.parseInt(cajaCodigo.getText());
-			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepTwo");
-			String sesionID = App.getSessionID();
-			apirest.addParameter("sessionID",sesionID);
-			apirest.addParameter("codigo",codigo);
-			apirest.setOnError(e -> {System.out.println(e);});
-			
-			apirest.openConnection();
-			String retorno = apirest.receiveObject(String.class);
-	    	if (retorno == null) {
-	    		System.out.println("Exito.");
-	    		//Para ocultar la caja del código una vez ya se ha usado
-	    		contenedorOculto.setDisable(true);
-	    		contenedorOculto.setVisible(false);
-	    	} else {
-	    		System.out.println(retorno);
-	    	}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+		Integer codigo = Integer.parseInt(cajaCodigo.getText());
+		RestAPI apirest = new RestAPI("/api/actualizarCuentaStepTwo");
+		String sesionID = App.getSessionID();
+		apirest.addParameter("sessionID",sesionID);
+		apirest.addParameter("codigo",codigo);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+		
+		apirest.openConnection();
+		String retorno = apirest.receiveObject(String.class);
+    	if (retorno == null) {
+    		if (DEBUG) System.out.println("Exito.");
+    		//Para ocultar la caja del código una vez ya se ha usado
+    		contenedorOculto.setDisable(true);
+    		contenedorOculto.setVisible(false);
+    	} else {
+    		if (DEBUG) System.out.println(retorno);
+    	}
 	}
-	
-//	@FXML
-//    private void changeNomUsuario(ActionEvent event) {
-//		String oldName = "oldName";
-//	    System.out.println("Nombre cambiado de: " + oldName + " a: " + cajaNombre.getText());
-//	}
-//
-//	@FXML
-//    private void changeCorreo(ActionEvent event) {
-//		String oldMail = "oldMail";
-//	    System.out.println("Correo cambiado de: " + oldMail + " a: " + cajaCorreo.getText());
-//	}
-//
-//	@FXML
-//    private void changeContrasenya(ActionEvent event) {
-//		String oldPass = "oldPass";
-//		if (cajaContrasenya.getText().equals(cajaContrasenya2.getText())) {
-//	    	System.out.println("Contraseña cambiada de: " + oldPass + " a: " + cajaContrasenya.getText());
-//		}
-//		else {
-//			System.out.println("Las contrasenyas " + cajaContrasenya.getText() + " y "
-//								+ cajaContrasenya.getText() + " no coinciden.");
-//		}
-//	}
 	
 	@FXML
     private void deleteAccount(ActionEvent event) {
-		try {
-			RestAPI apirest = new RestAPI("/api/borrarCuenta");
-			String sesionID = App.getSessionID();
-			apirest.addParameter("sessionID",sesionID);
-			apirest.setOnError(e -> {System.out.println(e);});
-			
-			apirest.openConnection();
-	    	String retorno = apirest.receiveObject(String.class);
-	    	if (retorno.equals("BORRADA")) {
-		    	App.setRoot("login");
-				System.out.println("Cuenta eliminada");
-	    	} else {
-		    	System.out.println(retorno);
-	    	}
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+		RestAPI apirest = new RestAPI("/api/borrarCuenta");
+		String sesionID = App.getSessionID();
+		apirest.addParameter("sessionID",sesionID);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+		
+		apirest.openConnection();
+    	String retorno = apirest.receiveObject(String.class);
+    	if (retorno.equals("BORRADA")) {
+	    	App.setRoot("login");
+	    	if (DEBUG) System.out.println("Cuenta eliminada");
+    	} else {
+    		if (DEBUG) System.out.println(retorno);
+    	}
 	}
 
 }

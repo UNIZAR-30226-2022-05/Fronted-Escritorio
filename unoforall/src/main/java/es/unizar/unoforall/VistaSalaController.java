@@ -1,6 +1,5 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -22,6 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 public class VistaSalaController implements Initializable {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	private String[] nombresBots = {"StrikkerFurro", "12000C", "Raul", "Vendo Mandarinas"};
 	
@@ -63,18 +64,17 @@ public class VistaSalaController implements Initializable {
 	private void actualizarSala(Sala s, UUID salaID) {
 		if (s.isNoExiste()) {
 			try {
-				System.out.println("Error al conectarse a la sala");
+				if (DEBUG) System.out.println("Error al conectarse a la sala");
 				App.apiweb.unsubscribe("/topic/salas/" + salaID);
 				App.setRoot(deDondeVengo);
 			} catch (Exception e) {
-	    		System.out.println(e);
+				if (DEBUG) System.out.println(e);
 			}
 		} else {
-			System.out.println("Estado de la sala: " + s);
-			
+			if (DEBUG) System.out.println("Estado de la sala: " + s);
 			if (s.isEnPartida()) {
 				//CARGAR LA VISTA DE LA PARTIDA
-				System.out.println("En partida");
+				if (DEBUG) System.out.println("En partida");
 			} else {
 				//RECARGAR LA VISTA DE SALA
 				int numParticipantes = s.numParticipantes();
@@ -133,7 +133,7 @@ public class VistaSalaController implements Initializable {
 				//PONER A LISTO USUARIO 1
 				if (listo) {
 					rdyIconJug1.setImage(ready);
-					System.out.println("Usuario 1 (" + nombre + ") listo");
+					if (DEBUG) System.out.println("Usuario 1 (" + nombre + ") listo");
 				} else {
 					rdyIconJug1.setImage(notready);
 				}
@@ -144,7 +144,7 @@ public class VistaSalaController implements Initializable {
 				//PONER A LISTO USUARIO 2
 				if (listo) {
 					rdyIconJug2.setImage(ready);
-					System.out.println("Usuario 2 (" + nombre + ") listo");
+					if (DEBUG) System.out.println("Usuario 2 (" + nombre + ") listo");
 				} else {
 					rdyIconJug2.setImage(notready);
 				}
@@ -155,7 +155,7 @@ public class VistaSalaController implements Initializable {
 				//PONER A LISTO USUARIO 3
 				if (listo) {
 					rdyIconJug3.setImage(ready);
-					System.out.println("Usuario 3 (" + nombre + ") listo");
+					if (DEBUG) System.out.println("Usuario 3 (" + nombre + ") listo");
 				} else {
 					rdyIconJug3.setImage(notready);
 				}
@@ -166,7 +166,7 @@ public class VistaSalaController implements Initializable {
 				//PONER A LISTO USUARIO 4
 				if (listo) {
 					rdyIconJug4.setImage(ready);
-					System.out.println("Usuario 4 (" + nombre + ") listo");
+					if (DEBUG) System.out.println("Usuario 4 (" + nombre + ") listo");
 				} else {
 					rdyIconJug4.setImage(notready);
 				}
@@ -177,38 +177,26 @@ public class VistaSalaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-		try {
-			UUID salaID = App.getSalaID();
-			App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
-			App.apiweb.unsubscribe("/topic/salas/" + salaID);
-	    	App.setRoot(deDondeVengo);
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+		UUID salaID = App.getSalaID();
+		App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
+		App.apiweb.unsubscribe("/topic/salas/" + salaID);
+    	App.setRoot(deDondeVengo);
 	}
 
 	@FXML
     private void goToMain(Event event) {
-		try {
-			UUID salaID = App.getSalaID();
-			App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
-			App.apiweb.unsubscribe("/topic/salas/" + salaID);
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+		UUID salaID = App.getSalaID();
+		App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
+		App.apiweb.unsubscribe("/topic/salas/" + salaID);
+    	App.setRoot("principal");
 	}
 	
 	@FXML
     private void leaveRoom(ActionEvent event) {
-		try {
-			UUID salaID = App.getSalaID();
-			App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
-			App.apiweb.unsubscribe("/topic/salas/" + salaID);
-	    	App.setRoot(deDondeVengo);
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+		UUID salaID = App.getSalaID();
+		App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
+		App.apiweb.unsubscribe("/topic/salas/" + salaID);
+    	App.setRoot(deDondeVengo);
 	}
 	
 	@FXML

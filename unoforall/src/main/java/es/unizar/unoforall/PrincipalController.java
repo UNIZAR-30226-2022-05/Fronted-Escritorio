@@ -1,6 +1,5 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,6 +11,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 
 public class PrincipalController implements Initializable {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	@FXML private ChoiceBox<String> configChoiceBox;
 	private String[] configChoices = {"Configuración de Cuenta", "Configuración de Aspecto", "Cerrar Sesión"};
@@ -37,38 +38,21 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToLogin(Event event) {
-    	try {
-        	App.setRoot("login");
-    	} catch (IOException e) {
-			System.out.println(e);
-    	}
+        App.setRoot("login");
     }
 	
 	@FXML
     private void searchRooms(ActionEvent event) {
-    	try {
-        	App.setRoot("buscarSala");
-    	} catch (IOException e) {
-			System.out.print(e);
-    	}
+        App.setRoot("buscarSala");
     }
 	
 	@FXML
     private void makeRoom(ActionEvent event) {
-    	try {
-        	App.setRoot("crearSala");
-    	} catch (IOException e) {
-			System.out.print(e);
-    	}
+        App.setRoot("crearSala");
     }
 	
 	@FXML
     private void joinPausedRoom(ActionEvent event) {
-//    	try {
-//        	App.setRoot("vistaSala");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
 		System.out.println("vistaSala");
     }
 
@@ -79,7 +63,7 @@ public class PrincipalController implements Initializable {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.println("notificaciones");
+		if (DEBUG) System.out.println("notificaciones");
     }
 
 	@FXML
@@ -89,7 +73,7 @@ public class PrincipalController implements Initializable {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.println("amigos");
+		if (DEBUG) System.out.println("amigos");
     }
 
 	@FXML
@@ -99,24 +83,16 @@ public class PrincipalController implements Initializable {
 //    	} catch (IOException e) {
 //			System.out.print(e);
 //    	}
-		System.out.println("historial");
+		if (DEBUG) System.out.println("historial");
     }
 
 	@FXML
     private void goToConfAspecto(ActionEvent event) {
-    	try {
-        	App.setRoot("confAspecto");
-    	} catch (IOException e) {
-			System.out.print(e);
-    	}
+        App.setRoot("confAspecto");
     }
 
 	@FXML
     private void goToConfCuenta(ActionEvent event) {
-    	try {
-        	App.setRoot("confCuenta");
-    	} catch (IOException e) {
-			System.out.print(e);
-    	}
+        App.setRoot("confCuenta");
     }
 }

@@ -1,15 +1,14 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
-import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.api.RestAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.Clipboard;
-import javafx.scene.input.DataFormat;
 
 public class ConfirmCorreoController {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	Clipboard systemClipboard = Clipboard.getSystemClipboard();
 	String clipboardText = systemClipboard.getString();
@@ -19,43 +18,35 @@ public class ConfirmCorreoController {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-    	try {
-	    	//CANCELACION DE REGISTRO
-			RestAPI apirest = new RestAPI("/api/registerCancel");
-			apirest.addParameter("correo", correo);
-			apirest.setOnError(e -> {System.out.println(e);});
+    	//CANCELACION DE REGISTRO
+		RestAPI apirest = new RestAPI("/api/registerCancel");
+		apirest.addParameter("correo", correo);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 
-			apirest.openConnection();
-	    	String error = apirest.receiveObject(String.class);
-	    	
-	    	if (error != null) System.out.println(error);
-	    	
-        	App.setRoot("registro");
-    	} catch (IOException e) {
-			System.out.print(e);
-    	}
+		apirest.openConnection();
+    	String error = apirest.receiveObject(String.class);
+    	
+    	if (error != null) if (DEBUG) System.out.println(error);
+    	
+    	App.setRoot("registro");
     }
     
 	@FXML
     private void confirmCode(ActionEvent event) {
-    	try {
-	    	String codigo = cajaCodigo.getText();
-	    	//CONFIRMACION DE CORREO
-			RestAPI apirest = new RestAPI("/api/registerStepTwo");
-			apirest.addParameter("correo", correo);
-			apirest.addParameter("codigo", codigo);
-			apirest.setOnError(e -> {System.out.println(e);});
+    	String codigo = cajaCodigo.getText();
+    	//CONFIRMACION DE CORREO
+		RestAPI apirest = new RestAPI("/api/registerStepTwo");
+		apirest.addParameter("correo", correo);
+		apirest.addParameter("codigo", codigo);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 
-			apirest.openConnection();
-	    	String error = apirest.receiveObject(String.class);
-	    	
-	    	if (error == null) {
-	        	App.setRoot("login");
-	    	} else {
-	    		System.out.println(error);
-	    	}
-    	} catch (IOException e) {
-			System.out.print(e);
+		apirest.openConnection();
+    	String error = apirest.receiveObject(String.class);
+    	
+    	if (error == null) {
+        	App.setRoot("login");
+    	} else {
+    		if (DEBUG) System.out.println(error);
     	}
     }
 	
@@ -63,13 +54,4 @@ public class ConfirmCorreoController {
     private void onEnter(ActionEvent event) {
     	confirmCode(event);
     }
-	/*@FXML
-	public void paste() {
-		if( !systemClipboard.hasContent(DataFormat.PLAIN_TEXT) ) {
-			adjustForEmptyClipboard();
-			return;
-		}
-	
-	
-	}*/
 }

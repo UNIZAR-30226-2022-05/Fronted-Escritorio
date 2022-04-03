@@ -1,13 +1,13 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
 public class ConfAspectoController {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 
 	public static Integer avatarSelec = 0;
 	public static Integer cartaSelec = 0;
@@ -16,20 +16,12 @@ public class ConfAspectoController {
 
 	@FXML
     private void goBack(ActionEvent event) {
-		try {
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+	    App.setRoot("principal");
 	}
 
 	@FXML
     private void goToMain(Event event) {
-		try {
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+	    App.setRoot("principal");
 	}
 	
 	@FXML private void selecAvatar1(MouseEvent event) {avatarSelec = 1;}
@@ -44,16 +36,10 @@ public class ConfAspectoController {
 	
 	@FXML
     private void applyChanges(ActionEvent event) {
-		System.out.println("Configuración seleccionada: \n" +
+		if (DEBUG) System.out.println("Configuración seleccionada: \n" +
 							"\t Avatar: " + avatarSelec + "\n" +
 							"\t Cartas: " + cartaSelec + "\n" +
 							"\t Tablero: " + tableroSelec);
-		try {
-//	    	App.setRoot("principal");
-			App.setRoot("confAspecto");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+		App.setRoot("confAspecto");
 	}
-	
 }

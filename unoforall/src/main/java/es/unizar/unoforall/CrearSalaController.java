@@ -1,6 +1,5 @@
 package es.unizar.unoforall;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,6 +16,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 
 public class CrearSalaController implements Initializable {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	private static final boolean DEBUG = true;
 	
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
 	private String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
@@ -82,20 +83,12 @@ public class CrearSalaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-		try {
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+	    App.setRoot("principal");
 	}
 
 	@FXML
     private void goToMain(Event event) {
-		try {
-	    	App.setRoot("principal");
-		} catch (IOException e) {
-			System.out.print(e);
-		}
+	    App.setRoot("principal");
 	}
 	
 	@FXML
@@ -193,25 +186,6 @@ public class CrearSalaController implements Initializable {
 	
 	@FXML
     private void createRoom (ActionEvent event) {
-//		System.out.println("Creada Sala de tipo:");
-//		System.out.println("Número de participantes: " + maxParticipantes);
-//		System.out.print("Tipo de sala: ");
-//		if (tipoPublica) System.out.println("Publica"); else System.out.println("Privada");
-//		System.out.print("Rayos X: ");
-//		if (rayosX) System.out.println("Si"); else System.out.println("No");
-//		System.out.print("Intercambio: ");
-//		if (intercambio) System.out.println("Si"); else System.out.println("No");
-//		System.out.print("X2: ");
-//		if (modifX2) System.out.println("Si"); else System.out.println("No");
-//		System.out.println("Modo de juego: " + selectedGamemode);
-//		System.out.print("Encadenar +2 y +4: ");
-//		if (encadenar) System.out.println("Si"); else System.out.println("No");
-//		System.out.print("Redirigir +2 y +4: ");
-//		if (redirigir) System.out.println("Si"); else System.out.println("No");
-//		System.out.print("Jugar Varias Cartas: ");
-//		if (jugarVarias) System.out.println("Si"); else System.out.println("No");
-//		System.out.print("Evitar Cartas Especiales: ");
-//		if (evitarEspeciales) System.out.println("Si"); else System.out.println("No");		
 		
 		ReglasEspeciales reglas = new ReglasEspeciales(encadenar, redirigir, jugarVarias,
 				evitarEspeciales, rayosX, intercambio, modifX2);
@@ -223,27 +197,25 @@ public class CrearSalaController implements Initializable {
 		
 		ConfigSala config = new ConfigSala(modoJuego, reglas, maxParticipantes, tipoPublica);
 		
+		if (DEBUG) System.out.println("Creando: " + config);
+		
 		///CREAR SALA					
 		RestAPI apirest = new RestAPI("/api/crearSala");
 		apirest.addParameter("sesionID", App.getSessionID());
 		apirest.addParameter("configuracion", config);
-		apirest.setOnError(e -> {System.out.println(e);});
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
 		apirest.openConnection();
 		RespuestaSala salaID = apirest.receiveObject(RespuestaSala.class);
 		if (salaID.isExito()) {
-			System.out.println("sala creada:" + salaID.getSalaID());
+			if (DEBUG) System.out.println("sala creada:" + salaID.getSalaID());
     		//GUARDAR RESPUESTASALA EN CASO DE NECESITARLO
 			App.setSalaID(salaID.getSalaID());
 			//IR A LA VISTA DE LA SALA
-	    	try {
-		    	VistaSalaController.deDondeVengo = "crearSala";
-	    		App.setRoot("vistaSala");
-	    	} catch (Exception e) {
-	    		System.out.println(e);
-	    	}
+		    VistaSalaController.deDondeVengo = "crearSala";
+	    	App.setRoot("vistaSala");
 		} else {
-			System.out.println("error:" + salaID.getErrorInfo());
+			if (DEBUG) System.out.println("error:" + salaID.getErrorInfo());
 		}
 	}
 
