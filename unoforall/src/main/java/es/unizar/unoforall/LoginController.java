@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.utils.HashUtils;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -72,7 +73,7 @@ public class LoginController {
 			if (DEBUG) System.out.println("Esperando inicio sesión... ");
     	} else {
     		if (DEBUG) {
-    			labelError.setText(resp.getErrorInfo());
+    			labelError.setText(StringUtils.parseString(resp.getErrorInfo()));
 		    	System.out.println("Exito: " + resp.isExito());
 		    	System.out.println("Tipo de error: " + resp.getErrorInfo());
     		}

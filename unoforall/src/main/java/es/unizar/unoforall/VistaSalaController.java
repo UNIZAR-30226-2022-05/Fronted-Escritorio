@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.Sala;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class VistaSalaController implements Initializable {
 	private static final boolean DEBUG = true;
 
 	@FXML private Label labelError;
-	private String[] nombresBots = {"StrikkerFurro", "12000C", "Raul", "Vendo Mandarinas"};
+	private String[] nombresBots = {"StrikkerFurro", "I2000C", "Raúl", "Vendo Mandarinas"};
 	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
 	private static Image notready = new Image(VistaSalaController.class.getResourceAsStream("images/notready.png"));
@@ -127,7 +128,7 @@ public class VistaSalaController implements Initializable {
 			boolean listo = participantes.get(u);
 			if (i == 1) {	//EN LA CAJA 1
 				//PONER NOMBRE DE USUARIO 1
-				nomJug1.setText(nombre);
+				nomJug1.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 1
 				//PONER A LISTO USUARIO 1
 				if (listo) {
@@ -138,7 +139,7 @@ public class VistaSalaController implements Initializable {
 				}
 			} else if (i == 2) {	//EN LA CAJA 2
 				//PONER NOMBRE DE USUARIO 2
-				nomJug2.setText(nombre);
+				nomJug2.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 2
 				//PONER A LISTO USUARIO 2
 				if (listo) {
@@ -149,7 +150,7 @@ public class VistaSalaController implements Initializable {
 				}
 			} else if (i == 3) {	//EN LA CAJA 3
 				//PONER NOMBRE DE USUARIO 3
-				nomJug3.setText(nombre);
+				nomJug3.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 3
 				//PONER A LISTO USUARIO 3
 				if (listo) {
@@ -160,7 +161,7 @@ public class VistaSalaController implements Initializable {
 				}
 			} else {	//EN LA CAJA 4
 				//PONER NOMBRE DE USUARIO 4
-				nomJug4.setText(nombre);
+				nomJug4.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 4
 				//PONER A LISTO USUARIO 4
 				if (listo) {
