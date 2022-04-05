@@ -80,6 +80,7 @@ public class App extends Application {
 
     	if (fxml.equals("login")) {
     		setWindowed();
+    		apiweb.close();
     	}
     }
     
