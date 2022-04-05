@@ -41,6 +41,7 @@ public class BuscarSalaController implements Initializable {
 				String salaSelec = listaSalas.getSelectionModel().getSelectedItem();
 				int idxSalaSelec = listaSalas.getSelectionModel().getSelectedIndex();
 				UUID idSala = IDsalas.get(idxSalaSelec);
+				VistaSalaController.deDondeVengo = "buscarSala";
 				App.setSalaID(idSala);
 				App.setRoot("vistaSala");
 				if (DEBUG) System.out.println("Entrado a la sala: " + salaSelec);
@@ -122,9 +123,9 @@ public class BuscarSalaController implements Initializable {
 				//MOSTRAR LOS RESULTADOS ACTUALIZADOS
 				if (DEBUG) System.out.println("Salas encontradas:");
 				r.getSalas().forEach((k,v) -> {
-					listaSalas.getItems().add(v.toString());
+					listaSalas.getItems().add(v.getConfiguracion().toString());
 					IDsalas.add(k);
-					if (DEBUG) System.out.println(v.toString());
+					if (DEBUG) System.out.println(v.getConfiguracion().toString());
 				});
 			} else {
 				labelError.setText("Ha habido un error al filtrar las salas.");
