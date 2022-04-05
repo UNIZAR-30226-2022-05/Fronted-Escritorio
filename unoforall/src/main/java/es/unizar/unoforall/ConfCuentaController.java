@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.HashUtils;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -39,8 +40,8 @@ public class ConfCuentaController implements Initializable {
     	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
     	if (retorno.isExito()) {
     		labelError.setText("No se han podido autocompletar los datos de la cuenta");
-    		cajaNombre.setText(retorno.getNombre());
-    		cajaCorreo.setText(retorno.getCorreo());
+    		cajaNombre.setText(StringUtils.parseString(retorno.getNombre()));
+    		cajaCorreo.setText(StringUtils.parseString(retorno.getCorreo()));
     	}
 	}
 	
@@ -55,8 +56,8 @@ public class ConfCuentaController implements Initializable {
 			apirest.openConnection();
 	    	String retorno = apirest.receiveObject(String.class);
 	    	if (retorno != null) {
-	    		labelError.setText(retorno);
-	    		if (DEBUG) System.out.println(retorno);
+	    		labelError.setText(StringUtils.parseString(retorno));
+	    		if (DEBUG) System.out.println(StringUtils.parseString(retorno));
 	    	} else {
 				App.setRoot("principal");
 			}
@@ -76,7 +77,7 @@ public class ConfCuentaController implements Initializable {
 			apirest.openConnection();
 	    	String retorno = apirest.receiveObject(String.class);
 	    	if (retorno != null) {
-	    		labelError.setText(retorno);
+	    		labelError.setText(StringUtils.parseString(retorno));
 	    		if (DEBUG) System.out.println(retorno);
 	    	}
 		}
@@ -92,10 +93,10 @@ public class ConfCuentaController implements Initializable {
 		String confirmarContrasenna = cajaContrasenya2.getText();
     	
 		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null ) {
-			labelError.setText("Faltan parámetros");
+			labelError.setText(StringUtils.parseString("Faltan parámetros"));
 			if (DEBUG) System.out.println("Faltan parámetros");
 		} else if (!nuevaContrasenna.equals(confirmarContrasenna)) {
-			labelError.setText("Las contraseñas no coinciden");
+			labelError.setText(StringUtils.parseString("Las contraseñas no coinciden"));
 			if (DEBUG) System.out.println("Las contraseñas no coinciden");
 		} else {
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
@@ -111,7 +112,7 @@ public class ConfCuentaController implements Initializable {
 	    	if (retorno == null) {
 	    		desocultarContenedorOculto();
 	    	} else {
-	    		labelError.setText(retorno);
+	    		labelError.setText(StringUtils.parseString(retorno));
 	    		if (DEBUG) System.out.println(retorno);
 	    	}
 		}
@@ -140,7 +141,7 @@ public class ConfCuentaController implements Initializable {
     		contenedorOculto.setDisable(true);
     		contenedorOculto.setVisible(false);
     	} else {
-    		labelError.setText(retorno);
+    		labelError.setText(StringUtils.parseString(retorno));
     		if (DEBUG) System.out.println(retorno);
     	}
 	}
@@ -158,7 +159,7 @@ public class ConfCuentaController implements Initializable {
 	    	App.setRoot("login");
 	    	if (DEBUG) System.out.println("Cuenta eliminada");
     	} else {
-    		labelError.setText(retorno);
+    		labelError.setText(StringUtils.parseString(retorno));
     		if (DEBUG) System.out.println(retorno);
     	}
 	}

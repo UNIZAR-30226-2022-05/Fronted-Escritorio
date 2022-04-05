@@ -66,7 +66,7 @@ public class VistaSalaController implements Initializable {
 	private void actualizarSala(Sala s, UUID salaID) {
 		labelError.setText("");
 		if (s.isNoExiste()) {
-			labelError.setText(s.getError());
+			labelError.setText(StringUtils.parseString(s.getError()));
 			if (DEBUG) System.out.println(s.getError());
 			App.apiweb.unsubscribe("/topic/salas/" + salaID);
 			App.setRoot(deDondeVengo);
@@ -117,10 +117,10 @@ public class VistaSalaController implements Initializable {
 		usuariosVO.sort(Comparator.comparing(UsuarioVO::getNombre));
 		
 		//POR DEFECTO, PONER NOMBRES DE BOTS
-		nomJug1.setText(nombresBots[0]);
-		nomJug2.setText(nombresBots[1]);
-		nomJug3.setText(nombresBots[2]);
-		nomJug4.setText(nombresBots[3]);
+		nomJug1.setText(StringUtils.parseString(nombresBots[0]));
+		nomJug2.setText(StringUtils.parseString(nombresBots[1]));
+		nomJug3.setText(StringUtils.parseString(nombresBots[2]));
+		nomJug4.setText(StringUtils.parseString(nombresBots[3]));
 
 		int i = 1;
 		for (UsuarioVO u : usuariosVO) {

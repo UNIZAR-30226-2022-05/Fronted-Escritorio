@@ -2,6 +2,7 @@ package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.utils.HashUtils;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -54,15 +55,15 @@ public class RecupContrasenyaController {
 		    	if (error == null) {
 		    		App.setRoot("login");
 		    	} else {
-		    		labelError.setText(error);
+		    		labelError.setText(StringUtils.parseString(error));
 		    		if (DEBUG) System.out.println(error);
 		    	}
     		} else {
-    			labelError.setText("Las contraseñas no coinciden.");
+    			labelError.setText(StringUtils.parseString("Las contraseñas no coinciden."));
     			if (DEBUG) System.out.println("Las contraseñas no coinciden.");
     		}
     	} else {
-    		labelError.setText(error);
+    		labelError.setText(StringUtils.parseString(error));
     		if (DEBUG) System.out.println(error);
     	}
     }

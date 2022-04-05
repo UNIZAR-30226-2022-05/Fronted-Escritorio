@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -30,7 +31,7 @@ public class ConfirmCorreoController {
     	String error = apirest.receiveObject(String.class);
     	
     	if (error != null) {
-    		labelError.setText(error);
+    		labelError.setText(StringUtils.parseString(error));
     		if (DEBUG) System.out.println(error);
     	}
     	
@@ -53,7 +54,7 @@ public class ConfirmCorreoController {
     	if (error == null) {
         	App.setRoot("login");
     	} else {
-    		labelError.setText(error);
+    		labelError.setText(StringUtils.parseString(error));
     		if (DEBUG) System.out.println(error);
     	}
     }

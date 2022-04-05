@@ -8,6 +8,7 @@ import es.unizar.unoforall.model.salas.RespuestaSala;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.model.salas.ConfigSala.ModoJuego;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -218,7 +219,7 @@ public class CrearSalaController implements Initializable {
 		    VistaSalaController.deDondeVengo = "crearSala";
 	    	App.setRoot("vistaSala");
 		} else {
-			labelError.setText("error: " + salaID.getErrorInfo());
+			labelError.setText(StringUtils.parseString("error: " + salaID.getErrorInfo()));
 			if (DEBUG) System.out.println("error: " + salaID.getErrorInfo());
 		}
 	}

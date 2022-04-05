@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -35,7 +36,7 @@ public class EspecifCorreoController {
     		RecupContrasenyaController.correo = correo;
         	App.setRoot("recuperacionContrasenya");
     	} else {
-    		labelError.setText(error);
+    		labelError.setText(StringUtils.parseString(error));
     		if (DEBUG) System.out.println(error);
     	}
     }
