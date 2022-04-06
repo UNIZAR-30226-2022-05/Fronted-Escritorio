@@ -51,7 +51,7 @@ public class Serializar {
                 System.out.println("Mensaje recibido: " + mensaje);
             }
             if(expectedClass.equals(String.class)){
-                if(mensaje.equals("null")){
+                if(mensaje.equals("null") || mensaje.equals("nulo")){
                     return expectedClass.cast(null);
                 }else{
                     return expectedClass.cast(mensaje);
