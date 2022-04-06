@@ -26,7 +26,7 @@ public class Serializar {
         }
 
         if(expectedClass.equals(String.class)){
-            if(mensaje.equals("null")){
+            if(mensaje.equals("null") || mensaje.equals("nulo")){
                 return (T) null;
             }else{
                 return (T) mensaje;
