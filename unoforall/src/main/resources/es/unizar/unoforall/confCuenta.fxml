@@ -106,11 +106,26 @@
                   </PasswordField>
                </children>
             </GridPane>
-            <Button mnemonicParsing="false" onAction="#actualizarCuenta" prefHeight="57.0" prefWidth="276.0" text="Cambiar">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#autoCompletar" prefHeight="57.0" prefWidth="276.0" text="Auto-Completar">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#actualizarCuenta" prefHeight="57.0" prefWidth="276.0" text="Cambiar">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
       <VBox fx:id="contenedorOculto" alignment="CENTER" disable="true" prefHeight="195.0" prefWidth="1240.0" visible="false" VBox.vgrow="ALWAYS">

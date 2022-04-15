@@ -77,29 +77,29 @@ public class VistaSalaController implements Initializable {
 				if (DEBUG) System.out.println("En partida");
 			} else {
 				//RECARGAR LA VISTA DE SALA
-				int numParticipantes = s.numParticipantes();
+				int tamanyo = s.getConfiguracion().getMaxParticipantes();
 				HashMap<UsuarioVO, Boolean> participantes = s.getParticipantes();
-				cargarParticipantes(numParticipantes, participantes);
+				cargarParticipantes(tamanyo, participantes);
 			}
 		}
 	}
 	
-	private void cargarParticipantes(int numParticipantes, HashMap<UsuarioVO, Boolean> participantes) {
-		if (numParticipantes == 1) {
+	private void cargarParticipantes(int tamanyo, HashMap<UsuarioVO, Boolean> participantes) {
+		if (tamanyo == 1) {
 			//VISIBLES
 			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
 			//INVISIBLES
 			if (caja2.isVisible())	{caja2.setDisable(true); caja2.setVisible(false);}
 			if (caja3.isVisible())	{caja3.setDisable(true); caja3.setVisible(false);}
 			if (caja4.isVisible())	{caja4.setDisable(true); caja4.setVisible(false);}
-		} else if (numParticipantes == 2) {
+		} else if (tamanyo == 2) {
 			//VISIBLES
 			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
 			if (!caja2.isVisible())	{caja2.setDisable(false); caja2.setVisible(true);}
 			//INVISIBLES
 			if (caja3.isVisible())	{caja3.setDisable(true); caja3.setVisible(false);}
 			if (caja4.isVisible())	{caja4.setDisable(true); caja4.setVisible(false);}
-		} else if (numParticipantes == 3) {
+		} else if (tamanyo == 3) {
 			//VISIBLES
 			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
 			if (!caja2.isVisible())	{caja2.setDisable(false); caja2.setVisible(true);}
@@ -117,10 +117,10 @@ public class VistaSalaController implements Initializable {
 		usuariosVO.sort(Comparator.comparing(UsuarioVO::getNombre));
 		
 		//POR DEFECTO, PONER NOMBRES DE BOTS
-		nomJug1.setText(StringUtils.parseString(nombresBots[0]));
-		nomJug2.setText(StringUtils.parseString(nombresBots[1]));
-		nomJug3.setText(StringUtils.parseString(nombresBots[2]));
-		nomJug4.setText(StringUtils.parseString(nombresBots[3]));
+		nomJug1.setText(StringUtils.parseString("Esperando Jugador 1"));
+		nomJug2.setText(StringUtils.parseString("Esperando Jugador 2"));
+		nomJug3.setText(StringUtils.parseString("Esperando Jugador 3"));
+		nomJug4.setText(StringUtils.parseString("Esperando Jugador 4"));
 
 		int i = 1;
 		for (UsuarioVO u : usuariosVO) {

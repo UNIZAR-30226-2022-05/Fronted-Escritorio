@@ -30,18 +30,23 @@ public class ConfCuentaController implements Initializable {
 	@FXML TextField cajaCodigo;
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {	
+	public void initialize(URL location, ResourceBundle resources) {
+	}
+	
+	@FXML
+	public void autoCompletar(ActionEvent event) {	
 		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
 		String sesionID = App.getSessionID();
-		apirest.addParameter("sessionID",sesionID);
+		apirest.addParameter("sesionID",sesionID);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
 		apirest.openConnection();
     	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
     	if (retorno.isExito()) {
-    		labelError.setText("No se han podido autocompletar los datos de la cuenta");
     		cajaNombre.setText(StringUtils.parseString(retorno.getNombre()));
     		cajaCorreo.setText(StringUtils.parseString(retorno.getCorreo()));
+    	} else {
+    		labelError.setText("No se han podido autocompletar los datos de la cuenta");
     	}
 	}
 	
@@ -51,7 +56,7 @@ public class ConfCuentaController implements Initializable {
 		if (contenedorOculto.isVisible()) {
 			RestAPI apirest = new RestAPI("/api/actualizarCancel");
 			String sesionID = App.getSessionID();
-			apirest.addParameter("sessionID",sesionID);
+			apirest.addParameter("sesionID",sesionID);
 			
 			apirest.openConnection();
 	    	String retorno = apirest.receiveObject(String.class);
@@ -72,7 +77,7 @@ public class ConfCuentaController implements Initializable {
 		if (contenedorOculto.isVisible()) {
 			RestAPI apirest = new RestAPI("/api/actualizarCancel");
 			String sesionID = App.getSessionID();
-			apirest.addParameter("sessionID",sesionID);
+			apirest.addParameter("sesionID",sesionID);
 			
 			apirest.openConnection();
 	    	String retorno = apirest.receiveObject(String.class);
@@ -101,7 +106,7 @@ public class ConfCuentaController implements Initializable {
 		} else {
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
 			String sesionID = App.getSessionID();
-			apirest.addParameter("sessionID",sesionID);
+			apirest.addParameter("sesionID",sesionID);
 			apirest.addParameter("correoNuevo",nuevoCorreo);
 			apirest.addParameter("nombre",nuevoNombre);
 			apirest.addParameter("contrasenna",HashUtils.cifrarContrasenna(nuevaContrasenna));
@@ -129,7 +134,7 @@ public class ConfCuentaController implements Initializable {
 		Integer codigo = Integer.parseInt(cajaCodigo.getText());
 		RestAPI apirest = new RestAPI("/api/actualizarCuentaStepTwo");
 		String sesionID = App.getSessionID();
-		apirest.addParameter("sessionID",sesionID);
+		apirest.addParameter("sesionID",sesionID);
 		apirest.addParameter("codigo",codigo);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
@@ -150,7 +155,7 @@ public class ConfCuentaController implements Initializable {
     private void deleteAccount(ActionEvent event) {
 		RestAPI apirest = new RestAPI("/api/borrarCuenta");
 		String sesionID = App.getSessionID();
-		apirest.addParameter("sessionID",sesionID);
+		apirest.addParameter("sesionID",sesionID);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
 		apirest.openConnection();
