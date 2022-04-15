@@ -157,6 +157,7 @@ public class ConfCuentaController implements Initializable {
     	String retorno = apirest.receiveObject(String.class);
     	if (retorno.equals("BORRADA")) {
 	    	App.setRoot("login");
+	        App.cerrarConexion();
 	    	if (DEBUG) System.out.println("Cuenta eliminada");
     	} else {
     		labelError.setText(StringUtils.parseString(retorno));

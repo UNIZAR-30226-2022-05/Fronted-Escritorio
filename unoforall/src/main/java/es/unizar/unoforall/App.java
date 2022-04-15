@@ -50,7 +50,7 @@ public class App extends Application {
         
         stage.setOnCloseRequest(event -> {
         	event.consume();
-        	logout();
+        	salir();
         });
     }   
     
@@ -80,7 +80,6 @@ public class App extends Application {
 
     	if (fxml.equals("login")) {
     		setWindowed();
-    		apiweb.close();
     	}
     }
     
@@ -102,7 +101,7 @@ public class App extends Application {
         stage.setMinHeight(600);
     }
     
-    static void logout() {
+    static void salir() {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Cierre de Sesión");
     	alert.setHeaderText("¡Estás a punto de cerrar sesión!");
@@ -112,6 +111,11 @@ public class App extends Application {
     		if (DEBUG) System.out.println("Has salido de la aplicación correctamente");
     		stage.close();
     	}
+    }
+    
+    public static void cerrarConexion() {
+		App.apiweb.close();
+    	apiweb = new WebSocketAPI();
     }
 
     private static Parent loadFXML(String fxml) {

@@ -39,6 +39,7 @@ public class PrincipalController implements Initializable {
 	@FXML
     private void goToLogin(Event event) {
         App.setRoot("login");
+        App.cerrarConexion();
     }
 	
 	@FXML
