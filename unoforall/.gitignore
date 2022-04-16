@@ -25,8 +25,4 @@ hs_err_pid*
 ignorar/
 
 #ignorar target
-unoforall/target
-
-*.lst
-
-unoforall/dependency-reduced-pom.xml
+target

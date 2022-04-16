@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.ConfirmCorreoController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="430.0" style="-fx-background-color: white;">
+         <children>
+            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="141.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/arista.png" />
+               </image>
+            </ImageView>
+            <GridPane layoutX="63.0" layoutY="220.0" prefHeight="25.0" prefWidth="304.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="204.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Código:" textAlignment="RIGHT">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="cajaCodigo" onAction="#onEnter" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </GridPane>
+            <Button alignment="CENTER" layoutX="181.0" layoutY="290.0" mnemonicParsing="false" onAction="#confirmCode" text="Confirmar" />
+            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" text="Volver" />
+            <TextArea fx:id="labelInfo" editable="false" layoutX="37.0" layoutY="126.0" prefHeight="49.0" prefWidth="360.0" text="Por favor introduzca el código de confirmación que le ha llegado a su correo." wrapText="true" />
+            <Label fx:id="labelError" alignment="CENTER" layoutX="2.0" layoutY="386.0" prefHeight="17.0" prefWidth="430.0" textAlignment="CENTER" textFill="RED" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
