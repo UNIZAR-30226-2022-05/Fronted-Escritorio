@@ -42,6 +42,15 @@ public class ConfirmCorreoController {
     private void confirmCode(ActionEvent event) {
 		labelError.setText("");
     	String codigo = cajaCodigo.getText();
+    	
+		//Si el código no es un entero, no es válido
+		try {
+			Integer.parseInt(cajaCodigo.getText());
+		} catch (Exception e) {
+			labelError.setText("Por favor introduzca un código válido");
+			return;
+		}
+
     	//CONFIRMACION DE CORREO
 		RestAPI apirest = new RestAPI("/api/registerStepTwo");
 		apirest.addParameter("correo", correo);

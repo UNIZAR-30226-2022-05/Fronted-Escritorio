@@ -98,10 +98,10 @@ public class ConfCuentaController implements Initializable {
 		String confirmarContrasenna = cajaContrasenya2.getText();
     	
 		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null ) {
-			labelError.setText(StringUtils.parseString("Faltan parámetros"));
+			labelError.setText("Faltan parámetros");
 			if (DEBUG) System.out.println("Faltan parámetros");
 		} else if (!nuevaContrasenna.equals(confirmarContrasenna)) {
-			labelError.setText(StringUtils.parseString("Las contraseñas no coinciden"));
+			labelError.setText("Las contraseñas no coinciden");
 			if (DEBUG) System.out.println("Las contraseñas no coinciden");
 		} else {
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
@@ -131,7 +131,14 @@ public class ConfCuentaController implements Initializable {
 	@FXML
 	private void confirmarCodigo (ActionEvent event) {
 		labelError.setText("");
-		Integer codigo = Integer.parseInt(cajaCodigo.getText());
+		Integer codigo = 0;
+		//Si el código no es un entero, no es válido
+		try {
+			codigo = Integer.parseInt(cajaCodigo.getText());
+		} catch (Exception e) {
+			labelError.setText("Por favor introduzca un código válido");
+			return;
+		}
 		RestAPI apirest = new RestAPI("/api/actualizarCuentaStepTwo");
 		String sesionID = App.getSessionID();
 		apirest.addParameter("sesionID",sesionID);

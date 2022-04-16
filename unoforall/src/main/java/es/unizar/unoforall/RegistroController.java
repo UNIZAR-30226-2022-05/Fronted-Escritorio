@@ -51,7 +51,7 @@ public class RegistroController {
 	    		if (DEBUG) System.out.println(error);
 	    	}
     	} else {
-    		labelError.setText(StringUtils.parseString("Las contraseñas no coinciden."));
+    		labelError.setText("Las contraseñas no coinciden.");
     		if (DEBUG) System.out.println("Las contraseñas no coinciden.");
     	}
     }

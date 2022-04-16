@@ -219,7 +219,7 @@ public class CrearSalaController implements Initializable {
 		    VistaSalaController.deDondeVengo = "crearSala";
 	    	App.setRoot("vistaSala");
 		} else {
-			labelError.setText(StringUtils.parseString("error: " + salaID.getErrorInfo()));
+			labelError.setText("error: " + StringUtils.parseString(salaID.getErrorInfo()));
 			if (DEBUG) System.out.println("error: " + salaID.getErrorInfo());
 		}
 	}

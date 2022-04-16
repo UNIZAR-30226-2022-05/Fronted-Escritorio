@@ -28,6 +28,14 @@ public class RecupContrasenyaController {
     private void confirmCode(ActionEvent event) {
 		labelError.setText("");
 		String codigo = cajaCodigo.getText();
+    	
+		//Si el código no es un entero, no es válido
+		try {
+			Integer.parseInt(cajaCodigo.getText());
+		} catch (Exception e) {
+			labelError.setText("Por favor introduzca un código válido");
+			return;
+		}
 
     	///RESTABLECER PASO 2
 		RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepTwo");
@@ -59,7 +67,7 @@ public class RecupContrasenyaController {
 		    		if (DEBUG) System.out.println(error);
 		    	}
     		} else {
-    			labelError.setText(StringUtils.parseString("Las contraseñas no coinciden."));
+    			labelError.setText("Las contraseñas no coinciden.");
     			if (DEBUG) System.out.println("Las contraseñas no coinciden.");
     		}
     	} else {
