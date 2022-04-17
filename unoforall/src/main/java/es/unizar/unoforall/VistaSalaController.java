@@ -26,7 +26,6 @@ public class VistaSalaController implements Initializable {
 	private static final boolean DEBUG = true;
 
 	@FXML private Label labelError;
-	private String[] nombresBots = {"StrikkerFurro", "I2000C", "Raúl", "Vendo Mandarinas"};
 	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
 	private static Image notready = new Image(VistaSalaController.class.getResourceAsStream("images/notready.png"));
@@ -108,15 +107,15 @@ public class VistaSalaController implements Initializable {
 			if (caja4.isVisible())	{caja4.setDisable(true); caja4.setVisible(false);}
 		} else {
 			//TODAS VISIBLES
-			if (caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
-			if (caja2.isVisible())	{caja2.setDisable(false); caja2.setVisible(true);}
-			if (caja3.isVisible())	{caja3.setDisable(false); caja3.setVisible(true);}
-			if (caja4.isVisible())	{caja4.setDisable(false); caja4.setVisible(true);}
+			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
+			if (!caja2.isVisible())	{caja2.setDisable(false); caja2.setVisible(true);}
+			if (!caja3.isVisible())	{caja3.setDisable(false); caja3.setVisible(true);}
+			if (!caja4.isVisible())	{caja4.setDisable(false); caja4.setVisible(true);}
 		}
 		List<UsuarioVO> usuariosVO = new ArrayList<>(participantes.keySet());
 		usuariosVO.sort(Comparator.comparing(UsuarioVO::getNombre));
 		
-		//POR DEFECTO, PONER NOMBRES DE BOTS
+		//POR DEFECTO, PONER ESPERANDO JUGADOR
 		nomJug1.setText(StringUtils.parseString("Esperando Jugador 1"));
 		nomJug2.setText(StringUtils.parseString("Esperando Jugador 2"));
 		nomJug3.setText(StringUtils.parseString("Esperando Jugador 3"));

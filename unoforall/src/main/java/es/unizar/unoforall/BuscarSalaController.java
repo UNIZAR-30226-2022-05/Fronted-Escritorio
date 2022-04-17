@@ -1,53 +1,44 @@
 package es.unizar.unoforall;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.io.IOException;
 import java.util.UUID;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.listeners.SalaListener;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.model.salas.RespuestaSalas;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 
-public class BuscarSalaController implements Initializable {
+public class BuscarSalaController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
+	
+	private SalaListener myListener = new SalaListener() {
+		@Override
+		public void onClickListener(UUID salaID) {
+			VistaSalaController.deDondeVengo = "buscarSala";
+			App.setSalaID(salaID);
+			App.setRoot("vistaSala");
+		}
+	};
 
 	@FXML private Label labelError;
 	@FXML TextField cajaIdSala;
 	
-	@FXML ListView<String> listaSalas;
-	private ArrayList<UUID> IDsalas = new ArrayList<UUID>();
+	@FXML GridPane listaSalas;
 	
 	private static ConfigSala config =
 			new ConfigSala(ConfigSala.ModoJuego.Undefined, new ReglasEspeciales(), -1, true);
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		listaSalas.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				String salaSelec = listaSalas.getSelectionModel().getSelectedItem();
-				int idxSalaSelec = listaSalas.getSelectionModel().getSelectedIndex();
-				UUID idSala = IDsalas.get(idxSalaSelec);
-				VistaSalaController.deDondeVengo = "buscarSala";
-				App.setSalaID(idSala);
-				App.setRoot("vistaSala");
-				if (DEBUG) System.out.println("Entrado a la sala: " + salaSelec);
-			}
-		});
-	}
 	
 	public static void addSearchParameters(ConfigSala c) {	
 		config = c;
@@ -80,8 +71,7 @@ public class BuscarSalaController implements Initializable {
 	private void findRooms (ActionEvent event) {
 		labelError.setText("");
 		//BORRAR RESULTADOS ANTERIORES DE LA VENTANA DE RESULTADOS
-		listaSalas.getItems().clear();
-		IDsalas.clear();
+		listaSalas.getChildren().clear();
 		String sesionID = App.getSessionID();
 		
 		if (!cajaIdSala.getText().equals("")) {
@@ -100,9 +90,19 @@ public class BuscarSalaController implements Initializable {
 				labelError.setText("No se ha encontrado ninguna sala con ese ID");
 				if (DEBUG) System.out.println("No se ha encontrado ninguna sala con ese ID");
     		} else {
-    			listaSalas.getItems().add(r.toString());
-    			IDsalas.add(UUID.fromString(salaID));
-    			if (DEBUG) System.out.println("sala encontrada:" + r);
+    	        try {
+        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
+    	        	HBox salaItem = fxmlLoader.load();
+    	        	
+    	        	SalaItemController salaItemController = fxmlLoader.getController();
+    	        	salaItemController.setData(r.getConfiguracion(), UUID.fromString(salaID), myListener);
+    	        	
+        	        listaSalas.addRow(listaSalas.getRowCount(), salaItem);
+        			
+        			if (DEBUG) System.out.println("sala encontrada:" + r);
+    			} catch (IOException e) {
+    				if (DEBUG) e.printStackTrace();
+    			}
     		}
 		} else {
 			if (DEBUG) {
@@ -123,9 +123,23 @@ public class BuscarSalaController implements Initializable {
 				//MOSTRAR LOS RESULTADOS ACTUALIZADOS
 				if (DEBUG) System.out.println("Salas encontradas:");
 				r.getSalas().forEach((k,v) -> {
-					listaSalas.getItems().add(v.getConfiguracion().toString());
-					IDsalas.add(k);
-					if (DEBUG) System.out.println(v.getConfiguracion().toString());
+	    	        try {
+	        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
+	        	        HBox salaItem = fxmlLoader.load();
+	    	        	
+	    	        	SalaItemController salaItemController = fxmlLoader.getController();
+	    	        	salaItemController.setData(v.getConfiguracion(), k, myListener);
+	    	        	
+	        	        listaSalas.addRow(listaSalas.getRowCount(), salaItem);
+	        	        //ESTABLECER ANCHURA DE ITEM
+	        	        listaSalas.setMinWidth(Region.USE_COMPUTED_SIZE);
+	        	        listaSalas.setPrefWidth(Region.USE_COMPUTED_SIZE);
+	        	        listaSalas.setMaxWidth(Region.USE_PREF_SIZE);
+						
+						if (DEBUG) System.out.println(v.getConfiguracion().toString());
+	    			} catch (IOException e) {
+	    				if (DEBUG) e.printStackTrace();
+	    			}
 				});
 			} else {
 				labelError.setText("Ha habido un error al filtrar las salas.");
