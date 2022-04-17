@@ -1,4 +1,4 @@
-package es.unizar.unoforall.listeners;
+package es.unizar.unoforall.interfaces;
 
 import java.util.UUID;
 

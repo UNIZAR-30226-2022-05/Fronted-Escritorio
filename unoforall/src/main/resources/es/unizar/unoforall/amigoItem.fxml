@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="1240.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.AmigoItemController">
+   <children>
+      <ImageView fx:id="icono" fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+         <image>
+            <Image url="@images/usrIcon.png" />
+         </image>
+         <HBox.margin>
+            <Insets left="10.0" />
+         </HBox.margin>
+      </ImageView>
+      <Label fx:id="nombre" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="200.0" text="Nombre" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="pJugadas" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="244.0" text="Partidas Jugadas: X" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="pGanadas" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="239.0" text="Partidas Ganadas: X" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="puntos" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="163.0" text="Puntos: X" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#verHistorial" text="Ver Historial">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </HBox.margin>
+      </Button>
+      <Button fx:id="botonHacerAmigo" mnemonicParsing="false" onAction="#hacerAmigo" text="Hacer Amigo" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </HBox.margin>
+      </Button>
+   </children>
+</HBox>

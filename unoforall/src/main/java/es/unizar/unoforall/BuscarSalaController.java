@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import es.unizar.unoforall.api.RestAPI;
-import es.unizar.unoforall.listeners.SalaListener;
+import es.unizar.unoforall.interfaces.SalaListener;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;

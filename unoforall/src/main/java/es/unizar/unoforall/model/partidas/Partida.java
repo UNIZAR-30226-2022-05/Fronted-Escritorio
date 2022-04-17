@@ -30,12 +30,26 @@ public class Partida {
 	//Variables para extraer resultados de efectos
 	private Carta vistaPorRayosX;
 	private boolean efectoRayosX;
+	private boolean modoAcumulandoRobo;
+	private int roboAcumulado;
 	
 	private static final int MAX_ROBO_ATTACK = 10;
 	
 	public Partida(String error) {			//Para construir una partida con error = true
 		this.setHayError(true);
 		this.setError(error);
+	}
+	
+	private class PosiblesTiposJugadas {
+		public boolean esEscalera;
+		public boolean esIguales;
+		public boolean valida;
+		
+		public PosiblesTiposJugadas(boolean esEscalera, boolean esIguales, boolean valida) {
+			this.esEscalera = esEscalera;
+			this.esIguales = esIguales;
+			this.valida = valida;
+		}
 	}
 		
 	public Partida(List<UUID> jugadoresID, ConfigSala configuracion) {
@@ -101,6 +115,15 @@ public class Partida {
 	// Funciones privadas
 	/**************************************************************************/
 	
+	private boolean compatibleAcumulador(Carta c) {
+		if (configuracion.getReglas().isEncadenarRoboCartas() && (c.getTipo().equals(Carta.Tipo.mas4) || c.getTipo().equals(Carta.Tipo.mas2)) 
+				|| configuracion.getReglas().isRedirigirRoboCartas() && c.getTipo().equals(Carta.Tipo.reversa) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	private Carta getCartaValida() {
 		Carta carta = this.mazo.get(0);
 		while(carta.getTipo()==Carta.Tipo.cambioColor && carta.getTipo()==Carta.Tipo.mas2 && carta.getTipo()==Carta.Tipo.mas4 &&
@@ -157,6 +180,18 @@ public class Partida {
 		}
 	}
 	
+	private PosiblesTiposJugadas evaluaJugada(Carta c1, Carta c2) {
+		PosiblesTiposJugadas pj = null;
+		if (c1.getTipo().equals(c2.getTipo())) {
+			pj = new PosiblesTiposJugadas(false,true,true);
+		} else if(c1.getTipo().ordinal()==c2.getTipo().ordinal()-1 || c1.getTipo()==Carta.Tipo.n9 && c2.getTipo()==Carta.Tipo.n0) {
+			pj = new PosiblesTiposJugadas(true,false,true);
+		} else {
+			pj = new PosiblesTiposJugadas(false,false,false);
+		}
+		return pj;
+	}
+	
 	private Carta robarCarta() {
 		if (this.mazo.isEmpty()) {
 			while(this.cartasJugadas.size()!=1) {
@@ -186,7 +221,16 @@ public class Partida {
 	
 	public void ejecutarJugada(Jugada jugada) {
 		if(jugada.robar) {
-			if (configuracion.getModoJuego().equals(ConfigSala.ModoJuego.Attack)) {
+				if(modoAcumulandoRobo) {
+					modoAcumulandoRobo=false;
+					for(int i = 0; i<roboAcumulado; i++) {
+						if(this.jugadores.get(turno).getMano().size()==20) {
+							break;
+						}
+						this.jugadores.get(turno).getMano().add(robarCarta());
+					}
+					roboAcumulado=0;
+				} else if (configuracion.getModoJuego().equals(ConfigSala.ModoJuego.Attack)) {
 				int random_robo = (int)Math.floor(Math.random()*(MAX_ROBO_ATTACK)+1);
 				for (int i = 0; i < random_robo; i++) {
 					if(this.jugadores.get(turno).getMano().size()==20) {
@@ -202,7 +246,8 @@ public class Partida {
 			}
 		} else {
 			for (Carta c : jugada.cartas) {
-				esCambioDeColor = true;
+				esCambioDeColor = false;
+				efectoRayosX = false;
 				boolean esSalto = false;
 				switch (c.getTipo()) {
 					case intercambio:
@@ -214,24 +259,41 @@ public class Partida {
 						break;
 						
 					case mas2:
-						//TODO Poder poner otro más 2 si el siguiente jugador tiene
-						for (int i = 0; i < 2; i++) {
-							if(siguienteJugador().getMano().size()==20) {
-								break;
+						if(configuracion.getReglas().isEncadenarRoboCartas() || configuracion.getReglas().isRedirigirRoboCartas()) {
+							if(!modoAcumulandoRobo) {
+								modoAcumulandoRobo = true;
+								roboAcumulado = 2;
+							} else {
+								roboAcumulado+=2;
 							}
-							siguienteJugador().getMano().add(robarCarta());
+						} else {
+							for (int i = 0; i < 2; i++) {
+								if(siguienteJugador().getMano().size()==20) {
+									break;
+								}
+								siguienteJugador().getMano().add(robarCarta());
+							}
+							esSalto=true;
 						}
-						esSalto=true;
 						break;
 						
 					case mas4:
-						for (int i = 0; i < 4; i++) {
-							if(siguienteJugador().getMano().size()==20) {
-								break;
+						if(configuracion.getReglas().isEncadenarRoboCartas() || configuracion.getReglas().isRedirigirRoboCartas()) {
+							if(!modoAcumulandoRobo) {
+								modoAcumulandoRobo = true;
+								roboAcumulado = 4;
+							} else {
+								roboAcumulado+=4;
 							}
-							siguienteJugador().getMano().add(robarCarta());
+						} else {
+							for (int i = 0; i < 4; i++) {
+								if(siguienteJugador().getMano().size()==20) {
+									break;
+								}
+								siguienteJugador().getMano().add(robarCarta());
+							}
+							esSalto=true;
 						}
-						esSalto=true;
 						esCambioDeColor = true;
 						colorActual = jugada.nuevoColor;
 						break;
@@ -365,18 +427,65 @@ public class Partida {
 	public boolean validarJugada(Jugada jugada) {
 		if (jugada.robar) {
 			return true;
-		} else if (jugada.cartas == null) {
+		} else if (jugada.cartas == null || jugada.cartas.isEmpty()) {
 			return false;
-		} else {
+		} else if(modoAcumulandoRobo) {
+			Carta anterior = getUltimaCartaJugada();
+			if(jugada.getCartas().size()!=1) { //Solo se puede jugar una
+				return false;
+			} else {
+				Carta c = jugada.getCartas().get(0);
+				if(compatibleAcumulador(c) && (c.getTipo().equals(anterior.getTipo()) //Si la carta es usable según las reglas
+								|| c.getColor().equals(colorActual)  || c.getTipo().equals(Carta.Tipo.mas4))) {
+					return true;
+				}
+			}
+	    } else {
 			Carta anterior = getUltimaCartaJugada();
 			boolean valida = false;
-			for (Carta c : jugada.cartas) {
-				valida = c.esCompatible(anterior);
-				anterior = c;
+			Carta.Tipo tipo = jugada.getCartas().get(0).getTipo();
+			//Las únicas cartas que hacen "jugadas" son los números, para el resto de cartas solo se puede jugar una.
+			if(configuracion.getReglas().isJugarVariasCartas() && (tipo == Carta.Tipo.n0 || tipo == Carta.Tipo.n1 
+					|| tipo == Carta.Tipo.n2 || tipo == Carta.Tipo.n3 || tipo == Carta.Tipo.n4 || tipo == Carta.Tipo.n5 
+					|| tipo == Carta.Tipo.n6 || tipo == Carta.Tipo.n7 || tipo == Carta.Tipo.n9)) {
+				int numCartas = 0; //Se necesitan dos para definir si son escaleras o iguales
+				PosiblesTiposJugadas pj = new PosiblesTiposJugadas(false,false,false);
+				for (Carta c : jugada.cartas) {
+					if (numCartas<=1) {
+						if(numCartas==0) {
+							valida = c.getTipo().equals(anterior.getTipo()) || c.getColor().equals(colorActual);
+							anterior = c;
+						} else {
+							pj = evaluaJugada(anterior,c);
+							valida = pj.valida;
+						}
+						numCartas++;
+					} else {
+						if(pj.esEscalera) {
+							valida = anterior.getTipo().ordinal()==c.getTipo().ordinal()-1 || 
+									anterior.getTipo()==Carta.Tipo.n9 && c.getTipo()==Carta.Tipo.n0;
+						} else if(pj.esIguales){
+							valida = c.getTipo().equals(anterior.getTipo());
+						} else {
+							valida = false;
+						}
+					}
+					if(!valida) {
+						break;
+					}
+				}
+			} else { //Cartas con efecto o en general sin poder jugar varias cartas
+				if (jugada.cartas.size()>1) {
+					valida = false; //Solo se puede jugar una si no son números. (o si no se permite jugar más de una).
+				}
+				return jugada.getCartas().get(0).getTipo().equals(anterior.getTipo()) 
+						|| jugada.getCartas().get(0).getColor().equals(colorActual);
 			}
+			
 			return valida;
 			//TODO verificar si se hace bien la escalera... (igual mejor en los frontend)
 		}
+		return false;
 	}
 	
 	// Se debe mirar en cada turno, y cuando devuelva true ya se puede desconectar

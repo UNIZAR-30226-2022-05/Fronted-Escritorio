@@ -2,7 +2,7 @@ package es.unizar.unoforall;
 
 import java.util.UUID;
 
-import es.unizar.unoforall.listeners.SalaListener;
+import es.unizar.unoforall.interfaces.SalaListener;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import javafx.fxml.FXML;

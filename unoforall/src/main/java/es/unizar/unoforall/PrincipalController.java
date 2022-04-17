@@ -69,12 +69,7 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToAmigos(MouseEvent event) {
-//    	try {
-//        	App.setRoot("amigos");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
-		if (DEBUG) System.out.println("amigos");
+        App.setRoot("amigos");
     }
 
 	@FXML
