@@ -63,6 +63,9 @@ public class LoginController {
 		    			System.out.println("Sesión iniciada");
 	    			}
 	    			
+	    			//ACTIVAR NOTIFICACIONES
+	    			App.activarNotificaciones();
+	    			
 	    			//ENTRAR A LA APLICACION
 		        	App.setRoot("principal");
 		    		App.setFullScreen();

@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutionException;
 
 import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
+import es.unizar.unoforall.model.UsuarioVO;
+import es.unizar.unoforall.model.salas.NotificacionSala;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -73,6 +75,23 @@ public class App extends Application {
     }
     public static String getSessionID() {
     	return sesionID;
+    }
+    
+    public static void activarNotificaciones() {
+    	apiweb.subscribe("/topic/notifAmistad/" + respLogin.getUsuarioID(), UsuarioVO.class, remitente -> {
+    		gestionarInvitacionAmigo(remitente);
+    	});
+    	apiweb.subscribe("/topic/notifSala/" + respLogin.getUsuarioID(), NotificacionSala.class, notif -> {
+    		gestionarInvitacionSala(notif);
+    	});
+    }
+    
+    private static void gestionarInvitacionAmigo(UsuarioVO remitente) {
+    	if (DEBUG) System.out.println("Solicitud recibida de: " + remitente);
+    }
+    
+    private static void gestionarInvitacionSala(NotificacionSala notif) {
+    	if (DEBUG) System.out.println("Invitación de: " + notif.getRemitente() + " a la sala " + notif.getSalaID());
     }
     
     static void setRoot(String fxml) {

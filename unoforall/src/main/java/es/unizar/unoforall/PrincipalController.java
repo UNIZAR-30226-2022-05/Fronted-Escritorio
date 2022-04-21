@@ -59,12 +59,7 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToNotificaciones(MouseEvent event) {
-//    	try {
-//        	App.setRoot("notificaciones");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
-		if (DEBUG) System.out.println("notificaciones");
+        App.setRoot("notificaciones");
     }
 
 	@FXML

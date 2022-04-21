@@ -2,6 +2,7 @@ package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -50,10 +51,10 @@ public class AmigoItemController {
     	icono.setImage(dfltImg);
     	
     	//ACTUALIZAR EL RESTO DE PARÁMETROS
-    	nombre.setText(usuario.getNombre());
-    	pJugadas.setText(Integer.toString(usuario.getTotalPartidas()));
-    	pGanadas.setText(Integer.toString(usuario.getNumVictorias()));
-    	puntos.setText(Integer.toString(usuario.getPuntos()));
+    	nombre.setText(StringUtils.parseString(usuario.getNombre()));
+    	pJugadas.setText("Jugadas: " + Integer.toString(usuario.getTotalPartidas()));
+    	pGanadas.setText("Ganadas: " + Integer.toString(usuario.getNumVictorias()));
+    	puntos.setText("Puntos: " + Integer.toString(usuario.getPuntos()));
     }
 
     @FXML
@@ -69,17 +70,6 @@ public class AmigoItemController {
         	//HACERSE AMIGO DE ÉSTE USUARIO
 	    	estadoBoton = EstadoAmistad.PeticionEnviada;
 			botonHacerAmigo.setText("Cancelar Petición");
-			
-			//SUSCRIBIRSE AL CANAL DE NOTIFICAIONES POR SI NOS ACEPTA ESTANDO EN LA MISMA PANTALLA
-			App.apiweb.subscribe("/topic/notifAmistad/" + App.getRespLogin().getUsuarioID(),
-					UsuarioVO.class, remitente -> {
-	    		estadoBoton = EstadoAmistad.EsAmigo;
-	    		botonHacerAmigo.setText("Ya es tu Amigo");
-	    		botonHacerAmigo.setDisable(true);
-
-				if(DEBUG) System.out.println("Solicitud recibida de: " + remitente);
-				App.apiweb.unsubscribe("/topic/notifAmistad/" + App.getRespLogin().getUsuarioID());
-	    	});
 			
 			//ENVIAR PETICIÓN DE AMISTAD
 	    	App.apiweb.sendObject("/app/notifAmistad/" + usuario.getId(), "vacio");
@@ -100,10 +90,11 @@ public class AmigoItemController {
 			String error = apirest.receiveObject(String.class);
 			if (error != null) {
 				if(DEBUG) System.out.println("error: " + error);
+			} else {
+				estadoBoton = EstadoAmistad.NoEsAmigo;
+				botonHacerAmigo.setText("Hacer Amigo");
 			}
 
-			estadoBoton = EstadoAmistad.NoEsAmigo;
-			botonHacerAmigo.setText("Hacer Amigo");
     		botonHacerAmigo.setDisable(false); //Una vez recibida respuesta el botón sigue activo
     	}
     }

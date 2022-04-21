@@ -61,13 +61,13 @@ public class AmigosController implements Initializable{
 			
 			for (UsuarioVO usuario : usuarios.getUsuarios()) {
 				try {
-        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
-    	        	HBox salaItem = fxmlLoader.load();
+        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("amigoItem.fxml"));
+    	        	HBox amigoItem = fxmlLoader.load();
     	        	
     	        	AmigoItemController amigoItemController = fxmlLoader.getController();
     	        	amigoItemController.setData(usuario, true);
     	        	
-        	        listaAmigos.addRow(listaAmigos.getRowCount(), salaItem);
+        	        listaAmigos.addRow(listaAmigos.getRowCount(), amigoItem);
         	        listaAmigosLocal.add(usuario);
         			
         			if (DEBUG) System.out.println("amigo encontrado:" + usuario.getCorreo());
