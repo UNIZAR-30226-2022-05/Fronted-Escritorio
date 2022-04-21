@@ -25,6 +25,11 @@ public class Sala {
 	//Conjunto de participantes con el indicador de si están listos o no
 	private HashMap<UUID, Boolean> participantes_listos;
 	
+	
+	private Sala() {
+		
+	}
+	
 	public Sala(String mensajeError) {
 		participantes = new HashMap<>();
 		participantes_listos = new HashMap<>();
@@ -83,6 +88,17 @@ public class Sala {
 			
 			if (this.enPartida)	 {
 				partida.expulsarJugador(participanteID);
+			} else {	//Si se va un jugador no listo, y el resto ya lo están 
+						//	-> se empieza la partida
+				boolean todosListos = true;
+				for (Map.Entry<UUID, Boolean> entry : participantes_listos.entrySet()) {
+					if (entry.getValue() == false) { 
+						todosListos = false; 
+					}
+				}
+				if (todosListos) {
+					setEnPartida(true);
+				}
 			}
 		}
 	}
@@ -140,8 +156,9 @@ public class Sala {
 
 	@Override
 	public String toString() {
-		return "Sala [configuracion=" + configuracion + ", enPartida=" + enPartida + ", participantes=" + participantes
-				+ "]";
+		return "Sala [noExiste=" + noExiste + ", error=" + error + ", configuracion=" + configuracion + ", enPartida="
+				+ enPartida + ", partida=" + partida + ", participantes=" + participantes + ", participantes_listos="
+				+ participantes_listos + "]";
 	}
 
 	public boolean isNoExiste() {
@@ -160,4 +177,28 @@ public class Sala {
 		return partida;
 	}
 
+	
+	public Sala getSalaAEnviar() {
+		Sala salaResumida = new Sala();
+		
+		salaResumida.noExiste = noExiste;
+		salaResumida.error = error;
+		
+		salaResumida.configuracion = configuracion;
+		
+		salaResumida.enPartida = enPartida;
+		
+		if (partida != null) {
+			salaResumida.partida = partida.getPartidaAEnviar();
+		} else {
+			salaResumida.partida = null;
+		}
+		
+		//Identificador de cada usuario con su VO
+		salaResumida.participantes = participantes;
+		//Conjunto de participantes con el indicador de si están listos o no
+		salaResumida.participantes_listos = participantes_listos;
+		
+		return salaResumida;
+	}
 }
