@@ -36,11 +36,16 @@
             <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="162.0" />
          </children>
       </HBox>
+      <Label fx:id="labelError" alignment="CENTER" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
       <GridPane prefHeight="688.0" prefWidth="1450.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="194.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="861.0" minWidth="10.0" prefWidth="771.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="693.0" minWidth="10.0" prefWidth="275.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="861.0" minWidth="10.0" prefWidth="801.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="693.0" minWidth="10.0" prefWidth="245.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

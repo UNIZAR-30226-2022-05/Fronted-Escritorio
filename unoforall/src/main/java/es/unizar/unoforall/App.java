@@ -1,9 +1,11 @@
 package es.unizar.unoforall;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.model.UsuarioVO;
@@ -32,6 +34,7 @@ public class App extends Application {
 	private static String sesionID;
 	private static RespuestaLogin respLogin;
 	private static UUID salaID;
+	private static HashMap<String, Integer> personalizacion;
 	public static WebSocketAPI apiweb;
 	
 	static {
@@ -75,6 +78,31 @@ public class App extends Application {
     }
     public static String getSessionID() {
     	return sesionID;
+    }
+
+    public static void initializePersonalizacion() {
+    	RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
+		String sesionID = App.getSessionID();
+		apirest.addParameter("sesionID",sesionID);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+		
+		apirest.openConnection();
+		UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
+		if (retorno.isExito()) {
+			personalizacion.put("avatarSelec", retorno.getAvatar());
+			personalizacion.put("cartaSelec", retorno.getAspectoCartas());
+			personalizacion.put("tableroSelec", retorno.getAspectoTablero());
+		} else {
+			if (DEBUG) System.out.println("No se han podido autocompletar los datos de la cuenta");
+		}
+    }
+    
+    public static void setPersonalizacion(HashMap<String, Integer> p) {
+    	personalizacion = p;
+    }
+    
+    public static HashMap<String, Integer> getPersonalizacion() {
+    	return personalizacion;
     }
     
     public static void activarNotificaciones() {
