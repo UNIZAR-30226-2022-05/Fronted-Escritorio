@@ -87,7 +87,7 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
@@ -97,27 +97,27 @@
                         <Image url="@images/avatares/1-uno.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                      <image>
                         <Image url="@images/avatares/2-dos.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar3" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                      <image>
                         <Image url="@images/avatares/3-tres.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar4" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                      <image>
                         <Image url="@images/avatares/4-cuatro.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar5" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
                      <image>
                         <Image url="@images/avatares/5-cinco.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
                      <image>
                         <Image url="@images/avatares/6-seis.png" />
                      </image>
@@ -133,12 +133,12 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecCarta1" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecCarta0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/cartas/set-1/negras/tacoVacio.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecCarta2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecCarta1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                      <image>
                         <Image url="@images/cartas/set-2/negras/tacoVacio.png" />
                      </image>
@@ -155,7 +155,7 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecTablero1" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecTablero0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/fondos/azul.png" />
                      </image>
