@@ -38,8 +38,8 @@
       </HBox>
       <GridPane prefHeight="688.0" prefWidth="1450.0">
         <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="296.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="861.0" minWidth="10.0" prefWidth="670.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="194.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="861.0" minWidth="10.0" prefWidth="771.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="693.0" minWidth="10.0" prefWidth="275.0" />
         </columnConstraints>
         <rowConstraints>
@@ -48,19 +48,19 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Avatar">
+            <Label text="Avatar" textFill="WHITE">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold Italic" size="36.0" />
                </font>
             </Label>
-            <Label text="Cartas" GridPane.rowIndex="1">
+            <Label text="Cartas" textFill="WHITE" GridPane.rowIndex="1">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold Italic" size="36.0" />
                </font>
             </Label>
-            <Label text="Tableros" GridPane.rowIndex="2">
+            <Label text="Fondos" textFill="WHITE" GridPane.rowIndex="2">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold Italic" size="36.0" />
                </font>
             </Label>
             <Button minHeight="77.0" minWidth="180.0" mnemonicParsing="false" onAction="#applyChanges" prefHeight="77.0" prefWidth="222.0" text="Guardar" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -68,72 +68,105 @@
                   <Font size="36.0" />
                </font>
             </Button>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <GridPane alignment="CENTER" GridPane.columnIndex="1">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/usrIcon.png" />
+                        <Image url="@images/avatares/0-cero.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin></ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecAvatar2" pickOnBounds="true" preserveRatio="true">
+                  </ImageView>
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                      <image>
-                        <Image url="@images/usrIcon.png" />
+                        <Image url="@images/avatares/1-uno.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin></ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecAvatar3" pickOnBounds="true" preserveRatio="true">
+                  </ImageView>
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                      <image>
-                        <Image url="@images/usrIcon.png" />
+                        <Image url="@images/avatares/2-dos.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                     <image>
+                        <Image url="@images/avatares/3-tres.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                     <image>
+                        <Image url="@images/avatares/4-cuatro.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
+                     <image>
+                        <Image url="@images/avatares/5-cinco.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="104.0" fitWidth="100.0" onMouseClicked="#selecAvatar1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
+                     <image>
+                        <Image url="@images/avatares/6-seis.png" />
+                     </image>
                   </ImageView>
                </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            </GridPane>
+            <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecCarta1" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/logoUno.png" />
+                        <Image url="@images/cartas/set-1/negras/tacoVacio.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecCarta2" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecCarta2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                      <image>
-                        <Image url="@images/logoUno.png" />
+                        <Image url="@images/cartas/set-2/negras/tacoVacio.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
                   </ImageView>
                </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            </GridPane>
+            <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecTablero1" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/notificaciones.png" />
+                        <Image url="@images/fondos/azul.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecTablero2" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecTablero1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                      <image>
-                        <Image url="@images/notificaciones.png" />
+                        <Image url="@images/fondos/morado.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#selecTablero2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                     <image>
+                        <Image url="@images/fondos/gris.png" />
+                     </image>
                   </ImageView>
                </children>
-            </HBox>
+            </GridPane>
          </children>
       </GridPane>
    </children>

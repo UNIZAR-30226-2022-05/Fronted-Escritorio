@@ -1,5 +1,7 @@
 package es.unizar.unoforall;
 
+import java.util.HashMap;
+
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import javafx.event.ActionEvent;
@@ -13,7 +15,16 @@ public class PeticionItemController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 
-    private static Image dfltImg = new Image(App.class.getResourceAsStream("images/social.png"));
+	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
+	static {
+		avatares.put(0, new Image(App.class.getResourceAsStream("images/avatares/0-cero.png")));
+		avatares.put(1, new Image(App.class.getResourceAsStream("images/avatares/1-uno.png")));
+		avatares.put(2, new Image(App.class.getResourceAsStream("images/avatares/2-dos.png")));
+		avatares.put(3, new Image(App.class.getResourceAsStream("images/avatares/3-tres.png")));
+		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
+		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
+		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
+	}
 	private UsuarioVO usuario;
 	boolean enviada;
 
@@ -33,10 +44,12 @@ public class PeticionItemController {
     	if (env) {
     		botonAceptar.setVisible(false);
     		botonAceptar.setDisable(true);
+    		botonCancelar.setVisible(false);
+    		botonCancelar.setDisable(true);
     	}
     	
 		//COMPROBAR QUÉ AVATAR TIENE PUESTO
-    	icono.setImage(dfltImg);
+    	icono.setImage(avatares.get(usuario.getAvatar()));
     	
     	//ACTUALIZAR EL RESTO DE PARÁMETROS
     	nombre.setText(usuario.getNombre());
@@ -69,25 +82,22 @@ public class PeticionItemController {
     void cancelar(ActionEvent event) {
     	botonCancelar.setDisable(true); //Para no permitir pretar antes de procesar la acción
 		botonCancelar.setText("Cancelando...");
-    	if (enviada) {
-    		//CANCELAR ENVIO DE PETICION
-    		//DE MOMENTO NO ESTOY SEGURO SI ES POSIBLE
-    	} else {
-    		//CANCELAR PETICION
-    		RestAPI apirest = new RestAPI("/api/cancelarPeticionAmistad");
-			apirest.addParameter("sesionID", App.getSessionID());
-			apirest.addParameter("amigo", usuario.getId());
-			apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
-			
-			apirest.openConnection();
-			
-			String error = apirest.receiveObject(String.class);
-			if (error != null) {
-				if(DEBUG) System.out.println("error: " + error);
-			} else {
-				//ELIMINAR DE PETICIONES RECIBIDAS
-			}
-    	}
+		
+		//CANCELAR PETICION
+		RestAPI apirest = new RestAPI("/api/cancelarPeticionAmistad");
+		apirest.addParameter("sesionID", App.getSessionID());
+		apirest.addParameter("amigo", usuario.getId());
+		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
+		
+		apirest.openConnection();
+		
+		String error = apirest.receiveObject(String.class);
+		if (error != null) {
+			if(DEBUG) System.out.println("error: " + error);
+		} else {
+			//ELIMINAR DE PETICIONES RECIBIDAS
+		}
+		
     	botonCancelar.setDisable(false); //Una vez recibida respuesta el botón sigue activo
     }
 

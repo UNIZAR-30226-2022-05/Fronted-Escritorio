@@ -27,6 +27,18 @@ public class VistaSalaController implements Initializable {
 
 	@FXML private Label labelError;
 	
+	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
+	static {
+		avatares.put(0, new Image(App.class.getResourceAsStream("images/avatares/0-cero.png")));
+		avatares.put(1, new Image(App.class.getResourceAsStream("images/avatares/1-uno.png")));
+		avatares.put(2, new Image(App.class.getResourceAsStream("images/avatares/2-dos.png")));
+		avatares.put(3, new Image(App.class.getResourceAsStream("images/avatares/3-tres.png")));
+		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
+		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
+		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
+		avatares.put(7, new Image(App.class.getResourceAsStream("images/avatares/7-IA.png")));
+	}
+	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
 	private static Image notready = new Image(VistaSalaController.class.getResourceAsStream("images/notready.png"));
 	@FXML private Button botonListo;
@@ -115,11 +127,15 @@ public class VistaSalaController implements Initializable {
 		List<UsuarioVO> usuariosVO = new ArrayList<>(participantes.keySet());
 		usuariosVO.sort(Comparator.comparing(UsuarioVO::getNombre));
 		
-		//POR DEFECTO, PONER ESPERANDO JUGADOR
+		//POR DEFECTO, PONER ESPERANDO JUGADOR E IMAGEN DE IA
 		nomJug1.setText(StringUtils.parseString("Esperando Jugador 1"));
+		pfpJug1.setImage(avatares.get(7));
 		nomJug2.setText(StringUtils.parseString("Esperando Jugador 2"));
+		pfpJug2.setImage(avatares.get(7));
 		nomJug3.setText(StringUtils.parseString("Esperando Jugador 3"));
+		pfpJug3.setImage(avatares.get(7));
 		nomJug4.setText(StringUtils.parseString("Esperando Jugador 4"));
+		pfpJug4.setImage(avatares.get(7));
 
 		int i = 1;
 		for (UsuarioVO u : usuariosVO) {
@@ -129,6 +145,7 @@ public class VistaSalaController implements Initializable {
 				//PONER NOMBRE DE USUARIO 1
 				nomJug1.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 1
+				pfpJug1.setImage(avatares.get(u.getAvatar()));
 				//PONER A LISTO USUARIO 1
 				if (listo) {
 					rdyIconJug1.setImage(ready);
@@ -140,6 +157,7 @@ public class VistaSalaController implements Initializable {
 				//PONER NOMBRE DE USUARIO 2
 				nomJug2.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 2
+				pfpJug2.setImage(avatares.get(u.getAvatar()));
 				//PONER A LISTO USUARIO 2
 				if (listo) {
 					rdyIconJug2.setImage(ready);
@@ -151,6 +169,7 @@ public class VistaSalaController implements Initializable {
 				//PONER NOMBRE DE USUARIO 3
 				nomJug3.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 3
+				pfpJug3.setImage(avatares.get(u.getAvatar()));
 				//PONER A LISTO USUARIO 3
 				if (listo) {
 					rdyIconJug3.setImage(ready);
@@ -162,6 +181,7 @@ public class VistaSalaController implements Initializable {
 				//PONER NOMBRE DE USUARIO 4
 				nomJug4.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 4
+				pfpJug4.setImage(avatares.get(u.getAvatar()));
 				//PONER A LISTO USUARIO 4
 				if (listo) {
 					rdyIconJug4.setImage(ready);

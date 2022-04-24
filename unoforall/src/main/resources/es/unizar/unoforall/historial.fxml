@@ -52,7 +52,7 @@
          <children>
             <ImageView fx:id="icono" fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
-                  <Image url="@images/usrIcon.png" />
+                  <Image url="@images/avatares/0-cero.png" />
                </image>
                <HBox.margin>
                   <Insets left="20.0" />

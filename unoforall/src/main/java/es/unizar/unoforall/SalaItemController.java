@@ -15,9 +15,9 @@ public class SalaItemController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
-    private static Image original = new Image(App.class.getResourceAsStream("images/logoUno.png"));
-    private static Image attack = new Image(App.class.getResourceAsStream("images/arista.png"));
-    private static Image parejas = new Image(App.class.getResourceAsStream("images/social.png"));
+    private static Image original = new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png"));
+    private static Image attack = new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png"));
+    private static Image parejas = new Image(App.class.getResourceAsStream("images/avatares/2-dos.png"));
     
     private SalaListener myListener;
     private UUID idSala;

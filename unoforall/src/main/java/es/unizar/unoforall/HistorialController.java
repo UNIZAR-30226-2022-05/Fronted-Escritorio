@@ -2,13 +2,12 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
-import es.unizar.unoforall.model.ListaUsuarios;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.ListaPartidas;
-import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
@@ -26,7 +25,16 @@ public class HistorialController implements Initializable{
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 
-    private static Image dfltImg = new Image(App.class.getResourceAsStream("images/social.png"));
+	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
+	static {
+		avatares.put(0, new Image(App.class.getResourceAsStream("images/avatares/0-cero.png")));
+		avatares.put(1, new Image(App.class.getResourceAsStream("images/avatares/1-uno.png")));
+		avatares.put(2, new Image(App.class.getResourceAsStream("images/avatares/2-dos.png")));
+		avatares.put(3, new Image(App.class.getResourceAsStream("images/avatares/3-tres.png")));
+		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
+		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
+		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
+	}
     
     @FXML
     private ImageView icono;
@@ -67,7 +75,7 @@ public class HistorialController implements Initializable{
 		if (DEBUG) System.out.println("Tu ID de usuario es: " + usuario.getId());
 		
 		//PONER LA IMAGEN ADECUADA
-		icono.setImage(dfltImg);
+		icono.setImage(avatares.get(usuario.getAvatar()));
 
     	//ACTUALIZAR EL RESTO DE PARÁMETROS
     	nombre.setText(StringUtils.parseString(usuario.getNombre()));
