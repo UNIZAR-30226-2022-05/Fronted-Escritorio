@@ -65,8 +65,9 @@ public class AmigoItemController {
 
     @FXML
     void verHistorial(ActionEvent event) {
-    	//IR A PANTALLA DE HISTORIAL PARA ÉSTE USUARIO
-    	if(DEBUG) System.out.println("IR A HISTORIAL");
+		//PASAR EL USUARIO A LA VENTANA DE HISTORIAL
+		HistorialController.usuario = usuario;
+		App.setRoot("historial");
     }
     
     @FXML

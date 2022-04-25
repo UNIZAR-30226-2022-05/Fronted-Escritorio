@@ -22,32 +22,15 @@ public class SalaItemController {
     private SalaListener myListener;
     private UUID idSala;
 
-    @FXML
-    private ImageView modoJuego;
-
-    @FXML
-    private Label tamanno;
-
-    @FXML
-    private Label rayosX;
-
-    @FXML
-    private Label intercambio;
-
-    @FXML
-    private Label x2;
-	
-	@FXML
-    private Label encadenar;
-
-    @FXML
-    private Label redirigir;
-
-    @FXML
-    private Label jugarVarias;
-
-    @FXML
-    private Label evitarEspecial;
+    @FXML private ImageView modoJuego;
+    @FXML private Label tamanno;
+    @FXML private Label rayosX;
+    @FXML private Label intercambio;
+    @FXML private Label x2;
+	@FXML private Label encadenar;
+    @FXML private Label redirigir;
+    @FXML private Label jugarVarias;
+    @FXML private Label evitarEspecial;
     
     @FXML
     private void click (MouseEvent mouseEvent) {

@@ -63,6 +63,9 @@ public class LoginController {
 		    			System.out.println("Sesión iniciada");
 	    			}
 	    			
+	    			//OBTENER ASPECTO DE LA APLICACION
+	    			App.initializePersonalizacion();
+	    			
 	    			//ACTIVAR NOTIFICACIONES
 	    			App.activarNotificaciones();
 	    			

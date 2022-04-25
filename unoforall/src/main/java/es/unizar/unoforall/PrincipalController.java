@@ -3,6 +3,8 @@ package es.unizar.unoforall;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.model.UsuarioVO;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -69,12 +71,18 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToHistorial(MouseEvent event) {
-//    	try {
-//        	App.setRoot("historial");
-//    	} catch (IOException e) {
-//			System.out.print(e);
-//    	}
-		if (DEBUG) System.out.println("historial");
+		//BUSCAR DATOS DE MI USUARIO
+		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
+		apirest.addParameter("sesionID", App.getSessionID());
+		apirest.setOnError(e -> {
+			if (DEBUG) System.out.println(e);
+		});
+		apirest.openConnection();
+		UsuarioVO usuario = apirest.receiveObject(UsuarioVO.class);
+		
+		//PASAR EL USUARIO A LA VENTANA DE HISTORIAL
+		HistorialController.usuario = usuario;
+		App.setRoot("historial");
     }
 
 	@FXML

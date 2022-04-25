@@ -89,6 +89,7 @@ public class App extends Application {
 		apirest.openConnection();
 		UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
 		if (retorno.isExito()) {
+			personalizacion = new HashMap<String, Integer>();
 			personalizacion.put("avatarSelec", retorno.getAvatar());
 			personalizacion.put("cartaSelec", retorno.getAspectoCartas());
 			personalizacion.put("tableroSelec", retorno.getAspectoTablero());

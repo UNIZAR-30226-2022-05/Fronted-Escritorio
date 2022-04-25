@@ -21,18 +21,11 @@ public class NotificacionesController implements Initializable{
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 
-    @FXML
-    private Label labelError;
-
-    @FXML
-    private GridPane listaInvitacionesSala;
-
-    @FXML
-    private GridPane listaEnviadas;
-
-    @FXML
-    private GridPane listaRecibidas;
-
+    @FXML private Label labelError;
+    @FXML private GridPane listaInvitacionesSala;
+    @FXML private GridPane listaEnviadas;
+    @FXML private GridPane listaRecibidas;
+    
     @FXML
     void goBack(ActionEvent event) {
     	App.setRoot("principal");
@@ -58,9 +51,9 @@ public class NotificacionesController implements Initializable{
     	if(enviadas.isExpirado()) {
     		if(DEBUG) System.out.println("La sesión ha expirado.");
 			labelError.setText("La sesión ha expirado.");
-    	} else if (!enviadas.getError().equals(null)) {
-    		if(DEBUG) System.out.println("Ha sucedido el siguiente error: " + StringUtils.parseString(enviadas.getError()));
-			labelError.setText("Ha sucedido el siguiente error: " + StringUtils.parseString(enviadas.getError()));
+    	} else if (!enviadas.getError().equals("null")) {
+    		if(DEBUG) System.out.println("Error en peticiones Enviadas: " + StringUtils.parseString(enviadas.getError()));
+			labelError.setText("Error en peticiones Enviadas: " + StringUtils.parseString(enviadas.getError()));
     	} else {
     		for (UsuarioVO enviada : enviadas.getUsuarios()) {
     			try {
@@ -92,9 +85,9 @@ public class NotificacionesController implements Initializable{
     	if(recibidas.isExpirado()) {
     		if(DEBUG) System.out.println("La sesión ha expirado.");
 			labelError.setText("La sesión ha expirado.");
-    	} else if (!recibidas.getError().equals(null)) {
-    		if(DEBUG) System.out.println("Ha sucedido el siguiente error: " + StringUtils.parseString(recibidas.getError()));
-			labelError.setText("Ha sucedido el siguiente error: " + StringUtils.parseString(recibidas.getError()));
+    	} else if (recibidas.getError().equals("null")) {
+    		if(DEBUG) System.out.println("Error en peticiones Recibidas: " + StringUtils.parseString(recibidas.getError()));
+			labelError.setText("Error en peticiones Recibidas: " + StringUtils.parseString(recibidas.getError()));
     	} else {
     		for (UsuarioVO recibida : recibidas.getUsuarios()) {
     			try {

@@ -35,21 +35,17 @@ public class HistorialController implements Initializable{
 		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
 		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
 	}
+
+	public static UsuarioVO usuario;
+	
+    @FXML private ImageView icono;
+    @FXML private GridPane listaPartidas;
+    @FXML private Label nombre;
+    @FXML private Label pGanadas;
+    @FXML private Label pJugadas;
+    @FXML private Label puntos;
     
-    @FXML
-    private ImageView icono;
-    @FXML
-    private Label labelError;
-    @FXML
-    private GridPane listaPartidas;
-    @FXML
-    private Label nombre;
-    @FXML
-    private Label pGanadas;
-    @FXML
-    private Label pJugadas;
-    @FXML
-    private Label puntos;
+    @FXML private Label labelError;
     
     @FXML
     void goBack(ActionEvent event) {
@@ -63,17 +59,6 @@ public class HistorialController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//BUSCAR DATOS DE MI USUARIO
-		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
-		apirest.addParameter("sesionID", App.getSessionID());
-		apirest.setOnError(e -> {
-			if (DEBUG) System.out.println(e);
-			labelError.setText(StringUtils.parseString(e.toString()));
-		});
-		apirest.openConnection();
-		UsuarioVO usuario = apirest.receiveObject(UsuarioVO.class);
-		if (DEBUG) System.out.println("Tu ID de usuario es: " + usuario.getId());
-		
 		//PONER LA IMAGEN ADECUADA
 		icono.setImage(avatares.get(usuario.getAvatar()));
 
@@ -84,7 +69,7 @@ public class HistorialController implements Initializable{
     	puntos.setText("Puntos: " + Integer.toString(usuario.getPuntos()));
     	
     	//BUSCAR DATOS DEL HISTORIAL DE PARTIDAS
-    	apirest = new RestAPI("/api/sacarPartidasJugadas");
+    	RestAPI apirest = new RestAPI("/api/sacarPartidasJugadas");
 		apirest.addParameter("sesionID", App.getSessionID());
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
@@ -93,7 +78,7 @@ public class HistorialController implements Initializable{
 		
 		//COMPROBAR SI HA HABIDO ALGÚN ERROR
 		String error = partidas.getError();
-		if (error.equals("null")) {
+		if (error != null) {
 			
 			for (PartidaJugada partida : partidas.getPartidas()) {
 				try {

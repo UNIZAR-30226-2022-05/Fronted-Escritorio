@@ -49,14 +49,14 @@
          <children>
             <VBox alignment="CENTER" minWidth="-Infinity" prefWidth="350.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="listaEnviadas" text="Peticiones Enviadas" textFill="WHITE">
+                  <Label text="Peticiones Enviadas" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
                   <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" VBox.vgrow="ALWAYS">
                      <content>
-                        <GridPane fx:id="listaSolicitudes" vgap="5.0">
+                        <GridPane fx:id="listaEnviadas" vgap="5.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
                            </columnConstraints>
@@ -73,14 +73,14 @@
             </VBox>
             <VBox alignment="CENTER" minWidth="-Infinity" prefWidth="350.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="listaRecibidas" text="Peticiones Recibidas" textFill="WHITE">
+                  <Label text="Peticiones Recibidas" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
                   <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" VBox.vgrow="ALWAYS">
                      <content>
-                        <GridPane fx:id="listaPeticiones" vgap="5.0">
+                        <GridPane fx:id="listaRecibidas" vgap="5.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
                            </columnConstraints>
