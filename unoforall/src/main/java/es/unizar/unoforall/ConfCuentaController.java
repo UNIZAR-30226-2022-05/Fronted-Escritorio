@@ -60,14 +60,14 @@ public class ConfCuentaController implements Initializable {
 		fondo.setBackground(
 			new Background(
 				new BackgroundImage(
-						fondos.get(App.getPersonalizacion().get("tableroSelec")),
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundPosition.CENTER,
-						BackgroundSize.DEFAULT
-					)
+					fondos.get(App.getPersonalizacion().get("tableroSelec")),
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundPosition.CENTER,
+					BackgroundSize.DEFAULT
 				)
-			);
+			)
+		);
 		
 		//CONFIGURACION DE EFECTO DE HOVER
 		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {

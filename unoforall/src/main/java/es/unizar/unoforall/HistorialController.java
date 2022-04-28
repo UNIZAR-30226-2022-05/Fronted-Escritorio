@@ -81,14 +81,14 @@ public class HistorialController implements Initializable{
 		fondo.setBackground(
 			new Background(
 				new BackgroundImage(
-						fondos.get(App.getPersonalizacion().get("tableroSelec")),
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundPosition.CENTER,
-						BackgroundSize.DEFAULT
-					)
+					fondos.get(App.getPersonalizacion().get("tableroSelec")),
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundPosition.CENTER,
+					BackgroundSize.DEFAULT
 				)
-			);
+			)
+		);
 		
 		//PONER LA IMAGEN ADECUADA
 		icono.setImage(avatares.get(usuario.getAvatar()));

@@ -11,11 +11,13 @@ import es.unizar.unoforall.model.ListaUsuarios;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -65,14 +67,32 @@ public class AmigosController implements Initializable{
 		fondo.setBackground(
 			new Background(
 				new BackgroundImage(
-						fondos.get(App.getPersonalizacion().get("tableroSelec")),
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundPosition.CENTER,
-						BackgroundSize.DEFAULT
-					)
+					fondos.get(App.getPersonalizacion().get("tableroSelec")),
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundPosition.CENTER,
+					BackgroundSize.DEFAULT
 				)
-			);
+			)
+		);
+
+		//CONFIGURACION DE EFECTO DE HOVER
+		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(124);
+				imgMenu.setFitHeight(110);
+				imgMenu.setEffect(new Glow(0.3));
+			}
+		});;
+		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(114);
+				imgMenu.setFitHeight(100);
+				imgMenu.setEffect(null);
+			}
+		});;
 		
 		//BUSCAR AMIGOS
 		String sesionID = App.getSessionID();
@@ -175,7 +195,10 @@ public class AmigosController implements Initializable{
     	        	AmigoItemController amigoItemController = fxmlLoader.getController();
     	        	
     	        	//VERIFICAR SI ES AMIGO O NO
-    	        	boolean esAmigo = listaAmigosLocal.contains(usuario);
+    	        	boolean esAmigo = false;
+    	        	for (UsuarioVO u : listaAmigosLocal) {
+    	        		esAmigo |= u.getCorreo().equals(usuario.getCorreo());
+    	        	}
     	        	
     	        	amigoItemController.setData(usuario, esAmigo);
     	        	

@@ -57,9 +57,6 @@ public class PeticionItemController {
 
     @FXML
     void aceptar(ActionEvent event) {
-    	botonAceptar.setDisable(true); //Para no permitir pretar antes de procesar la acción
-    	botonAceptar.setText("Aceptando...");
-		
 		//ACEPTAR PETICION DE AMISTAD
 		RestAPI apirest = new RestAPI("/api/aceptarPeticionAmistad");
 		apirest.addParameter("sesionID", App.getSessionID());
@@ -72,17 +69,13 @@ public class PeticionItemController {
 		if (error != null) {
 			if(DEBUG) System.out.println("error: " + error);
 		} else {
-			//ELIMINAR DE PETICIONES RECIBIDAS
+			//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
+			App.setRoot("notificaciones");
 		}
-		
-		botonAceptar.setDisable(false); //Una vez recibida respuesta el botón sigue activo
     }
 
     @FXML
     void cancelar(ActionEvent event) {
-    	botonCancelar.setDisable(true); //Para no permitir pretar antes de procesar la acción
-		botonCancelar.setText("Cancelando...");
-		
 		//CANCELAR PETICION
 		RestAPI apirest = new RestAPI("/api/cancelarPeticionAmistad");
 		apirest.addParameter("sesionID", App.getSessionID());
@@ -95,10 +88,9 @@ public class PeticionItemController {
 		if (error != null) {
 			if(DEBUG) System.out.println("error: " + error);
 		} else {
-			//ELIMINAR DE PETICIONES RECIBIDAS
+			//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
+			App.setRoot("notificaciones");
 		}
-		
-    	botonCancelar.setDisable(false); //Una vez recibida respuesta el botón sigue activo
     }
 
 }

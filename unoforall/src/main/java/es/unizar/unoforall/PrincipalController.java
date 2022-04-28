@@ -56,14 +56,14 @@ public class PrincipalController implements Initializable {
 		fondo.setBackground(
 			new Background(
 				new BackgroundImage(
-						fondos.get(App.getPersonalizacion().get("tableroSelec")),
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundRepeat.NO_REPEAT,
-						BackgroundPosition.CENTER,
-						BackgroundSize.DEFAULT
-					)
+					fondos.get(App.getPersonalizacion().get("tableroSelec")),
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundPosition.CENTER,
+					BackgroundSize.DEFAULT
 				)
-			);
+			)
+		);
 		
 		//CONFIGURAR HOVER DE OBJETOS
 		btnCrearSala.setOnMouseEntered(new EventHandler<MouseEvent>() {

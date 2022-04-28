@@ -108,15 +108,63 @@ public class App extends Application {
     
     public static void activarNotificaciones() {
     	apiweb.subscribe("/topic/notifAmistad/" + respLogin.getUsuarioID(), UsuarioVO.class, remitente -> {
-    		gestionarInvitacionAmigo(remitente);
+    		if (remitente != null) {
+        		gestionarInvitacionAmigo(remitente);
+    		}
     	});
     	apiweb.subscribe("/topic/notifSala/" + respLogin.getUsuarioID(), NotificacionSala.class, notif -> {
-    		gestionarInvitacionSala(notif);
+    		if (notif != null) {
+        		gestionarInvitacionSala(notif);
+    		}
     	});
     }
     
     private static void gestionarInvitacionAmigo(UsuarioVO remitente) {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Solicitud de amistad");
+    	alert.setHeaderText(remitente.getNombre() + " te ha enviado una solicitud de amistad");
+    	alert.setContentText("Puedes aceptar pulsando ACEPTAR o rechazar pulsando CANCELAR");
+
     	if (DEBUG) System.out.println("Solicitud recibida de: " + remitente);
+    	
+    	ButtonType respuesta = alert.showAndWait().get();
+    	if (respuesta == ButtonType.OK) {
+
+    		//ACEPTAR PETICION DE AMISTAD
+    		RestAPI apirest = new RestAPI("/api/aceptarPeticionAmistad");
+    		apirest.addParameter("sesionID", App.getSessionID());
+    		apirest.addParameter("amigo", remitente.getId());
+    		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
+    		
+    		apirest.openConnection();
+    		
+    		String error = apirest.receiveObject(String.class);
+    		if (error != null) {
+    			if(DEBUG) System.out.println("error: " + error);
+    		}
+    		
+    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
+    		
+    	} else if (respuesta == ButtonType.CANCEL) {
+    		
+    		//CANCELAR PETICION
+    		RestAPI apirest = new RestAPI("/api/cancelarPeticionAmistad");
+    		apirest.addParameter("sesionID", App.getSessionID());
+    		apirest.addParameter("amigo", remitente.getId());
+    		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
+    		
+    		apirest.openConnection();
+    		
+    		String error = apirest.receiveObject(String.class);
+    		if (error != null) {
+    			if(DEBUG) System.out.println("error: " + error);
+    		}
+    		
+    		if (DEBUG) System.out.println("Has rechazado la solicitud.");
+    		
+    	} else {
+    		if (DEBUG) System.out.println("La solicitud se ha enviado al menú de notificaciones.");
+    	}
     }
     
     private static void gestionarInvitacionSala(NotificacionSala notif) {

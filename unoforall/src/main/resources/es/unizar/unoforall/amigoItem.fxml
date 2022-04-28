@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="1240.0" style="-fx-background-radius: 10;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.AmigoItemController">
+<HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="1150.0" style="-fx-background-radius: 10;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.AmigoItemController">
    <children>
       <ImageView fx:id="icono" fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
          <image>
@@ -20,22 +20,22 @@
       </ImageView>
       <Label fx:id="nombre" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="200.0" text="Nombre" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
       <Label fx:id="pJugadas" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="244.0" text="Partidas Jugadas: X" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
       <Label fx:id="pGanadas" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="239.0" text="Partidas Ganadas: X" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
       <Label fx:id="puntos" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="163.0" text="Puntos: X" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
       <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#verHistorial" prefWidth="150.0" text="Ver Historial">
@@ -46,12 +46,12 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </HBox.margin>
       </Button>
-      <Button fx:id="botonHacerAmigo" minWidth="-Infinity" mnemonicParsing="false" onAction="#hacerAmigo" prefWidth="150.0" text="Hacer Amigo" HBox.hgrow="ALWAYS">
+      <Button fx:id="botonHacerAmigo" minWidth="-Infinity" mnemonicParsing="false" onAction="#hacerAmigo" prefWidth="250.0" text="Hacer Amigo" HBox.hgrow="ALWAYS">
          <font>
             <Font size="20.0" />
          </font>
          <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
          </HBox.margin>
       </Button>
    </children>
