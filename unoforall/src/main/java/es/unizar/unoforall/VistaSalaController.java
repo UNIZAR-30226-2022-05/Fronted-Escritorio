@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.model.ListaUsuarios;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.StringUtils;
@@ -16,6 +18,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,6 +44,8 @@ public class VistaSalaController implements Initializable {
 	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
 	private static Image notready = new Image(VistaSalaController.class.getResourceAsStream("images/notready.png"));
+
+	@FXML private Button botonAbandonar;
 	@FXML private Button botonListo;
 
 	@FXML private HBox caja1;
@@ -63,6 +68,12 @@ public class VistaSalaController implements Initializable {
 	@FXML private ImageView rdyIconJug4;
 	@FXML private Label nomJug4;
 	
+	@FXML private ChoiceBox<String> amigosChoiceBox;
+	private ArrayList<String> nombresAmigos = new ArrayList<String>();
+	private ArrayList<UsuarioVO> listaAmigos = new ArrayList<UsuarioVO>();
+	
+	private Sala sala;
+	
 //	Por defecto deDondeVengo es la pantalla principal
 //	para evitar posibles errores en ejecución
 	public static String deDondeVengo = "principal";
@@ -72,9 +83,50 @@ public class VistaSalaController implements Initializable {
 		UUID salaID = App.getSalaID();
 		App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> actualizarSala(s, salaID));
 		App.apiweb.sendObject("/app/salas/unirse/" + salaID, "vacio");
+		
+		//BUSCAR AMIGOS
+		String sesionID = App.getSessionID();
+		
+		RestAPI apirest = new RestAPI("/api/sacarAmigos");
+		apirest.addParameter("sesionID", sesionID);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+    	
+		apirest.openConnection();
+		ListaUsuarios usuarios = apirest.receiveObject(ListaUsuarios.class);
+		
+		//COMPROBAR SI HA HABIDO ALGÚN ERROR
+		String error = usuarios.getError();
+		if (error.equals("null")) {
+			
+			for (UsuarioVO usuario : usuarios.getUsuarios()) {
+				listaAmigos.add(usuario);
+				nombresAmigos.add(usuario.getNombre());
+				
+    			if (DEBUG) System.out.println("amigo encontrado:" + usuario.getCorreo());
+			}
+			
+		} else {
+			labelError.setText(StringUtils.parseString(error));
+			if (DEBUG) System.out.println(StringUtils.parseString(error));
+		}
+		
+		//ACTUALIZAR LISTA DE AMIGOS PARA INVITAR
+		amigosChoiceBox.getItems().add("Invitar amigos");
+		amigosChoiceBox.getSelectionModel().selectFirst();
+		amigosChoiceBox.getItems().addAll(nombresAmigos);
+		amigosChoiceBox.setOnAction(this::invitarAmigo);
+	}
+	
+	@FXML
+	public void invitarAmigo(ActionEvent event) {
+		Integer idx = amigosChoiceBox.getSelectionModel().getSelectedIndex();
+		if (idx != 0 && sala.getParticipantes().size() < sala.getConfiguracion().getMaxParticipantes()) {
+			App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(idx-1).getId(), App.getSalaID());
+		}
 	}
 	
 	private void actualizarSala(Sala s, UUID salaID) {
+		sala = s;
 		labelError.setText("");
 		if (s.isNoExiste()) {
 			labelError.setText(StringUtils.parseString(s.getError()));

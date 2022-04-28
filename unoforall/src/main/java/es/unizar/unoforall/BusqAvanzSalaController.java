@@ -15,7 +15,7 @@ import javafx.scene.layout.GridPane;
 
 public class BusqAvanzSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	//	private static final boolean DEBUG = true;
 	
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
 	private static final String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas" };

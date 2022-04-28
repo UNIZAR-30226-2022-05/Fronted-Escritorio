@@ -29,7 +29,8 @@ public class WebSocketAPI {
     private final Object LOCK = new Object();
     
     private final Map<String, Type> receptores;
-    private final Map<String, Consumer> consumidores;
+    @SuppressWarnings("rawtypes")
+	private final Map<String, Consumer> consumidores;
     
     private final Map<String, Subscription> suscripciones;
     private WebSocketStompClient client;
@@ -78,6 +79,7 @@ public class WebSocketAPI {
 			public Type getPayloadType(StompHeaders headers) {
 				return String.class;
 			}
+			@SuppressWarnings("unchecked")
 			@Override
 			public void handleException(StompSession session, StompCommand command, StompHeaders headers,
 					byte[] payload, Throwable exception) {				
@@ -86,6 +88,7 @@ public class WebSocketAPI {
 					String topic = headers.getDestination();
 					
 					Type tipo = receptores.get(topic);
+					@SuppressWarnings("rawtypes")
 					Consumer consumidor = consumidores.get(topic);
 					
 					Object objeto = Serializar.deserializar(message, tipo);

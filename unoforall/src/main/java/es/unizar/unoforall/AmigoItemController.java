@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 
 public class AmigoItemController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	//	private static final boolean DEBUG = true;
 	
 	private UsuarioVO usuario;
 

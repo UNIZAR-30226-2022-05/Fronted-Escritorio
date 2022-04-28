@@ -2,12 +2,9 @@ package es.unizar.unoforall.api;
 
 import com.google.gson.Gson;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 
 public class Serializar {
     private static final boolean DEBUG = false;
@@ -20,7 +17,8 @@ public class Serializar {
         }
     }
 
-    public static <T> T deserializar(String mensaje, Type expectedClass){
+    @SuppressWarnings("unchecked")
+	public static <T> T deserializar(String mensaje, Type expectedClass){
         if(DEBUG){
             System.out.println("Mensaje recibido: " + mensaje);
         }

@@ -168,7 +168,26 @@ public class App extends Application {
     }
     
     private static void gestionarInvitacionSala(NotificacionSala notif) {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Solicitud de amistad");
+    	alert.setHeaderText(notif.getRemitente().getNombre() + " te ha invitado a una sala");
+    	alert.setContentText("Puedes aceptar pulsando ACEPTAR o rechazar pulsando CANCELAR");
+
     	if (DEBUG) System.out.println("Invitación de: " + notif.getRemitente() + " a la sala " + notif.getSalaID());
+    	
+    	ButtonType respuesta = alert.showAndWait().get();
+    	if (respuesta == ButtonType.OK) {
+    		
+    		//UNIRSE A LA SALA
+			App.setSalaID(notif.getSalaID());
+		    VistaSalaController.deDondeVengo = "crearSala";
+	    	App.setRoot("vistaSala");
+	    	
+    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
+    		
+    	} else if (respuesta == ButtonType.CANCEL) {
+    		if (DEBUG) System.out.println("Has rechazado la invitación");
+    	}
     }
     
     static void setRoot(String fxml) {
