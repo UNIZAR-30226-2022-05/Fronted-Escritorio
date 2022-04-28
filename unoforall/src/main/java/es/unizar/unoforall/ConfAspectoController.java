@@ -68,16 +68,16 @@ public class ConfAspectoController implements Initializable {
 		
 		//PONER EL FONDO CORRESPONDIENTE
 		fondo.setBackground(
-				new Background(
-					new BackgroundImage(
-							fondos.get(tableroSelec),
-							BackgroundRepeat.NO_REPEAT,
-							BackgroundRepeat.NO_REPEAT,
-							BackgroundPosition.CENTER,
-							BackgroundSize.DEFAULT
-						)
+			new Background(
+				new BackgroundImage(
+						fondos.get(tableroSelec),
+						BackgroundRepeat.NO_REPEAT,
+						BackgroundRepeat.NO_REPEAT,
+						BackgroundPosition.CENTER,
+						BackgroundSize.DEFAULT
 					)
-				);
+				)
+			);
 
 		DropShadow dropShadow = new DropShadow();
 		dropShadow.setColor(Color.ALICEBLUE);
