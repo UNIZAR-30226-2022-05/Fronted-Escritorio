@@ -3,7 +3,9 @@ package es.unizar.unoforall;
 import java.text.DateFormat;
 import java.util.HashMap;
 
+import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.HaJugadoVO;
+import es.unizar.unoforall.model.partidas.Participante;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -66,11 +68,13 @@ public class PartidaItemController {
 		
 		//1ero
 		boolean humanoAsignado = false;
-		for (HaJugadoVO jug : partida.getParticipantes()) {
+		for (Participante part : partida.getParticipantes()) {
+			HaJugadoVO jug = part.getDatosPartida();
+			UsuarioVO usr = part.getUsuario();
 			if (jug.getUsrsDebajo() == restantes - 1) {
 				//ASIGNAR HUMANO
-				nomJug1.setText(jug.getUsuario().toString());
-				iconoJug1.setImage(avatares.get(1));
+				nomJug1.setText(usr.getNombre());
+				iconoJug1.setImage(avatares.get(usr.getAvatar()));
 				humanoAsignado = true;
 				break;
 			}
@@ -85,11 +89,13 @@ public class PartidaItemController {
 		
 		//2do
 		humanoAsignado = false;
-		for (HaJugadoVO jug : partida.getParticipantes()) {
+		for (Participante part : partida.getParticipantes()) {
+			HaJugadoVO jug = part.getDatosPartida();
+			UsuarioVO usr = part.getUsuario();
 			if (jug.getUsrsDebajo() == restantes - 1) {
 				//ASIGNAR HUMANO
-				nomJug2.setText(jug.getUsuario().toString());
-				iconoJug2.setImage(avatares.get(2));
+				nomJug2.setText(usr.getNombre());
+				iconoJug2.setImage(avatares.get(usr.getAvatar()));
 				humanoAsignado = true;
 				break;
 			}
@@ -104,11 +110,13 @@ public class PartidaItemController {
 		//3ero
 		if (restantes > 0) {
 			humanoAsignado = false;
-			for (HaJugadoVO jug : partida.getParticipantes()) {
+			for (Participante part : partida.getParticipantes()) {
+				HaJugadoVO jug = part.getDatosPartida();
+				UsuarioVO usr = part.getUsuario();
 				if (jug.getUsrsDebajo() == restantes - 1) {
 					//ASIGNAR HUMANO
-					nomJug3.setText(jug.getUsuario().toString());
-					iconoJug3.setImage(avatares.get(3));
+					nomJug3.setText(usr.getNombre());
+					iconoJug3.setImage(avatares.get(usr.getAvatar()));
 					humanoAsignado = true;
 					break;
 				}
@@ -128,11 +136,13 @@ public class PartidaItemController {
 		//4o
 		if (restantes > 0) {
 			humanoAsignado = false;
-			for (HaJugadoVO jug : partida.getParticipantes()) {
+			for (Participante part : partida.getParticipantes()) {
+				HaJugadoVO jug = part.getDatosPartida();
+				UsuarioVO usr = part.getUsuario();
 				if (jug.getUsrsDebajo() == restantes - 1) {
 					//ASIGNAR HUMANO
-					nomJug4.setText(jug.getUsuario().toString());
-					iconoJug4.setImage(avatares.get(4));
+					nomJug4.setText(usr.getNombre());
+					iconoJug4.setImage(avatares.get(usr.getAvatar()));
 					humanoAsignado = true;
 					break;
 				}

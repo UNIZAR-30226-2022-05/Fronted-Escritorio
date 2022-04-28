@@ -37,7 +37,7 @@ public class Partida {
 	private boolean repeticionTurno = false;
 	
 	private static final Object LOCK = new Object();
-	private static final int MAX_ROBO_ATTACK = 10;
+	private static final int MAX_ROBO_ATTACK = 5;
 	
 	private UUID salaID = null;	
 	
@@ -81,39 +81,39 @@ public class Partida {
 		//Mazo
 		this.mazo = new LinkedList<>();
 		
-//		for(Carta.Color color : Carta.Color.values()) {
-//			if (color != Carta.Color.comodin) {
-//				for(Carta.Tipo tipo : Carta.Tipo.values()) {
-//					if (tipo.equals(Carta.Tipo.n0)) {
-//						this.mazo.add(new Carta(tipo,color));
-//					} else if (compruebaIncluirMazo(tipo)) {	//dos veces
-//						this.mazo.add(new Carta(tipo,color));
-//						this.mazo.add(new Carta(tipo,color));
-//					}
-//				}
-//			} else {
-//				for(int i = 0; i < 4; i++) {
-//					this.mazo.add(new Carta(Carta.Tipo.cambioColor,Carta.Color.comodin));
-//					this.mazo.add(new Carta(Carta.Tipo.mas4,Carta.Color.comodin));
-//				}
-//			}
-//		}
-		
-		List<Carta> listaCartasBaraja = new ArrayList<>();
-		listaCartasBaraja.add(new Carta(Carta.Tipo.cambioColor, Carta.Color.comodin));
-		listaCartasBaraja.add(new Carta(Carta.Tipo.mas4, Carta.Color.comodin));
-		listaCartasBaraja.add(new Carta(Carta.Tipo.n1, Carta.Color.rojo));
-		listaCartasBaraja.add(new Carta(Carta.Tipo.n2, Carta.Color.rojo));
-		listaCartasBaraja.add(new Carta(Carta.Tipo.n3, Carta.Color.rojo));
-		listaCartasBaraja.add(new Carta(Carta.Tipo.mas2, Carta.Color.rojo));
-		listaCartasBaraja.add(new Carta(Carta.Tipo.reversa, Carta.Color.rojo));
-		
-		for (Carta c : listaCartasBaraja) {
-			for(int i = 0; i < 20; i++) {
-				this.mazo.add(c.clone());
+		for(Carta.Color color : Carta.Color.values()) {
+			if (color != Carta.Color.comodin) {
+				for(Carta.Tipo tipo : Carta.Tipo.values()) {
+					if (tipo.equals(Carta.Tipo.n0)) {
+						this.mazo.add(new Carta(tipo,color));
+					} else if (compruebaIncluirMazo(tipo)) {	//dos veces
+						this.mazo.add(new Carta(tipo,color));
+						this.mazo.add(new Carta(tipo,color));
+					}
+				}
+			} else {
+				for(int i = 0; i < 4; i++) {
+					this.mazo.add(new Carta(Carta.Tipo.cambioColor,Carta.Color.comodin));
+					this.mazo.add(new Carta(Carta.Tipo.mas4,Carta.Color.comodin));
+				}
 			}
 		}
 		
+//		List<Carta> listaCartasBaraja = new ArrayList<>();
+//		listaCartasBaraja.add(new Carta(Carta.Tipo.cambioColor, Carta.Color.comodin));
+//		listaCartasBaraja.add(new Carta(Carta.Tipo.mas4, Carta.Color.comodin));
+//		listaCartasBaraja.add(new Carta(Carta.Tipo.n1, Carta.Color.rojo));
+//		listaCartasBaraja.add(new Carta(Carta.Tipo.n2, Carta.Color.rojo));
+//		listaCartasBaraja.add(new Carta(Carta.Tipo.n3, Carta.Color.rojo));
+//		listaCartasBaraja.add(new Carta(Carta.Tipo.mas2, Carta.Color.rojo));
+//		listaCartasBaraja.add(new Carta(Carta.Tipo.reversa, Carta.Color.rojo));
+//		
+//		for (Carta c : listaCartasBaraja) {
+//			for(int i = 0; i < 20; i++) {
+//				this.mazo.add(c.clone());
+//			}
+//		}
+//		
 		
 		Collections.shuffle(this.mazo); 
 		
@@ -445,10 +445,13 @@ public class Partida {
 				}
 				roboAcumulado=0;
 			} else if (configuracion.getModoJuego().equals(ConfigSala.ModoJuego.Attack)) {
-					int random_robo = (int)Math.floor(Math.random()*(MAX_ROBO_ATTACK)+1);
-					for (int i = 0; i < random_robo; i++) {
-						this.jugadores.get(turno).getMano().add(robarCarta());
-					}
+				int random_robo = new Random().nextInt(MAX_ROBO_ATTACK)+1;
+				if (this.jugadores.get(turno).getMano().size() + random_robo > 20) {
+					random_robo = 20 - this.jugadores.get(turno).getMano().size();
+				}
+				for (int i = 0; i < random_robo; i++) {
+					this.jugadores.get(turno).getMano().add(robarCarta());
+				}
 			} else { //FUNCIONA
 				this.cartaRobada = robarCarta(); //No se usaba la variable global, se usaba una local
 				this.jugadores.get(turno).getMano().add(cartaRobada);
@@ -533,6 +536,10 @@ public class Partida {
 							listaCartas.add(c);
 							jugadaIA.setCartas(listaCartas);
 							jugadaIA.setRobar(false);
+							
+							if (c.esDelColor(Carta.Color.comodin)) {
+								cambiarColorAleatorioIA(c);
+							}
 							break;
 						}
 					}
@@ -631,6 +638,7 @@ public class Partida {
 	
 	
 	public void pulsarBotonUNO(UUID jugadorID) { 
+		repeticionTurno = false;
 		for (int indice = 0; indice < jugadores.size(); indice++) {
 			if (jugadores.get(indice).getJugadorID() != null && 
 					jugadores.get(indice).getJugadorID().equals(jugadorID)) {
