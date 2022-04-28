@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.CrearSalaController">
+<VBox fx:id="fondo" alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.CrearSalaController">
    <children>
-      <HBox alignment="CENTER" prefWidth="1240.0" VBox.vgrow="ALWAYS">
+      <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="180.0" prefWidth="1240.0" VBox.vgrow="NEVER">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="162.0">
+            <VBox alignment="TOP_CENTER" prefWidth="162.0">
                <children>
                   <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="160.0" style="-fx-border-color: black; -fx-border-radius: 20; -fx-background-radius: 20;" text="⇦ Atrás">
                      <font>
@@ -29,64 +29,64 @@
                   </Button>
                </children>
             </VBox>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
+            <Pane prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="imgMenu" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logoUno.png" />
                </image>
             </ImageView>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="162.0" />
+            <Pane prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <VBox alignment="TOP_CENTER" prefWidth="162.0" />
          </children>
       </HBox>
-      <Label fx:id="labelError" alignment="CENTER" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="labelError" alignment="CENTER" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="RED" VBox.vgrow="NEVER">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <children>
-            <GridPane alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" HBox.hgrow="NEVER">
+            <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Participantes">
+                  <Label text="Participantes" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Tipo de Sala" GridPane.rowIndex="1">
+                  <Label text="Tipo de Sala" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="RayosX" GridPane.rowIndex="2">
+                  <Label text="RayosX" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Intercambio" GridPane.rowIndex="3">
+                  <Label text="Intercambio" textFill="WHITE" GridPane.rowIndex="3">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="X2" GridPane.rowIndex="4">
+                  <Label text="X2" textFill="WHITE" GridPane.rowIndex="4">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="part2" mnemonicParsing="false" onAction="#selectNumParticip" text="2">
+                        <RadioButton fx:id="part2" mnemonicParsing="false" onAction="#selectNumParticip" text="2" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -97,7 +97,7 @@
                               <ToggleGroup fx:id="Participantes" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="part3" mnemonicParsing="false" onAction="#selectNumParticip" text="3" toggleGroup="$Participantes">
+                        <RadioButton fx:id="part3" mnemonicParsing="false" onAction="#selectNumParticip" text="3" textFill="WHITE" toggleGroup="$Participantes" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -105,7 +105,7 @@
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="part4" mnemonicParsing="false" onAction="#selectNumParticip" selected="true" text="4" toggleGroup="$Participantes">
+                        <RadioButton fx:id="part4" mnemonicParsing="false" onAction="#selectNumParticip" selected="true" text="4" textFill="WHITE" toggleGroup="$Participantes" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -118,9 +118,9 @@
                         <Insets />
                      </opaqueInsets>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="publica" mnemonicParsing="false" onAction="#selectTipoSala" selected="true" text="Pública">
+                        <RadioButton fx:id="publica" mnemonicParsing="false" onAction="#selectTipoSala" selected="true" text="Pública" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -131,7 +131,7 @@
                               <ToggleGroup fx:id="TipoSala" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="privada" mnemonicParsing="false" onAction="#selectTipoSala" text="Privada" toggleGroup="$TipoSala">
+                        <RadioButton fx:id="privada" mnemonicParsing="false" onAction="#selectTipoSala" text="Privada" textFill="WHITE" toggleGroup="$TipoSala" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -141,9 +141,9 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="rayosXSi" mnemonicParsing="false" onAction="#selectRayosX" text="Si">
+                        <RadioButton fx:id="rayosXSi" mnemonicParsing="false" onAction="#selectRayosX" text="Si" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -154,7 +154,7 @@
                               <ToggleGroup fx:id="RayosX" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rayosXNo" mnemonicParsing="false" onAction="#selectRayosX" selected="true" text="No" toggleGroup="$RayosX">
+                        <RadioButton fx:id="rayosXNo" mnemonicParsing="false" onAction="#selectRayosX" selected="true" text="No" textFill="WHITE" toggleGroup="$RayosX" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -164,9 +164,9 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="3">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="intercambioSi" mnemonicParsing="false" onAction="#selectIntercambio" text="Si">
+                        <RadioButton fx:id="intercambioSi" mnemonicParsing="false" onAction="#selectIntercambio" text="Si" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -177,7 +177,7 @@
                               <ToggleGroup fx:id="Intercambio" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="intercambioNo" mnemonicParsing="false" onAction="#selectIntercambio" selected="true" text="No" toggleGroup="$Intercambio">
+                        <RadioButton fx:id="intercambioNo" mnemonicParsing="false" onAction="#selectIntercambio" selected="true" text="No" textFill="WHITE" toggleGroup="$Intercambio" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -187,9 +187,9 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="4">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="modifX2Si" mnemonicParsing="false" onAction="#selectX2" text="Si">
+                        <RadioButton fx:id="modifX2Si" mnemonicParsing="false" onAction="#selectX2" text="Si" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -200,7 +200,7 @@
                               <ToggleGroup fx:id="X2" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="modifX2No" mnemonicParsing="false" onAction="#selectX2" selected="true" text="No" toggleGroup="$X2">
+                        <RadioButton fx:id="modifX2No" mnemonicParsing="false" onAction="#selectX2" selected="true" text="No" textFill="WHITE" toggleGroup="$X2" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -212,49 +212,49 @@
                   </HBox>
                </children>
             </GridPane>
-            <Pane prefHeight="200.0" prefWidth="200.0" />
-            <GridPane alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" HBox.hgrow="NEVER">
+            <Pane prefWidth="200.0" HBox.hgrow="SOMETIMES" />
+            <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="736.0" minWidth="10.0" prefWidth="479.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Modo de Juego">
+                  <Label text="Modo de Juego" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Encadenar +2 y +4" GridPane.rowIndex="1">
+                  <Label text="Encadenar +2 y +4" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Redirigir +2 y +4" GridPane.rowIndex="2">
+                  <Label text="Redirigir +2 y +4" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Jugar Varias Cartas" GridPane.rowIndex="3">
+                  <Label text="Jugar Varias Cartas" textFill="WHITE" GridPane.rowIndex="3">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Evitar Cartas especiales" GridPane.rowIndex="4">
+                  <Label text="Evitar Cartas especiales" textFill="WHITE" GridPane.rowIndex="4">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
                   <ChoiceBox fx:id="GameModeChoiceBox" prefHeight="40.0" prefWidth="227.0" GridPane.columnIndex="1" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                      <children>
-                        <RadioButton fx:id="encadenarSi" mnemonicParsing="false" onAction="#selectEncadenar" text="Si">
+                        <RadioButton fx:id="encadenarSi" mnemonicParsing="false" onAction="#selectEncadenar" text="Si" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -265,7 +265,7 @@
                               <ToggleGroup fx:id="Encadenar" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="encadenarNo" mnemonicParsing="false" onAction="#selectEncadenar" selected="true" text="No" toggleGroup="$Encadenar">
+                        <RadioButton fx:id="encadenarNo" mnemonicParsing="false" onAction="#selectEncadenar" selected="true" text="No" textFill="WHITE" toggleGroup="$Encadenar" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -275,9 +275,9 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <children>
-                        <RadioButton fx:id="redirigirSi" mnemonicParsing="false" onAction="#selectRedirigir" text="Si">
+                        <RadioButton fx:id="redirigirSi" mnemonicParsing="false" onAction="#selectRedirigir" text="Si" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -288,7 +288,7 @@
                               <ToggleGroup fx:id="Redirigir" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="redirigirNo" mnemonicParsing="false" onAction="#selectRedirigir" selected="true" text="No" toggleGroup="$Redirigir">
+                        <RadioButton fx:id="redirigirNo" mnemonicParsing="false" onAction="#selectRedirigir" selected="true" text="No" textFill="WHITE" toggleGroup="$Redirigir" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -298,9 +298,9 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="3">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
                      <children>
-                        <RadioButton fx:id="jugarVariasSi" mnemonicParsing="false" onAction="#selectJugarVarias" text="Si">
+                        <RadioButton fx:id="jugarVariasSi" mnemonicParsing="false" onAction="#selectJugarVarias" text="Si" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -311,7 +311,7 @@
                               <ToggleGroup fx:id="JugarVarias" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="jugarVariasNo" mnemonicParsing="false" onAction="#selectJugarVarias" selected="true" text="No" toggleGroup="$JugarVarias">
+                        <RadioButton fx:id="jugarVariasNo" mnemonicParsing="false" onAction="#selectJugarVarias" selected="true" text="No" textFill="WHITE" toggleGroup="$JugarVarias" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -321,9 +321,9 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="4">
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4">
                      <children>
-                        <RadioButton fx:id="evitarEspecialesSi" mnemonicParsing="false" onAction="#selectEvitarEspeciales" text="Si">
+                        <RadioButton fx:id="evitarEspecialesSi" mnemonicParsing="false" onAction="#selectEvitarEspeciales" text="Si" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -334,7 +334,7 @@
                               <ToggleGroup fx:id="EvitarEspeciales" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="evitarEspecialesNo" mnemonicParsing="false" onAction="#selectEvitarEspeciales" selected="true" text="No" toggleGroup="$EvitarEspeciales">
+                        <RadioButton fx:id="evitarEspecialesNo" mnemonicParsing="false" onAction="#selectEvitarEspeciales" selected="true" text="No" textFill="WHITE" toggleGroup="$EvitarEspeciales" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -348,12 +348,12 @@
             </GridPane>
          </children>
       </HBox>
-      <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+      <VBox alignment="CENTER" prefHeight="100.0" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="20.0" top="20.0" />
          </VBox.margin>
          <children>
-            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createRoom" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: #60A917; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20;" text="Crear Sala" textFill="WHITE">
+            <Button fx:id="btnCrearSala" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createRoom" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: #60A917; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20;" text="Crear Sala" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
