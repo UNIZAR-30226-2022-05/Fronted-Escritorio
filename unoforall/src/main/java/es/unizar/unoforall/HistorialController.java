@@ -26,7 +26,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class HistorialController implements Initializable{
@@ -115,7 +114,7 @@ public class HistorialController implements Initializable{
 			for (PartidaJugada partida : partidas.getPartidas()) {
 				try {
         	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("partidaItem.fxml"));
-    	        	HBox salaItem = fxmlLoader.load();
+    	        	VBox salaItem = fxmlLoader.load();
     	        	
     	        	//CONFIGURACION DE EFECTO DE HOVER
     	        	salaItem.setOnMouseEntered(new EventHandler<MouseEvent>() {

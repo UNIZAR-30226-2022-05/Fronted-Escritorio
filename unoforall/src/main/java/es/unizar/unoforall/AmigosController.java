@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
@@ -15,20 +16,35 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class AmigosController implements Initializable{
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
-    @FXML
-    private TextField cajaCorreoAmigo;
-    @FXML
-    private Label labelError;
-    @FXML
-    private GridPane listaAmigos;
+	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
+	static {
+		fondos.put(0, new Image(App.class.getResourceAsStream("images/fondos/azul.png")));
+		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
+		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
+	}
+	
+	@FXML private VBox fondo;
+    @FXML private ImageView imgMenu;
+	
+    @FXML private TextField cajaCorreoAmigo;
+    @FXML private Label labelError;
+    @FXML private GridPane listaAmigos;
     
     private ArrayList<UsuarioVO> listaAmigosLocal = new ArrayList<UsuarioVO>();
 
@@ -45,6 +61,19 @@ public class AmigosController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//PONER EL FONDO CORRESPONDIENTE
+		fondo.setBackground(
+			new Background(
+				new BackgroundImage(
+						fondos.get(App.getPersonalizacion().get("tableroSelec")),
+						BackgroundRepeat.NO_REPEAT,
+						BackgroundRepeat.NO_REPEAT,
+						BackgroundPosition.CENTER,
+						BackgroundSize.DEFAULT
+					)
+				)
+			);
+		
 		//BUSCAR AMIGOS
 		String sesionID = App.getSessionID();
 		
@@ -91,13 +120,13 @@ public class AmigosController implements Initializable{
 		//INTRODUCIR LA LISTA LOCAL DE AMIGOS
 		for (UsuarioVO usuario : listaAmigosLocal) {
 			try {
-    	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
-	        	HBox salaItem = fxmlLoader.load();
+    	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("amigoItem.fxml"));
+	        	HBox amigoItem = fxmlLoader.load();
 	        	
 	        	AmigoItemController amigoItemController = fxmlLoader.getController();
 	        	amigoItemController.setData(usuario, true);
 	        	
-    	        listaAmigos.addRow(listaAmigos.getRowCount(), salaItem);
+    	        listaAmigos.addRow(listaAmigos.getRowCount(), amigoItem);
     			
     			if (DEBUG) System.out.println("amigo encontrado:" + usuario.getCorreo());
 			} catch (IOException e) {
