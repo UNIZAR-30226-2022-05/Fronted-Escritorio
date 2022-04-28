@@ -55,12 +55,12 @@ public class SalaItemController {
     	
     	//CONFIGURAR REGLAS ESPECIALES
     	ReglasEspeciales reglas = config.getReglas();
-    	if (reglas.isCartaRayosX()) rayosX.setText("SI"); else rayosX.setText("NO");
-    	if (reglas.isCartaIntercambio()) intercambio.setText("SI"); else intercambio.setText("NO");
-    	if (reglas.isCartaX2()) x2.setText("SI"); else x2.setText("NO");
-    	if (reglas.isEncadenarRoboCartas()) encadenar.setText("SI"); else encadenar.setText("NO");
-    	if (reglas.isRedirigirRoboCartas()) redirigir.setText("SI"); else redirigir.setText("NO");
-    	if (reglas.isJugarVariasCartas()) jugarVarias.setText("SI"); else jugarVarias.setText("NO");
-    	if (reglas.isEvitarEspecialFinal()) evitarEspecial.setText("SI"); else evitarEspecial.setText("NO");
+    	if (reglas.isCartaRayosX()) rayosX.setText("Rayos X: SI"); else rayosX.setText("Rayos X: NO");
+    	if (reglas.isCartaIntercambio()) intercambio.setText("Intercambio: SI"); else intercambio.setText("Intercambio: NO");
+    	if (reglas.isCartaX2()) x2.setText("x2: SI"); else x2.setText("x2: NO");
+    	if (reglas.isEncadenarRoboCartas()) encadenar.setText("Encadenar: SI"); else encadenar.setText("Encadenar: NO");
+    	if (reglas.isRedirigirRoboCartas()) redirigir.setText("Redirigir: SI"); else redirigir.setText("Redirigir: NO");
+    	if (reglas.isJugarVariasCartas()) jugarVarias.setText("Jugar Varias: SI"); else jugarVarias.setText("Jugar Varias: NO");
+    	if (reglas.isEvitarEspecialFinal()) evitarEspecial.setText("Evitar Especiales: SI"); else evitarEspecial.setText("Evitar Especiales: NO");
     }
  }

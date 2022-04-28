@@ -7,55 +7,58 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" maxWidth="1.7976931348623157E308" onMousePressed="#click" prefWidth="1240.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.SalaItemController">
+<HBox alignment="CENTER" maxWidth="1.7976931348623157E308" onMousePressed="#click" spacing="15.0" style="-fx-border-radius: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.SalaItemController">
    <children>
-      <ImageView fx:id="modoJuego" fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+      <ImageView fx:id="modoJuego" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
          <image>
             <Image url="@images/logoUno.png" />
          </image>
          <HBox.margin>
-            <Insets left="20.0" right="20.0" />
+            <Insets />
          </HBox.margin>
       </ImageView>
-      <Label fx:id="tamanno" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="4 Jugadores" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+      <Label fx:id="tamanno" alignment="CENTER" maxWidth="1.7976931348623157E308" text="4 Jugadores" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="intercambio" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="40.0" text="NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+      <Label fx:id="intercambio" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Rayos X: NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="rayosX" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="40.0" text="SI" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+      <Label fx:id="rayosX" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Intercambio: NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="encadenar" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="40.0" text="NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+      <Label fx:id="encadenar" alignment="CENTER" maxWidth="1.7976931348623157E308" text="x2: NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="redirigir" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="40.0" text="SI" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+      <Label fx:id="redirigir" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Encadenar: NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="jugarVarias" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="40.0" text="NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+      <Label fx:id="jugarVarias" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Redirigir: NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="evitarEspecial" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="40.0" text="SI" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+      <Label fx:id="evitarEspecial" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Jugar Varias: NO" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="40.0" text="SI" textAlignment="CENTER" HBox.hgrow="ALWAYS" fx:id="x2">
+      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Evitar Especiales: NO" textAlignment="CENTER" HBox.hgrow="ALWAYS" fx:id="x2">
          <font>
-            <Font size="36.0" />
+            <Font size="16.0" />
          </font>
       </Label>
    </children>
+   <padding>
+      <Insets left="5.0" right="5.0" />
+   </padding>
 </HBox>

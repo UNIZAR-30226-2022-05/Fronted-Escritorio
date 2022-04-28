@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.BuscarSalaController">
+<VBox fx:id="fondo" alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.BuscarSalaController">
    <children>
-      <HBox alignment="CENTER" prefHeight="144.0" prefWidth="1240.0" VBox.vgrow="SOMETIMES">
+      <HBox alignment="CENTER" prefHeight="180.0" prefWidth="1240.0" VBox.vgrow="NEVER">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="162.0">
+            <VBox prefHeight="176.0" prefWidth="162.0">
                <children>
                   <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="160.0" style="-fx-border-color: black; -fx-border-radius: 20; -fx-background-radius: 20;" text="⇦ Atrás">
                      <font>
@@ -29,7 +29,7 @@
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgMenu" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logoUno.png" />
                </image>
@@ -82,81 +82,18 @@
             </Button>
          </children>
       </HBox>
-      <GridPane alignment="CENTER" gridLinesVisible="true" prefHeight="30.0" prefWidth="1183.0" VBox.vgrow="SOMETIMES">
-         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="224.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="181.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="95.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="370.0" minWidth="10.0" prefWidth="137.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="290.0" minWidth="0.0" prefWidth="64.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="347.0" minWidth="10.0" prefWidth="122.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="101.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="143.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="160.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints vgrow="ALWAYS" />
-         </rowConstraints>
-         <children>
-            <Label text="Modo de Juego" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="Tamaño de Sala" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="RayosX" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="Intercambio" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="X2" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="Encadenar" GridPane.columnIndex="5" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="Redirigir" GridPane.columnIndex="6" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="Jugar Varias" GridPane.columnIndex="7" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label text="Evitar Especial" GridPane.columnIndex="8" GridPane.hgrow="ALWAYS">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
-         <VBox.margin>
-            <Insets bottom="5.0" top="10.0" />
-         </VBox.margin>
-      </GridPane>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" VBox.vgrow="ALWAYS">
          <content>
-            <GridPane fx:id="listaSalas" maxWidth="1240.0" vgap="5.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-              </rowConstraints>
+            <GridPane fx:id="listaSalas" vgap="5.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+               </rowConstraints>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </GridPane>
          </content>
       </ScrollPane>

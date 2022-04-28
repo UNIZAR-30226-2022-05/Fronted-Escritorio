@@ -15,19 +15,38 @@ import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class VistaSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 
+	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
+	static {
+		fondos.put(0, new Image(App.class.getResourceAsStream("images/fondos/azul.png")));
+		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
+		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
+	}
+	
+	@FXML private VBox fondo;
+	@FXML private ImageView imgMenu;
+	
 	@FXML private Label labelError;
 	
 	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
@@ -80,6 +99,63 @@ public class VistaSalaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//PONER EL FONDO CORRESPONDIENTE
+		fondo.setBackground(
+			new Background(
+				new BackgroundImage(
+					fondos.get(App.getPersonalizacion().get("tableroSelec")),
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundPosition.CENTER,
+					BackgroundSize.DEFAULT
+				)
+			)
+		);
+		
+		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMAGENES
+		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(210);
+				imgMenu.setFitHeight(160);
+				imgMenu.setEffect(new Glow(0.3));
+			}
+		});;
+		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(200);
+				imgMenu.setFitHeight(150);
+				imgMenu.setEffect(null);
+			}
+		});;
+		
+		botonAbandonar.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				botonAbandonar.setEffect(new Glow(0.3));
+			}
+		});;
+		botonAbandonar.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				botonAbandonar.setEffect(null);
+			}
+		});;
+		
+		botonListo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				botonListo.setEffect(new Glow(0.3));
+			}
+		});;
+		botonListo.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				botonListo.setEffect(null);
+			}
+		});;
+		
 		UUID salaID = App.getSalaID();
 		App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> actualizarSala(s, salaID));
 		App.apiweb.sendObject("/app/salas/unirse/" + salaID, "vacio");

@@ -1,21 +1,43 @@
 package es.unizar.unoforall;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class BusqAvanzSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	//	private static final boolean DEBUG = true;
+
+	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
+	static {
+		fondos.put(0, new Image(App.class.getResourceAsStream("images/fondos/azul.png")));
+		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
+		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
+	}
+	
+	@FXML private VBox fondo;
+	@FXML private ImageView imgMenu;
 	
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
 	private static final String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas" };
@@ -66,6 +88,37 @@ public class BusqAvanzSalaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		//PONER EL FONDO CORRESPONDIENTE
+		fondo.setBackground(
+			new Background(
+				new BackgroundImage(
+					fondos.get(App.getPersonalizacion().get("tableroSelec")),
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundRepeat.NO_REPEAT,
+					BackgroundPosition.CENTER,
+					BackgroundSize.DEFAULT
+				)
+			)
+		);
+
+		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMAGENES
+		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(210);
+				imgMenu.setFitHeight(160);
+				imgMenu.setEffect(new Glow(0.3));
+			}
+		});;
+		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(200);
+				imgMenu.setFitHeight(150);
+				imgMenu.setEffect(null);
+			}
+		});;
+		
 		partTodos.setSelected(maxParticipantes==-1);
 		part2.setSelected(maxParticipantes==2);
 		part3.setSelected(maxParticipantes==3);
