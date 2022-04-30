@@ -7,14 +7,21 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 
 public class Serializar {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     public static <T> String serializar(T dato){
+        String mensaje;
         if(dato instanceof String){
-            return (String) dato;
+            mensaje = (String) dato;
         }else{
-            return new Gson().toJson(dato);
+            mensaje = new Gson().toJson(dato);
         }
+
+        if(DEBUG){
+            System.out.println("Mensaje enviado: " + mensaje);
+        }
+
+        return mensaje;
     }
 
     @SuppressWarnings("unchecked")
@@ -45,4 +52,5 @@ public class Serializar {
         String mensaje = mensajeBuilder.toString();
         return deserializar(mensaje, expectedClass);
     }
+    
 }

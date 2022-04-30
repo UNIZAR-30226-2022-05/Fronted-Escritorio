@@ -11,6 +11,7 @@ import java.util.UUID;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
+import es.unizar.unoforall.model.partidas.RespuestaVotacionPausa;
 
 public class Sala {	
 	//Para devolver una sala que no existe
@@ -32,7 +33,6 @@ public class Sala {
 	//Conjunto de participantes con el indicador de si están listos o no
 	private HashMap<UUID, Boolean> participantesVotoAbandono;
 	private boolean enPausa;
-	private Partida partidaPausada;
 	
 
 	private Sala() {
@@ -68,7 +68,6 @@ public class Sala {
 					Collections.shuffle(jugadoresID); 
 					this.partida = new Partida(jugadoresID, configuracion, salaID);
 				} else {
-					this.partida = this.partidaPausada;
 					this.enPausa = false;
 				}
 					
@@ -114,7 +113,7 @@ public class Sala {
 			if(participantes.containsKey(participanteID)) {
 				participantes.remove(participanteID);
 				participantes_listos.remove(participanteID);
-				partidaPausada.expulsarJugador(participanteID);
+				partida.expulsarJugador(participanteID);
 				
 				boolean todosListos = true;
 				for (Map.Entry<UUID, Boolean> entry : participantes_listos.entrySet()) {
@@ -135,7 +134,7 @@ public class Sala {
 						&& participantes_listos.get(participanteID)) {
 				participantes.remove(participanteID);
 				participantes_listos.remove(participanteID);
-				partidaPausada.expulsarJugador(participanteID);
+				partida.expulsarJugador(participanteID);
 			}
 			return;
 		}
@@ -143,9 +142,21 @@ public class Sala {
 		if(participantes.containsKey(participanteID)) {
 			participantes.remove(participanteID);
 			participantes_listos.remove(participanteID);
+			participantesVotoAbandono.remove(participanteID);
 			
 			if (this.enPartida)	 {
 				partida.expulsarJugador(participanteID);
+				
+				boolean todosListos = true;
+				for (Map.Entry<UUID, Boolean> entry : participantesVotoAbandono.entrySet()) {
+					if (entry.getValue() == false) { 
+						todosListos = false; 
+					}
+				}
+				if (todosListos) {
+					setEnPausa(todosListos);
+				}
+				
 			} else {	//Si se va un jugador no listo, y el resto ya lo están 
 						//	-> se empieza la partida
 				boolean todosListos = true;
@@ -206,13 +217,12 @@ public class Sala {
 	}
 	
 	public boolean puedeUnirse() {
-		if (isEnPausa()) {
+		if (isEnPausa() || isEnPartida()) {
 			return false;
 		}
 		
 		if (getConfiguracion().isEsPublica()
-				&& numParticipantes() < getConfiguracion().getMaxParticipantes() 
-				&& !isEnPartida()) {
+				&& numParticipantes() < getConfiguracion().getMaxParticipantes()) {
 			return true;
 		} else {
 			return false;
@@ -220,29 +230,23 @@ public class Sala {
 	}
 	
 	
-	
-	
-	
-	public HashMap<UUID, Boolean> getParticipantesVotoAbandono() {
-		return participantesVotoAbandono;
-	}
-	
-	public HashMap<UUID, Boolean> setParticipantesVotoAbandono(UUID participanteID) {
+	public RespuestaVotacionPausa setParticipantesVotoAbandono(UUID participanteID) {
 		if(participantesVotoAbandono.containsKey(participanteID)) {
 			participantesVotoAbandono.put(participanteID, true);
-			
-			boolean todosListos = true;
-			for (Map.Entry<UUID, Boolean> entry : participantesVotoAbandono.entrySet()) {
-				if (entry.getValue() == false) { 
-					todosListos = false; 
-				}
-			}
-			if (todosListos) {
-				setEnPausa(todosListos);
-			}
 		}
+		
 		return getParticipantesVotoAbandono();
 	}
+	
+	public RespuestaVotacionPausa getParticipantesVotoAbandono() {
+		int numListos = (int)participantesVotoAbandono.values()
+								.stream().filter(listo -> listo).count();
+		if (numListos == participantesVotoAbandono.size()) {
+			setEnPausa(true);
+		}
+		return new RespuestaVotacionPausa(numListos, participantesVotoAbandono.size());
+	}
+	
 	
 	public boolean isEnPausa() {
 		return enPausa;
@@ -253,7 +257,6 @@ public class Sala {
 			this.enPausa = enPausa;
 			
 			if (this.enPausa) {  // comienza una pausa
-				this.partidaPausada = this.partida;
 				setEnPartida(false);
 			}
 		}
@@ -303,11 +306,14 @@ public class Sala {
 		} else {
 			salaResumida.partida = null;
 		}
+		salaResumida.ultimaPartidaJugada  = ultimaPartidaJugada;
 		
 		//Identificador de cada usuario con su VO
 		salaResumida.participantes = participantes;
 		//Conjunto de participantes con el indicador de si están listos o no
 		salaResumida.participantes_listos = participantes_listos;
+		
+		salaResumida.enPausa = enPausa;
 		
 		return salaResumida;
 	}
@@ -318,6 +324,14 @@ public class Sala {
 
 	public void setUltimaPartidaJugada(PartidaJugada ultimaPartidaJugada) {
 		this.ultimaPartidaJugada = ultimaPartidaJugada;
+	}
+
+	public UUID getSalaID() {
+		return salaID;
+	}
+
+	public void setSalaID(UUID salaID) {
+		this.salaID = salaID;
 	}
 
 	

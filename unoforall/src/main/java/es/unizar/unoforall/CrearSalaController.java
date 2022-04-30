@@ -284,7 +284,8 @@ public class CrearSalaController implements Initializable {
     		//GUARDAR RESPUESTASALA EN CASO DE NECESITARLO
 			App.setSalaID(salaID.getSalaID());
 			//IR A LA VISTA DE LA SALA
-		    VistaSalaController.deDondeVengo = "crearSala";
+			//ESTA LINEA PETA
+		    //VistaSalaController.deDondeVengo = "crearSala";
 	    	App.setRoot("vistaSala");
 		} else {
 			labelError.setText("error: " + StringUtils.parseString(salaID.getErrorInfo()));

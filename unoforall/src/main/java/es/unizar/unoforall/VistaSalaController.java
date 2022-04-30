@@ -33,7 +33,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class VistaSalaController implements Initializable {
+public class VistaSalaController extends SalaReceiver implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 
@@ -43,10 +43,8 @@ public class VistaSalaController implements Initializable {
 		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
 		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
 	}
-	
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;
-	
 	@FXML private Label labelError;
 	
 	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
@@ -99,6 +97,8 @@ public class VistaSalaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
+		SuscripcionSala.dondeEstoy(this);
 		//PONER EL FONDO CORRESPONDIENTE
 		fondo.setBackground(
 			new Background(
@@ -156,9 +156,10 @@ public class VistaSalaController implements Initializable {
 			}
 		});;
 		
+		//Recuperar salaID solo la primera vez para establecer suscripción
 		UUID salaID = App.getSalaID();
-		App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> actualizarSala(s, salaID));
-		App.apiweb.sendObject("/app/salas/unirse/" + salaID, "vacio");
+		SuscripcionSala.unirseASala(salaID);
+		
 		
 		//BUSCAR AMIGOS
 		String sesionID = App.getSessionID();
@@ -193,34 +194,39 @@ public class VistaSalaController implements Initializable {
 		amigosChoiceBox.setOnAction(this::invitarAmigo);
 	}
 	
-	@FXML
-	public void invitarAmigo(ActionEvent event) {
-		Integer idx = amigosChoiceBox.getSelectionModel().getSelectedIndex();
-		if (idx != 0 && sala.getParticipantes().size() < sala.getConfiguracion().getMaxParticipantes()) {
-			App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(idx-1).getId(), App.getSalaID());
-		}
-	}
-	
-	private void actualizarSala(Sala s, UUID salaID) {
-		sala = s;
+	@Override
+	public void administrarSala(Sala sala) {
+		//Aquí ya existe Sala sala.
+		if (DEBUG) System.out.println("sala actualizada");
 		labelError.setText("");
-		if (s.isNoExiste()) {
-			labelError.setText(StringUtils.parseString(s.getError()));
-			if (DEBUG) System.out.println(s.getError());
-			App.apiweb.unsubscribe("/topic/salas/" + salaID);
+		if (sala.isNoExiste()) {
+			labelError.setText(StringUtils.parseString(sala.getError()));
+			if (DEBUG) System.out.println("sala no existe");
+			if (DEBUG) System.out.println(sala.getError());
+			//Si error volver a la pantalla anterior
+			SuscripcionSala.salirDeSala();
 			App.setRoot(deDondeVengo);
 		} else {
-			if (DEBUG) System.out.println("Estado de la sala: " + s);
-			if (s.isEnPartida()) {
+			if (DEBUG) System.out.println("");
+			if (DEBUG) System.out.println("Estado de la sala: " + sala);
+			if (sala.isEnPartida()) {
 				//CARGAR LA VISTA DE LA PARTIDA
 				if (DEBUG) System.out.println("En partida");
 				App.setRoot("partida");
 			} else {
 				//RECARGAR LA VISTA DE SALA
-				int tamanyo = s.getConfiguracion().getMaxParticipantes();
-				HashMap<UsuarioVO, Boolean> participantes = s.getParticipantes();
+				int tamanyo = sala.getConfiguracion().getMaxParticipantes();
+				HashMap<UsuarioVO, Boolean> participantes = sala.getParticipantes();
 				cargarParticipantes(tamanyo, participantes);
 			}
+		}
+	}
+	
+	@FXML
+	public void invitarAmigo(ActionEvent event) {
+		Integer idx = amigosChoiceBox.getSelectionModel().getSelectedIndex();
+		if (idx != 0 && sala.getParticipantes().size() < sala.getConfiguracion().getMaxParticipantes()) {
+			App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(idx-1).getId(), App.getSalaID());
 		}
 	}
 	
@@ -325,32 +331,33 @@ public class VistaSalaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-		UUID salaID = App.getSalaID();
-		App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
-		App.apiweb.unsubscribe("/topic/salas/" + salaID);
+		//Llamada a la clase de Sala para desubscribirse
+		SuscripcionSala.salirDeSala();
+		//Volver a la pantalla anterior
     	App.setRoot(deDondeVengo);
 	}
 
 	@FXML
     private void goToMain(Event event) {
-		UUID salaID = App.getSalaID();
-		App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
-		App.apiweb.unsubscribe("/topic/salas/" + salaID);
+		//Llamada a la clase de Sala para desubscribirse
+		SuscripcionSala.salirDeSala();
+		//Volver a la pantalla principal
     	App.setRoot("principal");
 	}
 	
 	@FXML
     private void leaveRoom(ActionEvent event) {
-		UUID salaID = App.getSalaID();
-		App.apiweb.sendObject("/app/salas/salir/" + salaID, "vacio");
-		App.apiweb.unsubscribe("/topic/salas/" + salaID);
+		//Llamada a la clase de Sala para desubscribirse
+		SuscripcionSala.salirDeSala();
+		//Volver a la pantalla anterior
     	App.setRoot(deDondeVengo);
 	}
 	
 	@FXML
     private void ready(ActionEvent event) {
-		UUID salaID = App.getSalaID();
-		App.apiweb.sendObject("/app/salas/listo/" + salaID, "vacio");
+		//Llamada a la clase de Sala para desubscribirse
+		SuscripcionSala.listoSala();
+
 		botonListo.setVisible(false);
 		botonListo.setDisable(true);
 	}
