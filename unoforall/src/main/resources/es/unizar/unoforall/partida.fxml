@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox fx:id="fondo" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Estás en partida!!!!" wrappingWidth="205.13671875" />
+            <Text fx:id="tst" strokeType="OUTSIDE" strokeWidth="0.0" text="Actualizar con estado partida..." wrappingWidth="384.90625" />
+            <Label fx:id="labelError" alignment="BOTTOM_RIGHT" contentDisplay="TOP" text="Label" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

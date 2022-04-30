@@ -214,6 +214,7 @@ public class VistaSalaController implements Initializable {
 			if (s.isEnPartida()) {
 				//CARGAR LA VISTA DE LA PARTIDA
 				if (DEBUG) System.out.println("En partida");
+				App.setRoot("partida");
 			} else {
 				//RECARGAR LA VISTA DE SALA
 				int tamanyo = s.getConfiguracion().getMaxParticipantes();
