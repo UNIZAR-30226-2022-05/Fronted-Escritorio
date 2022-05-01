@@ -1,9 +1,11 @@
 package es.unizar.unoforall;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.interfaces.CartaListener;
 import es.unizar.unoforall.interfaces.SalaListener;
 import es.unizar.unoforall.model.partidas.Carta;
@@ -32,6 +34,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final int JUGADOR_ARRIBA = 2;
     private static final int JUGADOR_DERECHA = 3;
     
+    private static final HashMap<Carta, ImageView> defaultCardsMap = new HashMap<>();
+    private static final HashMap<Carta, ImageView> altCardsMap = new HashMap<>();
+
     private static final String [] imageNames = new String [] {"fw1.jpg",};
     
 	@FXML private Label labelError;
@@ -47,6 +52,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private Sala sala;
 	private Partida partida; 
+	
+	private int jugadorActualID = -1;
 	
 //	Por defecto deDondeVengo es la pantalla principal
 //	para evitar posibles errores en ejecución
@@ -105,7 +112,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@Override
 	public void administrarSala(Sala sala) {
 		
-		labelError.setText("");
+		//labelError.setText("");
 		if (sala.isNoExiste()) {
 			labelError.setText(StringUtils.parseString(sala.getError()));
 			if (DEBUG) System.out.println(sala.getError());
@@ -159,9 +166,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		if (DEBUG) System.out.println("Entrando en partida...");
 		partida = SuscripcionSala.sala.getPartida();
+		if (jugadorActualID == -1) {
+			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
+		}
 		
 		listaCartas.getChildren().clear();
-		
+		//iview = new ImageView(setImagenCarta(carta));
 		image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
 		iview = new ImageView(image);
 		listaCartas.addColumn(listaCartas.getColumnCount(), iview);

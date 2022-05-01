@@ -2,6 +2,7 @@ package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
+import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.HashUtils;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
@@ -58,6 +59,13 @@ public class LoginController {
 	    			if (DEBUG) System.out.println("Error al conectarse al servidor");
 	    		} else {
 	    			App.setSessionID(s);
+	    			RestAPI apirest2 = new RestAPI("/api/sacarUsuarioVO");
+	    			apirest2.addParameter("sesionID", s);
+	    			apirest2.openConnection();
+	    			
+	    			UsuarioVO usuarioVO = apirest2.receiveObject(UsuarioVO.class);
+	    			
+	    			App.setUsuarioID(usuarioVO.getId());
 	    			if (DEBUG) {
 	    				System.out.println("ID sesión: " + App.getSessionID());
 		    			System.out.println("Sesión iniciada");

@@ -34,6 +34,7 @@ public class App extends Application {
 	private static String sesionID;
 	private static RespuestaLogin respLogin;
 	private static UUID salaID;
+	private static UUID usuarioID;
 	private static HashMap<String, Integer> personalizacion;
 	public static WebSocketAPI apiweb;
 	
@@ -79,6 +80,13 @@ public class App extends Application {
     public static String getSessionID() {
     	return sesionID;
     }
+    public static void setUsuarioID(UUID uID) {
+    	usuarioID = uID;
+    }
+    public static UUID getUsuarioID() {
+    	return usuarioID;
+    }
+    
 
     public static void initializePersonalizacion() {
     	RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
