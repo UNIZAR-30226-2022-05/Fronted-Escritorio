@@ -11,15 +11,23 @@ public class ImageManager {
 
     private static final HashMap<Carta, Image> defaultCardsMap = new HashMap<>();
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
-
+    
+/////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////PUBLICAS//////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+    
+//La primera vez que se llama, carga todas las cartas como imagen en el hashmap.
+//Dada una carta que queremos encontrar, el booleano que dice si es del set 1 o del set 2
+//y el booleano que decide si la carta es visible o no para el jugador, devuelve un ImageView
+//de la carta que estamos buscando.
     public static ImageView setImagenCarta(Carta carta, boolean defaultMode, boolean isVisible){
         if(defaultCardsMap.isEmpty() || altCardsMap.isEmpty()){
             for(Carta.Color color : Carta.Color.values()){
                 for(Carta.Tipo tipo : Carta.Tipo.values()){
                     Carta aux = new Carta(tipo, color);
                     
-                    ImageView resourceIDdefault = getResourceCarta(aux, true);
-                    ImageView resourceIDalt = getResourceCarta(aux, false);
+                    Image resourceIDdefault = getResourceCarta(aux, true);
+                    Image resourceIDalt = getResourceCarta(aux, false);
                     if(resourceIDdefault != null){
                         defaultCardsMap.put(aux, resourceIDdefault);
                     }
@@ -30,8 +38,8 @@ public class ImageManager {
             }
         }
 
-        if(isVisible){
-            if(defaultMode){
+        if(isVisible) {
+            if(defaultMode) {
                 return new ImageView(defaultCardsMap.get(carta));    
             } else {
                 return new ImageView(altCardsMap.get(carta));
@@ -40,7 +48,9 @@ public class ImageManager {
             return new ImageView(getResourceRevesCarta(defaultMode));
         }
     }
-    
+/////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////PRIVADAS//////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
     private static Image getResourceCarta(Carta carta, boolean defaultMode){
         switch(carta.getColor()){
             case comodin: return getResourceComodin(carta.getTipo(), defaultMode);
@@ -55,81 +65,81 @@ public class ImageManager {
     
     
     private static Image getResourceRevesCarta(boolean defaultMode){
-        if(defaultMode){
+        if(defaultMode) {
             return cargarImagen("images/cartas/set-1/negras/tacoVacio.png");
-        }else{
+        } else {
             return cargarImagen("images/cartas/set-2/negras/tacoVacio.png");
         }
     }
 
     private static Image getResourceMazoCartas(boolean defaultMode){
-        if(defaultMode){
-            return R.drawable.carta_mazo;
-        }else{
-            return R.drawable.carta_alt_mazo;
+        if(defaultMode) {
+            return cargarImagen("images/cartas/set-1/negras/tacoLleno.png");
+        } else {
+            return cargarImagen("images/cartas/set-1/negras/tacoLleno.png");
         }
     }
 
     private static Image getResourceComodin(Carta.Tipo tipo, boolean defaultMode){
         if(defaultMode){
-            switch (tipo){
-                case cambioColor: return R.drawable.comodin_cambio_color;
-                case mas4: return R.drawable.comodin_mas4;
-                default: return INVALID_RESOURCE_ID;
+            switch (tipo) {
+                case cambioColor: return cargarImagen("images/cartas/set-1/negras/cambioColor.png");
+                case mas4: return cargarImagen("images/cartas/set-1/negras/mas4.png");
+                default: return null;
             }
-        }else{
-            switch (tipo){
-                case cambioColor: return R.drawable.comodin_alt_cambio_color;
-                case mas4: return R.drawable.comodin_alt_mas4;
-                default: return INVALID_RESOURCE_ID;
+        } else {
+            switch (tipo) {
+                case cambioColor: return cargarImagen("images/cartas/set-2/negras/cambioColor.png");
+                case mas4: return cargarImagen("images/cartas/set-2/negras/mas4.png");
+                default: return null;
             }
         }
     }
 
     private static Image getResourceRojo(Carta.Tipo tipo, boolean defaultMode){
-        if(defaultMode){
-            switch (tipo){
-                case n0: return R.drawable.rojo_0;
-                case n1: return R.drawable.rojo_1;
-                case n2: return R.drawable.rojo_2;
-                case n3: return R.drawable.rojo_3;
-                case n4: return R.drawable.rojo_4;
-                case n5: return R.drawable.rojo_5;
-                case n6: return R.drawable.rojo_6;
-                case n7: return R.drawable.rojo_7;
-                case n8: return R.drawable.rojo_8;
-                case n9: return R.drawable.rojo_9;
-                case mas2: return R.drawable.rojo_mas2;
-                case salta: return R.drawable.rojo_saltar;
-                case reversa: return R.drawable.rojo_cambio_sentido;
-                case rayosX: return R.drawable.rojo_rayosx;
-                case intercambio: return R.drawable.rojo_intercambio;
-                case x2: return R.drawable.rojo_x2;
-                case cambioColor: return R.drawable.rojo_cambio_color;
-                case mas4: return R.drawable.rojo_mas4;
-                default: return INVALID_RESOURCE_ID;
+        if(defaultMode) {
+            switch (tipo) { 
+                case n0: return cargarImagen("images/cartas/set-1/rojas/0-rojo.png");
+                case n1: return cargarImagen("images/cartas/set-1/rojas/1-rojo.png");
+                case n2: return cargarImagen("images/cartas/set-1/rojas/2-rojo.png");
+                case n3: return cargarImagen("images/cartas/set-1/rojas/3-rojo.png");
+                case n4: return cargarImagen("images/cartas/set-1/rojas/4-rojo.png");
+                case n5: return cargarImagen("images/cartas/set-1/rojas/5-rojo.png");
+                case n6: return cargarImagen("images/cartas/set-1/rojas/6-rojo.png");
+                case n7: return cargarImagen("images/cartas/set-1/rojas/7-rojo.png");
+                case n8: return cargarImagen("images/cartas/set-1/rojas/8-rojo.png");
+                case n9: return cargarImagen("images/cartas/set-1/rojas/9-rojo.png");
+                case mas2: return cargarImagen("images/cartas/set-1/rojas/mas2-rojo.png");
+                case salta: return cargarImagen("images/cartas/set-1/rojas/bloqueo-rojo.png");
+                case reversa: return cargarImagen("images/cartas/set-1/rojas/cambioSentido-rojo.png");
+                case rayosX: return cargarImagen("images/cartas/set-1/rojas/rayosX-rojo.png");
+                case intercambio: return cargarImagen("images/cartas/set-1/rojas/intercambio-rojo.png");
+                case x2: return cargarImagen("images/cartas/set-1/rojas/por2-rojo.png");
+                case cambioColor: return cargarImagen("images/cartas/set-1/rojas/cambioColor-rojo.png");
+                case mas4: return cargarImagen("images/cartas/set-1/rojas/mas4-rojo.png");
+                default: return null;
             }
-        }else{
-            switch (tipo){
-                case n0: return R.drawable.rojo_alt_0;
-                case n1: return R.drawable.rojo_alt_1;
-                case n2: return R.drawable.rojo_alt_2;
-                case n3: return R.drawable.rojo_alt_3;
-                case n4: return R.drawable.rojo_alt_4;
-                case n5: return R.drawable.rojo_alt_5;
-                case n6: return R.drawable.rojo_alt_6;
-                case n7: return R.drawable.rojo_alt_7;
-                case n8: return R.drawable.rojo_alt_8;
-                case n9: return R.drawable.rojo_alt_9;
-                case mas2: return R.drawable.rojo_alt_mas2;
-                case salta: return R.drawable.rojo_alt_saltar;
-                case reversa: return R.drawable.rojo_alt_cambio_sentido;
-                case rayosX: return R.drawable.rojo_alt_rayosx;
-                case intercambio: return R.drawable.rojo_alt_intercambio;
-                case x2: return R.drawable.rojo_alt_x2;
-                case cambioColor: return R.drawable.rojo_alt_cambio_color;
-                case mas4: return R.drawable.rojo_alt_mas4;
-                default: return INVALID_RESOURCE_ID;
+        } else {
+            switch (tipo) {
+	            case n0: return cargarImagen("images/cartas/set-2/rojas/0-rojo.png");
+	            case n1: return cargarImagen("images/cartas/set-2/rojas/1-rojo.png");
+	            case n2: return cargarImagen("images/cartas/set-2/rojas/2-rojo.png");
+	            case n3: return cargarImagen("images/cartas/set-2/rojas/3-rojo.png");
+	            case n4: return cargarImagen("images/cartas/set-2/rojas/4-rojo.png");
+	            case n5: return cargarImagen("images/cartas/set-2/rojas/5-rojo.png");
+	            case n6: return cargarImagen("images/cartas/set-2/rojas/6-rojo.png");
+	            case n7: return cargarImagen("images/cartas/set-2/rojas/7-rojo.png");
+	            case n8: return cargarImagen("images/cartas/set-2/rojas/8-rojo.png");
+	            case n9: return cargarImagen("images/cartas/set-2/rojas/9-rojo.png");
+	            case mas2: return cargarImagen("images/cartas/set-2/rojas/mas2-rojo.png");
+	            case salta: return cargarImagen("images/cartas/set-2/rojas/bloqueo-rojo.png");
+	            case reversa: return cargarImagen("images/cartas/set-2/rojas/cambioSentido-rojo.png");
+	            case rayosX: return cargarImagen("images/cartas/set-2/rojas/rayosX-rojo.png");
+	            case intercambio: return cargarImagen("images/cartas/set-2/rojas/intercambio-rojo.png");
+	            case x2: return cargarImagen("images/cartas/set-2/rojas/por2-rojo.png");
+	            case cambioColor: return cargarImagen("images/cartas/set-2/rojas/cambioColor-rojo.png");
+	            case mas4: return cargarImagen("images/cartas/set-2/rojas/mas4-rojo.png");
+                default: return null;
             }
         }
     }
@@ -137,47 +147,47 @@ public class ImageManager {
     private static Image getResourceAzul(Carta.Tipo tipo, boolean defaultMode){
         if(defaultMode){
             switch (tipo){
-                case n0: return R.drawable.azul_0;
-                case n1: return R.drawable.azul_1;
-                case n2: return R.drawable.azul_2;
-                case n3: return R.drawable.azul_3;
-                case n4: return R.drawable.azul_4;
-                case n5: return R.drawable.azul_5;
-                case n6: return R.drawable.azul_6;
-                case n7: return R.drawable.azul_7;
-                case n8: return R.drawable.azul_8;
-                case n9: return R.drawable.azul_9;
-                case mas2: return R.drawable.azul_mas2;
-                case salta: return R.drawable.azul_saltar;
-                case reversa: return R.drawable.azul_cambio_sentido;
-                case rayosX: return R.drawable.azul_rayosx;
-                case intercambio: return R.drawable.azul_intercambio;
-                case x2: return R.drawable.azul_x2;
-                case cambioColor: return R.drawable.azul_cambio_color;
-                case mas4: return R.drawable.azul_mas4;
-                default: return INVALID_RESOURCE_ID;
+	            case n0: return cargarImagen("images/cartas/set-1/azules/0-azul.png");
+	            case n1: return cargarImagen("images/cartas/set-1/azules/1-azul.png");
+	            case n2: return cargarImagen("images/cartas/set-1/azules/2-azul.png");
+	            case n3: return cargarImagen("images/cartas/set-1/azules/3-azul.png");
+	            case n4: return cargarImagen("images/cartas/set-1/azules/4-azul.png");
+	            case n5: return cargarImagen("images/cartas/set-1/azules/5-azul.png");
+	            case n6: return cargarImagen("images/cartas/set-1/azules/6-azul.png");
+	            case n7: return cargarImagen("images/cartas/set-1/azules/7-azul.png");
+	            case n8: return cargarImagen("images/cartas/set-1/azules/8-azul.png");
+	            case n9: return cargarImagen("images/cartas/set-1/azules/9-azul.png");
+	            case mas2: return cargarImagen("images/cartas/set-1/azules/mas2-azul.png");
+	            case salta: return cargarImagen("images/cartas/set-1/azules/bloqueo-azul.png");
+	            case reversa: return cargarImagen("images/cartas/set-1/azules/cambioSentido-azul.png");
+	            case rayosX: return cargarImagen("images/cartas/set-1/azules/rayosX-azul.png");
+	            case intercambio: return cargarImagen("images/cartas/set-1/azules/intercambio-azul.png");
+	            case x2: return cargarImagen("images/cartas/set-1/azules/por2-azul.png");
+	            case cambioColor: return cargarImagen("images/cartas/set-1/azules/cambioColor-azul.png");
+	            case mas4: return cargarImagen("images/cartas/set-1/azules/mas4-azul.png");
+                default: return null;
             }
-        }else{
+        } else {
             switch (tipo){
-                case n0: return R.drawable.azul_alt_0;
-                case n1: return R.drawable.azul_alt_1;
-                case n2: return R.drawable.azul_alt_2;
-                case n3: return R.drawable.azul_alt_3;
-                case n4: return R.drawable.azul_alt_4;
-                case n5: return R.drawable.azul_alt_5;
-                case n6: return R.drawable.azul_alt_6;
-                case n7: return R.drawable.azul_alt_7;
-                case n8: return R.drawable.azul_alt_8;
-                case n9: return R.drawable.azul_alt_9;
-                case mas2: return R.drawable.azul_alt_mas2;
-                case salta: return R.drawable.azul_alt_saltar;
-                case reversa: return R.drawable.azul_alt_cambio_sentido;
-                case rayosX: return R.drawable.azul_alt_rayosx;
-                case intercambio: return R.drawable.azul_alt_intercambio;
-                case x2: return R.drawable.azul_alt_x2;
-                case cambioColor: return R.drawable.azul_alt_cambio_color;
-                case mas4: return R.drawable.azul_alt_mas4;
-                default: return INVALID_RESOURCE_ID;
+	            case n0: return cargarImagen("images/cartas/set-2/azules/0-azul.png");
+	            case n1: return cargarImagen("images/cartas/set-2/azules/1-azul.png");
+	            case n2: return cargarImagen("images/cartas/set-2/azules/2-azul.png");
+	            case n3: return cargarImagen("images/cartas/set-2/azules/3-azul.png");
+	            case n4: return cargarImagen("images/cartas/set-2/azules/4-azul.png");
+	            case n5: return cargarImagen("images/cartas/set-2/azules/5-azul.png");
+	            case n6: return cargarImagen("images/cartas/set-2/azules/6-azul.png");
+	            case n7: return cargarImagen("images/cartas/set-2/azules/7-azul.png");
+	            case n8: return cargarImagen("images/cartas/set-2/azules/8-azul.png");
+	            case n9: return cargarImagen("images/cartas/set-2/azules/9-azul.png");
+	            case mas2: return cargarImagen("images/cartas/set-2/azules/mas2-azul.png");
+	            case salta: return cargarImagen("images/cartas/set-2/azules/bloqueo-azul.png");
+	            case reversa: return cargarImagen("images/cartas/set-2/azules/cambioSentido-azul.png");
+	            case rayosX: return cargarImagen("images/cartas/set-2/azules/rayosX-azul.png");
+	            case intercambio: return cargarImagen("images/cartas/set-2/azules/intercambio-azul.png");
+	            case x2: return cargarImagen("images/cartas/set-2/azules/por2-azul.png");
+	            case cambioColor: return cargarImagen("images/cartas/set-2/azules/cambioColor-azul.png");
+	            case mas4: return cargarImagen("images/cartas/set-2/azules/mas4-azul.png");
+                default: return null;
             }
         }
     }
@@ -185,47 +195,47 @@ public class ImageManager {
     private static Image getResourceVerde(Carta.Tipo tipo, boolean defaultMode){
         if(defaultMode){
             switch (tipo){
-                case n0: return R.drawable.verde_0;
-                case n1: return R.drawable.verde_1;
-                case n2: return R.drawable.verde_2;
-                case n3: return R.drawable.verde_3;
-                case n4: return R.drawable.verde_4;
-                case n5: return R.drawable.verde_5;
-                case n6: return R.drawable.verde_6;
-                case n7: return R.drawable.verde_7;
-                case n8: return R.drawable.verde_8;
-                case n9: return R.drawable.verde_9;
-                case mas2: return R.drawable.verde_mas2;
-                case salta: return R.drawable.verde_saltar;
-                case reversa: return R.drawable.verde_cambio_sentido;
-                case rayosX: return R.drawable.verde_rayosx;
-                case intercambio: return R.drawable.verde_intercambio;
-                case x2: return R.drawable.verde_x2;
-                case cambioColor: return R.drawable.verde_cambio_color;
-                case mas4: return R.drawable.verde_mas4;
-                default: return INVALID_RESOURCE_ID;
+	            case n0: return cargarImagen("images/cartas/set-1/verdes/0-verde.png");
+	            case n1: return cargarImagen("images/cartas/set-1/verdes/1-verde.png");
+	            case n2: return cargarImagen("images/cartas/set-1/verdes/2-verde.png");
+	            case n3: return cargarImagen("images/cartas/set-1/verdes/3-verde.png");
+	            case n4: return cargarImagen("images/cartas/set-1/verdes/4-verde.png");
+	            case n5: return cargarImagen("images/cartas/set-1/verdes/5-verde.png");
+	            case n6: return cargarImagen("images/cartas/set-1/verdes/6-verde.png");
+	            case n7: return cargarImagen("images/cartas/set-1/verdes/7-verde.png");
+	            case n8: return cargarImagen("images/cartas/set-1/verdes/8-verde.png");
+	            case n9: return cargarImagen("images/cartas/set-1/verdes/9-verde.png");
+	            case mas2: return cargarImagen("images/cartas/set-1/verdes/mas2-verde.png");
+	            case salta: return cargarImagen("images/cartas/set-1/verdes/bloqueo-verde.png");
+	            case reversa: return cargarImagen("images/cartas/set-1/verdes/cambioSentido-verde.png");
+	            case rayosX: return cargarImagen("images/cartas/set-1/verdes/rayosX-verde.png");
+	            case intercambio: return cargarImagen("images/cartas/set-1/verdes/intercambio-verde.png");
+	            case x2: return cargarImagen("images/cartas/set-1/verdes/por2-verde.png");
+	            case cambioColor: return cargarImagen("images/cartas/set-1/verdes/cambioColor-verde.png");
+	            case mas4: return cargarImagen("images/cartas/set-1/verdes/mas4-verde.png");
+                default: return null;
             }
-        }else{
+        } else {
             switch (tipo){
-                case n0: return R.drawable.verde_alt_0;
-                case n1: return R.drawable.verde_alt_1;
-                case n2: return R.drawable.verde_alt_2;
-                case n3: return R.drawable.verde_alt_3;
-                case n4: return R.drawable.verde_alt_4;
-                case n5: return R.drawable.verde_alt_5;
-                case n6: return R.drawable.verde_alt_6;
-                case n7: return R.drawable.verde_alt_7;
-                case n8: return R.drawable.verde_alt_8;
-                case n9: return R.drawable.verde_alt_9;
-                case mas2: return R.drawable.verde_alt_mas2;
-                case salta: return R.drawable.verde_alt_saltar;
-                case reversa: return R.drawable.verde_alt_cambio_sentido;
-                case rayosX: return R.drawable.verde_alt_rayosx;
-                case intercambio: return R.drawable.verde_alt_intercambio;
-                case x2: return R.drawable.verde_alt_x2;
-                case cambioColor: return R.drawable.verde_alt_cambio_color;
-                case mas4: return R.drawable.verde_alt_mas4;
-                default: return INVALID_RESOURCE_ID;
+	            case n0: return cargarImagen("images/cartas/set-2/verdes/0-verde.png");
+	            case n1: return cargarImagen("images/cartas/set-2/verdes/1-verde.png");
+	            case n2: return cargarImagen("images/cartas/set-2/verdes/2-verde.png");
+	            case n3: return cargarImagen("images/cartas/set-2/verdes/3-verde.png");
+	            case n4: return cargarImagen("images/cartas/set-2/verdes/4-verde.png");
+	            case n5: return cargarImagen("images/cartas/set-2/verdes/5-verde.png");
+	            case n6: return cargarImagen("images/cartas/set-2/verdes/6-verde.png");
+	            case n7: return cargarImagen("images/cartas/set-2/verdes/7-verde.png");
+	            case n8: return cargarImagen("images/cartas/set-2/verdes/8-verde.png");
+	            case n9: return cargarImagen("images/cartas/set-2/verdes/9-verde.png");
+	            case mas2: return cargarImagen("images/cartas/set-2/verdes/mas2-verde.png");
+	            case salta: return cargarImagen("images/cartas/set-2/verdes/bloqueo-verde.png");
+	            case reversa: return cargarImagen("images/cartas/set-2/verdes/cambioSentido-verde.png");
+	            case rayosX: return cargarImagen("images/cartas/set-2/verdes/rayosX-verde.png");
+	            case intercambio: return cargarImagen("images/cartas/set-2/verdes/intercambio-verde.png");
+	            case x2: return cargarImagen("images/cartas/set-2/verdes/por2-verde.png");
+	            case cambioColor: return cargarImagen("images/cartas/set-2/verdes/cambioColor-verde.png");
+	            case mas4: return cargarImagen("images/cartas/set-2/verdes/mas4-verde.png");
+                default: return null;
             }
         }
     }
@@ -233,52 +243,51 @@ public class ImageManager {
     private static Image getResourceAmarillo(Carta.Tipo tipo, boolean defaultMode){
         if(defaultMode){
             switch (tipo){
-                case n0: return R.drawable.amarillo_0;
-                case n1: return R.drawable.amarillo_1;
-                case n2: return R.drawable.amarillo_2;
-                case n3: return R.drawable.amarillo_3;
-                case n4: return R.drawable.amarillo_4;
-                case n5: return R.drawable.amarillo_5;
-                case n6: return R.drawable.amarillo_6;
-                case n7: return R.drawable.amarillo_7;
-                case n8: return R.drawable.amarillo_8;
-                case n9: return R.drawable.amarillo_9;
-                case mas2: return R.drawable.amarillo_mas2;
-                case salta: return R.drawable.amarillo_saltar;
-                case reversa: return R.drawable.amarillo_cambio_sentido;
-                case rayosX: return R.drawable.amarillo_rayosx;
-                case intercambio: return R.drawable.amarillo_intercambio;
-                case x2: return R.drawable.amarillo_x2;
-                case cambioColor: return R.drawable.amarillo_cambio_color;
-                case mas4: return R.drawable.amarillo_mas4;
-                default: return INVALID_RESOURCE_ID;
+	            case n0: return cargarImagen("images/cartas/set-1/amarillas/0-amarillo.png");
+	            case n1: return cargarImagen("images/cartas/set-1/amarillas/1-amarillo.png");
+	            case n2: return cargarImagen("images/cartas/set-1/amarillas/2-amarillo.png");
+	            case n3: return cargarImagen("images/cartas/set-1/amarillas/3-amarillo.png");
+	            case n4: return cargarImagen("images/cartas/set-1/amarillas/4-amarillo.png");
+	            case n5: return cargarImagen("images/cartas/set-1/amarillas/5-amarillo.png");
+	            case n6: return cargarImagen("images/cartas/set-1/amarillas/6-amarillo.png");
+	            case n7: return cargarImagen("images/cartas/set-1/amarillas/7-amarillo.png");
+	            case n8: return cargarImagen("images/cartas/set-1/amarillas/8-amarillo.png");
+	            case n9: return cargarImagen("images/cartas/set-1/amarillas/9-amarillo.png");
+	            case mas2: return cargarImagen("images/cartas/set-1/amarillas/mas2-amarillo.png");
+	            case salta: return cargarImagen("images/cartas/set-1/amarillas/bloqueo-amarillo.png");
+	            case reversa: return cargarImagen("images/cartas/set-1/amarillas/cambioSentido-amarillo.png");
+	            case rayosX: return cargarImagen("images/cartas/set-1/amarillas/rayosX-amarillo.png");
+	            case intercambio: return cargarImagen("images/cartas/set-1/amarillas/intercambio-amarillo.png");
+	            case x2: return cargarImagen("images/cartas/set-1/amarillas/por2-amarillo.png");
+	            case cambioColor: return cargarImagen("images/cartas/set-1/amarillas/cambioColor-amarillo.png");
+	            case mas4: return cargarImagen("images/cartas/set-1/amarillas/mas4-amarillo.png");
+	                default: return null;
             }
-        }else{
+        } else {
             switch (tipo){
-                case n0: return R.drawable.amarillo_alt_0;
-                case n1: return R.drawable.amarillo_alt_1;
-                case n2: return R.drawable.amarillo_alt_2;
-                case n3: return R.drawable.amarillo_alt_3;
-                case n4: return R.drawable.amarillo_alt_4;
-                case n5: return R.drawable.amarillo_alt_5;
-                case n6: return R.drawable.amarillo_alt_6;
-                case n7: return R.drawable.amarillo_alt_7;
-                case n8: return R.drawable.amarillo_alt_8;
-                case n9: return R.drawable.amarillo_alt_9;
-                case mas2: return R.drawable.amarillo_alt_mas2;
-                case salta: return R.drawable.amarillo_alt_saltar;
-                case reversa: return R.drawable.amarillo_alt_cambio_sentido;
-                case rayosX: return R.drawable.amarillo_alt_rayosx;
-                case intercambio: return R.drawable.amarillo_alt_intercambio;
-                case x2: return R.drawable.amarillo_alt_x2;
-                case cambioColor: return R.drawable.amarillo_alt_cambio_color;
-                case mas4: return R.drawable.amarillo_alt_mas4;
-                default: return INVALID_RESOURCE_ID;
+	            case n0: return cargarImagen("images/cartas/set-2/amarillas/0-amarillo.png");
+	            case n1: return cargarImagen("images/cartas/set-2/amarillas/1-amarillo.png");
+	            case n2: return cargarImagen("images/cartas/set-2/amarillas/2-amarillo.png");
+	            case n3: return cargarImagen("images/cartas/set-2/amarillas/3-amarillo.png");
+	            case n4: return cargarImagen("images/cartas/set-2/amarillas/4-amarillo.png");
+	            case n5: return cargarImagen("images/cartas/set-2/amarillas/5-amarillo.png");
+	            case n6: return cargarImagen("images/cartas/set-2/amarillas/6-amarillo.png");
+	            case n7: return cargarImagen("images/cartas/set-2/amarillas/7-amarillo.png");
+	            case n8: return cargarImagen("images/cartas/set-2/amarillas/8-amarillo.png");
+	            case n9: return cargarImagen("images/cartas/set-2/amarillas/9-amarillo.png");
+	            case mas2: return cargarImagen("images/cartas/set-2/amarillas/mas2-amarillo.png");
+	            case salta: return cargarImagen("images/cartas/set-2/amarillas/bloqueo-amarillo.png");
+	            case reversa: return cargarImagen("images/cartas/set-2/amarillas/cambioSentido-amarillo.png");
+	            case rayosX: return cargarImagen("images/cartas/set-2/amarillas/rayosX-amarillo.png");
+	            case intercambio: return cargarImagen("images/cartas/set-2/amarillas/intercambio-amarillo.png");
+	            case x2: return cargarImagen("images/cartas/set-2/amarillas/por2-amarillo.png");
+	            case cambioColor: return cargarImagen("images/cartas/set-2/amarillas/cambioColor-amarillo.png");
+	            case mas4: return cargarImagen("images/cartas/set-1/amarillas/mas4-amarillo.png");
+                default: return null;
             }
         }
     }
     
-    ///////////////////////////////////////PRIVADAS//////////////////
     private static Image cargarImagen(String path) {
     	try {
     		return new Image(App.class.getResourceAsStream(path));
