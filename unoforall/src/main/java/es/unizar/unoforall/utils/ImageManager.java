@@ -48,6 +48,12 @@ public class ImageManager {
             return new ImageView(getResourceRevesCarta(defaultMode));
         }
     }
+    
+//Devuelve el ImageView del mazo de cartas correspondiente.
+    public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode){
+    	return new ImageView(getResourceMazoCartas(defaultMode));
+    }
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PRIVADAS//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,8 +67,6 @@ public class ImageManager {
             default: return null;
         }
     }
-    
-    
     
     private static Image getResourceRevesCarta(boolean defaultMode){
         if(defaultMode) {
