@@ -7,6 +7,7 @@ import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.HaJugadoVO;
 import es.unizar.unoforall.model.partidas.Participante;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -73,7 +74,7 @@ public class PartidaItemController {
 			UsuarioVO usr = part.getUsuario();
 			if (jug.getUsrsDebajo() == restantes - 1) {
 				//ASIGNAR HUMANO
-				nomJug1.setText(usr.getNombre());
+				nomJug1.setText(StringUtils.parseString(usr.getNombre()));
 				iconoJug1.setImage(avatares.get(usr.getAvatar()));
 				humanoAsignado = true;
 				break;
@@ -94,7 +95,7 @@ public class PartidaItemController {
 			UsuarioVO usr = part.getUsuario();
 			if (jug.getUsrsDebajo() == restantes - 1) {
 				//ASIGNAR HUMANO
-				nomJug2.setText(usr.getNombre());
+				nomJug2.setText(StringUtils.parseString(usr.getNombre()));
 				iconoJug2.setImage(avatares.get(usr.getAvatar()));
 				humanoAsignado = true;
 				break;
@@ -115,7 +116,7 @@ public class PartidaItemController {
 				UsuarioVO usr = part.getUsuario();
 				if (jug.getUsrsDebajo() == restantes - 1) {
 					//ASIGNAR HUMANO
-					nomJug3.setText(usr.getNombre());
+					nomJug3.setText(StringUtils.parseString(usr.getNombre()));
 					iconoJug3.setImage(avatares.get(usr.getAvatar()));
 					humanoAsignado = true;
 					break;
@@ -141,7 +142,7 @@ public class PartidaItemController {
 				UsuarioVO usr = part.getUsuario();
 				if (jug.getUsrsDebajo() == restantes - 1) {
 					//ASIGNAR HUMANO
-					nomJug4.setText(usr.getNombre());
+					nomJug4.setText(StringUtils.parseString(usr.getNombre()));
 					iconoJug4.setImage(avatares.get(usr.getAvatar()));
 					humanoAsignado = true;
 					break;
