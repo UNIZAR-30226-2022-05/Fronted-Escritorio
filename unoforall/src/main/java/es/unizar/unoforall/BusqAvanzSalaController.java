@@ -174,6 +174,25 @@ public class BusqAvanzSalaController implements Initializable {
 		} else {
 			selectedGamemode = gamemodes[3];
 		}
+
+		//SI ES UNO POR PAREJAS OCULTAR OPCIONES PARA 2 Y 3 PARTICIPANTES
+		if (choice.equals(gamemodes[3])) {
+			partTodos.setDisable(true);
+			partTodos.setVisible(false);
+			part2.setDisable(true);
+			part2.setVisible(false);
+			part3.setDisable(true);
+			part3.setVisible(false);
+			part4.setSelected(true);
+			maxParticipantes = 4;
+		} else {
+			partTodos.setDisable(false);
+			partTodos.setVisible(true);
+			part2.setDisable(false);
+			part2.setVisible(true);
+			part3.setDisable(false);
+			part3.setVisible(true);
+		}
 	}
 	
 	@FXML

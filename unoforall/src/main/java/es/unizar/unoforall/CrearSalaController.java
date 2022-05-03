@@ -149,6 +149,21 @@ public class CrearSalaController implements Initializable {
 		} else {
 			selectedGamemode = gamemodes[2];
 		}
+		
+		//SI ES UNO POR PAREJAS OCULTAR OPCIONES PARA 2 Y 3 PARTICIPANTES
+		if (choice.equals(gamemodes[2])) {
+			part2.setDisable(true);
+			part2.setVisible(false);
+			part3.setDisable(true);
+			part3.setVisible(false);
+			part4.setSelected(true);
+			maxParticipantes = 4;
+		} else {
+			part2.setDisable(false);
+			part2.setVisible(true);
+			part3.setDisable(false);
+			part3.setVisible(true);
+		}
 	}
 	
 	
