@@ -2,26 +2,25 @@ package es.unizar.unoforall;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
-import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.interfaces.CartaListener;
-import es.unizar.unoforall.interfaces.SalaListener;
+import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.Carta;
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
+import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class PartidaController extends SalaReceiver implements Initializable {
 
@@ -34,10 +33,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final int JUGADOR_ARRIBA = 2;
     private static final int JUGADOR_DERECHA = 3;
     
+ // Relaciona los IDs de los jugadores con los layout IDs correspondientes
+    private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
+    
     private static final HashMap<Carta, ImageView> defaultCardsMap = new HashMap<>();
     private static final HashMap<Carta, ImageView> altCardsMap = new HashMap<>();
 
     private static final String [] imageNames = new String [] {"fw1.jpg",};
+    
+    private boolean defaultMode;
     
 	@FXML private Label labelError;
 	
@@ -119,6 +123,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			SuscripcionSala.salirDeSala();
 			App.setRoot(deDondeVengo);
 		} else {
+			int numJugadores = partida.getJugadores().size();
 			//if (DEBUG) System.out.println("Estado de la sala: " + sala);
 			//System.out.println(sala.getPartida().getUltimaCartaJugada());
 			if (sala.isEnPartida()) {
@@ -166,17 +171,59 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		if (DEBUG) System.out.println("Entrando en partida...");
 		partida = SuscripcionSala.sala.getPartida();
+		sala = SuscripcionSala.sala;
+		int numJugadores = partida.getJugadores().size();
+		//Si no conocemos quién es el jugador actual todavía
 		if (jugadorActualID == -1) {
 			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
+			
+			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
+			
+			defaultMode = usuarioActual.getAspectoCartas() == 0;
+			
+			jugadorIDmap.clear();
+            jugadorIDmap.put(jugadorActualID, JUGADOR_ABAJO);
+			switch(numJugadores){
+	            case 2:
+	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_ARRIBA);
+	                //A futuro ocultar jugador izquierda y jugador derecha
+	                
+	                break;
+	            case 3:
+	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_IZQUIERDA);
+	                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
+	              //A futuro ocultar jugador derecha
+	                
+	                break;
+	            case 4:
+	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_IZQUIERDA);
+	                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
+	                jugadorIDmap.put((jugadorActualID+3) % numJugadores, JUGADOR_DERECHA);
+	                break;
+			}
+			if(DEBUG) System.out.println(jugadorIDmap);
 		}
 		
 		listaCartas.getChildren().clear();
 		//iview = new ImageView(setImagenCarta(carta));
+        partida.getJugadorActual().getMano().forEach(carta ->
+        addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, listaCartas));
+        /*
 		image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
 		iview = new ImageView(image);
 		listaCartas.addColumn(listaCartas.getColumnCount(), iview);
 		
 		iview = new ImageView(new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/1-amarillo.png")));
 		listaCartas.addColumn(listaCartas.getColumnCount(), iview);
+		*/
+	}
+	
+	private void addCarta(Sala sala, int jugadorLayoutID, int jugadorID, Carta carta, GridPane listaCartas) {
+		
+		boolean isVisible = jugadorID == jugadorActualID;
+		
+		ImageView imageview = ImageManager.setImagenCarta(carta, defaultMode, isVisible);
+		listaCartas.addColumn(listaCartas.getColumnCount(), imageview);
+		//listaCartas.setHalignment(imageview, HPos.CENTER);
 	}
 }

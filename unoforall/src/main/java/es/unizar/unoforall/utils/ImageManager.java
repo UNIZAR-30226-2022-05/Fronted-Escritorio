@@ -9,9 +9,14 @@ import javafx.scene.image.Image;
 
 public class ImageManager {
 
-    private static final HashMap<Carta, Image> defaultCardsMap = new HashMap<>();
+	//Imagenes privadas para cachearlas y que sean cargadas una única vez en memoria.
+	private static final HashMap<Carta, Image> defaultCardsMap = new HashMap<>();
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
     
+    private static Image imageRevesCartaDefault = null;
+    private static Image imageRevesCartaAlt = null;
+    private static Image imageMazoCartaDefault = null;
+    private static Image imageMazoCartaAlt = null;
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PUBLICAS//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +42,11 @@ public class ImageManager {
                 }
             }
         }
-
+        //estandarizar la imagen
+        /*
+        ImageView imageview = new ImageView;
+        imageView.setFitHeight(100);
+        imageView.setFitWidth(100);*/
         if(isVisible) {
             if(defaultMode) {
                 return new ImageView(defaultCardsMap.get(carta));    
@@ -50,14 +59,14 @@ public class ImageManager {
     }
     
 //Devuelve el ImageView del mazo de cartas correspondiente.
-    public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode){
+    public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode) {
     	return new ImageView(getResourceMazoCartas(defaultMode));
     }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PRIVADAS//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
-    private static Image getResourceCarta(Carta carta, boolean defaultMode){
+    private static Image getResourceCarta(Carta carta, boolean defaultMode) {
         switch(carta.getColor()){
             case comodin: return getResourceComodin(carta.getTipo(), defaultMode);
             case rojo: return getResourceRojo(carta.getTipo(), defaultMode);
@@ -68,19 +77,29 @@ public class ImageManager {
         }
     }
     
-    private static Image getResourceRevesCarta(boolean defaultMode){
+    private static Image getResourceRevesCarta(boolean defaultMode) {
+        if(imageRevesCartaDefault == null || imageRevesCartaAlt == null){
+            imageRevesCartaDefault = cargarImagen("images/cartas/set-1/negras/tacoVacio.png");
+            imageRevesCartaAlt = cargarImagen("images/cartas/set-2/negras/tacoVacio.png");
+        }
+        
         if(defaultMode) {
-            return cargarImagen("images/cartas/set-1/negras/tacoVacio.png");
+            return imageRevesCartaDefault;
         } else {
-            return cargarImagen("images/cartas/set-2/negras/tacoVacio.png");
+            return imageRevesCartaAlt;
         }
     }
 
-    private static Image getResourceMazoCartas(boolean defaultMode){
+    private static Image getResourceMazoCartas(boolean defaultMode) {
+        if(imageMazoCartaDefault == null || imageMazoCartaAlt == null){
+            imageMazoCartaDefault = cargarImagen("images/cartas/set-1/negras/tacoLleno.png");
+            imageMazoCartaAlt = cargarImagen("images/cartas/set-2/negras/tacoLleno.png");
+        }
+        
         if(defaultMode) {
-            return cargarImagen("images/cartas/set-1/negras/tacoLleno.png");
+            return imageMazoCartaDefault;
         } else {
-            return cargarImagen("images/cartas/set-1/negras/tacoLleno.png");
+            return imageMazoCartaAlt;
         }
     }
 
@@ -286,15 +305,15 @@ public class ImageManager {
 	            case intercambio: return cargarImagen("images/cartas/set-2/amarillas/intercambio-amarillo.png");
 	            case x2: return cargarImagen("images/cartas/set-2/amarillas/por2-amarillo.png");
 	            case cambioColor: return cargarImagen("images/cartas/set-2/amarillas/cambioColor-amarillo.png");
-	            case mas4: return cargarImagen("images/cartas/set-1/amarillas/mas4-amarillo.png");
+	            case mas4: return cargarImagen("images/cartas/set-2/amarillas/mas4-amarillo.png");
                 default: return null;
             }
         }
     }
-    
+    //En este método se declaran las dimensiones de las imágenes.
     private static Image cargarImagen(String path) {
     	try {
-    		return new Image(App.class.getResourceAsStream(path));
+    		return new Image(App.class.getResourceAsStream(path), 200, 150, true, false);
     	} catch (Exception e) {
     		return null;
     	}
