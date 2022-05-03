@@ -2,3 +2,11 @@
  -fx-background-image: url('images/fondos/azul.png');
  -fx-background-size: 100% 100%;
 }
+/* para hacer los scrollpanes transparentes */
+.scroll-pane > .viewport {
+	-fx-background-color: transparent;
+}
+
+.scroll-pane {
+	-fx-background-color: transparent;
+}

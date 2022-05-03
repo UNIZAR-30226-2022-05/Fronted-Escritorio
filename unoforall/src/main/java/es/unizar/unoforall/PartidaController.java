@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -205,9 +206,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		}
 		
 		listaCartas.getChildren().clear();
+		Carta aux = new Carta();
+		aux = partida.getJugadorActual().getMano().get(1);
 		//iview = new ImageView(setImagenCarta(carta));
-        partida.getJugadorActual().getMano().forEach(carta ->
-        addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, listaCartas));
+		for (int i = 1; i < 20; i++) {
+		addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, listaCartas);
+        //partida.getJugadorActual().getMano().forEach(carta ->
+        //addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, listaCartas));
+        }
+		
         /*
 		image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
 		iview = new ImageView(image);
@@ -221,9 +228,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private void addCarta(Sala sala, int jugadorLayoutID, int jugadorID, Carta carta, GridPane listaCartas) {
 		
 		boolean isVisible = jugadorID == jugadorActualID;
+		//ColumnConstraints col1 = new ColumnConstraints();
 		
 		ImageView imageview = ImageManager.setImagenCarta(carta, defaultMode, isVisible);
 		listaCartas.addColumn(listaCartas.getColumnCount(), imageview);
-		//listaCartas.setHalignment(imageview, HPos.CENTER);
+		
+		GridPane.setHalignment(imageview, HPos.CENTER);
 	}
 }
