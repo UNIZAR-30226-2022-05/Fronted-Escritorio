@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
    <center>
-      <Pane prefHeight="33.0" prefWidth="449.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="517.0" prefWidth="880.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
          <children>
             <VBox fx:id="fondo" layoutX="334.0" layoutY="14.0" prefHeight="306.0" prefWidth="186.0">
                <padding>
@@ -31,11 +31,11 @@
       </Pane>
    </center>
    <bottom>
-      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3399ff;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="212.0" prefWidth="1280.0" style="-fx-background-color: #3399ff;" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="misCartas" hbarPolicy="NEVER" hmax="2.0" layoutX="167.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+            <ScrollPane fx:id="scrollJugadorAbajo" hbarPolicy="NEVER" hmax="2.0" layoutX="167.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
-                  <GridPane fx:id="listaCartas" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                  <GridPane fx:id="cartasJugadorAbajo" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
@@ -47,11 +47,14 @@
                            <image>
                               <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
                            </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
                         </ImageView>
                      </children>
                   </GridPane>
                </content></ScrollPane>
-            <ImageView fx:id="imagen" fitHeight="150.0" fitWidth="150.0" layoutX="71.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imagen" fitHeight="150.0" fitWidth="150.0" layoutX="93.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/cartas/set-1/amarillas/0-amarillo.png" />
                </image>
@@ -60,18 +63,83 @@
       </Pane>
    </bottom>
    <top>
-      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #990000;" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="66.0" prefWidth="1280.0" style="-fx-background-color: #990000;" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fx:id="scrollJugadorArriba" hbarPolicy="NEVER" hmax="2.0" layoutX="624.0" layoutY="-61.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="365.0" rotate="180.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+               <content>
+                  <GridPane fx:id="cartasJugadorArriba" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
+                           </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children></Pane>
    </top>
    <left>
-      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #123123;" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="414.0" prefWidth="200.0" style="-fx-background-color: #123123;" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fx:id="scrollJugadorIzquierda" hbarPolicy="NEVER" hmax="2.0" layoutX="-137.0" layoutY="108.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="365.0" rotate="90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+               <content>
+                  <GridPane fx:id="cartasJugadorIzquierda" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
+                           </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children></Pane>
    </left>
    <right>
-      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ecce5b;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="414.0" prefWidth="200.0" style="-fx-background-color: #ecce5b;" BorderPane.alignment="TOP_CENTER">
          <children>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-background-image: transparent;" styleClass="scroll-pane" stylesheets="@style.css" />
-              </content>
+            <ScrollPane fx:id="scrollJugadorDerecha" hbarPolicy="NEVER" hmax="2.0" layoutY="117.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="365.0" rotate="-90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+               <content>
+                  <GridPane fx:id="cartasJugadorDerecha" gridLinesVisible="true" layoutY="-1.0" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
+                           </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content>
             </ScrollPane>
          </children>
       </Pane>

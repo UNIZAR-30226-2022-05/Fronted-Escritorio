@@ -46,9 +46,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
 	@FXML private Label labelError;
 	
-	@FXML ScrollPane misCartas;
+	@FXML ScrollPane scrollJugadorAbajo;
+	@FXML ScrollPane scrollJugadorIzquierda;
+	@FXML ScrollPane scrollJugadorArriba;
+	@FXML ScrollPane scrollJugadorDerecha;
 	
-	@FXML GridPane listaCartas;
+	@FXML GridPane cartasJugadorAbajo;
+	@FXML GridPane cartasJugadorIzquierda;
+	@FXML GridPane cartasJugadorArriba;
+	@FXML GridPane cartasJugadorDerecha;
 	
 	@FXML ImageView imagen;
 	@FXML ImageView iview;
@@ -80,8 +86,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		//listaCartas.getChildren().clear();
 		
-		//misCartas.getChildren().clear();
-		//misCartas.setContent(addImage());
+		//scrollJugadorAbajo.getChildren().clear();
+		//scrollJugadorAbajo.setContent(addImage());
 		//Image image = new Image("/images/cartas/set-1/amarillas/0-amarillo.png");
 		//image = new Image("/unoforall/src/main/java/es/unizar/unoforall/arista.png", false);
 		
@@ -100,9 +106,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//ImageView image = new ImageView("images/cartas/set-1/amarillas/0-amarillo.png");
 		//HBox test = new HBox();
 		
-		//misCartas.setContent(iview);
-		//misCartas.setContent(addImage("images/cartas/set-1/amarillas/0-amarillo.png"));
-		//misCartas.setContent(addImage("images/cartas/set-1/amarillas/1-amarillo.png"));
+		//scrollJugadorAbajo.setContent(iview);
+		//scrollJugadorAbajo.setContent(addImage("images/cartas/set-1/amarillas/0-amarillo.png"));
+		//scrollJugadorAbajo.setContent(addImage("images/cartas/set-1/amarillas/1-amarillo.png"));
 		
 		//listaCartas.addColumn(listaCartas.getColumnCount(), iview);
 		
@@ -205,33 +211,39 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			if(DEBUG) System.out.println(jugadorIDmap);
 		}
 		
-		listaCartas.getChildren().clear();
+		cartasJugadorAbajo.getChildren().clear();
+		cartasJugadorDerecha.getChildren().clear();
+		cartasJugadorIzquierda.getChildren().clear();
+		cartasJugadorArriba.getChildren().clear();
 		Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		//iview = new ImageView(setImagenCarta(carta));
 		for (int i = 1; i < 20; i++) {
-		addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, listaCartas);
+			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorAbajo);
+			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorDerecha);
+			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorIzquierda);
+			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorArriba);
         //partida.getJugadorActual().getMano().forEach(carta ->
-        //addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, listaCartas));
+        //addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, cartasJugadorAbajo));
         }
 		
         /*
 		image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
 		iview = new ImageView(image);
-		listaCartas.addColumn(listaCartas.getColumnCount(), iview);
+		cartasJugadorAbajo.addColumn(cartasJugadorAbajo.getColumnCount(), iview);
 		
 		iview = new ImageView(new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/1-amarillo.png")));
-		listaCartas.addColumn(listaCartas.getColumnCount(), iview);
+		cartasJugadorAbajo.addColumn(cartasJugadorAbajo.getColumnCount(), iview);
 		*/
 	}
 	
-	private void addCarta(Sala sala, int jugadorLayoutID, int jugadorID, Carta carta, GridPane listaCartas) {
+	private void addCarta(Sala sala, int jugadorLayoutID, int jugadorID, Carta carta, GridPane cartasJugadorX) {
 		
 		boolean isVisible = jugadorID == jugadorActualID;
 		//ColumnConstraints col1 = new ColumnConstraints();
 		
 		ImageView imageview = ImageManager.setImagenCarta(carta, defaultMode, isVisible);
-		listaCartas.addColumn(listaCartas.getColumnCount(), imageview);
+		cartasJugadorX.addColumn(cartasJugadorX.getColumnCount(), imageview);
 		
 		GridPane.setHalignment(imageview, HPos.CENTER);
 	}
