@@ -2,12 +2,14 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.ListaUsuarios;
 import es.unizar.unoforall.model.UsuarioVO;
+import es.unizar.unoforall.model.salas.NotificacionSala;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,8 +46,9 @@ public class NotificacionesController implements Initializable{
     
     @FXML private Label labelError;
     @FXML private GridPane listaInvitacionesSala;
-    @FXML private GridPane listaEnviadas;
     @FXML private GridPane listaRecibidas;
+    
+    public static ArrayList<NotificacionSala> invitaciones = new ArrayList<NotificacionSala>();
     
     @FXML
     void goBack(ActionEvent event) {
@@ -89,43 +92,9 @@ public class NotificacionesController implements Initializable{
 				imgMenu.setEffect(null);
 			}
 		});;
-		
-		//CARGAR LISTA DE PETICIONES ENVIADAS
-		RestAPI apirest = new RestAPI("/api/sacarPeticionesEnviadas");
-		apirest.addParameter("sesionID", App.getSessionID());
-		apirest.setOnError(e -> {
-			if(DEBUG) System.out.println(e);
-			labelError.setText(StringUtils.parseString(e.toString()));
-		});
-		
-		apirest.openConnection();
-    	ListaUsuarios enviadas = apirest.receiveObject(ListaUsuarios.class);
-    	if(enviadas.isExpirado()) {
-    		if(DEBUG) System.out.println("La sesión ha expirado.");
-			labelError.setText("La sesión ha expirado.");
-    	} else if (!enviadas.getError().equals("null")) {
-    		if(DEBUG) System.out.println("Error en peticiones Enviadas: " + StringUtils.parseString(enviadas.getError()));
-			labelError.setText("Error en peticiones Enviadas: " + StringUtils.parseString(enviadas.getError()));
-    	} else {
-    		for (UsuarioVO enviada : enviadas.getUsuarios()) {
-    			try {
-        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("peticionItem.fxml"));
-    	        	HBox salaItem = fxmlLoader.load();
-    	        	
-    	        	PeticionItemController peticionItemController = fxmlLoader.getController();
-    	        	peticionItemController.setData(enviada, true);
-    	        	
-    	        	listaEnviadas.addRow(listaEnviadas.getRowCount(), salaItem);
-        			
-        			if (DEBUG) System.out.println("amigo encontrado:" + enviada.getCorreo());
-    			} catch (IOException e) {
-    				if (DEBUG) e.printStackTrace();
-    			}
-    		}
-    	}
     	
 		//CARGAR LISTA DE PETICIONES RECIBIDAS
-    	apirest = new RestAPI("/api/sacarPeticionesRecibidas");
+    	RestAPI apirest = new RestAPI("/api/sacarPeticionesRecibidas");
 		apirest.addParameter("sesionID", App.getSessionID());
 		apirest.setOnError(e -> {
 			if(DEBUG) System.out.println(e);
@@ -159,7 +128,25 @@ public class NotificacionesController implements Initializable{
     	}
     	
 		//CARGAR LISTA DE INVITACIONES
-		//DE MOMENTO NO ESTÁ Y NO ESTOY SEGURO SI VA A ESTAR
+    	for (NotificacionSala notif : invitaciones) {
+			try {
+    	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("invitacionItem.fxml"));
+	        	HBox invitacionItem = fxmlLoader.load();
+	        	
+	        	InvitacionItemController invitacionItemController = fxmlLoader.getController();
+	        	invitacionItemController.setData(notif);
+	        	
+	        	listaInvitacionesSala.addRow(listaInvitacionesSala.getRowCount(), invitacionItem);
+    			
+    			if (DEBUG) System.out.println("invitación encontrada");
+			} catch (IOException e) {
+				if (DEBUG) e.printStackTrace();
+			}
+		}
+	}
+
+	public static void annadirInvitacionSala(NotificacionSala notif) {
+		invitaciones.add(notif);
 	}
 
 }

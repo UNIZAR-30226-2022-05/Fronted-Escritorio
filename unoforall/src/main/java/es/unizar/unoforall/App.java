@@ -195,6 +195,7 @@ public class App extends Application {
     		if (DEBUG) System.out.println("Has aceptado la solicitud.");
     		
     	} else if (respuesta == ButtonType.CANCEL) {
+    		NotificacionesController.annadirInvitacionSala(notif);
     		if (DEBUG) System.out.println("Has rechazado la invitación");
     	}
     }

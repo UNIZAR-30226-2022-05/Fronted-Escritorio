@@ -47,6 +47,7 @@ public class AmigosController implements Initializable{
     @FXML private TextField cajaCorreoAmigo;
     @FXML private Label labelError;
     @FXML private GridPane listaAmigos;
+    @FXML private GridPane listaEnviadas;
     
     private ArrayList<UsuarioVO> listaAmigosLocal = new ArrayList<UsuarioVO>();
 
@@ -130,6 +131,39 @@ public class AmigosController implements Initializable{
 			if (DEBUG) System.out.println(StringUtils.parseString(error));
 		}
 		
+		//CARGAR LISTA DE PETICIONES ENVIADAS
+		apirest = new RestAPI("/api/sacarPeticionesEnviadas");
+		apirest.addParameter("sesionID", App.getSessionID());
+		apirest.setOnError(e -> {
+			if(DEBUG) System.out.println(e);
+			labelError.setText(StringUtils.parseString(e.toString()));
+		});
+		
+		apirest.openConnection();
+    	ListaUsuarios enviadas = apirest.receiveObject(ListaUsuarios.class);
+    	if(enviadas.isExpirado()) {
+    		if(DEBUG) System.out.println("La sesión ha expirado.");
+			labelError.setText("La sesión ha expirado.");
+    	} else if (!enviadas.getError().equals("null")) {
+    		if(DEBUG) System.out.println("Error en peticiones Enviadas: " + StringUtils.parseString(enviadas.getError()));
+			labelError.setText("Error en peticiones Enviadas: " + StringUtils.parseString(enviadas.getError()));
+    	} else {
+    		for (UsuarioVO enviada : enviadas.getUsuarios()) {
+    			try {
+        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("peticionItem.fxml"));
+    	        	HBox salaItem = fxmlLoader.load();
+    	        	
+    	        	PeticionItemController peticionItemController = fxmlLoader.getController();
+    	        	peticionItemController.setData(enviada, true);
+    	        	
+    	        	listaEnviadas.addRow(listaEnviadas.getRowCount(), salaItem);
+        			
+        			if (DEBUG) System.out.println("amigo encontrado:" + enviada.getCorreo());
+    			} catch (IOException e) {
+    				if (DEBUG) e.printStackTrace();
+    			}
+    		}
+    	}
 	}
     @FXML
     void cleanSearch(ActionEvent event) {

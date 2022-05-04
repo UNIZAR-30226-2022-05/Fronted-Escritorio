@@ -4,8 +4,6 @@ import java.text.DateFormat;
 import java.util.HashMap;
 
 import es.unizar.unoforall.model.UsuarioVO;
-import es.unizar.unoforall.model.partidas.HaJugadoVO;
-import es.unizar.unoforall.model.partidas.Participante;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
@@ -56,109 +54,82 @@ public class PartidaItemController {
 	public void setData(PartidaJugada p) {
 		partida = p;
 		//RELLENAR DATOS DE PARTIDA
-		fechaInicio.setText("Fecha de Inicio: " + DateFormat.getDateInstance().format(partida.getPartida().getFechaInicioPartida()));
-		fechaFin.setText("Fecha de Fin: " + DateFormat.getDateInstance().format(partida.getPartida().getFechaFinPartida()));
+		String fechaI = DateFormat.getTimeInstance().format(partida.getPartida().getFechaInicioPartida());
+		String fechaF = DateFormat.getTimeInstance().format(partida.getPartida().getFechaFinPartida());
+		fechaInicio.setText("Fecha de Inicio: " + fechaI);
+		fechaFin.setText("Fecha de Fin: " + fechaF);
 		
 		Integer modo = partida.getPartida().getModoJuego();
 		if (modo == 0) modoJuego.setImage(original);
 		else if (modo == 1) modoJuego.setImage(attack);
 		else modoJuego.setImage(parejas);
 		
-		//RELLENAR DATOS DE JUGADORES
-		int restantes = partida.getPartida().getNumIas() + partida.getParticipantes().size();
-		
-		//1ero
-		boolean humanoAsignado = false;
-		for (Participante part : partida.getParticipantes()) {
-			HaJugadoVO jug = part.getDatosPartida();
-			UsuarioVO usr = part.getUsuario();
-			if (jug.getUsrsDebajo() == restantes - 1) {
-				//ASIGNAR HUMANO
-				nomJug1.setText(StringUtils.parseString(usr.getNombre()));
-				iconoJug1.setImage(avatares.get(usr.getAvatar()));
-				humanoAsignado = true;
-				break;
-			}
+		//OCULTAR DATOS DE JUGADORES INEXISTENTES
+		switch(partida.getParticipantes().size()){
+	        case 2:
+	            pos3.setVisible(false);			pos3.setDisable(true);
+	            iconoJug3.setVisible(false);	iconoJug3.setDisable(true);
+	            nomJug3.setVisible(false);		nomJug3.setDisable(true);
+	        case 3:
+	            pos4.setVisible(false);			pos4.setDisable(true);
+	            iconoJug4.setVisible(false);	iconoJug4.setDisable(true);
+	            nomJug4.setVisible(false);		nomJug4.setDisable(true);
+	            break;
 		}
-		if (!humanoAsignado) {
+		
+		//RELLENAR DATOS DE JUGADORES
+		//1o
+		UsuarioVO usr = partida.getParticipantes().get(0).getUsuario();
+		if (usr != null) {
+			//ASIGNAR HUMANO
+			nomJug1.setText(StringUtils.parseString(usr.getNombre()));
+			iconoJug1.setImage(avatares.get(usr.getAvatar()));
+		} else {
 			//ASIGNAR IA
 			nomJug1.setText("IA");
 			iconoJug1.setImage(avatares.get(7));
 		}
-		
-		restantes--;
-		
+
 		//2do
-		humanoAsignado = false;
-		for (Participante part : partida.getParticipantes()) {
-			HaJugadoVO jug = part.getDatosPartida();
-			UsuarioVO usr = part.getUsuario();
-			if (jug.getUsrsDebajo() == restantes - 1) {
-				//ASIGNAR HUMANO
-				nomJug2.setText(StringUtils.parseString(usr.getNombre()));
-				iconoJug2.setImage(avatares.get(usr.getAvatar()));
-				humanoAsignado = true;
-				break;
-			}
-		}
-		if (!humanoAsignado) {
+		usr = partida.getParticipantes().get(1).getUsuario();
+		if (usr != null) {
+			//ASIGNAR HUMANO
+			nomJug2.setText(StringUtils.parseString(usr.getNombre()));
+			iconoJug2.setImage(avatares.get(usr.getAvatar()));
+		} else {
 			//ASIGNAR IA
 			nomJug2.setText("IA");
 			iconoJug2.setImage(avatares.get(7));
 		}
-		restantes--;
 		
-		//3ero
-		if (restantes > 0) {
-			humanoAsignado = false;
-			for (Participante part : partida.getParticipantes()) {
-				HaJugadoVO jug = part.getDatosPartida();
-				UsuarioVO usr = part.getUsuario();
-				if (jug.getUsrsDebajo() == restantes - 1) {
-					//ASIGNAR HUMANO
-					nomJug3.setText(StringUtils.parseString(usr.getNombre()));
-					iconoJug3.setImage(avatares.get(usr.getAvatar()));
-					humanoAsignado = true;
-					break;
-				}
-			}
-			if (!humanoAsignado) {
+		//3o
+		if (partida.getParticipantes().size() > 2) {
+			//3ero
+			usr = partida.getParticipantes().get(2).getUsuario();
+			if (usr != null) {
+				//ASIGNAR HUMANO
+				nomJug3.setText(StringUtils.parseString(usr.getNombre()));
+				iconoJug3.setImage(avatares.get(usr.getAvatar()));
+			} else {
 				//ASIGNAR IA
 				nomJug3.setText("IA");
 				iconoJug3.setImage(avatares.get(7));
-			}
-			restantes--;
-		} else {
-			nomJug3.setDisable(true);
-			nomJug3.setVisible(false);
-			iconoJug3.setDisable(true);
-			iconoJug3.setVisible(false);
+			} 
 		}
+		
 		//4o
-		if (restantes > 0) {
-			humanoAsignado = false;
-			for (Participante part : partida.getParticipantes()) {
-				HaJugadoVO jug = part.getDatosPartida();
-				UsuarioVO usr = part.getUsuario();
-				if (jug.getUsrsDebajo() == restantes - 1) {
-					//ASIGNAR HUMANO
-					nomJug4.setText(StringUtils.parseString(usr.getNombre()));
-					iconoJug4.setImage(avatares.get(usr.getAvatar()));
-					humanoAsignado = true;
-					break;
-				}
-			}
-			if (!humanoAsignado) {
+		if (partida.getParticipantes().size() > 3) {
+			//3ero
+			usr = partida.getParticipantes().get(3).getUsuario();
+			if (usr != null) {
+				//ASIGNAR HUMANO
+				nomJug4.setText(StringUtils.parseString(usr.getNombre()));
+				iconoJug4.setImage(avatares.get(usr.getAvatar()));
+			} else {
 				//ASIGNAR IA
 				nomJug4.setText("IA");
 				iconoJug4.setImage(avatares.get(7));
-			}
-			restantes--;
-		} else {
-			nomJug4.setDisable(true);
-			nomJug4.setVisible(false);
-			iconoJug4.setDisable(true);
-			iconoJug4.setVisible(false);
+			} 
 		}
 	}
 
