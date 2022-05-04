@@ -10,6 +10,7 @@ import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.NotificacionSala;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -178,8 +179,8 @@ public class App extends Application {
     private static void gestionarInvitacionSala(NotificacionSala notif) {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Solicitud de amistad");
-    	alert.setHeaderText(notif.getRemitente().getNombre() + " te ha invitado a una sala");
-    	alert.setContentText("Puedes aceptar pulsando ACEPTAR o rechazar pulsando CANCELAR");
+    	alert.setHeaderText(StringUtils.parseString(notif.getRemitente().getNombre()) + " te ha invitado a una sala");
+    	alert.setContentText("En caso de cancelación, la invitación seguirá estando disponible en el menú de notificaciones");
 
     	if (DEBUG) System.out.println("Invitación de: " + notif.getRemitente() + " a la sala " + notif.getSalaID());
     	
@@ -188,7 +189,7 @@ public class App extends Application {
     		
     		//UNIRSE A LA SALA
 			App.setSalaID(notif.getSalaID());
-		    VistaSalaController.deDondeVengo = "crearSala";
+		    VistaSalaController.deDondeVengo = "principal";
 	    	App.setRoot("vistaSala");
 	    	
     		if (DEBUG) System.out.println("Has aceptado la solicitud.");

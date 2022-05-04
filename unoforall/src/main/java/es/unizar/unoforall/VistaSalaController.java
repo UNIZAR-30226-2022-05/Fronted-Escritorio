@@ -89,8 +89,6 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	private ArrayList<String> nombresAmigos = new ArrayList<String>();
 	private ArrayList<UsuarioVO> listaAmigos = new ArrayList<UsuarioVO>();
 	
-	private Sala sala;
-	
 //	Por defecto deDondeVengo es la pantalla principal
 //	para evitar posibles errores en ejecución
 	public static String deDondeVengo = "principal";
@@ -177,7 +175,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 			
 			for (UsuarioVO usuario : usuarios.getUsuarios()) {
 				listaAmigos.add(usuario);
-				nombresAmigos.add(usuario.getNombre());
+				nombresAmigos.add(StringUtils.parseString(usuario.getNombre()));
 				
     			if (DEBUG) System.out.println("amigo encontrado:" + usuario.getCorreo());
 			}
@@ -225,8 +223,8 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	@FXML
 	public void invitarAmigo(ActionEvent event) {
 		Integer idx = amigosChoiceBox.getSelectionModel().getSelectedIndex();
-		if (idx != 0 && sala.getParticipantes().size() < sala.getConfiguracion().getMaxParticipantes()) {
-			App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(idx-1).getId(), App.getSalaID());
+		if (idx != 0 && SuscripcionSala.sala.getParticipantes().size() < SuscripcionSala.sala.getConfiguracion().getMaxParticipantes()) {
+			App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(idx-1).getId(), SuscripcionSala.sala.getSalaID());
 		}
 	}
 	
