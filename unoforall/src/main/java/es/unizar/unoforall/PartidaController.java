@@ -170,6 +170,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		public void onClickListener(Carta carta) {
 			//comprobar si la carta jugada es correcta y mandarla a la API
 			//sala.
+			System.out.println("He sido clickado");
 		}
 	};
 	
@@ -243,8 +244,17 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//ColumnConstraints col1 = new ColumnConstraints();
 		
 		ImageView imageview = ImageManager.setImagenCarta(carta, defaultMode, isVisible);
+		//Supuestamente guardará el objeto carta en el ImageView.
+		imageview.setUserData(carta);
+		//imageview.setOnMouseClicked(event -> System.out.println(carta.toString()));
+		imageview.setOnMouseClicked(event -> cartaClickada(imageview));
 		cartasJugadorX.addColumn(cartasJugadorX.getColumnCount(), imageview);
 		
 		GridPane.setHalignment(imageview, HPos.CENTER);
+	}
+	
+	private void cartaClickada(ImageView cartaClickada) {
+		Carta carta = (Carta)cartaClickada.getUserData();
+		System.out.println(carta.toString());
 	}
 }

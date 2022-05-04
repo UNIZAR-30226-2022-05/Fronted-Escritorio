@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
    <center>
       <Pane prefHeight="517.0" prefWidth="880.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
          <children>
