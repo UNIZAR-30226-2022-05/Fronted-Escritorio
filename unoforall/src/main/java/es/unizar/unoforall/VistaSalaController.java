@@ -175,7 +175,9 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 			
 			for (UsuarioVO usuario : usuarios.getUsuarios()) {
 				listaAmigos.add(usuario);
-				nombresAmigos.add(StringUtils.parseString(usuario.getNombre()));
+				String nombre = StringUtils.parseString(usuario.getNombre());
+				String correo = StringUtils.parseString(usuario.getCorreo());
+				nombresAmigos.add(nombre + " (" + correo + ") ");
 				
     			if (DEBUG) System.out.println("amigo encontrado:" + usuario.getCorreo());
 			}
