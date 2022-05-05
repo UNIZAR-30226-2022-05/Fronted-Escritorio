@@ -56,10 +56,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML GridPane cartasJugadorArriba;
 	@FXML GridPane cartasJugadorDerecha;
 	
-	@FXML ImageView imagen;
-	@FXML ImageView iview;
+	@FXML ImageView tacoRobo;
+	@FXML ImageView tacoDescartes;
 	
-	@FXML Image image;
 	
 	private Sala sala;
 	private Partida partida; 
@@ -218,15 +217,19 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		cartasJugadorArriba.getChildren().clear();
 		Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
-		//iview = new ImageView(setImagenCarta(carta));
 		for (int i = 1; i < 20; i++) {
+			/*
 			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorAbajo);
 			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorDerecha);
 			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorIzquierda);
 			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorArriba);
-        //partida.getJugadorActual().getMano().forEach(carta ->
-        //addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, cartasJugadorAbajo));
+			*/
+			partida.getJugadorActual().getMano().forEach(carta ->
+			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, cartasJugadorAbajo));
         }
+		
+		ImageView imageview = ImageManager.setImagenCarta(aux, defaultMode, true);
+		tacoRobo.setImage(imageview.getImage());
 		
         /*
 		image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
@@ -244,6 +247,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//ColumnConstraints col1 = new ColumnConstraints();
 		
 		ImageView imageview = ImageManager.setImagenCarta(carta, defaultMode, isVisible);
+		imageview.setFitWidth(96);
+		imageview.setFitHeight(150);
 		//Supuestamente guardará el objeto carta en el ImageView.
 		imageview.setUserData(carta);
 		//imageview.setOnMouseClicked(event -> System.out.println(carta.toString()));

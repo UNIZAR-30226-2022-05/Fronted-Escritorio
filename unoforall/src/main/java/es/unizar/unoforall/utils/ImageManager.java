@@ -313,7 +313,8 @@ public class ImageManager {
     //En este método se declaran las dimensiones de las imágenes.
     private static Image cargarImagen(String path) {
     	try {
-    		return new Image(App.class.getResourceAsStream(path), 200, 150, true, false);
+    		//return new Image(App.class.getResourceAsStream(path), 200, 150, true, false);
+    		return new Image(App.class.getResourceAsStream(path));
     	} catch (Exception e) {
     		return null;
     	}
