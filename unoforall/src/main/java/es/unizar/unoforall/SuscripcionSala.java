@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import java.util.UUID;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.model.partidas.Jugada;
 import es.unizar.unoforall.model.salas.Sala;
 
 public class SuscripcionSala {
@@ -47,6 +48,10 @@ public class SuscripcionSala {
 	
 	public static void dondeEstoy(SalaReceiver pantallaActual) {
 		SuscripcionSala.pantallaActual = pantallaActual;
+	}
+	
+	public static void enviarJugada(Jugada jugada) {
+		App.apiweb.sendObject("/app/partidas/turnos/" + sala.getSalaID(), jugada);
 	}
 
 	private static void ackSala() {

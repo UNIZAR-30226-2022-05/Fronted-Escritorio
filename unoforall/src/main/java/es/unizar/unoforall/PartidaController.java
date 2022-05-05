@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -8,6 +9,7 @@ import java.util.ResourceBundle;
 import es.unizar.unoforall.interfaces.CartaListener;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.Carta;
+import es.unizar.unoforall.model.partidas.Jugada;
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
@@ -56,6 +58,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML GridPane cartasJugadorArriba;
 	@FXML GridPane cartasJugadorDerecha;
 	
+	
+	GridPane[] cartasJugadores;
+	
 	@FXML ImageView tacoRobo;
 	@FXML ImageView tacoDescartes;
 	
@@ -64,6 +69,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private Partida partida; 
 	
 	private int jugadorActualID = -1;
+	
 	
 //	Por defecto deDondeVengo es la pantalla principal
 //	para evitar posibles errores en ejecución
@@ -121,8 +127,25 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	@Override
 	public void administrarSala(Sala sala) {
+		partida = sala.getPartida();
 		
-		//labelError.setText("");
+		cartasJugadorAbajo.getChildren().clear();
+		cartasJugadorDerecha.getChildren().clear();
+		cartasJugadorIzquierda.getChildren().clear();
+		cartasJugadorArriba.getChildren().clear();
+		
+		int numJugadores = partida.getJugadores().size();
+		for (int i = 0; i < numJugadores; i++) {
+			final int jugadorID = i;
+			partida.getJugadores().get(i).getMano().forEach(carta ->
+			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
+		}
+	
+		//partida.getUltimaCartaJugada()
+		ImageView imageview = ImageManager.setImagenCarta(partida.getUltimaCartaJugada(), defaultMode, true);
+		tacoDescartes.setImage(imageview.getImage());
+		
+		/*
 		if (sala.isNoExiste()) {
 			labelError.setText(StringUtils.parseString(sala.getError()));
 			if (DEBUG) System.out.println(sala.getError());
@@ -130,8 +153,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			App.setRoot(deDondeVengo);
 		} else {
 			int numJugadores = partida.getJugadores().size();
-			//if (DEBUG) System.out.println("Estado de la sala: " + sala);
-			//System.out.println(sala.getPartida().getUltimaCartaJugada());
 			if (sala.isEnPartida()) {
 				if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
 				partida = sala.getPartida();
@@ -139,7 +160,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				partida.getJugadorActual().getMano().forEach(carta ->
                 System.out.println(carta.toString()));
 			}
-		}
+		}*/
+		
 	}
 	
 	/*
@@ -182,6 +204,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		int numJugadores = partida.getJugadores().size();
 		//Si no conocemos quién es el jugador actual todavía
 		if (jugadorActualID == -1) {
+			
+			cartasJugadores = new GridPane[] {
+				cartasJugadorAbajo,
+				cartasJugadorIzquierda,
+				cartasJugadorArriba,
+				cartasJugadorDerecha,
+			};
 			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
 			
 			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
@@ -215,21 +244,31 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		cartasJugadorDerecha.getChildren().clear();
 		cartasJugadorIzquierda.getChildren().clear();
 		cartasJugadorArriba.getChildren().clear();
-		Carta aux = new Carta();
+		//Cargar cartas de cada jugador
+		for (int i = 0; i < numJugadores; i++) {
+			final int jugadorID = i;
+			partida.getJugadores().get(i).getMano().forEach(carta ->
+			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
+		}
+		//Cargar primera carta del mazo de descartes
+		ImageView imageview = ImageManager.setImagenCarta(partida.getUltimaCartaJugada(), defaultMode, true);
+		tacoDescartes.setImage(imageview.getImage());
+		
+		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		for (int i = 1; i < 20; i++) {
-			/*
-			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorAbajo);
-			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorDerecha);
-			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorIzquierda);
-			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorArriba);
-			*/
+			
+			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorAbajo);
+			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorDerecha);
+			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorIzquierda);
+			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorArriba);
+			
 			partida.getJugadorActual().getMano().forEach(carta ->
 			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, cartasJugadorAbajo));
-        }
+        }*/
 		
-		ImageView imageview = ImageManager.setImagenCarta(aux, defaultMode, true);
-		tacoRobo.setImage(imageview.getImage());
+		//ImageView imageview = ImageManager.setImagenCarta(aux, defaultMode, true);
+		//tacoRobo.setImage(imageview.getImage());
 		
         /*
 		image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
@@ -249,7 +288,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		ImageView imageview = ImageManager.setImagenCarta(carta, defaultMode, isVisible);
 		imageview.setFitWidth(96);
 		imageview.setFitHeight(150);
-		//Supuestamente guardará el objeto carta en el ImageView.
+		//Guarda el objeto carta en el ImageView que lo representa.
 		imageview.setUserData(carta);
 		//imageview.setOnMouseClicked(event -> System.out.println(carta.toString()));
 		imageview.setOnMouseClicked(event -> cartaClickada(imageview));
@@ -260,6 +299,18 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private void cartaClickada(ImageView cartaClickada) {
 		Carta carta = (Carta)cartaClickada.getUserData();
+		Jugada jugada = new Jugada(Collections.singletonList(carta));
+		
+		if(partida.validarJugada(jugada)) {
+			System.out.println("se valida la carta" + carta);
+			SuscripcionSala.enviarJugada(jugada);
+		}
+		
 		System.out.println(carta.toString());
+	}
+	
+	public void robarCarta() {
+		Jugada jugada = new Jugada();
+		SuscripcionSala.enviarJugada(jugada);
 	}
 }
