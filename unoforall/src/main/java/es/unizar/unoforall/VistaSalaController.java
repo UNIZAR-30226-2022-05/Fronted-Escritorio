@@ -156,8 +156,12 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 		
 		//Recuperar salaID solo la primera vez para establecer suscripción
 		UUID salaID = App.getSalaID();
-		SuscripcionSala.unirseASala(salaID);
 		
+		//SI NO ES POSIBLE UNIRSE, VOLVER A LA PANTALLA DE DONDE VENGO
+		boolean exito = SuscripcionSala.unirseASala(salaID);
+		if (!exito) {
+			App.setRoot(deDondeVengo);
+		}
 		
 		//BUSCAR AMIGOS
 		String sesionID = App.getSessionID();

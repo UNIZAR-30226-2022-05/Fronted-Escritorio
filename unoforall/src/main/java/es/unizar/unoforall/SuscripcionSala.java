@@ -10,15 +10,26 @@ public class SuscripcionSala {
 	public static Sala sala;
 	private static SalaReceiver pantallaActual;
 	
-	public static void unirseASala(UUID salaID){ 
-		App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> {
-			if (pantallaActual != null) {
-				sala = s;
-				ackSala();
-				pantallaActual.administrarSala(s);
-			} 
-		});
-		App.apiweb.sendObject("/app/salas/unirse/" + salaID, VACIO);
+	public static boolean unirseASala(UUID salaID){
+		RestAPI api = new RestAPI("/api/comprobarUnirseSala");
+        api.addParameter("sesionID", App.getSessionID());
+        api.addParameter("salaID", salaID);
+        api.openConnection();
+        boolean exito = api.receiveObject(Boolean.class);
+        
+		if (exito) {
+			App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> {
+				if (pantallaActual != null) {
+					sala = s;
+					ackSala();
+					pantallaActual.administrarSala(s);
+				}
+			});
+			App.apiweb.sendObject("/app/salas/unirse/" + salaID, VACIO);
+		} else {
+			System.err.println("No se puede unir a la sala");
+		}
+		return exito;
 	}
 	
 	public static void salirDeSala() {
@@ -46,7 +57,7 @@ public class SuscripcionSala {
             api.openConnection();
             boolean exito = api.receiveObject(Boolean.class);
             if (!exito) {
-            	System.out.println("Se ha producido un error al enviar el ACK");
+            	System.err.println("Se ha producido un error al enviar el ACK");
             }
         }
 	}

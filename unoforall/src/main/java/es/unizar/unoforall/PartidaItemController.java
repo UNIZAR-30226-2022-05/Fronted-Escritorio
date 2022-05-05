@@ -1,11 +1,9 @@
 package es.unizar.unoforall;
 
-import java.text.DateFormat;
 import java.util.HashMap;
 
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
-import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.utils.FechaUtils;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
