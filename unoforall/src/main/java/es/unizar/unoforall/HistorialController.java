@@ -102,6 +102,7 @@ public class HistorialController implements Initializable{
     	//BUSCAR DATOS DEL HISTORIAL DE PARTIDAS
     	RestAPI apirest = new RestAPI("/api/sacarPartidasJugadas");
 		apirest.addParameter("sesionID", App.getSessionID());
+		apirest.addParameter("usuarioID", usuario.getId());
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
 		apirest.openConnection();

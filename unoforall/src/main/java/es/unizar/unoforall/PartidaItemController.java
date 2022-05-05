@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
+import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -91,6 +92,11 @@ public class PartidaItemController {
 		}
 
 		//2do
+		if (partida.getPartida().getModoJuego() == 2) {
+			//SI ES POR PAREJAS, TAMBIÉN QUEDA EN PRIMER LUGAR
+			pos2.setText("1º");
+		}
+		
 		usr = partida.getParticipantes().get(1).getUsuario();
 		if (usr != null) {
 			//ASIGNAR HUMANO
@@ -103,6 +109,11 @@ public class PartidaItemController {
 		}
 		
 		//3o
+		if (partida.getPartida().getModoJuego() == 2) {
+			//SI ES POR PAREJAS, QUEDA EN SEGUNDO LUGAR
+			pos3.setText("2º");
+		}
+		
 		if (partida.getParticipantes().size() > 2) {
 			//3ero
 			usr = partida.getParticipantes().get(2).getUsuario();
@@ -118,6 +129,10 @@ public class PartidaItemController {
 		}
 		
 		//4o
+		if (partida.getPartida().getModoJuego() == 2) {
+			//SI ES POR PAREJAS, TAMBIÉN QUEDA EN SEGUNDO LUGAR
+			pos4.setText("2º");
+		}
 		if (partida.getParticipantes().size() > 3) {
 			//3ero
 			usr = partida.getParticipantes().get(3).getUsuario();
