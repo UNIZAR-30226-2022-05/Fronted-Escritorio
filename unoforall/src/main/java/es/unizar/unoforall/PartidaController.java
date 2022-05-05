@@ -39,11 +39,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
     private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
     
-    private static final HashMap<Carta, ImageView> defaultCardsMap = new HashMap<>();
-    private static final HashMap<Carta, ImageView> altCardsMap = new HashMap<>();
-
-    private static final String [] imageNames = new String [] {"fw1.jpg",};
-    
     private boolean defaultMode;
     
 	@FXML private Label labelError;
@@ -78,129 +73,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
-		//SuscripcionSala.dondeEstoy(this); 
-		
-		
-		//System.out.println(SuscripcionSala.sala);
-		//System.out.println(SuscripcionSala.sala.getPartida().getUltimaCartaJugada());
-		//System.out.println(SuscripcionSala.sala.getPartida().getNumIAs());
-		
-		
-		//if (DEBUG) System.out.println("Entrando en partida...");
-		//partida = SuscripcionSala.sala.getPartida();
-		
-		//listaCartas.getChildren().clear();
-		
-		//scrollJugadorAbajo.getChildren().clear();
-		//scrollJugadorAbajo.setContent(addImage());
-		//Image image = new Image("/images/cartas/set-1/amarillas/0-amarillo.png");
-		//image = new Image("/unoforall/src/main/java/es/unizar/unoforall/arista.png", false);
-		
-		
-		//HAY QUE PONER LA URL DE LA IMAGEN TOMANDO COMO ORIGEN EL PATH DEL FICHERO FXML
-		//NO EMPEZAR CON "/"CARPETAQUESEA PORQUE PETA, NO USAR CONTRABARRA.
-		//image = new Image(getClass().getResourceAsStream("images/arista.png"));
-		//image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
-		
-		
-		//image = new Image("@images/cartas/set-1/amarillas/0-amarillo.png");
-		//iview = new ImageView(image);
-		//ImageView iview = new ImageView(image);
-		
-		//imagen = iview;
-		//ImageView image = new ImageView("images/cartas/set-1/amarillas/0-amarillo.png");
-		//HBox test = new HBox();
-		
-		//scrollJugadorAbajo.setContent(iview);
-		//scrollJugadorAbajo.setContent(addImage("images/cartas/set-1/amarillas/0-amarillo.png"));
-		//scrollJugadorAbajo.setContent(addImage("images/cartas/set-1/amarillas/1-amarillo.png"));
-		
-		//listaCartas.addColumn(listaCartas.getColumnCount(), iview);
-		
-		//sala.getParticipantes()
-		//int numJugadores = partida.getJugadores().size();
-		
-		//jugadorActualID = partida.getIndiceJugador(BackendAPI.getUsuarioID());
-        //UsuarioVO usuarioActual = sala.getParticipante(BackendAPI.getUsuarioID());
-		
-
-	}
-	@Override
-	public void administrarSala(Sala sala) {
-		partida = sala.getPartida();
-		
-		cartasJugadorAbajo.getChildren().clear();
-		cartasJugadorDerecha.getChildren().clear();
-		cartasJugadorIzquierda.getChildren().clear();
-		cartasJugadorArriba.getChildren().clear();
-		
-		int numJugadores = partida.getJugadores().size();
-		for (int i = 0; i < numJugadores; i++) {
-			final int jugadorID = i;
-			partida.getJugadores().get(i).getMano().forEach(carta ->
-			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
-		}
-	
-		//partida.getUltimaCartaJugada()
-		ImageView imageview = ImageManager.setImagenCarta(partida.getUltimaCartaJugada(), defaultMode, true);
-		tacoDescartes.setImage(imageview.getImage());
-		
-		/*
-		if (sala.isNoExiste()) {
-			labelError.setText(StringUtils.parseString(sala.getError()));
-			if (DEBUG) System.out.println(sala.getError());
-			SuscripcionSala.salirDeSala();
-			App.setRoot(deDondeVengo);
-		} else {
-			int numJugadores = partida.getJugadores().size();
-			if (sala.isEnPartida()) {
-				if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
-				partida = sala.getPartida();
-				partida.getJugadores();
-				partida.getJugadorActual().getMano().forEach(carta ->
-                System.out.println(carta.toString()));
-			}
-		}*/
-		
-	}
-	
-	/*
-	@Override
-	public void administrarSala(Sala sala) {
-		// TODO Auto-generated method stub
-	}*/
-	
-	public void pintarCarta(Carta carta) {
-		
-	}
-	
-	public HBox addImage(String imagen) {
-		HBox hBox = new HBox();
-		
-		final ImageView image = new ImageView(new Image(getClass().getResourceAsStream(imagen)));
-		
-		hBox.getChildren().addAll(image);
-		System.out.println("devolvió Hbox");
-		return hBox;
-		
-	}
-	
-	
-	private CartaListener myListener = new CartaListener() {
-		@Override
-		public void onClickListener(Carta carta) {
-			//comprobar si la carta jugada es correcta y mandarla a la API
-			//sala.
-			System.out.println("He sido clickado");
-		}
-	};
-	
-	public void cargarDatos() {
 		SuscripcionSala.dondeEstoy(this); 
 		
 		if (DEBUG) System.out.println("Entrando en partida...");
+		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
 		sala = SuscripcionSala.sala;
+		//
 		int numJugadores = partida.getJugadores().size();
 		//Si no conocemos quién es el jugador actual todavía
 		if (jugadorActualID == -1) {
@@ -211,6 +90,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				cartasJugadorArriba,
 				cartasJugadorDerecha,
 			};
+			
 			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
 			
 			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
@@ -239,21 +119,64 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 			if(DEBUG) System.out.println(jugadorIDmap);
 		}
-		
+		/*
 		cartasJugadorAbajo.getChildren().clear();
 		cartasJugadorDerecha.getChildren().clear();
 		cartasJugadorIzquierda.getChildren().clear();
 		cartasJugadorArriba.getChildren().clear();
-		//Cargar cartas de cada jugador
+		*/
+		//Recargar cartas de cada jugador
 		for (int i = 0; i < numJugadores; i++) {
 			final int jugadorID = i;
+			cartasJugadores[jugadorIDmap.get(jugadorID)].getChildren().clear();
 			partida.getJugadores().get(i).getMano().forEach(carta ->
 			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
 		}
 		//Cargar primera carta del mazo de descartes
 		ImageView imageview = ImageManager.setImagenCarta(partida.getUltimaCartaJugada(), defaultMode, true);
-		tacoDescartes.setImage(imageview.getImage());
+		tacoDescartes.setImage(imageview.getImage());	
+	}
+	@Override
+	public void administrarSala(Sala sala) {
+		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
+		//Recuperar la partida nueva
+		partida = sala.getPartida();
 		
+		int numJugadores = partida.getJugadores().size();
+		for (int i = 0; i < numJugadores; i++) {
+			final int jugadorID = i;
+			cartasJugadores[jugadorIDmap.get(jugadorID)].getChildren().clear();
+			partida.getJugadores().get(i).getMano().forEach(carta ->
+			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
+		}
+	
+		//Poner la nueva carta en la pila de descartes
+		ImageView imageview = ImageManager.setImagenCarta(partida.getUltimaCartaJugada(), defaultMode, true);
+		tacoDescartes.setImage(imageview.getImage());
+	}
+	
+	public HBox addImage(String imagen) {
+		HBox hBox = new HBox();
+		
+		final ImageView image = new ImageView(new Image(getClass().getResourceAsStream(imagen)));
+		
+		hBox.getChildren().addAll(image);
+		System.out.println("devolvió Hbox");
+		return hBox;
+		
+	}
+	
+	
+	private CartaListener myListener = new CartaListener() {
+		@Override
+		public void onClickListener(Carta carta) {
+			//comprobar si la carta jugada es correcta y mandarla a la API
+			//sala.
+			System.out.println("He sido clickado");
+		}
+	};
+	
+	public void cargarDatos() {
 		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		for (int i = 1; i < 20; i++) {
@@ -266,18 +189,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			partida.getJugadorActual().getMano().forEach(carta ->
 			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, cartasJugadorAbajo));
         }*/
-		
-		//ImageView imageview = ImageManager.setImagenCarta(aux, defaultMode, true);
-		//tacoRobo.setImage(imageview.getImage());
-		
-        /*
-		image = new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/0-amarillo.png"));
-		iview = new ImageView(image);
-		cartasJugadorAbajo.addColumn(cartasJugadorAbajo.getColumnCount(), iview);
-		
-		iview = new ImageView(new Image(getClass().getResourceAsStream("images/cartas/set-1/amarillas/1-amarillo.png")));
-		cartasJugadorAbajo.addColumn(cartasJugadorAbajo.getColumnCount(), iview);
-		*/
 	}
 	
 	private void addCarta(Sala sala, int jugadorLayoutID, int jugadorID, Carta carta, GridPane cartasJugadorX) {

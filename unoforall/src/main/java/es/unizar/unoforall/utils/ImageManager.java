@@ -66,6 +66,8 @@ public class ImageManager {
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PRIVADAS//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
+///////HAY QUE PONER LA URL DE LA IMAGEN TOMANDO COMO ORIGEN EL PATH DEL FICHERO FXML
+///////NO EMPEZAR CON "/"CARPETAQUESEA PORQUE PETA, NO USAR CONTRABARRA AL PRINCIPIO.
     private static Image getResourceCarta(Carta carta, boolean defaultMode) {
         switch(carta.getColor()){
             case comodin: return getResourceComodin(carta.getTipo(), defaultMode);
