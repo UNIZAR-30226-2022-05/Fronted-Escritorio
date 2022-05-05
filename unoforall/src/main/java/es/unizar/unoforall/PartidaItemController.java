@@ -56,7 +56,7 @@ public class PartidaItemController {
 	public void setData(PartidaJugada p) {
 		partida = p;
 		//RELLENAR DATOS DE PARTIDA
-		String fechaI = DateFormat.getTimeInstance().format(partida.getPartida().getFechaInicioPartida());
+		String fechaI = FechaUtils.formatDate(partida.getPartida().getFechaInicioPartida());
 		String fechaF = FechaUtils.formatDate(partida.getPartida().getFechaFinPartida());
 		fechaInicio.setText("Fecha de Inicio: " + fechaI);
 		fechaFin.setText("Fecha de Fin: " + fechaF);
