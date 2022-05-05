@@ -18,6 +18,28 @@
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             <VBox alignment="CENTER" prefHeight="138.0" prefWidth="250.0">
                <children>
+                  <ImageView fx:id="imgHistorial" fitHeight="94.0" fitWidth="83.0" onMouseClicked="#goToHistorial" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/iconoPerfil.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Perfil" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <Pane prefHeight="227.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
+            <ImageView fitHeight="158.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logoUno.png" />
+               </image>
+            </ImageView>
+            <Pane prefHeight="227.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
+            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="250.0">
+               <children>
                   <ImageView fitHeight="94.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/iconoAjustes.png" />
@@ -29,28 +51,6 @@
                      </font>
                   </Label>
                   <ChoiceBox fx:id="configChoiceBox" prefHeight="25.0" prefWidth="184.0" />
-                  <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-               </children>
-            </VBox>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ImageView fitHeight="158.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/logoUno.png" />
-               </image>
-            </ImageView>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="250.0">
-               <children>
-                  <ImageView fx:id="imgHistorial" fitHeight="94.0" fitWidth="83.0" onMouseClicked="#goToHistorial" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/iconoPerfil.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Historial" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold Italic" size="24.0" />
-                     </font>
-                  </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
