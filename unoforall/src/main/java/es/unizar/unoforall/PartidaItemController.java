@@ -6,6 +6,7 @@ import java.util.HashMap;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
 import es.unizar.unoforall.model.salas.ConfigSala;
+import es.unizar.unoforall.utils.FechaUtils;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -56,7 +57,7 @@ public class PartidaItemController {
 		partida = p;
 		//RELLENAR DATOS DE PARTIDA
 		String fechaI = DateFormat.getTimeInstance().format(partida.getPartida().getFechaInicioPartida());
-		String fechaF = DateFormat.getTimeInstance().format(partida.getPartida().getFechaFinPartida());
+		String fechaF = FechaUtils.formatDate(partida.getPartida().getFechaFinPartida());
 		fechaInicio.setText("Fecha de Inicio: " + fechaI);
 		fechaFin.setText("Fecha de Fin: " + fechaF);
 		
