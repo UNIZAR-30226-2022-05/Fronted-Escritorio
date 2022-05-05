@@ -14,16 +14,21 @@ import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 public class PartidaController extends SalaReceiver implements Initializable {
 
@@ -56,9 +61,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	GridPane[] cartasJugadores;
 	
-	@FXML ImageView tacoRobo;
-	@FXML ImageView tacoDescartes;
-	
+	@FXML ImageView imagenTacoRobo;
+	@FXML ImageView imagenTacoDescartes;
+	@FXML ImageView imagenSentidoPartida;
 	
 	private Sala sala;
 	private Partida partida; 
@@ -69,7 +74,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 //	Por defecto deDondeVengo es la pantalla principal
 //	para evitar posibles errores en ejecución
 	public static String deDondeVengo = "principal";
-	//getJugadores().get(i).getMano();
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
@@ -119,23 +123,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 			if(DEBUG) System.out.println(jugadorIDmap);
 		}
-		/*
-		cartasJugadorAbajo.getChildren().clear();
-		cartasJugadorDerecha.getChildren().clear();
-		cartasJugadorIzquierda.getChildren().clear();
-		cartasJugadorArriba.getChildren().clear();
-		*/
-		//Recargar cartas de cada jugador
-		for (int i = 0; i < numJugadores; i++) {
-			final int jugadorID = i;
-			cartasJugadores[jugadorIDmap.get(jugadorID)].getChildren().clear();
-			partida.getJugadores().get(i).getMano().forEach(carta ->
-			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
-		}
-		//Cargar primera carta del mazo de descartes
-		ImageView imageview = ImageManager.setImagenCarta(partida.getUltimaCartaJugada(), defaultMode, true);
-		tacoDescartes.setImage(imageview.getImage());	
+		administrarSala(SuscripcionSala.sala);
 	}
+	
 	@Override
 	public void administrarSala(Sala sala) {
 		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
@@ -149,10 +139,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			partida.getJugadores().get(i).getMano().forEach(carta ->
 			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
 		}
-	
+		//Recargar sentido de la partida
+		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
+
 		//Poner la nueva carta en la pila de descartes
-		ImageView imageview = ImageManager.setImagenCarta(partida.getUltimaCartaJugada(), defaultMode, true);
-		tacoDescartes.setImage(imageview.getImage());
+		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
+		
+		
 	}
 	
 	public HBox addImage(String imagen) {
@@ -177,6 +170,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	};
 	
 	public void cargarDatos() {
+		
+		sala.getPartida().isSentidoHorario();
 		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		for (int i = 1; i < 20; i++) {
@@ -196,7 +191,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		boolean isVisible = jugadorID == jugadorActualID;
 		//ColumnConstraints col1 = new ColumnConstraints();
 		
-		ImageView imageview = ImageManager.setImagenCarta(carta, defaultMode, isVisible);
+		ImageView imageview = new ImageView();
+		Lighting lighting = new Lighting();
+		lighting.setDiffuseConstant(1.0);
+		lighting.setSpecularConstant(0.0);
+		lighting.setSpecularExponent(0.0);
+		lighting.setSurfaceScale(0.0);
+		
+		imageview.setEffect(lighting);
+		ImageManager.setImagenCarta(imageview, carta, defaultMode, isVisible);
 		imageview.setFitWidth(96);
 		imageview.setFitHeight(150);
 		//Guarda el objeto carta en el ImageView que lo representa.

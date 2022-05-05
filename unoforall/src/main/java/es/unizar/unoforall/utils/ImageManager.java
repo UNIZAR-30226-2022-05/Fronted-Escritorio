@@ -5,6 +5,10 @@ import java.util.HashMap;
 import es.unizar.unoforall.App;
 import es.unizar.unoforall.model.partidas.Carta;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
 
 public class ImageManager {
@@ -13,10 +17,15 @@ public class ImageManager {
 	private static final HashMap<Carta, Image> defaultCardsMap = new HashMap<>();
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
     
+    private static Image imageSentidoHorario = null;
+    private static Image imageSentidoAntihorario = null;
     private static Image imageRevesCartaDefault = null;
     private static Image imageRevesCartaAlt = null;
     private static Image imageMazoCartaDefault = null;
     private static Image imageMazoCartaAlt = null;
+    
+    public static RotateTransition rtHorario;
+    public static RotateTransition rtAntihorario; 
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PUBLICAS//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +34,7 @@ public class ImageManager {
 //Dada una carta que queremos encontrar, el booleano que dice si es del set 1 o del set 2
 //y el booleano que decide si la carta es visible o no para el jugador, devuelve un ImageView
 //de la carta que estamos buscando.
-    public static ImageView setImagenCarta(Carta carta, boolean defaultMode, boolean isVisible){
+    public static void setImagenCarta(ImageView imageView, Carta carta, boolean defaultMode, boolean isVisible){
         if(defaultCardsMap.isEmpty() || altCardsMap.isEmpty()){
             for(Carta.Color color : Carta.Color.values()){
                 for(Carta.Tipo tipo : Carta.Tipo.values()){
@@ -49,12 +58,12 @@ public class ImageManager {
         imageView.setFitWidth(100);*/
         if(isVisible) {
             if(defaultMode) {
-                return new ImageView(defaultCardsMap.get(carta));    
+                imageView.setImage(defaultCardsMap.get(carta));    
             } else {
-                return new ImageView(altCardsMap.get(carta));
+            	imageView.setImage(altCardsMap.get(carta));
             }
         } else {
-            return new ImageView(getResourceRevesCarta(defaultMode));
+        	imageView.setImage(getResourceRevesCarta(defaultMode));
         }
     }
     
@@ -62,7 +71,46 @@ public class ImageManager {
     public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode) {
     	return new ImageView(getResourceMazoCartas(defaultMode));
     }
-
+    
+    public static void setImagenSentidoPartida(ImageView imageView, boolean sentidoHorario) {
+    	if(imageSentidoHorario == null || imageSentidoAntihorario == null){
+    		imageSentidoHorario = cargarImagen("images/sentidoHorario.png");
+       		rtHorario = new RotateTransition(Duration.seconds(2));
+    		rtHorario.setFromAngle(0);
+    		rtHorario.setToAngle(360);
+    		rtHorario.setCycleCount(Animation.INDEFINITE);
+    		rtHorario.setInterpolator(Interpolator.LINEAR);
+    		
+    		imageSentidoAntihorario = cargarImagen("images/sentidoAntihorario.png");
+    		rtAntihorario = new RotateTransition(Duration.seconds(2));
+    		rtAntihorario.setFromAngle(360);
+    		rtAntihorario.setToAngle(0);
+    		rtAntihorario.setCycleCount(Animation.INDEFINITE);
+    		rtAntihorario.setInterpolator(Interpolator.LINEAR);
+    		rtAntihorario.play();
+    	}
+    	if (sentidoHorario) {
+    		rtAntihorario.stop();
+    		imageView.setImage(imageSentidoHorario);
+    		rtHorario.setNode(imageView);
+    		rtHorario.play();
+    	} else {
+    		rtHorario.stop();
+    		imageView.setImage(imageSentidoAntihorario);
+    		rtAntihorario.setNode(imageView);
+    		rtAntihorario.play();
+    	}
+    }
+    
+//En este método se declaran las dimensiones de las imágenes.
+    public static Image cargarImagen(String path) {
+    	try {
+    		//return new Image(App.class.getResourceAsStream(path), 200, 150, true, false);
+    		return new Image(App.class.getResourceAsStream(path));
+    	} catch (Exception e) {
+    		return null;
+    	}
+    }
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PRIVADAS//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +152,7 @@ public class ImageManager {
             return imageMazoCartaAlt;
         }
     }
+    
 
     private static Image getResourceComodin(Carta.Tipo tipo, boolean defaultMode){
         if(defaultMode){
@@ -311,14 +360,5 @@ public class ImageManager {
                 default: return null;
             }
         }
-    }
-    //En este método se declaran las dimensiones de las imágenes.
-    private static Image cargarImagen(String path) {
-    	try {
-    		//return new Image(App.class.getResourceAsStream(path), 200, 150, true, false);
-    		return new Image(App.class.getResourceAsStream(path));
-    	} catch (Exception e) {
-    		return null;
-    	}
     }
 }
