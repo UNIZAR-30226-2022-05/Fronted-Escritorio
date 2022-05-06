@@ -25,12 +25,6 @@ public class ImageManager {
     private static Image imageMazoCartaDefault = null;
     private static Image imageMazoCartaAlt = null;
     
-    public static RotateTransition rtHorario;
-    public static RotateTransition rtAntihorario; 
-    public static RotateTransition rtRapida;
-    public static ScaleTransition agrandar;
-    public static ScaleTransition disminuir;
-    
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PUBLICAS//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,83 +72,41 @@ public class ImageManager {
     }
     
     public static void setImagenSentidoPartida(ImageView imageView, boolean sentidoHorario) {
+    	//Inicializar animaciones y cache si es la primera vez
     	if(imageSentidoHorario == null || imageSentidoAntihorario == null){
     		imageSentidoHorario = cargarImagen("images/sentidoHorario.png");
-       		rtHorario = new RotateTransition(Duration.seconds(2));
-    		rtHorario.setFromAngle(0);
-    		rtHorario.setToAngle(360);
-    		rtHorario.setCycleCount(Animation.INDEFINITE);
-    		rtHorario.setInterpolator(Interpolator.LINEAR);
     		
     		imageSentidoAntihorario = cargarImagen("images/sentidoAntihorario.png");
-    		rtAntihorario = new RotateTransition(Duration.seconds(2));
-    		rtAntihorario.setFromAngle(360);
-    		rtAntihorario.setToAngle(0);
-    		rtAntihorario.setCycleCount(Animation.INDEFINITE);
-    		rtAntihorario.setInterpolator(Interpolator.LINEAR);
-    		rtAntihorario.play();
     		
-    		rtRapida = new RotateTransition(Duration.millis(500));
-    		rtRapida.setFromAngle(0);
-    		rtRapida.setToAngle(720);
-    		rtRapida.setInterpolator(Interpolator.LINEAR);
-    		
-    		agrandar = new ScaleTransition(Duration.millis(250));
-    		agrandar.setToX(2);
-    		agrandar.setToY(2);
-    		agrandar.setOnFinished(event-> disminuir.play());
-    		
-    		disminuir = new ScaleTransition(Duration.millis(250));
-    		disminuir.setToX(1);
-    		disminuir.setToY(1);
-    	}
-    	if (sentidoHorario) {
-    		rtAntihorario.stop();
-    		if ((Image)imageView.getUserData() == imageSentidoAntihorario) {
-    			System.out.println("Entro en ani");
+    		AnimationManager.inicializarAnimacionesSentido(imageView, sentidoHorario);
+    		//Guardar la imagen correspondiente en el imageView
+    		if(sentidoHorario) {
+    			imageView.setImage(imageSentidoHorario);
     			imageView.setUserData(imageSentidoHorario);
-        		imageView.setImage(imageSentidoAntihorario);
-        		rtRapida.setOnFinished(event -> rtHorario.play());
-        		rtHorario.setNode(imageView);
-        		rtRapida.setNode(imageView);
-        		agrandar.setNode(imageView);
-        		disminuir.setNode(imageView);
-        		
-        		rtRapida.play();
-        		agrandar.play();
-        		//rtHorario.play();
     		} else {
-    			System.out.println("No entro en ani");
+    			imageView.setImage(imageSentidoAntihorario);
+    			imageView.setUserData(imageSentidoAntihorario);
+    		}
+
+    	}
+    	
+    	if (sentidoHorario) {
+    		if ((Image)imageView.getUserData() == imageSentidoAntihorario) {
+
     			imageView.setUserData(imageSentidoHorario);
-        		System.out.println((Image)imageView.getUserData() == imageSentidoHorario);
         		imageView.setImage(imageSentidoHorario);
-        		rtHorario.setNode(imageView);
-        		rtHorario.play();
+        		//Transicionar a sentido Horario
+        		AnimationManager.AntihorarioAHorario(imageView);
     		}
     		
     	} else {
-    		rtHorario.stop();
     		if((Image)imageView.getUserData() == imageSentidoHorario) {
-    			System.out.println("Entro en ani");
+    			
     			imageView.setUserData(imageSentidoAntihorario);
     			imageView.setImage(imageSentidoAntihorario);
-    			rtRapida.setOnFinished(event -> rtAntihorario.play());
-    			rtAntihorario.setNode(imageView);
-        		rtRapida.setNode(imageView);
-        		agrandar.setNode(imageView);
-        		disminuir.setNode(imageView);
-        		
-        		rtRapida.play();
-        		agrandar.play();
-        		//rtAntihorario.play();
-        	} else {
-        		imageView.setUserData(imageSentidoAntihorario);
-        		System.out.println("No entro en ani");
-        		System.out.println((Image)imageView.getUserData() == imageSentidoHorario);
-    			imageView.setImage(imageSentidoAntihorario);
-    			rtAntihorario.setNode(imageView);
-    			rtAntihorario.play();
-        	}
+    			//Transicionar a sentido Antihorario
+        		AnimationManager.HorarioAAntihorario(imageView);
+    		}
     	}
     }
     
