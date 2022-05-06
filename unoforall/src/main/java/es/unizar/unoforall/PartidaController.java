@@ -10,6 +10,7 @@ import es.unizar.unoforall.interfaces.CartaListener;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.Carta;
 import es.unizar.unoforall.model.partidas.Jugada;
+import es.unizar.unoforall.model.partidas.Jugador;
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
@@ -134,10 +135,52 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		int numJugadores = partida.getJugadores().size();
 		for (int i = 0; i < numJugadores; i++) {
+			
 			final int jugadorID = i;
+			Jugador jugador = partida.getJugadores().get(jugadorID);
+			
+			if(jugadorActualID == jugadorID){
+                //Esto a futuro
+				/*
+				if(jugador.isPenalizado_UNO()){
+                    mostrarMensaje("Has sido penalizado por no decir UNO");
+                }
+				*/
+				//partida.getJugadores().get(i).getMano()
+                jugador.getMano().sort((carta1, carta2) -> {
+                    boolean sePuedeUsarCarta1 = sePuedeUsarCarta(partida, carta1);
+                    boolean sePuedeUsarCarta2 = sePuedeUsarCarta(partida, carta2);
+                    if(sePuedeUsarCarta1 && !sePuedeUsarCarta2){
+                        return -1;
+                    } else if(!sePuedeUsarCarta1 && sePuedeUsarCarta2) {
+                        return 1;
+                    } else {
+                        return carta1.compareTo(carta2);
+                    }
+                });
+            } else {
+                jugador.getMano().sort((carta1, carta2) -> {
+                    boolean sePuedeVerCarta1 = carta1.isVisiblePor(jugadorActualID);
+                    boolean sePuedeVerCarta2 = carta2.isVisiblePor(jugadorActualID);
+                    if(sePuedeVerCarta1 && !sePuedeVerCarta2){
+                        return -1;
+                    }else if(!sePuedeVerCarta1 && sePuedeVerCarta2){
+                        return 1;
+                    }else{
+                        return carta1.compareTo(carta2);
+                    }
+                });
+            }
 			cartasJugadores[jugadorIDmap.get(jugadorID)].getChildren().clear();
-			partida.getJugadores().get(i).getMano().forEach(carta ->
-			addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]));
+			
+            for(Carta carta : jugador.getMano()){
+            	addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
+            }
+			
+			
+			
+			//partida.getJugadores().get(i).getMano().forEach(carta ->
+			
 		}
 		//Recargar sentido de la partida
 		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
@@ -215,7 +258,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		Carta carta = (Carta)cartaClickada.getUserData();
 		Jugada jugada = new Jugada(Collections.singletonList(carta));
 		
-		if(partida.validarJugada(jugada)) {
+		if(sePuedeUsarCarta(partida, carta)) {
 			System.out.println("se valida la carta" + carta);
 			SuscripcionSala.enviarJugada(jugada);
 		}
@@ -227,4 +270,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		Jugada jugada = new Jugada();
 		SuscripcionSala.enviarJugada(jugada);
 	}
+	
+    private boolean sePuedeUsarCarta(Partida partida, Carta carta){
+        Jugada jugada = new Jugada(Collections.singletonList(carta));
+        return partida.validarJugada(jugada);
+    }
 }
