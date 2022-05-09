@@ -60,7 +60,9 @@ public class App extends Application {
         	salir();
         });
     }   
-    
+    public static Scene getScene() {
+    	return scene;
+    }
     public static void setRespLogin(RespuestaLogin r) {
     	respLogin = r;
     }

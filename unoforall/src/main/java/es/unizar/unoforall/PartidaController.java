@@ -14,13 +14,18 @@ import es.unizar.unoforall.model.partidas.Jugador;
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.MyStage;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Lighting;
@@ -29,6 +34,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class PartidaController extends SalaReceiver implements Initializable {
@@ -59,9 +68,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML GridPane cartasJugadorArriba;
 	@FXML GridPane cartasJugadorDerecha;
 	
-	
 	GridPane[] cartasJugadores;
 	
+	@FXML private Button btnCargarDatos;
+	 
 	@FXML ImageView imagenTacoRobo;
 	@FXML ImageView imagenTacoDescartes;
 	@FXML ImageView imagenSentidoPartida;
@@ -214,7 +224,32 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	public void cargarDatos() {
 		
-		sala.getPartida().isSentidoHorario();
+		try {
+			CambiarColorController ccc = new CambiarColorController();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
+			fxmlLoader.setController(ccc);
+			Parent root1 = (Parent) fxmlLoader.load();
+			MyStage stage = new MyStage();
+			Scene scene = new Scene(root1);
+			scene.setFill(Color.TRANSPARENT);
+			
+			stage.setTitle("Pantalla Cambiar de color");
+			stage.setScene(scene);
+			stage.initStyle(StageStyle.TRANSPARENT);
+			
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.initOwner(btnCargarDatos.getScene().getWindow());
+			stage.centerOnScreen();
+			//stage.show();
+			
+			int test = stage.showAndReturnResult(ccc);
+			System.out.println("recupero un " + test);
+			//stage.initModality(Modality.APPLICATION_MODAL);
+			//stage.initOwner(btnCargarDatos.getScene().getWindow());
+		} catch (Exception e) {
+			System.out.println("no se puede cargar la pagina");
+			System.out.println(e);
+		}
 		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		for (int i = 1; i < 20; i++) {
@@ -260,6 +295,21 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		if(sePuedeUsarCarta(partida, carta)) {
 			System.out.println("se valida la carta" + carta);
+			if(carta.getColor() == Carta.Color.comodin) {
+				try {
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
+					Parent root1 = (Parent) fxmlLoader.load();
+					Stage stage = new Stage();
+					stage.setScene(new Scene(root1));
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.initOwner(cartaClickada.getScene().getWindow());
+					stage.initStyle(StageStyle.TRANSPARENT);
+					stage.show();
+				} catch (Exception e) {
+					System.out.println("no se puede cargar la pagina");
+					System.out.println(e);
+				}
+			}
 			SuscripcionSala.enviarJugada(jugada);
 		}
 		
