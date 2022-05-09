@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -31,11 +32,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -56,7 +59,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
     private boolean defaultMode;
     
+    private MyStage stage;
+    
 	@FXML private Label labelError;
+
+    @FXML private BorderPane marco;
 	
 	@FXML ScrollPane scrollJugadorAbajo;
 	@FXML ScrollPane scrollJugadorIzquierda;
@@ -142,7 +149,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
 		//Recuperar la partida nueva
 		partida = sala.getPartida();
-		
+		//En caso de que esté abierto el popup de selección de color y se acaba tu turno,
+		//el popup se cerrará automáticamente.
+		if (!partida.isRepeticionTurno() && (stage != null && stage.isShowing())) {
+			stage.close();
+		}
 		int numJugadores = partida.getJugadores().size();
 		for (int i = 0; i < numJugadores; i++) {
 			
@@ -229,18 +240,20 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
 			fxmlLoader.setController(ccc);
 			Parent root1 = (Parent) fxmlLoader.load();
-			MyStage stage = new MyStage();
 			Scene scene = new Scene(root1);
+			stage = new MyStage();
 			scene.setFill(Color.TRANSPARENT);
 			
 			stage.setTitle("Pantalla Cambiar de color");
 			stage.setScene(scene);
-			stage.initStyle(StageStyle.TRANSPARENT);
+			stage.initStyle(StageStyle.UTILITY);
 			
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initOwner(btnCargarDatos.getScene().getWindow());
-			stage.centerOnScreen();
-			//stage.show();
+			stage.initOwner(marco.getScene().getWindow());
+			//stage.show
+            // Calculate the center position of the parent Stage
+			
+			//testing
 			
 			int test = stage.showAndReturnResult(ccc);
 			System.out.println("recupero un " + test);
@@ -297,14 +310,28 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			System.out.println("se valida la carta" + carta);
 			if(carta.getColor() == Carta.Color.comodin) {
 				try {
+					CambiarColorController ccc = new CambiarColorController();
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
+					fxmlLoader.setController(ccc);
 					Parent root1 = (Parent) fxmlLoader.load();
-					Stage stage = new Stage();
-					stage.setScene(new Scene(root1));
-					stage.initModality(Modality.APPLICATION_MODAL);
-					stage.initOwner(cartaClickada.getScene().getWindow());
+					stage = new MyStage();
+					Scene scene = new Scene(root1);
+					scene.setFill(Color.TRANSPARENT);
+					
+					stage.setTitle("Pantalla Cambiar de color");
+					stage.setScene(scene);
 					stage.initStyle(StageStyle.TRANSPARENT);
-					stage.show();
+					
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.initOwner(marco.getScene().getWindow());
+					stage.centerOnScreen();
+					//testing
+					Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+					stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+					stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+					//stage.show();
+					int test = stage.showAndReturnResult(ccc);
+					System.out.println("recupero un " + test);
 				} catch (Exception e) {
 					System.out.println("no se puede cargar la pagina");
 					System.out.println(e);

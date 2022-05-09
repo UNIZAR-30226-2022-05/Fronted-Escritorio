@@ -63,6 +63,9 @@ public class App extends Application {
     public static Scene getScene() {
     	return scene;
     }
+    public static Stage getStage() {
+    	return stage;
+    }
     public static void setRespLogin(RespuestaLogin r) {
     	respLogin = r;
     }
