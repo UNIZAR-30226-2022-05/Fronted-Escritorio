@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import es.unizar.unoforall.interfaces.CartaListener;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.Carta;
 import es.unizar.unoforall.model.partidas.Jugada;
@@ -15,15 +14,10 @@ import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
-import es.unizar.unoforall.utils.StringUtils;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,15 +27,11 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 public class PartidaController extends SalaReceiver implements Initializable {
 
@@ -58,6 +48,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final int JUGADOR_IZQUIERDA = 1;
     private static final int JUGADOR_ARRIBA = 2;
     private static final int JUGADOR_DERECHA = 3;
+    
+    Lighting oscurecerCarta;
     
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
     private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
@@ -100,6 +92,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
+		inicializarEfectos();
 		SuscripcionSala.dondeEstoy(this); 
 		
 		if (DEBUG) System.out.println("Entrando en partida...");
@@ -121,6 +114,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
 			
 			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
+			usuarioActual.getId();
 			
 			defaultMode = usuarioActual.getAspectoCartas() == 0;
 			
@@ -213,8 +207,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 
 		//Poner la nueva carta en la pila de descartes
 		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
-		
-		
 	}
 	
 	public HBox addImage(String imagen) {
@@ -227,16 +219,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		return hBox;
 		
 	}
-	
-	
-	private CartaListener myListener = new CartaListener() {
-		@Override
-		public void onClickListener(Carta carta) {
-			//comprobar si la carta jugada es correcta y mandarla a la API
-			//sala.
-			System.out.println("He sido clickado");
-		}
-	};
 	
 	public void cargarDatos() {
 		
@@ -284,18 +266,22 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//ColumnConstraints col1 = new ColumnConstraints();
 		
 		ImageView imageview = new ImageView();
-		Lighting lighting = new Lighting();
-		lighting.setDiffuseConstant(1.0);
-		lighting.setSpecularConstant(0.0);
-		lighting.setSpecularExponent(0.0);
-		lighting.setSurfaceScale(0.0);
 		
-		imageview.setEffect(lighting);
+		//Si son las cartas del usuario, ilumina sus cartas usables.
+		//Las cartas de otros usuarios nunca serán iluminadas.
+		if(!sePuedeUsarCarta(partida, carta) && isVisible) {
+			imageview.setEffect(oscurecerCarta);
+		} else {
+			imageview.setEffect(oscurecerCarta);
+		}
+		
 		ImageManager.setImagenCarta(imageview, carta, defaultMode, isVisible);
 		imageview.setFitWidth(96);
 		imageview.setFitHeight(150);
 		//Guarda el objeto carta en el ImageView que lo representa.
+		
 		imageview.setUserData(carta);
+		
 		//imageview.setOnMouseClicked(event -> System.out.println(carta.toString()));
 		imageview.setOnMouseClicked(event -> cartaClickada(imageview));
 		cartasJugadorX.addColumn(cartasJugadorX.getColumnCount(), imageview);
@@ -354,5 +340,14 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private boolean sePuedeUsarCarta(Partida partida, Carta carta){
         Jugada jugada = new Jugada(Collections.singletonList(carta));
         return partida.validarJugada(jugada);
+    }
+    
+    private void inicializarEfectos() {
+    	//Efecto para bajar el brillo a una carta
+    	oscurecerCarta = new Lighting();
+    	oscurecerCarta.setDiffuseConstant(1.0);
+    	oscurecerCarta.setSpecularConstant(0.0);
+    	oscurecerCarta.setSpecularExponent(0.0);
+    	oscurecerCarta.setSurfaceScale(0.0);
     }
 }
