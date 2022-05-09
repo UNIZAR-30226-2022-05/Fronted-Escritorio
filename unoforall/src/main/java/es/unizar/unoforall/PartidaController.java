@@ -48,6 +48,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
+	private static final int CANCELAR = 0;
+	private static final int ROJO = 1;
+	private static final int VERDE = 2;
+	private static final int AMARILLO = 3;
+	private static final int AZUL = 4;
 	
 	private static final int JUGADOR_ABAJO = 0;
     private static final int JUGADOR_IZQUIERDA = 1;
@@ -250,10 +255,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.initOwner(marco.getScene().getWindow());
-			//stage.show
-            // Calculate the center position of the parent Stage
-			
-			//testing
 			
 			int test = stage.showAndReturnResult(ccc);
 			System.out.println("recupero un " + test);
@@ -314,27 +315,29 @@ public class PartidaController extends SalaReceiver implements Initializable {
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
 					fxmlLoader.setController(ccc);
 					Parent root1 = (Parent) fxmlLoader.load();
-					stage = new MyStage();
 					Scene scene = new Scene(root1);
-					scene.setFill(Color.TRANSPARENT);
+					stage = new MyStage();
 					
+					scene.setFill(Color.TRANSPARENT);
 					stage.setTitle("Pantalla Cambiar de color");
 					stage.setScene(scene);
-					stage.initStyle(StageStyle.TRANSPARENT);
-					
+					stage.initStyle(StageStyle.UTILITY);
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.initOwner(marco.getScene().getWindow());
-					stage.centerOnScreen();
-					//testing
-					Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-					stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-					stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
-					//stage.show();
-					int test = stage.showAndReturnResult(ccc);
-					System.out.println("recupero un " + test);
+
+					int resultado = stage.showAndReturnResult(ccc);
+					System.out.println("recupero un " + resultado);
+					/*
+					switch(resultado) {
+					case ROJO: carta.setColor("rojo");
+					case VERDE:
+					case AMARILLO:
+					case AZUL:
+					default:
+						break;
+					}*/
 				} catch (Exception e) {
-					System.out.println("no se puede cargar la pagina");
-					System.out.println(e);
+					System.out.println("No se ha podido cargar la pagina: " + e);
 				}
 			}
 			SuscripcionSala.enviarJugada(jugada);

@@ -15,6 +15,13 @@ import javafx.stage.Stage;
 
 public class CambiarColorController implements Initializable{
     
+	private static final int CANCELAR = 0;
+	private static final int ROJO = 1;
+	private static final int VERDE = 2;
+	private static final int AMARILLO = 3;
+	private static final int AZUL = 4;
+	
+	
     @FXML private Button btnRojo;
     @FXML private Button btnVerde;
     @FXML private Button btnAmarillo;
@@ -31,7 +38,7 @@ public class CambiarColorController implements Initializable{
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		resultado = 0;
+		resultado = CANCELAR;
 		
 		if (App.getPersonalizacion().get("cartaSelec") == 1) {
 			colorRojo.setFill(Paint.valueOf("#20f3f3"));
@@ -47,29 +54,35 @@ public class CambiarColorController implements Initializable{
 		//Handler que realiza una acción dependiendo de qué botón ha sido pulsado.
 		//Tras pulsarse, está configurado para cerrar el popup.
 		elegirColor = new EventHandler<ActionEvent>() {
-	      	  @Override public void handle(ActionEvent actionEvent) {
+	      	  @Override 
+	      	  public void handle(ActionEvent actionEvent) {
 	      		  if(actionEvent.getSource().equals(btnRojo)) {
 	      			System.out.println("Has clickado el botón rojo");
+	      			resultado = ROJO;
 	      		  } else if(actionEvent.getSource().equals(btnVerde)) {
 	      			System.out.println("Has clickado el botón verde");
+	      			resultado = VERDE;
 	      		  } else if(actionEvent.getSource().equals(btnAmarillo)) {
 	      			System.out.println("Has clickado el botón amarillo");
+	      			resultado = AMARILLO;
 	      		  } else if(actionEvent.getSource().equals(btnAzul)) {
 	      			System.out.println("Has clickado el botón azul");
+	      			resultado = AZUL;
 	      		  } else if(actionEvent.getSource().equals(btnCancelar)) {
 	      			System.out.println("Has clickado el botón de cancelar jugada"); 
 	      		  }
-	      	  // take some action
-	      	  //...
-	      	  resultado = 3;
-	      	  // close the dialog.
-	      	  Node  source = (Node)  actionEvent.getSource(); 
-	      	  Stage stage  = (Stage) source.getScene().getWindow();
-	      	  //Por alguna razón peta, ¿será realmente necesario?
-	      	  //stage.getOnCloseRequest().handle(null);
-	      	  stage.close();
+		      	  // take some action
+		      	  //...
+		      	  //resultado = 3;
+		      	  // close the dialog.
+		      	  Node  source = (Node)  actionEvent.getSource(); 
+		      	  Stage stage  = (Stage) source.getScene().getWindow();
+		      	  //Por alguna razón peta, ¿será realmente necesario?
+		      	  //stage.getOnCloseRequest().handle(null);
+		      	  stage.close();
 	      	  }
 		};
+		
       	btnRojo.setOnAction(elegirColor);
       	btnVerde.setOnAction(elegirColor);
       	btnAmarillo.setOnAction(elegirColor);
