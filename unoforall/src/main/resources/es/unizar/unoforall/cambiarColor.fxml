@@ -23,7 +23,7 @@
                </HBox.margin>
                <children>
                   <Circle fx:id="colorRojo" fill="#de0d0d" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Button fx:id="btnRojo" mnemonicParsing="false" onAction="#haceCosas" prefWidth="100.0" text="Rojo" />
+                  <Button fx:id="btnRojo" mnemonicParsing="false" prefWidth="100.0" text="Rojo" />
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">

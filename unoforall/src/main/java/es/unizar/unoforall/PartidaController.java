@@ -49,7 +49,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final int JUGADOR_ARRIBA = 2;
     private static final int JUGADOR_DERECHA = 3;
     
-    Lighting oscurecerCarta;
+    public Lighting oscurecerCarta;
     
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
     private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
@@ -117,6 +117,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			usuarioActual.getId();
 			
 			defaultMode = usuarioActual.getAspectoCartas() == 0;
+			//defaultMode = false;
+			
 			
 			jugadorIDmap.clear();
             jugadorIDmap.put(jugadorActualID, JUGADOR_ABAJO);
@@ -271,7 +273,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//Las cartas de otros usuarios nunca serán iluminadas.
 		if(!sePuedeUsarCarta(partida, carta) && isVisible) {
 			imageview.setEffect(oscurecerCarta);
-		} else {
+		} else if (jugadorID != jugadorActualID) {
 			imageview.setEffect(oscurecerCarta);
 		}
 		
@@ -291,7 +293,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private void cartaClickada(ImageView cartaClickada) {
 		Carta carta = (Carta)cartaClickada.getUserData();
-		Jugada jugada = new Jugada(Collections.singletonList(carta));
 		
 		if(sePuedeUsarCarta(partida, carta)) {
 			System.out.println("se valida la carta" + carta);
@@ -313,20 +314,35 @@ public class PartidaController extends SalaReceiver implements Initializable {
 
 					int resultado = stage.showAndReturnResult(ccc);
 					System.out.println("recupero un " + resultado);
-					/*
+					//Ponerle a la carta el color deseado por el jugador mediante el popup.
+					//Ojo, el defaultmode elige el color real, no se hace aquí.
 					switch(resultado) {
-					case ROJO: carta.setColor("rojo");
-					case VERDE:
-					case AMARILLO:
-					case AZUL:
-					default:
-						break;
-					}*/
+						case ROJO: 
+							carta.setColor(Carta.Color.rojo);
+							break;
+						case VERDE: 
+							carta.setColor(Carta.Color.verde);
+							break;
+						case AMARILLO: 
+							carta.setColor(Carta.Color.amarillo);
+							break;
+						case AZUL: 
+							carta.setColor(Carta.Color.azul);
+							break;
+						default: break;
+					}
+					if (resultado != CANCELAR) {
+						System.out.println("Se va a enviar la carta " + carta);
+						Jugada jugada = new Jugada(Collections.singletonList(carta));
+						SuscripcionSala.enviarJugada(jugada);
+					}
 				} catch (Exception e) {
 					System.out.println("No se ha podido cargar la pagina: " + e);
 				}
+			} else {
+				Jugada jugada = new Jugada(Collections.singletonList(carta));
+				SuscripcionSala.enviarJugada(jugada);
 			}
-			SuscripcionSala.enviarJugada(jugada);
 		}
 		
 		System.out.println(carta.toString());
@@ -344,6 +360,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
     private void inicializarEfectos() {
     	//Efecto para bajar el brillo a una carta
+    	System.out.println("lighting");
     	oscurecerCarta = new Lighting();
     	oscurecerCarta.setDiffuseConstant(1.0);
     	oscurecerCarta.setSpecularConstant(0.0);
