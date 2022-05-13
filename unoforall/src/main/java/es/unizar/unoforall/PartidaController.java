@@ -14,6 +14,13 @@ import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -32,9 +40,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class PartidaController extends SalaReceiver implements Initializable {
 
+    private static final Integer STARTTIME = (Partida.TIMEOUT_TURNO - 1000)/1000;
+    private Timeline timeline;
+    private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME*100);
+	
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
@@ -57,9 +70,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private boolean defaultMode;
     
     private MyStage stage;
-    
-	@FXML private Label labelError;
-
+    @FXML private ProgressIndicator progresoJugadorAbajo;
+	public static double progress;
+    @FXML private Label labelError;
+    @FXML private Label timerLabel;
     @FXML private BorderPane marco;
 	
 	@FXML ScrollPane scrollJugadorAbajo;
@@ -75,11 +89,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	GridPane[] cartasJugadores;
 	
 	@FXML private Button btnCargarDatos;
-	 
+	@FXML private Button test;
+	
 	@FXML ImageView imagenTacoRobo;
 	@FXML ImageView imagenTacoDescartes;
 	@FXML ImageView imagenSentidoPartida;
-	
+	@FXML ImageView avatarJugadorAbajo;
 	private Sala sala;
 	private Partida partida; 
 	
@@ -223,31 +238,36 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
-		
-		try {
-			CambiarColorController ccc = new CambiarColorController();
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
-			fxmlLoader.setController(ccc);
-			Parent root1 = (Parent) fxmlLoader.load();
-			Scene scene = new Scene(root1);
-			stage = new MyStage();
-			scene.setFill(Color.TRANSPARENT);
-			
-			stage.setTitle("Pantalla Cambiar de color");
-			stage.setScene(scene);
-			stage.initStyle(StageStyle.UTILITY);
-			
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initOwner(marco.getScene().getWindow());
-			
-			int test = stage.showAndReturnResult(ccc);
-			System.out.println("recupero un " + test);
-			//stage.initModality(Modality.APPLICATION_MODAL);
-			//stage.initOwner(btnCargarDatos.getScene().getWindow());
-		} catch (Exception e) {
-			System.out.println("no se puede cargar la pagina");
-			System.out.println(e);
-		}
+		ImageManager.setImagenPerfil(avatarJugadorAbajo, 4);
+		progresoJugadorAbajo.progressProperty().bind(
+                //timeSeconds.divide(STARTTIME*100.0).subtract(1).multiply(-1));
+				timeSeconds.divide(STARTTIME*100.0).subtract(1.0000001).multiply(-1));
+		System.out.println(timeSeconds);
+		timerLabel.textProperty().bind(timeSeconds.asString());
+		btnCargarDatos.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+            	//progresoJugadorAbajo.setProgress(0);
+                if (timeline != null) {
+                    timeline.stop();
+                }
+                System.out.println("1");
+                timeSeconds.set((STARTTIME)*100);
+                System.out.println(timeSeconds);
+                System.out.println("2");
+                timeline = new Timeline();
+                System.out.println("3");
+                timeline.getKeyFrames().add(
+                        new KeyFrame(Duration.seconds(STARTTIME + 1),
+                        new KeyValue(timeSeconds, 0)));
+                System.out.println("4");
+                System.out.println("timeSeconds");
+                timeline.play();
+                System.out.println("5");
+                System.out.println(progresoJugadorAbajo.getProgress());
+            }
+        });
+
 		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		for (int i = 1; i < 20; i++) {
@@ -366,5 +386,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
     	oscurecerCarta.setSpecularConstant(0.0);
     	oscurecerCarta.setSpecularExponent(0.0);
     	oscurecerCarta.setSurfaceScale(0.0);
+    }
+    
+    public void testear() {
+    	System.out.println(progresoJugadorAbajo.getProgress());
     }
 }

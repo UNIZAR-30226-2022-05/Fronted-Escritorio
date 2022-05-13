@@ -12,3 +12,17 @@
 }
 
 .root { -fx-background-color: transparent; }
+
+.progress-indicator .percentage {
+   -fx-fill:null;
+   -fx-progress-color: linear-gradient(to bottom right, red, black);
+   -fx-progress-color: green;
+}
+.progress-indicator .indicator {
+  -fx-background-color: black;
+  
+}
+
+.progress-indicator .progress {
+	-fx-background-color: white;
+}
