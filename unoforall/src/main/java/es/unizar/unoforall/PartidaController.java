@@ -67,75 +67,70 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final int JUGADOR_IZQUIERDA = 1;
     private static final int JUGADOR_ARRIBA = 2;
     private static final int JUGADOR_DERECHA = 3;
-    
-    private int turnoAnterior = -1;
-    
+
     public Lighting oscurecerCarta;
     
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
     private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
-    
-    private boolean defaultMode;
+
     @FXML private Label labelError;
     @FXML private Label timerLabel;
     @FXML private BorderPane marco;
 
-    private MyStage stage;
-    @FXML ProgressIndicator progresoJugadorAbajo;
-    @FXML ProgressIndicator progresoJugadorIzquierda;
-    @FXML ProgressIndicator progresoJugadorArriba;
-    @FXML ProgressIndicator progresoJugadorDerecha;
-    ProgressIndicator[] progresoJugadores;
+    @FXML private ProgressIndicator progresoJugadorAbajo;
+    @FXML private ProgressIndicator progresoJugadorIzquierda;
+    @FXML private ProgressIndicator progresoJugadorArriba;
+    @FXML private ProgressIndicator progresoJugadorDerecha;
+    private ProgressIndicator[] progresoJugadores;
     
     @FXML private Group grupoEmojisJugadorAbajo;
     @FXML private Group grupoEmojisJugadorArriba;
     @FXML private Group grupoEmojisJugadorDerecha;
     @FXML private Group grupoEmojisJugadorIzquierda;
     
-	@FXML ScrollPane scrollJugadorAbajo;
-	@FXML ScrollPane scrollJugadorIzquierda;
-	@FXML ScrollPane scrollJugadorArriba;
-	@FXML ScrollPane scrollJugadorDerecha;
+	@FXML private ScrollPane scrollJugadorAbajo;
+	@FXML private ScrollPane scrollJugadorIzquierda;
+	@FXML private ScrollPane scrollJugadorArriba;
+	@FXML private ScrollPane scrollJugadorDerecha;
 	
-	@FXML GridPane cartasJugadorAbajo;
-	@FXML GridPane cartasJugadorIzquierda;
-	@FXML GridPane cartasJugadorArriba;
-	@FXML GridPane cartasJugadorDerecha;
-	GridPane[] cartasJugadores;
+	@FXML private GridPane cartasJugadorAbajo;
+	@FXML private GridPane cartasJugadorIzquierda;
+	@FXML private GridPane cartasJugadorArriba;
+	@FXML private GridPane cartasJugadorDerecha;
+	private GridPane[] cartasJugadores;
 	
 	@FXML private Button btnCargarDatos;
 	@FXML private Button test;
 	
-	@FXML ImageView imagenTacoRobo;
-	@FXML ImageView imagenTacoDescartes;
-	@FXML ImageView imagenSentidoPartida;
+	@FXML private ImageView imagenTacoRobo;
+	@FXML private ImageView imagenTacoDescartes;
+	@FXML private ImageView imagenSentidoPartida;
 	
-	@FXML ImageView avatarJugadorAbajo;
-	@FXML ImageView avatarJugadorIzquierda;
-	@FXML ImageView avatarJugadorArriba;
-	@FXML ImageView avatarJugadorDerecha;
-	ImageView[] avataresJugadores;
+	@FXML private ImageView avatarJugadorAbajo;
+	@FXML private ImageView avatarJugadorIzquierda;
+	@FXML private ImageView avatarJugadorArriba;
+	@FXML private ImageView avatarJugadorDerecha;
+	private ImageView[] avataresJugadores;
 	
 	private Sala sala;
 	private Partida partida; 
-	
+    private MyStage stage;
+    //int que representa el ID del jugador que está ejecutando la App.
 	private int jugadorActualID = -1;
-	
-	
-//	Por defecto deDondeVengo es la pantalla principal
-//	para evitar posibles errores en ejecución
+    private int turnoAnterior = -1;
+    
+    private boolean defaultMode;
+    //Por defecto deDondeVengo es la pantalla principal
+    //para evitar posibles errores en ejecución
 	public static String deDondeVengo = "principal";
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
 		inicializarEfectos();
 		SuscripcionSala.dondeEstoy(this); 
-		
-		if (DEBUG) System.out.println("Entrando en partida...");
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
 		sala = SuscripcionSala.sala;
-		//
 		int numJugadores = partida.getJugadores().size();
 		//Si no conocemos quién es el jugador actual todavía
 		if (jugadorActualID == -1) {
@@ -162,14 +157,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			};
 			
  			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
-			
+ 			
 			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
-			usuarioActual.getId();
-			
 			defaultMode = usuarioActual.getAspectoCartas() == 0;
-			//defaultMode = false;
-			
-			
+			//Creación del hashmap para los jugadores
 			jugadorIDmap.clear();
             jugadorIDmap.put(jugadorActualID, JUGADOR_ABAJO);
 			switch(numJugadores){
@@ -193,7 +184,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                jugadorIDmap.put((jugadorActualID+3) % numJugadores, JUGADOR_DERECHA);
 	                break;
 			}
-			if(DEBUG) System.out.println(jugadorIDmap);
 			
 			for (int i = 0; i < numJugadores; i++) {	
 				final int jugadorID = i;
@@ -236,12 +226,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		}
 		int numJugadores = partida.getJugadores().size();
 		for (int i = 0; i < numJugadores; i++) {
-			
 			final int jugadorID = i;
 			Jugador jugador = partida.getJugadores().get(jugadorID);
-			
+			Jugador jugadorActual = partida.getJugadorActual();
             if(sala.isEnPartida() && turnoActual == jugadorID && esNuevoTurno){
-            	System.out.println(jugadorIDmap.get(jugadorID));
             	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior));  
             }
 
@@ -252,7 +240,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
                     mostrarMensaje("Has sido penalizado por no decir UNO");
                 }
 				*/
-				//partida.getJugadores().get(i).getMano()
                 jugador.getMano().sort((carta1, carta2) -> {
                     boolean sePuedeUsarCarta1 = sePuedeUsarCarta(partida, carta1);
                     boolean sePuedeUsarCarta2 = sePuedeUsarCarta(partida, carta2);
@@ -278,14 +265,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
                 });
             }
 			cartasJugadores[jugadorIDmap.get(jugadorID)].getChildren().clear();
+			//Si no es mi turno, no se encenderán mis cartas.
+			boolean esMiTurno = jugador == jugadorActual;
             for(Carta carta : jugador.getMano()){
-            	addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
+            	addCarta(sala, jugadorIDmap.get(jugadorID), esMiTurno, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
             }
-			
-			
-			
 			//partida.getJugadores().get(i).getMano().forEach(carta ->
-			
 		}
 		//Recargar sentido de la partida
 		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
@@ -314,6 +299,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
                 new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)));
         timeline.playFromStart();
 	}
+	//Esta función no se usa
 	public HBox addImage(String imagen) {
 		HBox hBox = new HBox();
 		
@@ -326,31 +312,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
-		/*for (int i = 0; i < (4 - 1); i++) {
-			timersJugadores[i] = new SimpleIntegerProperty(STARTTIME*100);
-		}*/
-		ImageManager.setImagenPerfil(avatarJugadorAbajo, 4);
-		progresoJugadorAbajo.progressProperty().bind(
-                timeSeconds.divide(STARTTIME*100.0).subtract(1).multiply(-1));
-				//timeSeconds.divide(STARTTIME*100.0).subtract(1.0000001).multiply(-1));
-		System.out.println(timeSeconds);
-		timerLabel.textProperty().bind(timeSeconds.asString());
-		btnCargarDatos.setOnAction(new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent event) {
-            	//progresoJugadorAbajo.setProgress(0);
-                if (timeline != null) {
-                    timeline.stop();
-                }
-                timeSeconds.set((STARTTIME)*100);
-                timeline = new Timeline();
-                timeline.getKeyFrames().add(
-                        new KeyFrame(Duration.seconds(STARTTIME + 1),
-                        new KeyValue(timeSeconds, 0)));
-                timeline.playFromStart();
-            }
-        });
-
 		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		for (int i = 1; i < 20; i++) {
@@ -365,16 +326,14 @@ public class PartidaController extends SalaReceiver implements Initializable {
         }*/
 	}
 	
-	private void addCarta(Sala sala, int jugadorLayoutID, int jugadorID, Carta carta, GridPane cartasJugadorX) {
-		
+	private void addCarta(Sala sala, int jugadorID, boolean esMiTurno, Carta carta, GridPane cartasJugadorX) {
 		boolean isVisible = jugadorID == jugadorActualID;
 		//ColumnConstraints col1 = new ColumnConstraints();
-		
 		ImageView imageview = new ImageView();
-		
 		//Si son las cartas del usuario, ilumina sus cartas usables.
 		//Las cartas de otros usuarios nunca serán iluminadas.
-		if(!sePuedeUsarCarta(partida, carta) && isVisible) {
+		
+		if( (!esMiTurno) || (!sePuedeUsarCarta(partida, carta) && isVisible)) {
 			imageview.setEffect(oscurecerCarta);
 		} else if (jugadorID != jugadorActualID) {
 			imageview.setEffect(oscurecerCarta);
@@ -384,13 +343,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		imageview.setFitWidth(96);
 		imageview.setFitHeight(150);
 		//Guarda el objeto carta en el ImageView que lo representa.
-		
 		imageview.setUserData(carta);
-		
 		//imageview.setOnMouseClicked(event -> System.out.println(carta.toString()));
 		imageview.setOnMouseClicked(event -> cartaClickada(imageview));
 		cartasJugadorX.addColumn(cartasJugadorX.getColumnCount(), imageview);
-		
+		//creo que la siguiente línea no hace nada
 		GridPane.setHalignment(imageview, HPos.CENTER);
 	}
 	
@@ -446,8 +403,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				Jugada jugada = new Jugada(Collections.singletonList(carta));
 				SuscripcionSala.enviarJugada(jugada);
 			}
-		}
-		
+		}	
 		System.out.println(carta.toString());
 	}
 	
@@ -463,15 +419,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
     private void inicializarEfectos() {
     	//Efecto para bajar el brillo a una carta
-    	System.out.println("lighting");
     	oscurecerCarta = new Lighting();
     	oscurecerCarta.setDiffuseConstant(1.0);
     	oscurecerCarta.setSpecularConstant(0.0);
     	oscurecerCarta.setSpecularExponent(0.0);
     	oscurecerCarta.setSurfaceScale(0.0);
-    }
-    
-    public void testear() {
-    	System.out.println(progresoJugadorAbajo.getProgress());
     }
 }

@@ -199,7 +199,7 @@
          <children>
             <Button fx:id="btnCargarDatos" mnemonicParsing="false" onAction="#cargarDatos" text="Cargar Datos" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="HA EMPEZADO LA PARTIDA" wrappingWidth="156.13671875" />
-            <Button fx:id="test" mnemonicParsing="false" onAction="#testear" text="test" />
+            <Button fx:id="test" mnemonicParsing="false" text="test" />
             <Pane prefHeight="93.0" prefWidth="840.0" />
             <HBox prefHeight="116.0" prefWidth="840.0" VBox.vgrow="ALWAYS">
                <children>
