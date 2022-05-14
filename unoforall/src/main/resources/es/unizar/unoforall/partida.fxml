@@ -21,7 +21,7 @@
 
 <BorderPane fx:id="marco" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
    <bottom>
-      <Pane prefHeight="212.0" prefWidth="1280.0" style="-fx-background-color: #3399ff;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="155.0" prefWidth="1280.0" style="-fx-background-color: #3399ff;" BorderPane.alignment="CENTER">
          <children>
             <ScrollPane fx:id="scrollJugadorAbajo" hbarPolicy="NEVER" hmax="2.0" layoutX="167.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
@@ -44,7 +44,7 @@
                      </children>
                   </GridPane>
                </content></ScrollPane>
-            <Group layoutX="22.0" layoutY="47.0">
+            <Group fx:id="grupoEmojisJugadorAbajo" layoutX="22.0" layoutY="47.0">
                <children>
                   <ProgressIndicator fx:id="progresoJugadorAbajo" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
                      <styleClass>
@@ -63,7 +63,7 @@
       </Pane>
    </bottom>
    <top>
-      <Pane prefHeight="66.0" prefWidth="1280.0" style="-fx-background-color: #990000;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="107.0" prefWidth="1280.0" style="-fx-background-color: #990000;" BorderPane.alignment="CENTER">
          <children>
             <ScrollPane fx:id="scrollJugadorArriba" hbarPolicy="NEVER" hmax="2.0" layoutX="230.0" layoutY="-52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="820.0" rotate="180.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
@@ -87,6 +87,21 @@
                   </GridPane>
                </content>
             </ScrollPane>
+            <Group fx:id="grupoEmojisJugadorArriba">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorArriba" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorArriba" fitHeight="90.0" fitWidth="89.0" layoutX="18.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children></Pane>
    </top>
    <left>
@@ -115,6 +130,21 @@
                   </GridPane>
                </content>
             </ScrollPane>
+            <Group fx:id="grupoEmojisJugadorIzquierda">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorIzquierda" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorIzquierda" fitHeight="90.0" fitWidth="89.0" layoutX="18.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children></Pane>
    </left>
    <right>
@@ -143,6 +173,21 @@
                </content>
             </ScrollPane>
             <VBox prefHeight="200.0" prefWidth="100.0" />
+            <Group fx:id="grupoEmojisJugadorDerecha">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorDerecha" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorDerecha" fitHeight="90.0" fitWidth="89.0" layoutX="18.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children>
       </Pane>
    </right>

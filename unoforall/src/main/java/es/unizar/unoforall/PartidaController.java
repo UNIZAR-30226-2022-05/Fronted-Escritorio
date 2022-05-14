@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -47,7 +48,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final Integer STARTTIME = (Partida.TIMEOUT_TURNO - 1000)/1000;
     private Timeline timeline;
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME*100);
-	
+    private IntegerProperty[] timersJugadores = new IntegerProperty[] {
+    		new SimpleIntegerProperty(STARTTIME*100), 
+    		new SimpleIntegerProperty(STARTTIME*100), 
+    		new SimpleIntegerProperty(STARTTIME*100), 
+    		new SimpleIntegerProperty(STARTTIME*100)
+    };
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
@@ -62,20 +68,30 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final int JUGADOR_ARRIBA = 2;
     private static final int JUGADOR_DERECHA = 3;
     
+    private int turnoAnterior = -1;
+    
     public Lighting oscurecerCarta;
     
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
     private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
     
     private boolean defaultMode;
-    
-    private MyStage stage;
-    @FXML private ProgressIndicator progresoJugadorAbajo;
-	public static double progress;
     @FXML private Label labelError;
     @FXML private Label timerLabel;
     @FXML private BorderPane marco;
-	
+
+    private MyStage stage;
+    @FXML ProgressIndicator progresoJugadorAbajo;
+    @FXML ProgressIndicator progresoJugadorIzquierda;
+    @FXML ProgressIndicator progresoJugadorArriba;
+    @FXML ProgressIndicator progresoJugadorDerecha;
+    ProgressIndicator[] progresoJugadores;
+    
+    @FXML private Group grupoEmojisJugadorAbajo;
+    @FXML private Group grupoEmojisJugadorArriba;
+    @FXML private Group grupoEmojisJugadorDerecha;
+    @FXML private Group grupoEmojisJugadorIzquierda;
+    
 	@FXML ScrollPane scrollJugadorAbajo;
 	@FXML ScrollPane scrollJugadorIzquierda;
 	@FXML ScrollPane scrollJugadorArriba;
@@ -85,7 +101,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML GridPane cartasJugadorIzquierda;
 	@FXML GridPane cartasJugadorArriba;
 	@FXML GridPane cartasJugadorDerecha;
-	
 	GridPane[] cartasJugadores;
 	
 	@FXML private Button btnCargarDatos;
@@ -126,6 +141,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				cartasJugadorDerecha,
 			};
 			
+			progresoJugadores = new ProgressIndicator[] {
+				progresoJugadorAbajo,
+				progresoJugadorIzquierda,
+				progresoJugadorArriba,
+				progresoJugadorDerecha
+			};
+			
 			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
 			
 			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
@@ -141,12 +163,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	            case 2:
 	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_ARRIBA);
 	                //A futuro ocultar jugador izquierda y jugador derecha
+	                grupoEmojisJugadorIzquierda.setVisible(false);
+	                grupoEmojisJugadorDerecha.setVisible(false);
 	                
 	                break;
 	            case 3:
 	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_IZQUIERDA);
 	                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
 	              //A futuro ocultar jugador derecha
+	                grupoEmojisJugadorDerecha.setVisible(false);
 	                
 	                break;
 	            case 4:
@@ -156,6 +181,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                break;
 			}
 			if(DEBUG) System.out.println(jugadorIDmap);
+			
+			for (int i = 0; i < numJugadores; i++) {	
+				final int jugadorID = i;
+				Jugador jugador = partida.getJugadores().get(jugadorID);
+				//Bindear el tiempo del timer a cada jugador
+				progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
+						timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
+
+			}
 		}
 		administrarSala(SuscripcionSala.sala);
 	}
@@ -165,6 +199,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
 		//Recuperar la partida nueva
 		partida = sala.getPartida();
+		int turnoActual = partida.getTurno();
+		boolean esNuevoTurno = turnoActual != turnoAnterior || partida.isRepeticionTurno();
+		if(esNuevoTurno) {
+			turnoAnterior = turnoActual;
+		}
+		int jugadorIDTurnoAnterior = partida.getTurnoUltimaJugada();
 		//En caso de que esté abierto el popup de selección de color y se acaba tu turno,
 		//el popup se cerrará automáticamente.
 		if (!partida.isRepeticionTurno() && (stage != null && stage.isShowing())) {
@@ -176,6 +216,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			final int jugadorID = i;
 			Jugador jugador = partida.getJugadores().get(jugadorID);
 			
+            if(sala.isEnPartida() && turnoActual == jugadorID && esNuevoTurno){
+            	System.out.println(jugadorIDmap.get(jugadorID));
+            	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior));
+                
+            }
+
 			if(jugadorActualID == jugadorID){
                 //Esto a futuro
 				/*
@@ -209,7 +255,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
                 });
             }
 			cartasJugadores[jugadorIDmap.get(jugadorID)].getChildren().clear();
-			
             for(Carta carta : jugador.getMano()){
             	addCarta(sala, jugadorIDmap.get(jugadorID), jugadorID, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
             }
@@ -225,7 +270,18 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//Poner la nueva carta en la pila de descartes
 		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
 	}
-	
+	private void mostrarTimerVisual(int jugadorIDmapTurnoActual, int jugadorIDmapTurnoAnterior) {
+        if (timeline != null || jugadorIDmapTurnoActual != jugadorIDmapTurnoAnterior){
+        	timeline.stop();
+        	timersJugadores[jugadorIDmapTurnoAnterior].set((STARTTIME)*100);
+        }
+        timersJugadores[jugadorIDmapTurnoActual].set((STARTTIME)*100);
+        timeline = new Timeline();
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(STARTTIME + 1),
+                new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)));
+        timeline.playFromStart();
+	}
 	public HBox addImage(String imagen) {
 		HBox hBox = new HBox();
 		
@@ -238,10 +294,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
+		/*for (int i = 0; i < (4 - 1); i++) {
+			timersJugadores[i] = new SimpleIntegerProperty(STARTTIME*100);
+		}*/
 		ImageManager.setImagenPerfil(avatarJugadorAbajo, 4);
 		progresoJugadorAbajo.progressProperty().bind(
-                //timeSeconds.divide(STARTTIME*100.0).subtract(1).multiply(-1));
-				timeSeconds.divide(STARTTIME*100.0).subtract(1.0000001).multiply(-1));
+                timeSeconds.divide(STARTTIME*100.0).subtract(1).multiply(-1));
+				//timeSeconds.divide(STARTTIME*100.0).subtract(1.0000001).multiply(-1));
 		System.out.println(timeSeconds);
 		timerLabel.textProperty().bind(timeSeconds.asString());
 		btnCargarDatos.setOnAction(new EventHandler<ActionEvent>() {
@@ -251,20 +310,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
                 if (timeline != null) {
                     timeline.stop();
                 }
-                System.out.println("1");
                 timeSeconds.set((STARTTIME)*100);
-                System.out.println(timeSeconds);
-                System.out.println("2");
                 timeline = new Timeline();
-                System.out.println("3");
                 timeline.getKeyFrames().add(
                         new KeyFrame(Duration.seconds(STARTTIME + 1),
                         new KeyValue(timeSeconds, 0)));
-                System.out.println("4");
-                System.out.println("timeSeconds");
-                timeline.play();
-                System.out.println("5");
-                System.out.println(progresoJugadorAbajo.getProgress());
+                timeline.playFromStart();
             }
         });
 
