@@ -109,7 +109,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML ImageView imagenTacoRobo;
 	@FXML ImageView imagenTacoDescartes;
 	@FXML ImageView imagenSentidoPartida;
+	
 	@FXML ImageView avatarJugadorAbajo;
+	@FXML ImageView avatarJugadorIzquierda;
+	@FXML ImageView avatarJugadorArriba;
+	@FXML ImageView avatarJugadorDerecha;
+	ImageView[] avataresJugadores;
+	
 	private Sala sala;
 	private Partida partida; 
 	
@@ -148,7 +154,14 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				progresoJugadorDerecha
 			};
 			
-			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
+			avataresJugadores = new ImageView[] {
+				avatarJugadorAbajo,
+				avatarJugadorIzquierda,
+				avatarJugadorArriba,
+				avatarJugadorDerecha
+			};
+			
+ 			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
 			
 			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
 			usuarioActual.getId();
@@ -188,7 +201,18 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				//Bindear el tiempo del timer a cada jugador
 				progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
 						timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
-
+				//Poner la imagen de perfil correcta.
+	            String nombreJugador;
+	            int imageID;
+	            if(jugador.isEsIA()){
+	                imageID = ImageManager.IA_IMAGE_ID;
+	                //nombreJugador = getIAName(jugadorID);
+	            } else {
+	                UsuarioVO usuarioVO = sala.getParticipante(jugador.getJugadorID());
+	                imageID = usuarioVO.getAvatar();
+	                nombreJugador = usuarioVO.getNombre();
+	            }
+				ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
 			}
 		}
 		administrarSala(SuscripcionSala.sala);
@@ -218,8 +242,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			
             if(sala.isEnPartida() && turnoActual == jugadorID && esNuevoTurno){
             	System.out.println(jugadorIDmap.get(jugadorID));
-            	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior));
-                
+            	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior));  
             }
 
 			if(jugadorActualID == jugadorID){
@@ -270,6 +293,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//Poner la nueva carta en la pila de descartes
 		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
 	}
+    
+	public static String getIAName(){
+        return "IA";
+    }
+
+    public static String getIAName(int jugadorID){
+        return "IA_" + jugadorID;
+    }
+
 	private void mostrarTimerVisual(int jugadorIDmapTurnoActual, int jugadorIDmapTurnoAnterior) {
         if (timeline != null || jugadorIDmapTurnoActual != jugadorIDmapTurnoAnterior){
         	timeline.stop();
