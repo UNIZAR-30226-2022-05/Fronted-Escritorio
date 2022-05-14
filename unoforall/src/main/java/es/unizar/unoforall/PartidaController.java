@@ -14,9 +14,12 @@ import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.animation.Transition;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -25,6 +28,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,19 +36,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class PartidaController extends SalaReceiver implements Initializable {
-
+    @FXML
+    private Circle circulo;
     private static final Integer STARTTIME = (Partida.TIMEOUT_TURNO - 1000)/1000;
     private Timeline timeline;
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME*100);
@@ -72,7 +82,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
     private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
-
+    Animation animation;
     @FXML private Label labelError;
     @FXML private Label timerLabel;
     @FXML private BorderPane marco;
@@ -126,6 +136,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
+		
 		inicializarEfectos();
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
@@ -215,9 +226,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		partida = sala.getPartida();
 		int turnoActual = partida.getTurno();
 		boolean esNuevoTurno = turnoActual != turnoAnterior || partida.isRepeticionTurno();
+		
 		if(esNuevoTurno) {
 			turnoAnterior = turnoActual;
 		}
+		
+		
 		int jugadorIDTurnoAnterior = partida.getTurnoUltimaJugada();
 		//En caso de que esté abierto el popup de selección de color y se acaba tu turno,
 		//el popup se cerrará automáticamente.
@@ -229,8 +243,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			final int jugadorID = i;
 			Jugador jugador = partida.getJugadores().get(jugadorID);
 			Jugador jugadorActual = partida.getJugadorActual();
-            if(sala.isEnPartida() && turnoActual == jugadorID && esNuevoTurno){
-            	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior));  
+			boolean esMiTurno = jugador == jugadorActual;
+            if(sala.isEnPartida() && (turnoActual == jugadorID) && esNuevoTurno){
+            	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior), jugadorID);  
             }
 
 			if(jugadorActualID == jugadorID){
@@ -266,7 +281,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
             }
 			cartasJugadores[jugadorIDmap.get(jugadorID)].getChildren().clear();
 			//Si no es mi turno, no se encenderán mis cartas.
-			boolean esMiTurno = jugador == jugadorActual;
+			
             for(Carta carta : jugador.getMano()){
             	addCarta(sala, jugadorIDmap.get(jugadorID), esMiTurno, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
             }
@@ -287,18 +302,46 @@ public class PartidaController extends SalaReceiver implements Initializable {
         return "IA_" + jugadorID;
     }
 
-	private void mostrarTimerVisual(int jugadorIDmapTurnoActual, int jugadorIDmapTurnoAnterior) {
+	private void mostrarTimerVisual(int jugadorIDmapTurnoActual, int jugadorIDmapTurnoAnterior, int jugadorID) {
         if (timeline != null || jugadorIDmapTurnoActual != jugadorIDmapTurnoAnterior){
         	timeline.stop();
         	timersJugadores[jugadorIDmapTurnoAnterior].set((STARTTIME)*100);
         }
         timersJugadores[jugadorIDmapTurnoActual].set((STARTTIME)*100);
         timeline = new Timeline();
-        timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(STARTTIME + 1),
-                new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)));
+        boolean miTimer = jugadorActualID == jugadorID;//jugadorIDmap.get(partida.getIndiceJugador(partida.getJugadorActual().getJugadorID()));
+        if(miTimer) {
+        	System.out.println("miTurno");
+	        timeline.getKeyFrames().addAll(
+	                new KeyFrame(Duration.seconds(STARTTIME + 1), new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.70), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.75), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.80), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.85), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.87), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.89), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.91), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.93), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.95), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.96), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.97), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.98), this::doAnimation),
+	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.99), this::doAnimation));	
+        } else {
+        	System.out.println("no es miTurno");
+        	timeline.getKeyFrames().addAll(
+	                new KeyFrame(Duration.seconds(STARTTIME + 1), new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)));
+        }
         timeline.playFromStart();
+
 	}
+	
+	private void doAnimation(ActionEvent actionEvent) {
+		// TODO Auto-generated method stub
+		animation.stop();
+		animation.play();
+	}
+
 	//Esta función no se usa
 	public HBox addImage(String imagen) {
 		HBox hBox = new HBox();
@@ -312,6 +355,21 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
+        final Animation animation = new Transition() {
+
+            {
+                setCycleDuration(Duration.millis(1000));
+                setInterpolator(Interpolator.EASE_OUT);
+            }
+
+            @Override
+            protected void interpolate(double frac) {
+                Color vColor = new Color(1, 0, 0, 1 - frac);
+                circulo.setFill(new Color(1, 0, 0, 1 - frac));
+            }
+        };
+        animation.play();
+		
 		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
 		for (int i = 1; i < 20; i++) {
@@ -424,5 +482,20 @@ public class PartidaController extends SalaReceiver implements Initializable {
     	oscurecerCarta.setSpecularConstant(0.0);
     	oscurecerCarta.setSpecularExponent(0.0);
     	oscurecerCarta.setSurfaceScale(0.0);
+    	
+        animation = new Transition() {
+
+            {
+                setCycleDuration(Duration.millis(1000));
+                setInterpolator(Interpolator.EASE_OUT);
+            }
+
+            @Override
+            protected void interpolate(double frac) {
+                Color vColor = new Color(1, 0, 0, 1 - frac);
+                circulo.setFill(new Color(1, 0, 0, 1 - frac));
+            }
+        };
+        //animation.play();
     }
 }

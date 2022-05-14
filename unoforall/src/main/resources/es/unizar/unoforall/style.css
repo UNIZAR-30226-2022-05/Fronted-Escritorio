@@ -20,9 +20,21 @@
 }
 .progress-indicator .indicator {
   -fx-background-color: black;
-  
 }
 
 .progress-indicator .progress {
 	-fx-background-color: white;
 }
+/*
+.label {
+    -fx-font-size: 50px;
+}
+*/
+.outline.label .text {
+    /*-fx-fill: lightseagreen;*/
+    -fx-fill: white;
+    -fx-stroke: black;
+    -fx-stroke-width: 1.2px;
+}
+
+.red-bar    { -fx-accent: red;    }
