@@ -83,11 +83,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
     private final Map<Integer, Integer> jugadorIDmap = new HashMap<>();
     Animation animation;
-    @FXML private Label labelError;
-    @FXML private Label timerLabel;
-    
-    @FXML private BorderPane marco;
-    
+ 
+    @FXML private BorderPane marco;   
 
     @FXML private Label nombreJugadorAbajo;
     @FXML private Label nombreJugadorArriba;
@@ -229,7 +226,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                nombreJugador = usuarioVO.getNombre();
 	            }
 				ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
-				nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
+				//nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
 				//setNumCartas(jugadorLayoutID, jugador.getMano().size());
 			}
 		}
