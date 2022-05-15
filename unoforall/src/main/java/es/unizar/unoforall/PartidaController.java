@@ -42,6 +42,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
@@ -138,10 +142,27 @@ public class PartidaController extends SalaReceiver implements Initializable {
     //Por defecto deDondeVengo es la pantalla principal
     //para evitar posibles errores en ejecución
 	public static String deDondeVengo = "principal";
+	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
+	static {
+		fondos.put(0, new Image(App.class.getResourceAsStream("images/fondos/azul.png")));
+		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
+		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
+	}
 	@Override
+	
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
-		
+		marco.setBackground(
+				new Background(
+						new BackgroundImage(
+							fondos.get(App.getPersonalizacion().get("tableroSelec")),
+							BackgroundRepeat.NO_REPEAT,
+							BackgroundRepeat.NO_REPEAT,
+							BackgroundPosition.CENTER,
+							BackgroundSize.DEFAULT
+						)
+					)
+				);
 		inicializarEfectos();
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();

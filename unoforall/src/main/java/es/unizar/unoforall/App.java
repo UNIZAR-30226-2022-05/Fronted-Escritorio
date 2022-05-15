@@ -223,6 +223,8 @@ public class App extends Application {
 //    	stage.setFullScreen(true);
         stage.setMinWidth(1280);
         stage.setMinHeight(720);
+        //stage.setMaximized(true);
+        stage.sizeToScene();
     }
     
     static void setWindowed() {
