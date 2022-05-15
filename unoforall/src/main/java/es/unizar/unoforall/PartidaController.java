@@ -85,8 +85,16 @@ public class PartidaController extends SalaReceiver implements Initializable {
     Animation animation;
     @FXML private Label labelError;
     @FXML private Label timerLabel;
+    
     @FXML private BorderPane marco;
+    
 
+    @FXML private Label nombreJugadorAbajo;
+    @FXML private Label nombreJugadorArriba;
+    @FXML private Label nombreJugadorDerecha;
+    @FXML private Label nombreJugadorIzquierda;
+    private Label[] nombresJugadores;
+    
     @FXML private ProgressIndicator progresoJugadorAbajo;
     @FXML private ProgressIndicator progresoJugadorIzquierda;
     @FXML private ProgressIndicator progresoJugadorArriba;
@@ -167,6 +175,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				avatarJugadorDerecha
 			};
 			
+			nombresJugadores = new Label[] {
+				nombreJugadorAbajo,
+			    nombreJugadorArriba,
+			    nombreJugadorDerecha,
+			    nombreJugadorIzquierda
+			};
+			
  			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
  			
 			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
@@ -203,17 +218,19 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
 						timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
 				//Poner la imagen de perfil correcta.
-	            String nombreJugador;
+	            String nombreJugador = "";
 	            int imageID;
 	            if(jugador.isEsIA()){
 	                imageID = ImageManager.IA_IMAGE_ID;
-	                //nombreJugador = getIAName(jugadorID);
+	                nombreJugador = getIAName(jugadorID);
 	            } else {
 	                UsuarioVO usuarioVO = sala.getParticipante(jugador.getJugadorID());
 	                imageID = usuarioVO.getAvatar();
 	                nombreJugador = usuarioVO.getNombre();
 	            }
 				ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
+				nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
+				//setNumCartas(jugadorLayoutID, jugador.getMano().size());
 			}
 		}
 		administrarSala(SuscripcionSala.sala);

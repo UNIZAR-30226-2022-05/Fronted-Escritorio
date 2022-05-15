@@ -23,9 +23,9 @@
 
 <BorderPane fx:id="marco" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
    <bottom>
-      <Pane prefHeight="155.0" prefWidth="1280.0" style="-fx-background-color: #3399ff;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="135.0" prefWidth="1280.0" style="-fx-background-color: #3399ff;" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrollJugadorAbajo" hbarPolicy="NEVER" hmax="2.0" layoutX="215.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+            <ScrollPane fx:id="scrollJugadorAbajo" hbarPolicy="NEVER" hmax="2.0" layoutX="240.0" layoutY="6.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
                   <GridPane fx:id="cartasJugadorAbajo" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
                     <rowConstraints>
@@ -46,7 +46,7 @@
                      </children>
                   </GridPane>
                </content></ScrollPane>
-            <Group fx:id="grupoEmojisJugadorAbajo" layoutX="32.0" layoutY="22.0">
+            <Group fx:id="grupoEmojisJugadorAbajo" layoutX="100.0" layoutY="7.0">
                <children>
                   <Circle fx:id="circulo" fill="#1f93ff00" layoutX="62.0" layoutY="50.0" radius="59.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                   <ProgressIndicator fx:id="progresoJugadorAbajo" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
@@ -60,9 +60,9 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="124.0" styleClass="outline" stylesheets="@style.css" text="Daniel" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <Label fx:id="nombreJugadorAbajo" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-25.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="169.0" styleClass="outline" stylesheets="@style.css" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="Impact" size="28.0" />
+                        <Font name="Impact" size="25.0" />
                      </font>
                   </Label>
                </children>
@@ -71,7 +71,7 @@
       </Pane>
    </bottom>
    <top>
-      <Pane prefHeight="107.0" prefWidth="1280.0" style="-fx-background-color: #990000;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="130.0" prefWidth="1280.0" style="-fx-background-color: #990000;" BorderPane.alignment="CENTER">
          <children>
             <ScrollPane fx:id="scrollJugadorArriba" hbarPolicy="NEVER" hmax="2.0" layoutX="230.0" layoutY="-52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="820.0" rotate="180.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
@@ -95,7 +95,7 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Group fx:id="grupoEmojisJugadorArriba">
+            <Group fx:id="grupoEmojisJugadorArriba" layoutX="100.0">
                <children>
                   <ProgressIndicator fx:id="progresoJugadorArriba" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
                      <styleClass>
@@ -108,14 +108,19 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
+                  <Label fx:id="nombreJugadorArriba" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-25.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="169.0" styleClass="outline" stylesheets="@style.css" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Impact" size="25.0" />
+                     </font>
+                  </Label>
                </children>
             </Group>
          </children></Pane>
    </top>
    <left>
-      <Pane prefHeight="414.0" prefWidth="200.0" style="-fx-background-color: #123123;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="458.0" prefWidth="252.0" style="-fx-background-color: #123123;" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrollJugadorIzquierda" hbarPolicy="NEVER" hmax="2.0" layoutX="-137.0" layoutY="108.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="365.0" rotate="90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+            <ScrollPane fx:id="scrollJugadorIzquierda" hbarPolicy="NEVER" hmax="2.0" layoutX="-137.0" layoutY="76.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="309.0" rotate="90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
                   <GridPane fx:id="cartasJugadorIzquierda" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
                      <rowConstraints>
@@ -138,7 +143,7 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Group fx:id="grupoEmojisJugadorIzquierda">
+            <Group fx:id="grupoEmojisJugadorIzquierda" layoutX="25.0" layoutY="320.0">
                <children>
                   <ProgressIndicator fx:id="progresoJugadorIzquierda" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
                      <styleClass>
@@ -151,14 +156,19 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
+                  <Label fx:id="nombreJugadorIzquierda" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-25.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="169.0" styleClass="outline" stylesheets="@style.css" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Impact" size="25.0" />
+                     </font>
+                  </Label>
                </children>
             </Group>
          </children></Pane>
    </left>
    <right>
-      <Pane prefHeight="414.0" prefWidth="200.0" style="-fx-background-color: #ecce5b;" BorderPane.alignment="TOP_CENTER">
+      <Pane prefHeight="455.0" prefWidth="226.0" style="-fx-background-color: #ecce5b;" BorderPane.alignment="TOP_CENTER">
          <children>
-            <ScrollPane fx:id="scrollJugadorDerecha" hbarPolicy="NEVER" hmax="2.0" layoutX="4.0" layoutY="185.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="365.0" rotate="-90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+            <ScrollPane fx:id="scrollJugadorDerecha" hbarPolicy="NEVER" hmax="2.0" layoutX="4.0" layoutY="59.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="365.0" rotate="-90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
                   <GridPane fx:id="cartasJugadorDerecha" gridLinesVisible="true" layoutY="-1.0" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
                      <rowConstraints>
@@ -181,7 +191,7 @@
                </content>
             </ScrollPane>
             <VBox prefHeight="200.0" prefWidth="100.0" />
-            <Group fx:id="grupoEmojisJugadorDerecha">
+            <Group fx:id="grupoEmojisJugadorDerecha" layoutX="84.0" layoutY="320.0">
                <children>
                   <ProgressIndicator fx:id="progresoJugadorDerecha" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
                      <styleClass>
@@ -194,13 +204,18 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
+                  <Label fx:id="nombreJugadorDerecha" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-25.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="169.0" styleClass="outline" stylesheets="@style.css" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Impact" size="25.0" />
+                     </font>
+                  </Label>
                </children>
             </Group>
          </children>
       </Pane>
    </right>
    <center>
-      <VBox fx:id="fondo" prefHeight="306.0" prefWidth="186.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="fondo" prefHeight="455.0" prefWidth="837.0" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -234,21 +249,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <Pane prefHeight="121.0" prefWidth="840.0">
-               <children>
-                  <ProgressIndicator layoutX="134.0" layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.22" style="-fx-progress-color: red;" />
-                  <ImageView fitHeight="90.0" fitWidth="89.0" layoutX="20.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/avatares/0-cero.png" />
-                     </image>
-                  </ImageView>
-               </children></Pane>
-            <ProgressIndicator maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
-               <styleClass>
-                  <String fx:value="progress-indicator" />
-                  <String fx:value="percentage" />
-               </styleClass>
-            </ProgressIndicator>
+            <Pane prefHeight="121.0" prefWidth="840.0" />
          </children>
       </VBox>
    </center>
