@@ -247,7 +247,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                nombreJugador = usuarioVO.getNombre();
 	            }
 				ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
-				//nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
+				nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
 				//setNumCartas(jugadorLayoutID, jugador.getMano().size());
 			}
 		}
