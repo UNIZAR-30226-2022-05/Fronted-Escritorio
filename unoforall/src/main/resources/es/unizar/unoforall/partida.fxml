@@ -66,7 +66,7 @@
                   </Label>
                </children>
             </Group>
-            <ImageView fx:id="contadorJugadorAbajo" fitHeight="100.0" fitWidth="100.0" layoutX="1075.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="contadorJugadorAbajo" fitHeight="100.0" fitWidth="100.0" layoutX="1075.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
                <image>
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
                </image>
@@ -119,7 +119,7 @@
                   </Label>
                </children>
             </Group>
-            <ImageView fx:id="contadorJugadorArriba" fitHeight="100.0" fitWidth="100.0" layoutX="1075.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="contadorJugadorArriba" fitHeight="100.0" fitWidth="100.0" layoutX="1075.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
                <image>
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
                </image>
@@ -129,7 +129,7 @@
    <left>
       <Pane prefHeight="458.0" prefWidth="252.0" style="-fx-background-color: #123123;" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrollJugadorIzquierda" hbarPolicy="NEVER" hmax="2.0" layoutX="-114.0" layoutY="76.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="309.0" rotate="90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+            <ScrollPane fx:id="scrollJugadorIzquierda" hbarPolicy="NEVER" hmax="2.0" layoutX="-114.0" layoutY="208.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="309.0" rotate="90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
                   <GridPane fx:id="cartasJugadorIzquierda" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
                      <rowConstraints>
@@ -152,7 +152,7 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Group fx:id="grupoEmojisJugadorIzquierda" layoutX="25.0" layoutY="320.0">
+            <Group fx:id="grupoEmojisJugadorIzquierda" layoutX="25.0">
                <children>
                   <ProgressIndicator fx:id="progresoJugadorIzquierda" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
                      <styleClass>
@@ -172,7 +172,7 @@
                   </Label>
                </children>
             </Group>
-            <ImageView fx:id="contadorJugadorIzquierda" fitHeight="100.0" fitWidth="100.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="contadorJugadorIzquierda" fitHeight="100.0" fitWidth="100.0" layoutX="164.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
                <image>
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
                </image>
@@ -225,7 +225,7 @@
                   </Label>
                </children>
             </Group>
-            <ImageView fx:id="contadorJugadorDerecha" fitHeight="100.0" fitWidth="100.0" layoutX="21.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="contadorJugadorDerecha" fitHeight="100.0" fitWidth="100.0" layoutX="21.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
                <image>
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
                </image>
@@ -240,7 +240,7 @@
          </padding>
          <children>
             <Button fx:id="btnCargarDatos" mnemonicParsing="false" onAction="#cargarDatos" text="Cargar Datos" />
-            <Pane prefHeight="93.0" prefWidth="840.0" />
+            <Pane prefHeight="54.0" prefWidth="762.0" />
             <HBox prefHeight="116.0" prefWidth="840.0" VBox.vgrow="ALWAYS">
                <children>
                   <Pane prefHeight="275.0" prefWidth="209.0" />

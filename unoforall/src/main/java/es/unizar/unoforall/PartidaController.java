@@ -1,5 +1,6 @@
 package es.unizar.unoforall;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
@@ -77,6 +78,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private static final int AMARILLO = 3;
 	private static final int AZUL = 4;
 	
+	private static final int ROBAR_CARTA = 0;
+	private static final int JUGAR_CARTA = 1;
+	
 	private static final int JUGADOR_ABAJO = 0;
     private static final int JUGADOR_IZQUIERDA = 1;
     private static final int JUGADOR_ARRIBA = 2;
@@ -139,7 +143,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private Sala sala;
 	private Partida partida; 
-    private MyStage stage;
+    private MyStage popUpRobarCarta;
+    private MyStage popUpCambiarColor;
     //int que representa el ID del jugador que está ejecutando la App.
 	private int jugadorActualID = -1;
     private int turnoAnterior = -1;
@@ -226,6 +231,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                //A futuro ocultar jugador izquierda y jugador derecha
 	                grupoEmojisJugadorIzquierda.setVisible(false);
 	                grupoEmojisJugadorDerecha.setVisible(false);
+	                contadorJugadorIzquierda.setVisible(false);
+	                contadorJugadorDerecha.setVisible(false);
+	                scrollJugadorIzquierda.setVisible(false);
+	                scrollJugadorDerecha.setVisible(false);
 	                
 	                break;
 	            case 3:
@@ -233,6 +242,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
 	              //A futuro ocultar jugador derecha
 	                grupoEmojisJugadorDerecha.setVisible(false);
+	                contadorJugadorDerecha.setVisible(false);
+	                scrollJugadorDerecha.setVisible(false);
 	                
 	                break;
 	            case 4:
@@ -283,8 +294,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		int jugadorIDTurnoAnterior = partida.getTurnoUltimaJugada();
 		//En caso de que esté abierto el popup de selección de color y se acaba tu turno,
 		//el popup se cerrará automáticamente.
-		if (!partida.isRepeticionTurno() && (stage != null && stage.isShowing())) {
-			stage.close();
+		if (!partida.isRepeticionTurno() && (popUpCambiarColor != null && popUpCambiarColor.isShowing())) {
+			popUpCambiarColor.close();
+		}
+		if (!partida.isRepeticionTurno() && (popUpRobarCarta != null && popUpRobarCarta.isShowing())) {
+			popUpRobarCarta.close();
 		}
 		int numJugadores = partida.getJugadores().size();
 		for (int i = 0; i < numJugadores; i++) {
@@ -303,6 +317,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
                     mostrarMensaje("Has sido penalizado por no decir UNO");
                 }
 				*/
+				if(esMiTurno) {
+					seleccionRobo();
+				}
+
                 jugador.getMano().sort((carta1, carta2) -> {
                     boolean sePuedeUsarCarta1 = sePuedeUsarCarta(partida, carta1);
                     boolean sePuedeUsarCarta2 = sePuedeUsarCarta(partida, carta2);
@@ -469,16 +487,16 @@ public class PartidaController extends SalaReceiver implements Initializable {
 					fxmlLoader.setController(ccc);
 					Parent root1 = (Parent) fxmlLoader.load();
 					Scene scene = new Scene(root1);
-					stage = new MyStage();
+					popUpCambiarColor = new MyStage();
 					
 					scene.setFill(Color.TRANSPARENT);
-					stage.setTitle("Pantalla Cambiar de color");
-					stage.setScene(scene);
-					stage.initStyle(StageStyle.UTILITY);
-					stage.initModality(Modality.APPLICATION_MODAL);
-					stage.initOwner(marco.getScene().getWindow());
+					popUpCambiarColor.setTitle("Pantalla Cambiar de color");
+					popUpCambiarColor.setScene(scene);
+					popUpCambiarColor.initStyle(StageStyle.UTILITY);
+					popUpCambiarColor.initModality(Modality.APPLICATION_MODAL);
+					popUpCambiarColor.initOwner(marco.getScene().getWindow());
 
-					int resultado = stage.showAndReturnColourResult(ccc);
+					int resultado = popUpCambiarColor.showAndReturnColourResult(ccc);
 					System.out.println("recupero un " + resultado);
 					//Ponerle a la carta el color deseado por el jugador mediante el popup.
 					//Ojo, el defaultmode elige el color real, no se hace aquí.
@@ -513,30 +531,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		System.out.println(carta.toString());
 	}
 	
-	public void robarCarta() {
-		Carta aux = partida.getCartaRobada();
-		try {
-			RobarOJugarCartaController rojcc = new RobarOJugarCartaController();
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("robarOJugarCarta.fxml"));
-			fxmlLoader.setController(rojcc);
-			Parent root1 = (Parent) fxmlLoader.load();
-			Scene scene = new Scene(root1);
-			stage = new MyStage();
-			
-			scene.setFill(Color.TRANSPARENT);
-			stage.setTitle("Pantalla Cambiar de color");
-			stage.setScene(scene);
-			stage.initStyle(StageStyle.UTILITY);
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initOwner(marco.getScene().getWindow());
-
-			int resultado = stage.showAndReturnDrawResult(rojcc);
-			System.out.println("recupero un " + resultado);
-		} catch (Exception e) {
-				System.out.println("No se ha podido cargar la pagina: " + e);
-		}
+	public void robarCarta() throws IOException {
 		Jugada jugada = new Jugada();
 		SuscripcionSala.enviarJugada(jugada);
+
 	}
 	
     private boolean sePuedeUsarCarta(Partida partida, Carta carta){
@@ -566,5 +564,43 @@ public class PartidaController extends SalaReceiver implements Initializable {
             }
         };
         //animation.play();
+    }
+    
+    private void seleccionRobo() {
+    	Jugada jugada = new Jugada();
+		if(partida.isModoJugarCartaRobada()) {
+			try {
+				Carta cartaRobada = partida.getCartaRobada(); 
+				RobarOJugarCartaController rojcc = new RobarOJugarCartaController();
+				popUpRobarCarta = new MyStage();
+				(rojcc).setCard(cartaRobada);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("robarOJugarCarta.fxml"));
+				fxmlLoader.setController(rojcc);
+				Parent root1 = (Parent) fxmlLoader.load();
+				Scene scene = new Scene(root1);
+				
+				scene.setFill(Color.TRANSPARENT);
+				popUpRobarCarta.setTitle("Pantalla Cambiar de color");
+				popUpRobarCarta.setScene(scene);
+				popUpRobarCarta.initStyle(StageStyle.UNDECORATED);
+				popUpRobarCarta.initModality(Modality.APPLICATION_MODAL);
+				popUpRobarCarta.initOwner(marco.getScene().getWindow());
+	
+				int resultado = popUpRobarCarta.showAndReturnDrawResult(rojcc, cartaRobada);
+				System.out.println("recupero un " + resultado);
+				
+				switch(resultado) {
+					case ROBAR_CARTA:
+						//jugada = new Jugada();
+						break;
+					case JUGAR_CARTA:
+						jugada = new Jugada(Collections.singletonList(cartaRobada));
+						break;
+				}
+			} catch (Exception e) {
+				System.out.println("No se ha podido cargar la pagina: " + e);
+			}
+		SuscripcionSala.enviarJugada(jugada);	
+		}
     }
 }

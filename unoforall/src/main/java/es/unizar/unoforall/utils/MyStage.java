@@ -6,7 +6,7 @@ import es.unizar.unoforall.model.partidas.Carta;
 import javafx.stage.Stage;
 
 public class MyStage extends Stage{
-	Carta cartaRobada;
+	public Carta cartaRobada;
 	public int showAndReturnColourResult(CambiarColorController controller) {
 		super.showAndWait();
 		return controller.getReturn();

@@ -22,7 +22,7 @@ public class PartidaItemController {
 		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
 		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
 		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
-		avatares.put(7, new Image(App.class.getResourceAsStream("images/avatares/7-IA.png")));
+		avatares.put(7, new Image(App.class.getResourceAsStream("images/avatares/-1-IA.png")));
 	}
 
     private static Image original = new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png"));

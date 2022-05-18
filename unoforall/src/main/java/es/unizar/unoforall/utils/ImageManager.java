@@ -19,8 +19,8 @@ public class ImageManager {
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
     private static final HashMap<Integer, Image> numCardsMap = new HashMap<>();
     
+    //public static final int DEFAULT_IMAGE_ID = -2;
     public static final int IA_IMAGE_ID = -1;
-    public static final int DEFAULT_IMAGE_ID = -2;
     public static final int IMAGEN_PERFIL_0_ID = 0;
     public static final int IMAGEN_PERFIL_1_ID = 1;
     public static final int IMAGEN_PERFIL_2_ID = 2;
@@ -114,8 +114,8 @@ public class ImageManager {
         if(iaImage == null || defaultImage == null || imagenPerfil0 == null
         		 || imagenPerfil1 == null || imagenPerfil2 == null || imagenPerfil3 == null
         		 || imagenPerfil4 == null || imagenPerfil5 == null || imagenPerfil6 == null){
-        	iaImage = cargarImagen("images/avatares/-2-IA.png");
-        	defaultImage = cargarImagen("images/avatares/-2-IA.png");
+        	iaImage = cargarImagen("images/avatares/-1-IA.png");
+        	//defaultImage = cargarImagen("images/avatares/-2-IA.png");
         	imagenPerfil0 = cargarImagen("images/avatares/0-cero.png");
         	imagenPerfil1 = cargarImagen("images/avatares/1-uno.png");
         	imagenPerfil2 = cargarImagen("images/avatares/2-dos.png");
@@ -129,9 +129,9 @@ public class ImageManager {
         case IA_IMAGE_ID:
             imageview.setImage(iaImage);
             break;
-        case DEFAULT_IMAGE_ID:
-        	imageview.setImage(defaultImage);
-            break;
+        //case DEFAULT_IMAGE_ID:
+        	//imageview.setImage(defaultImage);
+            //break;
         case IMAGEN_PERFIL_0_ID:
         	imageview.setImage(imagenPerfil0);
             break;
