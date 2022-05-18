@@ -10,11 +10,6 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.util.Duration;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
 import javafx.scene.image.Image;
 
 public class ImageManager {
@@ -23,7 +18,8 @@ public class ImageManager {
 	private static final HashMap<Carta, Image> defaultCardsMap = new HashMap<>();
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
     private static final HashMap<Integer, Image> numCardsMap = new HashMap<>();
-    private static final HashMap<Integer, Image> backgroundsMap = new HashMap<Integer, Image>();
+    private static final HashMap<Integer, Image> backgroundsMap = new HashMap<>();
+	private static HashMap<Integer, Image> avatarsMap = new HashMap<>();
     
     //public static final int DEFAULT_IMAGE_ID = -2;
     public static final int IA_IMAGE_ID = -1;
@@ -34,6 +30,7 @@ public class ImageManager {
     public static final int IMAGEN_PERFIL_4_ID = 4;
     public static final int IMAGEN_PERFIL_5_ID = 5;
     public static final int IMAGEN_PERFIL_6_ID = 6;
+    public static final int NUM_AVATARES = 8;
     
     public static final int IMAGEN_FONDO_0_ID = 0;
     public static final int IMAGEN_FONDO_1_ID = 1;
@@ -56,16 +53,6 @@ public class ImageManager {
     private static Image imageRevesCartaAlt = null;
     private static Image imageMazoCartaDefault = null;
     private static Image imageMazoCartaAlt = null;
-    
-    private static Image iaImage = null;
-    private static Image defaultImage = null;
-    private static Image imagenPerfil0 = null;
-    private static Image imagenPerfil1 = null;
-    private static Image imagenPerfil2 = null;
-    private static Image imagenPerfil3 = null;
-    private static Image imagenPerfil4 = null;
-    private static Image imagenPerfil5 = null;
-    private static Image imagenPerfil6 = null;
     
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PUBLICAS//////////////////////////////////////////////
@@ -117,53 +104,22 @@ public class ImageManager {
     	imageView.setImage(numCardsMap.get(numCartas));
     }
     
-    public static void setImagenPerfil(ImageView imageview, int imageID) {
+    public static void setImagenPerfil(ImageView imageView, int imageID) {
         if(imageID < -2 || imageID > 6){
             throw new IllegalArgumentException("ID de imagen inválido: " + imageID + ". Debe estar entre -2 y 6");
         }
-        if(iaImage == null || defaultImage == null || imagenPerfil0 == null
-        		 || imagenPerfil1 == null || imagenPerfil2 == null || imagenPerfil3 == null
-        		 || imagenPerfil4 == null || imagenPerfil5 == null || imagenPerfil6 == null){
-        	iaImage = cargarImagen("images/avatares/-1-IA.png");
-        	//defaultImage = cargarImagen("images/avatares/-2-IA.png");
-        	imagenPerfil0 = cargarImagen("images/avatares/0-cero.png");
-        	imagenPerfil1 = cargarImagen("images/avatares/1-uno.png");
-        	imagenPerfil2 = cargarImagen("images/avatares/2-dos.png");
-        	imagenPerfil3 = cargarImagen("images/avatares/3-tres.png");
-        	imagenPerfil4 = cargarImagen("images/avatares/4-cuatro.png");
-        	imagenPerfil5 = cargarImagen("images/avatares/5-cinco.png");
-        	imagenPerfil6 = cargarImagen("images/avatares/6-seis.png");
-        }
-        
-        switch(imageID){
-        case IA_IMAGE_ID:
-            imageview.setImage(iaImage);
-            break;
-        //case DEFAULT_IMAGE_ID:
-        	//imageview.setImage(defaultImage);
-            //break;
-        case IMAGEN_PERFIL_0_ID:
-        	imageview.setImage(imagenPerfil0);
-            break;
-        case IMAGEN_PERFIL_1_ID:
-        	imageview.setImage(imagenPerfil1);
-            break;
-        case IMAGEN_PERFIL_2_ID:
-        	imageview.setImage(imagenPerfil2);
-            break;
-        case IMAGEN_PERFIL_3_ID:
-        	imageview.setImage(imagenPerfil3);
-            break;
-        case IMAGEN_PERFIL_4_ID:
-        	imageview.setImage(imagenPerfil4);
-            break;
-        case IMAGEN_PERFIL_5_ID:
-        	imageview.setImage(imagenPerfil5);
-            break;
-        case IMAGEN_PERFIL_6_ID:
-        	imageview.setImage(imagenPerfil6);
-            break;
-        }
+        if(avatarsMap.isEmpty()){
+			avatarsMap.put(IA_IMAGE_ID, cargarImagen("images/avatares/-1-IA.png"));
+			//avatarsMap.put(IA_IMAGE_ID, cargarImagen("images/avatares/-1-IA.png"));
+			avatarsMap.put(IMAGEN_PERFIL_0_ID, cargarImagen("images/avatares/0-cero.png"));
+			avatarsMap.put(IMAGEN_PERFIL_1_ID, cargarImagen("images/avatares/1-uno.png"));
+			avatarsMap.put(IMAGEN_PERFIL_2_ID, cargarImagen("images/avatares/2-dos.png"));
+			avatarsMap.put(IMAGEN_PERFIL_3_ID, cargarImagen("images/avatares/3-tres.png"));
+			avatarsMap.put(IMAGEN_PERFIL_4_ID, cargarImagen("images/avatares/4-cuatro.png"));
+			avatarsMap.put(IMAGEN_PERFIL_5_ID, cargarImagen("images/avatares/5-cinco.png"));
+			avatarsMap.put(IMAGEN_PERFIL_6_ID, cargarImagen("images/avatares/6-seis.png"));
+        } 
+		imageView.setImage(avatarsMap.get(imageID));
     }
 //Devuelve el ImageView del mazo de cartas correspondiente.
     public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode) {

@@ -2,13 +2,13 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.interfaces.SalaListener;
 import es.unizar.unoforall.model.salas.Sala;
+import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.model.salas.RespuestaSalas;
@@ -21,14 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -37,13 +31,6 @@ import javafx.scene.layout.VBox;
 public class BuscarSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
-
-	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
-	static {
-		fondos.put(0, new Image(App.class.getResourceAsStream("images/fondos/azul.png")));
-		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
-		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
-	}
 	
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;
@@ -72,17 +59,7 @@ public class BuscarSalaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//PONER EL FONDO CORRESPONDIENTE
-		fondo.setBackground(
-			new Background(
-				new BackgroundImage(
-					fondos.get(App.getPersonalizacion().get("tableroSelec")),
-					BackgroundRepeat.NO_REPEAT,
-					BackgroundRepeat.NO_REPEAT,
-					BackgroundPosition.CENTER,
-					BackgroundSize.DEFAULT
-				)
-			)
-		);
+		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 
 		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMAGENES
 		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {

@@ -24,12 +24,10 @@ import javafx.animation.Transition;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,20 +35,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
@@ -123,6 +111,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	@FXML private Button btnCargarDatos;
 	@FXML private Button test;
+
+	@FXML private Button btnAbandonarPartida;
+    @FXML private Button btnPausarPartida;
 	
 	@FXML private ImageView imagenTacoRobo;
 	@FXML private ImageView imagenTacoDescartes;
@@ -152,27 +143,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
     //Por defecto deDondeVengo es la pantalla principal
     //para evitar posibles errores en ejecución
 	public static String deDondeVengo = "principal";
-	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
-	static {
-		fondos.put(0, new Image(App.class.getResourceAsStream("images/fondos/azul.png")));
-		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
-		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
-	}
 	@Override
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
-//		marco.setBackground(
-//				new Background(
-//						new BackgroundImage(
-//							fondos.get(App.getPersonalizacion().get("tableroSelec")),
-//							BackgroundRepeat.NO_REPEAT,
-//							BackgroundRepeat.NO_REPEAT,
-//							BackgroundPosition.CENTER,
-//							BackgroundSize.DEFAULT
-//						)
-//					)
-//				);
+
 		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		inicializarEfectos();
 		SuscripcionSala.dondeEstoy(this); 
@@ -404,21 +379,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	private void doAnimation(ActionEvent actionEvent) {
-		// TODO Auto-generated method stub
 		animation.stop();
 		animation.play();
-	}
-
-	//Esta función no se usa
-	public HBox addImage(String imagen) {
-		HBox hBox = new HBox();
-		
-		final ImageView image = new ImageView(new Image(getClass().getResourceAsStream(imagen)));
-		
-		hBox.getChildren().addAll(image);
-		System.out.println("devolvió Hbox");
-		return hBox;
-		
 	}
 	
 	public void cargarDatos() {
@@ -431,7 +393,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 
             @Override
             protected void interpolate(double frac) {
-                Color vColor = new Color(1, 0, 0, 1 - frac);
                 circulo.setFill(new Color(1, 0, 0, 1 - frac));
             }
         };
@@ -481,54 +442,58 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if(sePuedeUsarCarta(partida, carta)) {
 			System.out.println("se valida la carta" + carta);
 			if(carta.getColor() == Carta.Color.comodin) {
-				try {
-					CambiarColorController ccc = new CambiarColorController();
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
-					fxmlLoader.setController(ccc);
-					Parent root1 = (Parent) fxmlLoader.load();
-					Scene scene = new Scene(root1);
-					popUpCambiarColor = new MyStage();
-					
-					scene.setFill(Color.TRANSPARENT);
-					popUpCambiarColor.setTitle("Pantalla Cambiar de color");
-					popUpCambiarColor.setScene(scene);
-					popUpCambiarColor.initStyle(StageStyle.UTILITY);
-					popUpCambiarColor.initModality(Modality.APPLICATION_MODAL);
-					popUpCambiarColor.initOwner(marco.getScene().getWindow());
-
-					int resultado = popUpCambiarColor.showAndReturnColourResult(ccc);
-					System.out.println("recupero un " + resultado);
-					//Ponerle a la carta el color deseado por el jugador mediante el popup.
-					//Ojo, el defaultmode elige el color real, no se hace aquí.
-					switch(resultado) {
-						case ROJO: 
-							carta.setColor(Carta.Color.rojo);
-							break;
-						case VERDE: 
-							carta.setColor(Carta.Color.verde);
-							break;
-						case AMARILLO: 
-							carta.setColor(Carta.Color.amarillo);
-							break;
-						case AZUL: 
-							carta.setColor(Carta.Color.azul);
-							break;
-						default: break;
-					}
-					if (resultado != CANCELAR) {
-						System.out.println("Se va a enviar la carta " + carta);
-						Jugada jugada = new Jugada(Collections.singletonList(carta));
-						SuscripcionSala.enviarJugada(jugada);
-					}
-				} catch (Exception e) {
-					System.out.println("No se ha podido cargar la pagina: " + e);
-				}
+				mostrarPopUpCambiarColor(carta);
 			} else {
 				Jugada jugada = new Jugada(Collections.singletonList(carta));
 				SuscripcionSala.enviarJugada(jugada);
 			}
 		}	
 		System.out.println(carta.toString());
+	}
+
+	private void mostrarPopUpCambiarColor(Carta carta){
+		try {
+			CambiarColorController ccc = new CambiarColorController();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
+			fxmlLoader.setController(ccc);
+			Parent root1 = (Parent) fxmlLoader.load();
+			Scene scene = new Scene(root1);
+			popUpCambiarColor = new MyStage();
+			
+			scene.setFill(Color.TRANSPARENT);
+			popUpCambiarColor.setTitle("Pantalla Cambiar de color");
+			popUpCambiarColor.setScene(scene);
+			popUpCambiarColor.initStyle(StageStyle.UTILITY);
+			popUpCambiarColor.initModality(Modality.APPLICATION_MODAL);
+			popUpCambiarColor.initOwner(marco.getScene().getWindow());
+
+			int resultado = popUpCambiarColor.showAndReturnColourResult(ccc);
+			System.out.println("recupero un " + resultado);
+			//Ponerle a la carta el color deseado por el jugador mediante el popup.
+			//Ojo, el defaultmode elige el color real, no se hace aquí.
+			switch(resultado) {
+				case ROJO: 
+					carta.setColor(Carta.Color.rojo);
+					break;
+				case VERDE: 
+					carta.setColor(Carta.Color.verde);
+					break;
+				case AMARILLO: 
+					carta.setColor(Carta.Color.amarillo);
+					break;
+				case AZUL: 
+					carta.setColor(Carta.Color.azul);
+					break;
+				default: break;
+			}
+			if (resultado != CANCELAR) {
+				System.out.println("Se va a enviar la carta " + carta);
+				Jugada jugada = new Jugada(Collections.singletonList(carta));
+				SuscripcionSala.enviarJugada(jugada);
+			}
+		} catch (Exception e) {
+			System.out.println("No se ha podido cargar la pagina: " + e);
+		} 
 	}
 	
 	public void robarCarta() throws IOException {
@@ -559,7 +524,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 
             @Override
             protected void interpolate(double frac) {
-                Color vColor = new Color(1, 0, 0, 1 - frac);
                 circulo.setFill(new Color(1, 0, 0, 1 - frac));
             }
         };
@@ -594,7 +558,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 						//jugada = new Jugada();
 						break;
 					case JUGAR_CARTA:
-						jugada = new Jugada(Collections.singletonList(cartaRobada));
+						if(cartaRobada.getColor() == Carta.Color.comodin) {
+							mostrarPopUpCambiarColor(cartaRobada);
+						} else {
+							jugada = new Jugada(Collections.singletonList(cartaRobada));
+							SuscripcionSala.enviarJugada(jugada);
+						}
 						break;
 				}
 			} catch (Exception e) {

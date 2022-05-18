@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
+import es.unizar.unoforall.model.salas.Sala;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -71,26 +72,26 @@ public class PrincipalController implements Initializable {
 			public void handle(MouseEvent event) {
 				btnBuscarSala.setEffect(new Glow(0.001));
 			}
-		});;
+		});
 		btnCrearSala.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				btnCrearSala.setEffect(null);
 			}
-		});;
+		});
 		
 		btnBuscarSala.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				btnBuscarSala.setEffect(new Glow(0.001));
 			}
-		});;
+		});
 		btnBuscarSala.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				btnBuscarSala.setEffect(null);
 			}
-		});;
+		});
 		
 		imgHistorial.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
@@ -99,7 +100,7 @@ public class PrincipalController implements Initializable {
 				imgHistorial.setFitHeight(104);
 				imgHistorial.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		imgHistorial.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -107,7 +108,7 @@ public class PrincipalController implements Initializable {
 				imgHistorial.setFitHeight(94);
 				imgHistorial.setEffect(null);
 			}
-		});;
+		});
 		
 		imgAmigos.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
@@ -116,7 +117,7 @@ public class PrincipalController implements Initializable {
 				imgAmigos.setFitHeight(130);
 				imgAmigos.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		imgAmigos.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -124,7 +125,7 @@ public class PrincipalController implements Initializable {
 				imgAmigos.setFitHeight(120);
 				imgAmigos.setEffect(null);
 			}
-		});;
+		});
 		
 		imgNotificaciones.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
@@ -133,7 +134,7 @@ public class PrincipalController implements Initializable {
 				imgNotificaciones.setFitHeight(130);
 				imgNotificaciones.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		imgNotificaciones.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -141,7 +142,7 @@ public class PrincipalController implements Initializable {
 				imgNotificaciones.setFitHeight(120);
 				imgNotificaciones.setEffect(null);
 			}
-		});;
+		});
 	}
 	
 	@FXML
