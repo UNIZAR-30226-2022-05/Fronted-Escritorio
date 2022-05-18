@@ -40,7 +40,11 @@ public class BuscarSalaController implements Initializable {
 		public void onClickListener(UUID salaID) {
 			VistaSalaController.deDondeVengo = "buscarSala";
 			App.setSalaID(salaID);
-			App.setRoot("vistaSala");
+			
+			if (SuscripcionSala.unirseASala(salaID)) {
+				VistaSalaController.deDondeVengo = "principal";
+				App.setRoot("vistaSala");
+			}
 		}
 	};
 

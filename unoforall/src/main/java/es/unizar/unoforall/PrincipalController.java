@@ -70,7 +70,7 @@ public class PrincipalController implements Initializable {
 		btnCrearSala.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				btnBuscarSala.setEffect(new Glow(0.001));
+				btnCrearSala.setEffect(new Glow(0.5));
 			}
 		});
 		btnCrearSala.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -83,7 +83,7 @@ public class PrincipalController implements Initializable {
 		btnBuscarSala.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				btnBuscarSala.setEffect(new Glow(0.001));
+				btnBuscarSala.setEffect(new Glow(0.5));
 			}
 		});
 		btnBuscarSala.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -143,6 +143,40 @@ public class PrincipalController implements Initializable {
 				imgNotificaciones.setEffect(null);
 			}
 		});
+		
+		//COMPROBAR SI HABÍA UNA PARTIDA EN CURSO
+		RestAPI apirest = new RestAPI("/api/comprobarPartidaPausada");
+		apirest.addParameter("sesionID", App.getSessionID());
+		apirest.setOnError(e -> {
+			if (DEBUG) System.out.println(e);
+		});
+		apirest.openConnection();
+		Sala salaPausada = apirest.receiveObject(Sala.class);
+		
+		//SI LA SALA PAUSADA NO EXISTE
+		if(salaPausada.isNoExiste()) {
+			//PONER TEXTO Y COMPORTAMIENTO BOTONES POR DEFECTO
+		    btnCrearSala.setText("Crear Sala");
+			btnBuscarSala.setText("Buscar Sala");
+			
+			btnCrearSala.setStyle("-fx-background-color: #2ec322; ");
+			btnBuscarSala.setStyle("-fx-background-color: #2ec322; ");
+			
+			btnCrearSala.setOnAction(event -> makeRoom(event));
+			btnBuscarSala.setOnAction(event -> searchRooms(event));
+		} else {
+			App.setSalaID(salaPausada.getSalaID());
+			
+			//CAMBIAR TEXTO Y COMPORTAMIENTO BOTONES
+		    btnCrearSala.setText("Reanudar Partida");
+			btnBuscarSala.setText("Abandonar Sala");
+			
+			btnCrearSala.setStyle("-fx-background-color: #ff9800; ");
+			btnBuscarSala.setStyle("-fx-background-color: #b61d1d; ");
+			
+			btnCrearSala.setOnAction(event -> joinPausedRoom(event));
+			btnBuscarSala.setOnAction(event -> leavePausedRoom(event));
+		}
 	}
 	
 	@FXML
@@ -173,11 +207,27 @@ public class PrincipalController implements Initializable {
     private void makeRoom(ActionEvent event) {
         App.setRoot("crearSala");
     }
-	
+
 	@FXML
     private void joinPausedRoom(ActionEvent event) {
-		System.out.println("vistaSala");
+    	if (DEBUG) System.out.println("INTENTANDO UNIRSE A SALA PAUSADA");
+		
+		//SI NO ES POSIBLE UNIRSE, VOLVER A LA PANTALLA DE DONDE VENGO
+		boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
+		if (!exito) {
+			App.setRoot("principal");
+		} else {
+			VistaSalaController.deDondeVengo = "principal";
+			App.setRoot("vistaSala");
+		}
     }
+
+	@FXML
+    private void leavePausedRoom(ActionEvent event) {
+    	System.out.println("INTENTANDO ABANDONAR SALA PAUSADA");
+    	App.apiweb.sendObject("/app/salas/salirDefinitivo/" + App.getSalaID(), "vacio");
+    	App.setRoot("principal");
+	}
 
 	@FXML
     private void goToNotificaciones(MouseEvent event) {

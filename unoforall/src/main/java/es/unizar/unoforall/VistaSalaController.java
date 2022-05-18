@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.ListaUsuarios;
@@ -154,14 +153,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 			}
 		});;
 		
-		//Recuperar salaID solo la primera vez para establecer suscripción
-		UUID salaID = App.getSalaID();
-		
-		//SI NO ES POSIBLE UNIRSE, VOLVER A LA PANTALLA DE DONDE VENGO
-		boolean exito = SuscripcionSala.unirseASala(salaID);
-		if (!exito) {
-			App.setRoot(deDondeVengo);
-		}
+		//SE ASUME QUE YA SE HA ENTRADO EN LA SALA
 		
 		//BUSCAR AMIGOS
 		String sesionID = App.getSessionID();

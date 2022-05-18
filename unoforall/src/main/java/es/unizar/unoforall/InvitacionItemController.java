@@ -47,8 +47,11 @@ public class InvitacionItemController {
     void aceptar(ActionEvent event) {
     	//UNIRSE A LA SALA
 		App.setSalaID(notificacion.getSalaID());
-	    VistaSalaController.deDondeVengo = "principal";
-    	App.setRoot("vistaSala");
+		
+		if (SuscripcionSala.unirseASala(notificacion.getSalaID())) {
+			VistaSalaController.deDondeVengo = "principal";
+			App.setRoot("vistaSala");
+		}
     	
     	//ELIMINAR DE INVITACIONES RECIBIDAS
     	NotificacionesController.invitaciones.remove(notificacion);

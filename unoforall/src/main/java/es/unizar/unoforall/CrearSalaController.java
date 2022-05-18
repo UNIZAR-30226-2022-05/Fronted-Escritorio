@@ -293,18 +293,18 @@ public class CrearSalaController implements Initializable {
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
 		apirest.openConnection();
-		RespuestaSala salaID = apirest.receiveObject(RespuestaSala.class);
-		if (salaID.isExito()) {
-			if (DEBUG) System.out.println("sala creada:" + salaID.getSalaID());
-    		//GUARDAR RESPUESTASALA EN CASO DE NECESITARLO
-			App.setSalaID(salaID.getSalaID());
-			//IR A LA VISTA DE LA SALA
-			//ESTA LINEA PETA
-		    //VistaSalaController.deDondeVengo = "crearSala";
-	    	App.setRoot("vistaSala");
+		RespuestaSala respSala = apirest.receiveObject(RespuestaSala.class);
+		if (respSala.isExito()) {
+			if (DEBUG) System.out.println("sala creada:" + respSala.getSalaID());
+    		//GUARDAR SALA ID EN CASO DE NECESITARLO
+			App.setSalaID(respSala.getSalaID());
+			if (SuscripcionSala.unirseASala(respSala.getSalaID())) {
+				VistaSalaController.deDondeVengo = "crearSala";
+				App.setRoot("vistaSala");
+			}
 		} else {
-			labelError.setText("error: " + StringUtils.parseString(salaID.getErrorInfo()));
-			if (DEBUG) System.out.println("error: " + salaID.getErrorInfo());
+			labelError.setText("error: " + StringUtils.parseString(respSala.getErrorInfo()));
+			if (DEBUG) System.out.println("error: " + respSala.getErrorInfo());
 		}
 	}
 
