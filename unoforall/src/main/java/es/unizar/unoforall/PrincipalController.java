@@ -12,8 +12,11 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -166,6 +169,7 @@ public class PrincipalController implements Initializable {
 			btnBuscarSala.setOnAction(event -> searchRooms(event));
 		} else {
 			App.setSalaID(salaPausada.getSalaID());
+			SuscripcionSala.sala = salaPausada;
 			
 			//CAMBIAR TEXTO Y COMPORTAMIENTO BOTONES
 		    btnCrearSala.setText("Reanudar Partida");
@@ -212,21 +216,29 @@ public class PrincipalController implements Initializable {
     private void joinPausedRoom(ActionEvent event) {
     	if (DEBUG) System.out.println("INTENTANDO UNIRSE A SALA PAUSADA");
 		
-		//SI NO ES POSIBLE UNIRSE, VOLVER A LA PANTALLA DE DONDE VENGO
 		boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
 		if (!exito) {
 			App.setRoot("principal");
 		} else {
 			VistaSalaController.deDondeVengo = "principal";
-			App.setRoot("vistaSala");
+			App.setRoot("vistaSalaPausada");
 		}
     }
 
 	@FXML
     private void leavePausedRoom(ActionEvent event) {
-    	System.out.println("INTENTANDO ABANDONAR SALA PAUSADA");
-    	App.apiweb.sendObject("/app/salas/salirDefinitivo/" + App.getSalaID(), "vacio");
-    	App.setRoot("principal");
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Abandonar Sala");
+    	alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
+    	alert.setContentText("Si te sales serás expulsado de la partida\n y por tanto, no recibirás ningún punto");
+    	
+    	ButtonType respuesta = alert.showAndWait().get();
+    	if (respuesta == ButtonType.OK) {
+        	SuscripcionSala.salirDeSalaDefinitivo();
+        	App.setRoot("principal");
+        	
+    		if (DEBUG) System.out.println("Has abandonado la sala.");
+    	}
 	}
 
 	@FXML

@@ -41,6 +41,14 @@ public class SuscripcionSala {
 		sala = null;
 	}
 	
+	public static void salirDeSalaDefinitivo() {
+		if (sala == null) {return;}
+			
+		App.apiweb.sendObject("/app/salas/salirDefinitivo/" + sala.getSalaID(), VACIO);
+		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
+		sala = null;
+	}
+	
 	public static void listoSala() {
 		if (sala == null) {return;}
 		App.apiweb.sendObject("/app/salas/listo/" + sala.getSalaID(), VACIO);

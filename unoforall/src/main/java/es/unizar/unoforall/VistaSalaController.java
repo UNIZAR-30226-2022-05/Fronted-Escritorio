@@ -17,9 +17,12 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,7 +58,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
 		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
 		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
-		avatares.put(7, new Image(App.class.getResourceAsStream("images/avatares/-1-IA.png")));
+		avatares.put(7, new Image(App.class.getResourceAsStream("images/iconoPerfil.png")));
 	}
 	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
@@ -327,31 +330,60 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-		//Llamada a la clase de Sala para desubscribirse
-		SuscripcionSala.salirDeSala();
-		//Volver a la pantalla anterior
-    	App.setRoot(deDondeVengo);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Abandonar Sala");
+    	alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
+    	alert.setContentText("Si te sales no podrás disfrutar de la partida");
+    	
+    	ButtonType respuesta = alert.showAndWait().get();
+    	if (respuesta == ButtonType.OK) {
+    		//Llamada a la clase de Sala para desubscribirse
+    		SuscripcionSala.salirDeSala();
+    		//Volver a la pantalla anterior
+        	App.setRoot(deDondeVengo);
+        	
+    		if (DEBUG) System.out.println("Has abandonado la sala.");
+    	}
 	}
 
 	@FXML
     private void goToMain(Event event) {
-		//Llamada a la clase de Sala para desubscribirse
-		SuscripcionSala.salirDeSala();
-		//Volver a la pantalla principal
-    	App.setRoot("principal");
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Abandonar Sala");
+		alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
+		alert.setContentText("Si te sales no podrás disfrutar de la partida");
+		
+		ButtonType respuesta = alert.showAndWait().get();
+		if (respuesta == ButtonType.OK) {
+			//Llamada a la clase de Sala para desubscribirse
+			SuscripcionSala.salirDeSala();
+			//Volver a la pantalla anterior
+	    	App.setRoot("principal");
+	    	
+			if (DEBUG) System.out.println("Has abandonado la sala.");
+		}
 	}
 	
 	@FXML
     private void leaveRoom(ActionEvent event) {
-		//Llamada a la clase de Sala para desubscribirse
-		SuscripcionSala.salirDeSala();
-		//Volver a la pantalla anterior
-    	App.setRoot(deDondeVengo);
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Abandonar Sala");
+    	alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
+    	alert.setContentText("Si te sales no podrás disfrutar de la partida");
+    	
+    	ButtonType respuesta = alert.showAndWait().get();
+    	if (respuesta == ButtonType.OK) {
+    		//Llamada a la clase de Sala para desubscribirse
+    		SuscripcionSala.salirDeSala();
+    		//Volver a la pantalla anterior
+        	App.setRoot(deDondeVengo);
+        	
+    		if (DEBUG) System.out.println("Has abandonado la sala.");
+    	}
 	}
 	
 	@FXML
     private void ready(ActionEvent event) {
-		//Llamada a la clase de Sala para desubscribirse
 		SuscripcionSala.listoSala();
 
 		botonListo.setVisible(false);

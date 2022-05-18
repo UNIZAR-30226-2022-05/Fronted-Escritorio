@@ -50,8 +50,7 @@ public class App extends Application {
         Image icon = new Image(getClass().getResourceAsStream("images/logoUno.png"));
         stage.getIcons().add(icon);
         stage.setScene(scene);
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
+        setWindowed();
         stage.setTitle("UnoForAll");
         stage.show();
         
@@ -59,7 +58,37 @@ public class App extends Application {
         	event.consume();
         	salir();
         });
-    }   
+    }
+    
+    static void setRoot(String fxml) {
+        scene.setRoot(loadFXML(fxml));
+
+    	if (fxml.equals("login")) {
+    		setWindowed();
+    	}
+    }
+    
+    static void setFullScreen() {
+//	Para cambiar la tecla para salir de pantalla completa:
+//    	stage.setFullScreenExitHint("Q para salir de pantalla completa");
+//    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Q"));
+    	
+//	Para imposibilitar salir de pantalla completa:
+//    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+//    	stage.setFullScreen(true);
+        //stage.setMaximized(true);
+        stage.sizeToScene();
+        stage.setMinWidth(stage.getWidth());
+        stage.setMinHeight(stage.getHeight());
+    }
+    
+    static void setWindowed() {
+    	stage.setFullScreen(false);
+        stage.sizeToScene();
+        stage.setMinWidth(stage.getWidth());
+        stage.setMinHeight(stage.getHeight());
+    }
+    
     public static Scene getScene() {
     	return scene;
     }
@@ -194,8 +223,13 @@ public class App extends Application {
     		
     		//UNIRSE A LA SALA
 			App.setSalaID(notif.getSalaID());
-		    VistaSalaController.deDondeVengo = "principal";
-	    	App.setRoot("vistaSala");
+			boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
+			if (!exito) {
+				App.setRoot("principal");
+			} else {
+				VistaSalaController.deDondeVengo = "principal";
+				App.setRoot("vistaSala");
+			}
 	    	
     		if (DEBUG) System.out.println("Has aceptado la solicitud.");
     		
@@ -203,34 +237,6 @@ public class App extends Application {
     		NotificacionesController.annadirInvitacionSala(notif);
     		if (DEBUG) System.out.println("Has rechazado la invitación");
     	}
-    }
-    
-    static void setRoot(String fxml) {
-        scene.setRoot(loadFXML(fxml));
-
-    	if (fxml.equals("login")) {
-    		setWindowed();
-    	}
-    }
-    
-    static void setFullScreen() {
-//	Para cambiar la tecla para salir de pantalla completa:
-//    	stage.setFullScreenExitHint("Q para salir de pantalla completa");
-//    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Q"));
-    	
-//	Para imposibilitar salir de pantalla completa:
-//    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-//    	stage.setFullScreen(true);
-        stage.setMinWidth(1280);
-        stage.setMinHeight(720);
-        //stage.setMaximized(true);
-        stage.sizeToScene();
-    }
-    
-    static void setWindowed() {
-    	stage.setFullScreen(false);
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
     }
     
     static void salir() {

@@ -3,6 +3,7 @@ package es.unizar.unoforall.utils;
 import java.util.HashMap;
 
 import es.unizar.unoforall.App;
+import es.unizar.unoforall.VistaSalaPausadaController;
 import es.unizar.unoforall.model.partidas.Carta;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -19,7 +20,8 @@ public class ImageManager {
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
     private static final HashMap<Integer, Image> numCardsMap = new HashMap<>();
     private static final HashMap<Integer, Image> backgroundsMap = new HashMap<>();
-	private static HashMap<Integer, Image> avatarsMap = new HashMap<>();
+	private static final HashMap<Integer, Image> avatarsMap = new HashMap<>();
+	private static final HashMap<Boolean, Image> readyMap = new HashMap<>();
     
     //public static final int DEFAULT_IMAGE_ID = -2;
     public static final int IA_IMAGE_ID = -1;
@@ -121,6 +123,15 @@ public class ImageManager {
         } 
 		imageView.setImage(avatarsMap.get(imageID));
     }
+    
+    public static void setImagenListo(ImageView imageView, boolean listo) {
+        if(readyMap.isEmpty()){
+        	readyMap.put(true, cargarImagen("images/ready.png"));
+        	readyMap.put(false, cargarImagen("images/notready.png"));
+        }
+		imageView.setImage(readyMap.get(listo));
+    }
+    
 //Devuelve el ImageView del mazo de cartas correspondiente.
     public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode) {
     	return new ImageView(getResourceMazoCartas(defaultMode));
