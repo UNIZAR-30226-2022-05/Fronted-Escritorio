@@ -13,9 +13,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-public class CambiarColorController implements Initializable{
+public class IntercambiarManoController implements Initializable{
     
-	private static final int CANCELAR = -1;
+	private static final int CANCELAR = 0;
 	private static final int ROJO = 1;
 	private static final int VERDE = 2;
 	private static final int AMARILLO = 3;

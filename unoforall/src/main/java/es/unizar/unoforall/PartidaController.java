@@ -59,7 +59,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
-	private static final int CANCELAR = 0;
+	private static final int CANCELAR = -1;
 	private static final int ROJO = 1;
 	private static final int VERDE = 2;
 	private static final int AMARILLO = 3;
@@ -135,9 +135,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private Partida partida; 
     private MyStage popUpRobarCarta;
     private MyStage popUpCambiarColor;
+	private MyStage popUpIntercambiarMano;
     //int que representa el ID del jugador que está ejecutando la App.
 	private int jugadorActualID = -1;
     private int turnoAnterior = -1;
+	private final int  MAX_JUGADORES = 4;
     
     private boolean defaultMode;
     //Por defecto deDondeVengo es la pantalla principal
@@ -188,9 +190,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			
 			nombresJugadores = new Label[] {
 				nombreJugadorAbajo,
+				nombreJugadorIzquierda,
 			    nombreJugadorArriba,
-			    nombreJugadorDerecha,
-			    nombreJugadorIzquierda
+			    nombreJugadorDerecha
 			};
 			
  			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
@@ -210,6 +212,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                contadorJugadorDerecha.setVisible(false);
 	                scrollJugadorIzquierda.setVisible(false);
 	                scrollJugadorDerecha.setVisible(false);
+					imagenSentidoPartida.setVisible(false);
 	                
 	                break;
 	            case 3:
@@ -227,27 +230,31 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                jugadorIDmap.put((jugadorActualID+3) % numJugadores, JUGADOR_DERECHA);
 	                break;
 			}
-			
-			for (int i = 0; i < numJugadores; i++) {	
+			jugadorIDmap.forEach((k, v) -> System.out.println(k + " - " + v));
+			System.out.println(jugadorIDmap);
+			System.out.println(numJugadores);
+
+			for (int i = 0; i < MAX_JUGADORES; i++) {
 				final int jugadorID = i;
-				Jugador jugador = partida.getJugadores().get(jugadorID);
-				//Bindear el tiempo del timer a cada jugador
-				progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
-						timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
-				//Poner la imagen de perfil correcta.
-	            String nombreJugador = "";
-	            int imageID;
-	            if(jugador.isEsIA()){
-	                imageID = ImageManager.IA_IMAGE_ID;
-	                nombreJugador = getIAName(jugadorID);
-	            } else {
-	                UsuarioVO usuarioVO = sala.getParticipante(jugador.getJugadorID());
-	                imageID = usuarioVO.getAvatar();
-	                nombreJugador = usuarioVO.getNombre();
-	            }
-				ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
-				nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
-				//setNumCartas(jugadorLayoutID, jugador.getMano().size());
+				if(jugadorIDmap.containsKey(jugadorID)) { 	
+					Jugador jugador = partida.getJugadores().get(jugadorID);
+					//Bindear el tiempo del timer a cada jugador
+					progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
+							timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
+					//Poner la imagen de perfil correcta.
+					String nombreJugador = "";
+					int imageID;
+					if(jugador.isEsIA()){
+						imageID = ImageManager.IA_IMAGE_ID;
+						nombreJugador = getIAName(jugadorID);
+					} else {
+						UsuarioVO usuarioVO = sala.getParticipante(jugador.getJugadorID());
+						imageID = usuarioVO.getAvatar();
+						nombreJugador = usuarioVO.getNombre();
+					}
+					ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
+					nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
+				}
 			}
 		}
 		administrarSala(SuscripcionSala.sala);
@@ -443,12 +450,44 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			System.out.println("se valida la carta" + carta);
 			if(carta.getColor() == Carta.Color.comodin) {
 				mostrarPopUpCambiarColor(carta);
+			} else if(carta.getTipo() == Carta.Tipo.intercambio) {
+				mostrarPopUpIntercambiarMano(carta);
 			} else {
 				Jugada jugada = new Jugada(Collections.singletonList(carta));
 				SuscripcionSala.enviarJugada(jugada);
 			}
 		}	
 		System.out.println(carta.toString());
+	}
+
+	private void mostrarPopUpIntercambiarMano(Carta carta) {
+		try {
+			IntercambiarManoController imc = new IntercambiarManoController();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
+			fxmlLoader.setController(imc);
+			Parent root1 = (Parent) fxmlLoader.load();
+			Scene scene = new Scene(root1);
+			popUpIntercambiarMano = new MyStage();
+
+			scene.setFill(Color.TRANSPARENT);
+			popUpIntercambiarMano.setTitle("Pantalla Cambiar de color");
+			popUpIntercambiarMano.setScene(scene);
+			popUpIntercambiarMano.initStyle(StageStyle.UTILITY);
+			popUpIntercambiarMano.initModality(Modality.APPLICATION_MODAL);
+			popUpIntercambiarMano.initOwner(marco.getScene().getWindow());
+			
+			int jugadorIDdevuelto = popUpIntercambiarMano.showAndReturnSwapHandResult(imc);
+			System.out.println("recupero un " + jugadorIDdevuelto);
+			
+			if (jugadorIDdevuelto != CANCELAR) {
+				System.out.println("Se va a enviar la carta " + carta);
+				Jugada jugada = new Jugada(Collections.singletonList(carta));
+				jugada.setJugadorObjetivo(jugadorIDdevuelto);
+				SuscripcionSala.enviarJugada(jugada);
+			}
+		} catch (Exception e) {
+			System.out.println("No se ha podido cargar la pagina: " + e);
+		} 
 	}
 
 	private void mostrarPopUpCambiarColor(Carta carta){
@@ -546,7 +585,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				scene.setFill(Color.TRANSPARENT);
 				popUpRobarCarta.setTitle("Pantalla Cambiar de color");
 				popUpRobarCarta.setScene(scene);
-				popUpRobarCarta.initStyle(StageStyle.UNDECORATED);
+				popUpRobarCarta.initStyle(StageStyle.UTILITY);
 				popUpRobarCarta.initModality(Modality.APPLICATION_MODAL);
 				popUpRobarCarta.initOwner(marco.getScene().getWindow());
 	
@@ -572,4 +611,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		SuscripcionSala.enviarJugada(jugada);	
 		}
     }
+
+	public void abandonarPartida() {
+		SuscripcionSala.salirDeSala();
+		App.setRoot("principal");
+	}
 }
