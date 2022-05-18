@@ -62,7 +62,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private Circle circulo;
     private static final Integer STARTTIME = (Partida.TIMEOUT_TURNO - 1000)/1000;
     private Timeline timeline;
-    private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME*100);
     private IntegerProperty[] timersJugadores = new IntegerProperty[] {
     		new SimpleIntegerProperty(STARTTIME*100), 
     		new SimpleIntegerProperty(STARTTIME*100), 
@@ -163,17 +162,18 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
-		marco.setBackground(
-				new Background(
-						new BackgroundImage(
-							fondos.get(App.getPersonalizacion().get("tableroSelec")),
-							BackgroundRepeat.NO_REPEAT,
-							BackgroundRepeat.NO_REPEAT,
-							BackgroundPosition.CENTER,
-							BackgroundSize.DEFAULT
-						)
-					)
-				);
+//		marco.setBackground(
+//				new Background(
+//						new BackgroundImage(
+//							fondos.get(App.getPersonalizacion().get("tableroSelec")),
+//							BackgroundRepeat.NO_REPEAT,
+//							BackgroundRepeat.NO_REPEAT,
+//							BackgroundPosition.CENTER,
+//							BackgroundSize.DEFAULT
+//						)
+//					)
+//				);
+		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		inicializarEfectos();
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();

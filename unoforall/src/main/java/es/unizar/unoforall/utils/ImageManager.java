@@ -5,6 +5,11 @@ import java.util.HashMap;
 import es.unizar.unoforall.App;
 import es.unizar.unoforall.model.partidas.Carta;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.util.Duration;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -18,6 +23,7 @@ public class ImageManager {
 	private static final HashMap<Carta, Image> defaultCardsMap = new HashMap<>();
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
     private static final HashMap<Integer, Image> numCardsMap = new HashMap<>();
+    private static final HashMap<Integer, Image> backgroundsMap = new HashMap<Integer, Image>();
     
     //public static final int DEFAULT_IMAGE_ID = -2;
     public static final int IA_IMAGE_ID = -1;
@@ -39,6 +45,10 @@ public class ImageManager {
     public static final int IMAGEN_EMOJI_3_ID = 3;
     public static final int IMAGEN_EMOJI_4_ID = 4;
 	public static final int NUM_CARTAS = 20;
+	
+	public static final int FONDO_AZUL = 0;
+	public static final int FONDO_MORADO = 1;
+	public static final int FONDO_GRIS = 2;
     
     private static Image imageSentidoHorario = null;
     private static Image imageSentidoAntihorario = null;
@@ -206,6 +216,24 @@ public class ImageManager {
     	} catch (Exception e) {
     		return null;
     	}
+    }
+    
+    public static Background getBackgroundImage(int fondo) {
+    	if (backgroundsMap.isEmpty()) {
+    		backgroundsMap.put(FONDO_AZUL, cargarImagen("images/fondos/azul.png"));
+    		backgroundsMap.put(FONDO_MORADO, cargarImagen("images/fondos/morado.png"));
+    		backgroundsMap.put(FONDO_GRIS, cargarImagen("images/fondos/gris.png"));
+    	}
+    	
+    	return new Background(
+    				new BackgroundImage(
+    					backgroundsMap.get(fondo),
+						BackgroundRepeat.NO_REPEAT,
+						BackgroundRepeat.NO_REPEAT,
+						BackgroundPosition.CENTER,
+						BackgroundSize.DEFAULT
+					)
+				);
     }
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////PRIVADAS//////////////////////////////////////////////

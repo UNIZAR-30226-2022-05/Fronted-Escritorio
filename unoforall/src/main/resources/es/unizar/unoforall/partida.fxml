@@ -124,6 +124,8 @@
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
                </image>
             </ImageView>
+            <Button layoutX="1136.0" layoutY="11.0" mnemonicParsing="false" text="Abandonar Partida" />
+            <Button layoutX="1137.0" layoutY="54.0" mnemonicParsing="false" text="Pausar Partida" />
          </children></Pane>
    </top>
    <left>
