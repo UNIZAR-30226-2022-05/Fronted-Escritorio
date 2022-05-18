@@ -2,8 +2,10 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -29,14 +31,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -72,7 +78,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private static final int JUGADOR_IZQUIERDA = 1;
     private static final int JUGADOR_ARRIBA = 2;
     private static final int JUGADOR_DERECHA = 3;
-
+    private List<Carta> listaCartasEscalera;
+	public DropShadow dropShadow;
     public Lighting oscurecerCarta;
     
  // Relaciona los IDs de los jugadores con los layout IDs correspondientes
@@ -142,6 +149,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private final int  MAX_JUGADORES = 4;
     
     private boolean defaultMode;
+    private boolean comenzarEscalera;
     //Por defecto deDondeVengo es la pantalla principal
     //para evitar posibles errores en ejecución
 	public static String deDondeVengo = "principal";
@@ -159,7 +167,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		int numJugadores = partida.getJugadores().size();
 		//Si no conocemos quién es el jugador actual todavía
 		if (jugadorActualID == -1) {
-			
+			listaCartasEscalera = new ArrayList<>();
 			cartasJugadores = new GridPane[] {
 				cartasJugadorAbajo,
 				cartasJugadorIzquierda,
@@ -265,6 +273,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
 		//Recuperar la partida nueva
 		partida = sala.getPartida();
+		listaCartasEscalera.clear();
 		int turnoActual = partida.getTurno();
 		boolean esNuevoTurno = turnoActual != turnoAnterior || partida.isRepeticionTurno();
 		
@@ -438,28 +447,60 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//Guarda el objeto carta en el ImageView que lo representa.
 		imageview.setUserData(carta);
 		//imageview.setOnMouseClicked(event -> System.out.println(carta.toString()));
-		imageview.setOnMouseClicked(event -> cartaClickada(imageview));
+		imageview.setOnMouseClicked(event -> {
+			if(event.getButton() == MouseButton.PRIMARY) {
+				cartaClickada(imageview);
+			} else if (event.getButton() == MouseButton.SECONDARY){  
+				cartaSeleccionada(imageview);
+			}
+		});
+			//imageview.setOnContextMenuRequested(event -> cartaSeleccionada(imageview));
 		cartasJugadorX.addColumn(cartasJugadorX.getColumnCount(), imageview);
 		//creo que la siguiente línea no hace nada
 		GridPane.setHalignment(imageview, HPos.CENTER);
 	}
 	
 	private void cartaClickada(ImageView cartaClickada) {
-		Carta carta = (Carta)cartaClickada.getUserData();
-		if(sePuedeUsarCarta(partida, carta)) {
-			System.out.println("se valida la carta" + carta);
-			if(carta.getColor() == Carta.Color.comodin) {
-				mostrarPopUpCambiarColor(carta);
-			} else if(carta.getTipo() == Carta.Tipo.intercambio) {
-				mostrarPopUpIntercambiarMano(carta);
-			} else {
-				Jugada jugada = new Jugada(Collections.singletonList(carta));
-				SuscripcionSala.enviarJugada(jugada);
-			}
-		}	
-		System.out.println(carta.toString());
+		if(!comenzarEscalera) {
+			Carta carta = (Carta)cartaClickada.getUserData();
+			if(sePuedeUsarCarta(partida, carta)) {
+				System.out.println("se valida la carta" + carta);
+				if(carta.getColor() == Carta.Color.comodin) {
+					mostrarPopUpCambiarColor(carta);
+				} else if(carta.getTipo() == Carta.Tipo.intercambio) {
+					mostrarPopUpIntercambiarMano(carta);
+				} else {
+					Jugada jugada = new Jugada(Collections.singletonList(carta));
+					SuscripcionSala.enviarJugada(jugada);
+				}
+			}	
+			System.out.println(carta.toString());
+		}
 	}
-
+	
+	private void cartaSeleccionada(ImageView imageview) {
+		if(!comenzarEscalera && (Carta.esNumero( ( (Carta) imageview.getUserData()).getTipo() ) )) {
+			comenzarEscalera = true;
+			//for(int i=0;i<partida.getJugadorActual().getMano().size();i++){
+			for (Node child : cartasJugadores[jugadorActualID].getChildren()) {
+				Carta aux = (Carta) child.getUserData();
+				if (Carta.esNumero(aux.getTipo())) {
+					child.setEffect(null);
+				} else {
+					child.setEffect(oscurecerCarta);
+				}
+			}
+			//partida.getJugadorActual().getMano().forEach(carta ->
+				//if (Carta.esNumero(cartas.get(i).getTipo());
+			imageview.setEffect(new Glow(0.8));
+			System.out.println(imageview.getEffect().toString());
+		} else {
+			if((Carta.esNumero( ( (Carta) imageview.getUserData()).getTipo() ) )) {
+				imageview.setEffect(new Glow(0.8));
+			}
+		}
+		
+	}
 	private void mostrarPopUpIntercambiarMano(Carta carta) {
 		try {
 			IntercambiarManoController imc = new IntercambiarManoController();
@@ -554,6 +595,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
     	oscurecerCarta.setSpecularExponent(0.0);
     	oscurecerCarta.setSurfaceScale(0.0);
     	
+		DropShadow dropShadow = new DropShadow();
+		dropShadow.setColor(Color.ALICEBLUE);
+		dropShadow.setRadius(20.0);
+		
         animation = new Transition() {
 
             {
@@ -613,6 +658,20 @@ public class PartidaController extends SalaReceiver implements Initializable {
     }
 
 	public void abandonarPartida() {
+//		Alert alert = new Alert(AlertType.CONFIRMATION);
+//        alert.setTitle("Abandonar Sala");
+//        alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
+//        alert.setContentText("Si te sales serás expulsado de la partida\n y por tanto, no recibirás ningún punto");
+//
+//        ButtonType respuesta = alert.showAndWait().get();
+//        if (respuesta == ButtonType.OK) {
+//            //Llamada a la clase de Sala para desubscribirse
+//            SuscripcionSala.salirDeSalaDefinitivo();
+//            //Volver a la pantalla anterior
+//            App.setRoot(deDondeVengo);
+//
+//            if (DEBUG) System.out.println("Has abandonado la sala.");
+//            
 		SuscripcionSala.salirDeSala();
 		App.setRoot("principal");
 	}
