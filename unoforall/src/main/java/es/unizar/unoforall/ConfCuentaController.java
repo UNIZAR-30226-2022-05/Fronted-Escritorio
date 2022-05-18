@@ -13,10 +13,13 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -229,20 +232,52 @@ public class ConfCuentaController implements Initializable {
 	
 	@FXML
     private void deleteAccount(ActionEvent event) {
-		RestAPI apirest = new RestAPI("/api/borrarCuenta");
-		String sesionID = App.getSessionID();
-		apirest.addParameter("sesionID",sesionID);
-		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
-		
-		apirest.openConnection();
-    	String retorno = apirest.receiveObject(String.class);
-    	if (retorno.equals("BORRADA")) {
-	    	App.setRoot("login");
-	        App.cerrarConexion();
-	    	if (DEBUG) System.out.println("Cuenta eliminada");
-    	} else {
-    		labelError.setText(StringUtils.parseString(retorno));
-    		if (DEBUG) System.out.println(retorno);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Abandonar Sala");
+    	alert.setHeaderText("¿Seguro que quieres eliminar tu cuenta?");
+    	alert.setContentText("A diferencia de cuando instalas UnoForAll en android\n"
+    						+ "con esta acción sí que eliminarás todos tus datos");
+    	
+    	ButtonType respuesta = alert.showAndWait().get();
+    	if (respuesta == ButtonType.OK) {
+    		if (DEBUG) System.out.println("Un paso más cerca de la destrucción");
+    		
+    		alert = new Alert(AlertType.CONFIRMATION);
+        	alert.setTitle("Abandonar Sala");
+        	alert.setHeaderText("¿Seguro seguro?");
+        	alert.setContentText("Si fuera tú no lo haría");
+        	
+        	respuesta = alert.showAndWait().get();
+        	if (respuesta == ButtonType.OK) {
+        		if (DEBUG) System.out.println("So you chose DEATH.");
+        		
+        		alert = new Alert(AlertType.WARNING);
+            	alert.setTitle("Abandonar Sala");
+            	alert.setHeaderText("Has elegido la muerte");
+            	alert.setContentText("Acepta las consecuencias");
+            	
+            	respuesta = alert.showAndWait().get();
+            	if (respuesta == ButtonType.OK) {
+            		if (DEBUG) System.out.println("A D I O S.");
+            		
+            		//DESTRUCCION CUENTAL
+            		RestAPI apirest = new RestAPI("/api/borrarCuenta");
+            		String sesionID = App.getSessionID();
+            		apirest.addParameter("sesionID",sesionID);
+            		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+            		
+            		apirest.openConnection();
+                	String retorno = apirest.receiveObject(String.class);
+                	if (retorno.equals("BORRADA")) {
+            	    	App.setRoot("login");
+            	        App.cerrarConexion();
+            	    	if (DEBUG) System.out.println("Cuenta eliminada");
+                	} else {
+                		labelError.setText(StringUtils.parseString(retorno));
+                		if (DEBUG) System.out.println(retorno);
+                	}
+            	}
+        	}
     	}
 	}
 
