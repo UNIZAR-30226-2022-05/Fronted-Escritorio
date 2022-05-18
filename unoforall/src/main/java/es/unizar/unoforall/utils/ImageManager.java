@@ -17,6 +17,7 @@ public class ImageManager {
 	//Imagenes privadas para cachearlas y que sean cargadas una única vez en memoria.
 	private static final HashMap<Carta, Image> defaultCardsMap = new HashMap<>();
     private static final HashMap<Carta, Image> altCardsMap = new HashMap<>();
+    private static final HashMap<Integer, Image> numCardsMap = new HashMap<>();
     
     public static final int IA_IMAGE_ID = -1;
     public static final int DEFAULT_IMAGE_ID = -2;
@@ -37,6 +38,7 @@ public class ImageManager {
     public static final int IMAGEN_EMOJI_2_ID = 2;
     public static final int IMAGEN_EMOJI_3_ID = 3;
     public static final int IMAGEN_EMOJI_4_ID = 4;
+	public static final int NUM_CARTAS = 20;
     
     private static Image imageSentidoHorario = null;
     private static Image imageSentidoAntihorario = null;
@@ -95,6 +97,16 @@ public class ImageManager {
         	imageView.setImage(getResourceRevesCarta(defaultMode));
         }
     }
+    public static void setImagenContador(ImageView imageView, int numCartas) {
+    	if(numCardsMap.isEmpty()) {
+    		for (int numCartasTemp = 0; numCartasTemp <= NUM_CARTAS; numCartasTemp++) {
+    			Image contador = getResourceContadores(numCartasTemp);
+    			numCardsMap.put(numCartasTemp, contador);
+    		}
+    	}
+    	imageView.setImage(numCardsMap.get(numCartas));
+    }
+    
     public static void setImagenPerfil(ImageView imageview, int imageID) {
         if(imageID < -2 || imageID > 6){
             throw new IllegalArgumentException("ID de imagen inválido: " + imageID + ". Debe estar entre -2 y 6");
@@ -200,6 +212,32 @@ public class ImageManager {
 /////////////////////////////////////////////////////////////////////////////////////////////
 ///////HAY QUE PONER LA URL DE LA IMAGEN TOMANDO COMO ORIGEN EL PATH DEL FICHERO FXML
 ///////NO EMPEZAR CON "/"CARPETAQUESEA PORQUE PETA, NO USAR CONTRABARRA AL PRINCIPIO.
+    private static Image getResourceContadores(int numCartas) {
+    	switch(numCartas) {
+    		case 0: return cargarImagen("images/cartas/contadoresCartas/0NumCartas.png");
+    		case 1: return cargarImagen("images/cartas/contadoresCartas/1NumCartas.png");
+    		case 2: return cargarImagen("images/cartas/contadoresCartas/2NumCartas.png");
+    		case 3: return cargarImagen("images/cartas/contadoresCartas/3NumCartas.png");
+    		case 4: return cargarImagen("images/cartas/contadoresCartas/4NumCartas.png"); 
+    		case 5: return cargarImagen("images/cartas/contadoresCartas/5NumCartas.png");
+    		case 6: return cargarImagen("images/cartas/contadoresCartas/6NumCartas.png");
+    		case 7: return cargarImagen("images/cartas/contadoresCartas/7NumCartas.png");
+    		case 8: return cargarImagen("images/cartas/contadoresCartas/8NumCartas.png");
+    		case 9: return cargarImagen("images/cartas/contadoresCartas/9NumCartas.png");
+    		case 10: return cargarImagen("images/cartas/contadoresCartas/10NumCartas.png");
+    		case 11: return cargarImagen("images/cartas/contadoresCartas/11NumCartas.png");
+    		case 12: return cargarImagen("images/cartas/contadoresCartas/12NumCartas.png");
+    		case 13: return cargarImagen("images/cartas/contadoresCartas/13NumCartas.png");
+    		case 14: return cargarImagen("images/cartas/contadoresCartas/14NumCartas.png");
+    		case 15: return cargarImagen("images/cartas/contadoresCartas/15NumCartas.png");
+    		case 16: return cargarImagen("images/cartas/contadoresCartas/16NumCartas.png");
+    		case 17: return cargarImagen("images/cartas/contadoresCartas/17NumCartas.png");
+    		case 18: return cargarImagen("images/cartas/contadoresCartas/18NumCartas.png");
+    		case 19: return cargarImagen("images/cartas/contadoresCartas/19NumCartas.png");
+    		case 20: return cargarImagen("images/cartas/contadoresCartas/20NumCartas.png");
+    		default: return null;
+    	}
+    }
     private static Image getResourceCarta(Carta carta, boolean defaultMode) {
         switch(carta.getColor()){
             case comodin: return getResourceComodin(carta.getTipo(), defaultMode);

@@ -131,6 +131,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView avatarJugadorDerecha;
 	private ImageView[] avataresJugadores;
 	
+	@FXML private ImageView contadorJugadorAbajo;
+	@FXML private ImageView contadorJugadorIzquierda;
+	@FXML private ImageView contadorJugadorArriba;
+	@FXML private ImageView contadorJugadorDerecha;
+	private ImageView[] contadoresJugadores;
+	
 	private Sala sala;
 	private Partida partida; 
     private MyStage stage;
@@ -191,6 +197,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				avatarJugadorIzquierda,
 				avatarJugadorArriba,
 				avatarJugadorDerecha
+			};
+			
+			contadoresJugadores = new ImageView[] {
+				contadorJugadorAbajo,
+				contadorJugadorIzquierda,
+				contadorJugadorArriba,
+				contadorJugadorDerecha
 			};
 			
 			nombresJugadores = new Label[] {
@@ -320,6 +333,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
             for(Carta carta : jugador.getMano()){
             	addCarta(sala, jugadorIDmap.get(jugadorID), esMiTurno, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
             }
+            ImageManager.setImagenContador(contadoresJugadores[jugadorIDmap.get(jugadorID)], jugador.getMano().size()); 
 			//partida.getJugadores().get(i).getMano().forEach(carta ->
 		}
 		//Recargar sentido de la partida
@@ -446,7 +460,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private void cartaClickada(ImageView cartaClickada) {
 		Carta carta = (Carta)cartaClickada.getUserData();
-		
 		if(sePuedeUsarCarta(partida, carta)) {
 			System.out.println("se valida la carta" + carta);
 			if(carta.getColor() == Carta.Color.comodin) {
@@ -465,7 +478,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.initOwner(marco.getScene().getWindow());
 
-					int resultado = stage.showAndReturnResult(ccc);
+					int resultado = stage.showAndReturnColourResult(ccc);
 					System.out.println("recupero un " + resultado);
 					//Ponerle a la carta el color deseado por el jugador mediante el popup.
 					//Ojo, el defaultmode elige el color real, no se hace aquí.
@@ -501,6 +514,27 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void robarCarta() {
+		Carta aux = partida.getCartaRobada();
+		try {
+			RobarOJugarCartaController rojcc = new RobarOJugarCartaController();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("robarOJugarCarta.fxml"));
+			fxmlLoader.setController(rojcc);
+			Parent root1 = (Parent) fxmlLoader.load();
+			Scene scene = new Scene(root1);
+			stage = new MyStage();
+			
+			scene.setFill(Color.TRANSPARENT);
+			stage.setTitle("Pantalla Cambiar de color");
+			stage.setScene(scene);
+			stage.initStyle(StageStyle.UTILITY);
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.initOwner(marco.getScene().getWindow());
+
+			int resultado = stage.showAndReturnDrawResult(rojcc);
+			System.out.println("recupero un " + resultado);
+		} catch (Exception e) {
+				System.out.println("No se ha podido cargar la pagina: " + e);
+		}
 		Jugada jugada = new Jugada();
 		SuscripcionSala.enviarJugada(jugada);
 	}
