@@ -1,5 +1,6 @@
 package es.unizar.unoforall;
 
+import javafx.scene.media.AudioClip;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,7 +35,10 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
@@ -658,21 +662,30 @@ public class PartidaController extends SalaReceiver implements Initializable {
     }
 
 	public void abandonarPartida() {
-//		Alert alert = new Alert(AlertType.CONFIRMATION);
-//        alert.setTitle("Abandonar Sala");
-//        alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
-//        alert.setContentText("Si te sales serás expulsado de la partida\n y por tanto, no recibirás ningún punto");
-//
-//        ButtonType respuesta = alert.showAndWait().get();
-//        if (respuesta == ButtonType.OK) {
-//            //Llamada a la clase de Sala para desubscribirse
-//            SuscripcionSala.salirDeSalaDefinitivo();
-//            //Volver a la pantalla anterior
-//            App.setRoot(deDondeVengo);
-//
-//            if (DEBUG) System.out.println("Has abandonado la sala.");
-//            
-		SuscripcionSala.salirDeSala();
-		App.setRoot("principal");
-	}
+		ButtonType styledExit = new ButtonType("Salir con estilo");
+		Alert alert = new Alert(AlertType.CONFIRMATION, "  ", styledExit, ButtonType.OK, ButtonType.CANCEL);
+        alert.setTitle("Abandonar Sala");
+        alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
+        alert.setContentText("Si sales, serás expulsado de la partida\n y tus amigos te llamarán cobarde");
+        ButtonType respuesta = alert.showAndWait().get();
+        if (respuesta == ButtonType.OK) {
+            //Llamada a la clase de Sala para desubscribirse
+            //SuscripcionSala.salirDeSalaDefinitivo();
+            //Volver a la pantalla anterior
+            App.setRoot("principal");
+
+            System.out.println("Has abandonado la sala.");
+            
+			SuscripcionSala.salirDeSala();
+			App.setRoot("principal");
+        } else if (respuesta == styledExit) {
+        	System.out.println("SORPRESA");
+        	AudioClip buzzer = new AudioClip(getClass().getResource("images/styledExit.mp3").toExternalForm()); 
+        	buzzer.play();
+        	//SuscripcionSala.salirDeSalaDefinitivo();
+        	
+        	App.setRoot("principal");
+        	SuscripcionSala.salirDeSala();
+        }
+    }
 }
