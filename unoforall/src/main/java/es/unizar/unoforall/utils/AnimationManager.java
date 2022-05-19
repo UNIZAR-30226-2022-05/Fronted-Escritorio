@@ -16,7 +16,7 @@ public class AnimationManager {
     public static ScaleTransition disminuir;
     
     
-    public static void inicializarAnimacionesSentido(ImageView imageView, boolean sentidoHorario) {
+    public static void inicializarAnimacionesSentido() {
 	    //Animación rotación de nodo en sentido Horario	
 		rtHorario = new RotateTransition(Duration.seconds(2));
 		rtHorario.setFromAngle(0);
@@ -46,7 +46,8 @@ public class AnimationManager {
 		disminuir = new ScaleTransition(Duration.millis(250));
 		disminuir.setToX(1);
 		disminuir.setToY(1);
-		
+    }
+    public static void setAnimacionSentido(ImageView imageView, boolean sentidoHorario) {
 		//Inicializar animación inicial a la imagen del sentido de la partida
 		if(sentidoHorario) {
 			rtHorario.setNode(imageView);
@@ -82,4 +83,8 @@ public class AnimationManager {
 		rtRapida.play();
 		agrandar.play();
     }
+
+	public static boolean sentidoIsNotRunning() {
+		return (rtHorario.getCurrentRate()!=0.0d || rtAntihorario.getCurrentRate()!=0.0d);
+	}
 }
