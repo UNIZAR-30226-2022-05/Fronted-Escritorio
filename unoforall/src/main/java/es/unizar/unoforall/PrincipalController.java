@@ -15,8 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,15 +47,10 @@ public class PrincipalController implements Initializable {
 	
 	@FXML private VBox fondo;
 	
-	@FXML private ChoiceBox<String> configChoiceBox;
-	private String[] configChoices = {"--Seleccione una--", "Configuración de Cuenta", "Configuración de Aspecto", "Cerrar Sesión"};
-
+	private boolean estaPausada = false;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		configChoiceBox.getItems().addAll(configChoices);
-		configChoiceBox.getSelectionModel().selectFirst();
-		configChoiceBox.setOnAction(this::getConfigChoice);
-		
 		//PONER EL FONDO CORRESPONDIENTE
 		fondo.setBackground(
 			new Background(
@@ -155,9 +150,10 @@ public class PrincipalController implements Initializable {
 		});
 		apirest.openConnection();
 		Sala salaPausada = apirest.receiveObject(Sala.class);
+		estaPausada = !salaPausada.isNoExiste();
 		
-		//SI LA SALA PAUSADA NO EXISTE
-		if(salaPausada.isNoExiste()) {
+		//SI NO ESTÁ PAUSADA
+		if(!estaPausada) {
 			//PONER TEXTO Y COMPORTAMIENTO BOTONES POR DEFECTO
 		    btnCrearSala.setText("Crear Sala");
 			btnBuscarSala.setText("Buscar Sala");
@@ -170,6 +166,19 @@ public class PrincipalController implements Initializable {
 		} else {
 			App.setSalaID(salaPausada.getSalaID());
 			SuscripcionSala.sala = salaPausada;
+			
+			ColorAdjust colorAdjust = new ColorAdjust();
+			colorAdjust.setBrightness(-0.5);
+			colorAdjust.setSaturation(-0.7);
+			
+			imgAmigos.setEffect(colorAdjust);
+			imgAmigos.setDisable(true);
+
+			imgHistorial.setEffect(colorAdjust);
+			imgHistorial.setDisable(true);
+
+			imgNotificaciones.setEffect(colorAdjust);
+			imgNotificaciones.setDisable(true);
 			
 			//CAMBIAR TEXTO Y COMPORTAMIENTO BOTONES
 		    btnCrearSala.setText("Reanudar Partida");
@@ -184,22 +193,43 @@ public class PrincipalController implements Initializable {
 	}
 	
 	@FXML
-	public void getConfigChoice(ActionEvent event) {
-		String choice = configChoiceBox.getValue();
-		
-		if (choice.equals(configChoices[1])) {
+	public void configurarCuenta(ActionEvent event) {
+		if (estaPausada) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    	alert.setTitle("Aviso");
+	    	alert.setHeaderText("Esta opción está deshabilitada");
+	    	alert.setContentText("Para poder configurar la cuenta,\nabandona primero la partida");
+	    	alert.showAndWait().get();
+		} else {
 			goToConfCuenta(event);
-		} else if (choice.equals(configChoices[2])) {
+		}
+	}
+
+	@FXML
+	public void configurarAspecto(ActionEvent event) {
+		if (estaPausada) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    	alert.setTitle("Aviso");
+	    	alert.setHeaderText("Esta opción está deshabilitada");
+	    	alert.setContentText("Para poder configurar el aspecto,\nabandona primero la partida");
+	    	alert.showAndWait().get();
+		} else {
 			goToConfAspecto(event);
-		} else if (choice.equals(configChoices[3])) {
-			goToLogin(event);
 		}
 	}
 
 	@FXML
     private void goToLogin(Event event) {
-        App.setRoot("login");
-        App.cerrarConexion();
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Cierre de Sesión");
+    	alert.setHeaderText("¡Estás a punto de cerrar sesión!");
+    	alert.setContentText("¿Estás seguro de querer salir de la aplicación?: ");
+    	
+    	if (alert.showAndWait().get() == ButtonType.OK) {
+    		if (DEBUG) System.out.println("Has cerrado sesión.");
+            App.setRoot("login");
+            App.cerrarConexion();
+    	}
     }
 	
 	@FXML
