@@ -165,7 +165,7 @@ public class App extends Application {
     private static void gestionarInvitacionAmigo(UsuarioVO remitente) {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Solicitud de amistad");
-    	alert.setHeaderText(remitente.getNombre() + " te ha enviado una solicitud de amistad");
+    	alert.setHeaderText(StringUtils.parseString(remitente.getNombre()) + " te ha enviado una solicitud de amistad");
     	alert.setContentText("Puedes aceptar pulsando ACEPTAR o rechazar pulsando CANCELAR");
 
     	if (DEBUG) System.out.println("Solicitud recibida de: " + remitente);
@@ -216,7 +216,7 @@ public class App extends Application {
     	alert.setHeaderText(StringUtils.parseString(notif.getRemitente().getNombre()) + " te ha invitado a una sala");
     	alert.setContentText("En caso de cancelación, la invitación seguirá estando disponible en el menú de notificaciones");
 
-    	if (DEBUG) System.out.println("Invitación de: " + notif.getRemitente() + " a la sala " + notif.getSalaID());
+    	if (DEBUG) System.out.println("Invitación de: " + StringUtils.parseString(notif.getRemitente().getNombre()) + " a la sala " + notif.getSalaID());
     	
     	ButtonType respuesta = alert.showAndWait().get();
     	if (respuesta == ButtonType.OK) {

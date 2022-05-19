@@ -18,6 +18,7 @@ import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -248,24 +249,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
 
 			for (int i = 0; i < MAX_JUGADORES; i++) {
 				final int jugadorID = i;
-				if(jugadorIDmap.containsKey(jugadorID)) { 	
-					Jugador jugador = partida.getJugadores().get(jugadorID);
+				if(jugadorIDmap.containsKey(jugadorID)) {
 					//Bindear el tiempo del timer a cada jugador
 					progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
 							timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
-					//Poner la imagen de perfil correcta.
-					String nombreJugador = "";
-					int imageID;
-					if(jugador.isEsIA()){
-						imageID = ImageManager.IA_IMAGE_ID;
-						nombreJugador = getIAName(jugadorID);
-					} else {
-						UsuarioVO usuarioVO = sala.getParticipante(jugador.getJugadorID());
-						imageID = usuarioVO.getAvatar();
-						nombreJugador = usuarioVO.getNombre();
-					}
-					ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
-					nombresJugadores[jugadorIDmap.get(jugadorID)].setText(nombreJugador);
 				}
 			}
 		}
@@ -301,6 +288,21 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			Jugador jugador = partida.getJugadores().get(jugadorID);
 			Jugador jugadorActual = partida.getJugadorActual();
 			boolean esMiTurno = jugador == jugadorActual;
+			
+			//Poner la imagen de perfil correcta.
+			String nombreJugador = "";
+			int imageID;
+			if(jugador.isEsIA()){
+				imageID = ImageManager.IA_IMAGE_ID;
+				nombreJugador = getIAName(jugadorID);
+			} else {
+				UsuarioVO usuarioVO = sala.getParticipante(jugador.getJugadorID());
+				imageID = usuarioVO.getAvatar();
+				nombreJugador = usuarioVO.getNombre();
+			}
+			ImageManager.setImagenPerfil(avataresJugadores[jugadorIDmap.get(jugadorID)], imageID);
+			nombresJugadores[jugadorIDmap.get(jugadorID)].setText(StringUtils.parseString(nombreJugador));
+			
             if(sala.isEnPartida() && (turnoActual == jugadorID) && esNuevoTurno){
             	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior), jugadorID);  
             }
