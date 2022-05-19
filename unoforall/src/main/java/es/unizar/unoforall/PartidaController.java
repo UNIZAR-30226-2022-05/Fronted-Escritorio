@@ -123,9 +123,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	@FXML private Button btnCargarDatos;
 	@FXML private Button test;
-
-	@FXML private Button btnAbandonarPartida;
-    @FXML private Button btnPausarPartida;
 	
 	@FXML private ImageView imagenTacoRobo;
 	@FXML private ImageView imagenTacoDescartes;
@@ -162,7 +159,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
-
 		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		inicializarEfectos();
 		SuscripcionSala.dondeEstoy(this); 
@@ -663,8 +659,14 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		SuscripcionSala.enviarJugada(jugada);	
 		}
     }
-
-	public void abandonarPartida() {
+    
+    @FXML
+	public void pausarPartida(ActionEvent event) {
+    	//MEGAPAUSA
+    }
+    
+    @FXML
+	public void abandonarPartida(ActionEvent event) {
 		ButtonType styledExit = new ButtonType("Salir con estilo");
 		Alert alert = new Alert(AlertType.CONFIRMATION, "  ", styledExit, ButtonType.OK, ButtonType.CANCEL);
         alert.setTitle("Abandonar Sala");
