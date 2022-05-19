@@ -220,7 +220,6 @@ public class PrincipalController implements Initializable {
 		if (!exito) {
 			App.setRoot("principal");
 		} else {
-			VistaSalaController.deDondeVengo = "principal";
 			App.setRoot("vistaSalaPausada");
 		}
     }

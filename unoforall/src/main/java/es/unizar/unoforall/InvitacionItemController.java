@@ -49,7 +49,6 @@ public class InvitacionItemController {
 		App.setSalaID(notificacion.getSalaID());
 		
 		if (SuscripcionSala.unirseASala(notificacion.getSalaID())) {
-			VistaSalaController.deDondeVengo = "principal";
 			App.setRoot("vistaSala");
 		}
     	

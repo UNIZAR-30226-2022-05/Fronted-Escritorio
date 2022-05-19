@@ -38,11 +38,9 @@ public class BuscarSalaController implements Initializable {
 	private SalaListener myListener = new SalaListener() {
 		@Override
 		public void onClickListener(UUID salaID) {
-			VistaSalaController.deDondeVengo = "buscarSala";
 			App.setSalaID(salaID);
 			
 			if (SuscripcionSala.unirseASala(salaID)) {
-				VistaSalaController.deDondeVengo = "principal";
 				App.setRoot("vistaSala");
 			}
 		}

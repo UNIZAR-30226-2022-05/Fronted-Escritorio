@@ -299,7 +299,6 @@ public class CrearSalaController implements Initializable {
     		//GUARDAR SALA ID EN CASO DE NECESITARLO
 			App.setSalaID(respSala.getSalaID());
 			if (SuscripcionSala.unirseASala(respSala.getSalaID())) {
-				VistaSalaController.deDondeVengo = "crearSala";
 				App.setRoot("vistaSala");
 			}
 		} else {

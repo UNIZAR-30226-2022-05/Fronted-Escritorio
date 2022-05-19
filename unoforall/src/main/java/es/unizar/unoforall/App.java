@@ -227,7 +227,6 @@ public class App extends Application {
 			if (!exito) {
 				App.setRoot("principal");
 			} else {
-				VistaSalaController.deDondeVengo = "principal";
 				App.setRoot("vistaSala");
 			}
 	    	

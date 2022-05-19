@@ -90,10 +90,6 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	@FXML private ChoiceBox<String> amigosChoiceBox;
 	private ArrayList<String> nombresAmigos = new ArrayList<String>();
 	private ArrayList<UsuarioVO> listaAmigos = new ArrayList<UsuarioVO>();
-	
-//	Por defecto deDondeVengo es la pantalla principal
-//	para evitar posibles errores en ejecución
-	public static String deDondeVengo = "principal";
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -202,9 +198,9 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 			labelError.setText(StringUtils.parseString(sala.getError()));
 			if (DEBUG) System.out.println("sala no existe");
 			if (DEBUG) System.out.println(sala.getError());
-			//Si error volver a la pantalla anterior
+			//Si error volver a la pantalla principal
 			SuscripcionSala.salirDeSala();
-			App.setRoot(deDondeVengo);
+			App.setRoot("principal");
 		} else {
 			if (DEBUG) System.out.println("");
 			if (DEBUG) System.out.println("Estado de la sala: " + sala);
@@ -339,8 +335,8 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
     	if (respuesta == ButtonType.OK) {
     		//Llamada a la clase de Sala para desubscribirse
     		SuscripcionSala.salirDeSala();
-    		//Volver a la pantalla anterior
-        	App.setRoot(deDondeVengo);
+    		//Volver a la pantalla principal
+        	App.setRoot("principal");
         	
     		if (DEBUG) System.out.println("Has abandonado la sala.");
     	}
@@ -357,7 +353,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 		if (respuesta == ButtonType.OK) {
 			//Llamada a la clase de Sala para desubscribirse
 			SuscripcionSala.salirDeSala();
-			//Volver a la pantalla anterior
+			//Volver a la pantalla principal
 	    	App.setRoot("principal");
 	    	
 			if (DEBUG) System.out.println("Has abandonado la sala.");
@@ -375,8 +371,8 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
     	if (respuesta == ButtonType.OK) {
     		//Llamada a la clase de Sala para desubscribirse
     		SuscripcionSala.salirDeSala();
-    		//Volver a la pantalla anterior
-        	App.setRoot(deDondeVengo);
+    		//Volver a la pantalla principal
+        	App.setRoot("principal");
         	
     		if (DEBUG) System.out.println("Has abandonado la sala.");
     	}

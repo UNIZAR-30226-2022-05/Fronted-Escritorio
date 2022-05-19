@@ -66,10 +66,6 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
 	private ImageView[] iconosListo;
 	private Label[] nombres;
 	
-//	Por defecto deDondeVengo es la pantalla principal
-//	para evitar posibles errores en ejecución
-	public static String deDondeVengo = "principal";
-	
 	private boolean estoyListo;
 
 	@Override
@@ -154,9 +150,9 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
 			labelError.setText(StringUtils.parseString(sala.getError()));
 			if (DEBUG) System.out.println("sala no existe");
 			if (DEBUG) System.out.println(sala.getError());
-			//Si error volver a la pantalla anterior
+			//Si error volver a la pantalla principal
 			SuscripcionSala.salirDeSala();
-			App.setRoot(deDondeVengo);
+			App.setRoot("principal");
 		} else {
 			if (DEBUG) System.out.println("");
 			if (DEBUG) System.out.println("Estado de la sala: " + sala);
@@ -221,7 +217,7 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
 			//Llamada a la clase de Sala para desubscribirse
 			SuscripcionSala.salirDeSala();
 			//Volver a la pantalla principal
-	    	App.setRoot(deDondeVengo);
+	    	App.setRoot("principal");
 		}
 	}
 
@@ -248,8 +244,8 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
     	if (respuesta == ButtonType.OK) {
     		//Llamada a la clase de Sala para desubscribirse
     		SuscripcionSala.salirDeSalaDefinitivo();
-    		//Volver a la pantalla anterior
-        	App.setRoot(deDondeVengo);
+    		//Volver a la pantalla principal
+        	App.setRoot("principal");
         	
     		if (DEBUG) System.out.println("Has abandonado la sala.");
     	}
