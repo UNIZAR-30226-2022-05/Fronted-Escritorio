@@ -141,6 +141,8 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
 				botonVolver.setEffect(null);
 			}
 		});
+		
+		administrarSala(SuscripcionSala.sala);
 	}
 	
 	@Override

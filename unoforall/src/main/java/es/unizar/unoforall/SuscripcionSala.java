@@ -1,9 +1,11 @@
 package es.unizar.unoforall;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.partidas.Jugada;
+import es.unizar.unoforall.model.partidas.RespuestaVotacionPausa;
 import es.unizar.unoforall.model.salas.Sala;
 
 public class SuscripcionSala {
@@ -38,6 +40,7 @@ public class SuscripcionSala {
 			
 		App.apiweb.sendObject("/app/salas/salir/" + sala.getSalaID(), VACIO);
 		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
+		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID() + "/votaciones");
 		sala = null;
 	}
 	
@@ -46,6 +49,7 @@ public class SuscripcionSala {
 			
 		App.apiweb.sendObject("/app/salas/salirDefinitivo/" + sala.getSalaID(), VACIO);
 		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
+		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID() + "/votaciones");
 		sala = null;
 	}
 	
@@ -61,6 +65,23 @@ public class SuscripcionSala {
 	public static void enviarJugada(Jugada jugada) {
 		App.apiweb.sendObject("/app/partidas/turnos/" + sala.getSalaID(), jugada);
 	}
+	
+	public static void enviarVotacion(){
+		App.apiweb.sendObject("/app/partidas/votaciones/" + sala.getSalaID(), VACIO);
+	}
+	
+	public static void suscribirseCanalVotacionPausa(Consumer<RespuestaVotacionPausa> consumer){
+		App.apiweb.subscribe("/topic/salas/" + sala.getSalaID() + "/votaciones",
+				RespuestaVotacionPausa.class, respuestaVotacionPausa -> {
+					if(respuestaVotacionPausa != null){
+						consumer.accept(respuestaVotacionPausa);
+					}
+				});
+	}
+
+    public static void cancelarSuscripcionCanalVotacionPausa(){
+    	App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID() + "/votaciones");
+    }
 
 	private static void ackSala() {
 		if(sala != null){

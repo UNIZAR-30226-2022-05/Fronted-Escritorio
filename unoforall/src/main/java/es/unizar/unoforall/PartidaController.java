@@ -140,6 +140,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView contadorJugadorDerecha;
 	private ImageView[] contadoresJugadores;
 	
+	@FXML private Label labelVotacion;
+	
 	private Sala sala;
 	private Partida partida; 
     private MyStage popUpRobarCarta;
@@ -165,6 +167,20 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
 		sala = SuscripcionSala.sala;
+		
+		SuscripcionSala.suscribirseCanalVotacionPausa(respuestaVotacionPausa -> {
+			int numVotantes = respuestaVotacionPausa.getNumVotantes();
+			int numVotos = respuestaVotacionPausa.getNumVotos();
+			
+			if (numVotos == 0) {
+				labelVotacion.setVisible(false);
+			} else {
+				labelVotacion.setVisible(true);
+				labelVotacion.setText(String.format("Votación pausa: %d/%d", numVotos, numVotantes));
+			}
+			if (DEBUG) System.out.println("Votantes: " + numVotantes + "; Votos: " + numVotos);
+		});
+		
 		int numJugadores = partida.getJugadores().size();
 		//Si no conocemos quién es el jugador actual todavía
 		if (jugadorActualID == -1) {
@@ -257,6 +273,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	@Override
 	public void administrarSala(Sala sala) {
+		if (sala.isEnPausa()) {
+			SuscripcionSala.cancelarSuscripcionCanalVotacionPausa();
+			App.setRoot("vistaSalaPausada");
+			return;
+		}
+		
 		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
 		//Recuperar la partida nueva
 		partida = sala.getPartida();
@@ -663,6 +685,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     @FXML
 	public void pausarPartida(ActionEvent event) {
     	//MEGAPAUSA
+    	SuscripcionSala.enviarVotacion();
     }
     
     @FXML
