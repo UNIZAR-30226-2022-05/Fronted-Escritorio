@@ -45,7 +45,7 @@ public class App extends Application {
     
     @Override
     public void start(Stage s) throws IOException {
-        scene = new Scene(loadFXML("cambiarIP"));
+        scene = new Scene(loadFXML("login"));
         stage = s;
         Image icon = new Image(getClass().getResourceAsStream("images/logoUno.png"));
         stage.getIcons().add(icon);
