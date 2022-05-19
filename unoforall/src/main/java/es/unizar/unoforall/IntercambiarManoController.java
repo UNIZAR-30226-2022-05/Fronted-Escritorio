@@ -1,78 +1,67 @@
 package es.unizar.unoforall;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import es.unizar.unoforall.utils.ImageManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class IntercambiarManoController implements Initializable{
+public class IntercambiarManoController implements Initializable {
+	@FXML private ImageView avatarJugador1;
+    @FXML private ImageView avatarJugador2;
+    @FXML private ImageView avatarJugador3;
+    @FXML private ImageView avatarJugador4;
+    private ImageView[] avatares;
     
-	private static final int CANCELAR = 0;
-	private static final int ROJO = 1;
-	private static final int VERDE = 2;
-	private static final int AMARILLO = 3;
-	private static final int AZUL = 4;
-	
-	private static final String TEXTO_COLOR_AZUL_CLARO = "Azul claro";
-	private static final String TEXTO_COLOR_ROSA = "Rosa";
-	private static final String TEXTO_COLOR_AZUL_OSCURO = "Azul Oscuro";
-	private static final String TEXTO_COLOR_NARANJA = "Naranja";
-	
-    @FXML private Button btnRojo;
-    @FXML private Button btnVerde;
-    @FXML private Button btnAmarillo;
-    @FXML private Button btnAzul;
+    @FXML private Button btnJugador1;
+    @FXML private Button btnJugador2;
+    @FXML private Button btnJugador3;
+    @FXML private Button btnJugador4;
     @FXML private Button btnCancelar;
+	private Button[] botones;
     
-    @FXML private Circle colorRojo;
-    @FXML private Circle colorVerde;
-    @FXML private Circle colorAmarillo;
-    @FXML private Circle colorAzul;
+    public List<Integer> listaAvatares = new ArrayList<Integer>();
+    public List<String> listaNombres = new ArrayList<String>();
     
-    private static int resultado;
-	private EventHandler<ActionEvent> elegirColor;
+    public enum Resultado {
+    	JUGADOR1, JUGADOR2, JUGADOR3, JUGADOR4,
+    	CANCELAR;
+    };
+    private Resultado resultado;
+	
+	private EventHandler<ActionEvent> elegirJugador;
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		resultado = CANCELAR;
-		if (App.getPersonalizacion().get("cartaSelec") == 1) {
-			colorRojo.setFill(Paint.valueOf("#20f3f3"));
-			colorVerde.setFill(Paint.valueOf("#d851b0"));
-			colorAmarillo.setFill(Paint.valueOf("#3948e9"));
-			colorAzul.setFill(Paint.valueOf("#faaa1b"));
-			
-			btnRojo.setText(TEXTO_COLOR_AZUL_CLARO);
-			btnVerde.setText(TEXTO_COLOR_ROSA);
-			btnAmarillo.setText(TEXTO_COLOR_AZUL_OSCURO);
-			btnAzul.setText(TEXTO_COLOR_NARANJA);	
-		}	
 		//Handler que realiza una acción dependiendo de qué botón ha sido pulsado.
 		//Tras pulsarse, está configurado para cerrar el popup.
-		elegirColor = new EventHandler<ActionEvent>() {
+		elegirJugador = new EventHandler<ActionEvent>() {
 	      	@Override 
 	      	public void handle(ActionEvent actionEvent) {
-	      		if(actionEvent.getSource().equals(btnRojo)) {
-	      			System.out.println("Has clickado el botón rojo");
-	      			resultado = ROJO;
-	      		} else if(actionEvent.getSource().equals(btnVerde)) {
-	      			System.out.println("Has clickado el botón verde");
-	      			resultado = VERDE;
-	      		} else if(actionEvent.getSource().equals(btnAmarillo)) {
-	      			System.out.println("Has clickado el botón amarillo");
-	      			resultado = AMARILLO;
-	      		} else if(actionEvent.getSource().equals(btnAzul)) {
-	      			System.out.println("Has clickado el botón azul");
-	      			resultado = AZUL; 
-	      	  	} else if(actionEvent.getSource().equals(btnCancelar)) {
-	      			System.out.println("Has clickado el botón de cancelar jugada"); 
+	      		if(actionEvent.getSource().equals(btnJugador1)) {
+	      			System.out.println("Has elegido el jugador 1");
+	      			resultado = Resultado.JUGADOR1;
+	      		} else if(actionEvent.getSource().equals(btnJugador2)) {
+					System.out.println("Has elegido el jugador 2");
+	      			resultado = Resultado.JUGADOR2;
+	      		} else if(actionEvent.getSource().equals(btnJugador3)) {
+					System.out.println("Has elegido el jugador 3");
+	      			resultado = Resultado.JUGADOR3;
+	      		} else if(actionEvent.getSource().equals(btnJugador4)) {
+					System.out.println("Has elegido el jugador 4");
+	      			resultado = Resultado.JUGADOR4; 
+	      	  	} else {
+					resultado = Resultado.CANCELAR; 
+					System.out.println("Has elegido no elegir");
 	      		}
 		      	// take some action
 		      	//...
@@ -86,14 +75,39 @@ public class IntercambiarManoController implements Initializable{
 	      	}
 		};
 		
-      	btnRojo.setOnAction(elegirColor);
-      	btnVerde.setOnAction(elegirColor);
-      	btnAmarillo.setOnAction(elegirColor);
-      	btnAzul.setOnAction(elegirColor);
-      	btnCancelar.setOnAction(elegirColor);		
+		avatares = new ImageView[] {
+			avatarJugador1,
+			avatarJugador2, 
+			avatarJugador3,
+			avatarJugador4
+		};
+
+		botones = new Button[] {
+			btnJugador1,
+			btnJugador2,
+			btnJugador3,
+			btnJugador4,
+			btnCancelar
+		};
+		
+		resultado = Resultado.CANCELAR;
+		int i;
+		for (i=0;i<listaAvatares.size();i++) {
+			ImageManager.setImagenPerfil(avatares[i], listaAvatares.get(i));
+			botones[i].setText(listaNombres.get(i));
+			botones[i].setOnAction(elegirJugador);
+		}
+		btnCancelar.setOnAction(elegirJugador);
+
+		for (; i < 4; i++) {
+			avatares[i].setVisible(false);
+			avatares[i].setDisable(true);
+			botones[i].setVisible(false);
+			botones[i].setDisable(true);
+		}
 	}
     
     public int getReturn() {
-    	return resultado;
+    	return resultado.ordinal();
     }
 }

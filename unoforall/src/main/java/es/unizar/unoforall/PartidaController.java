@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.Carta;
 import es.unizar.unoforall.model.partidas.Jugada;
-import es.unizar.unoforall.model.partidas.Jugador;
+import es.unizar.unoforall.model.partidas.Jugador;   
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
@@ -28,6 +28,7 @@ import javafx.animation.Transition;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -43,11 +44,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -140,6 +143,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView contadorJugadorDerecha;
 	private ImageView[] contadoresJugadores;
 	
+	@FXML private ImageView botonUno;
+	
 	@FXML private Label labelVotacion;
 	
 	private Sala sala;
@@ -154,11 +159,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
     private boolean defaultMode;
     private boolean comenzarEscalera;
-    //Por defecto deDondeVengo es la pantalla principal
-    //para evitar posibles errores en ejecución
-	public static String deDondeVengo = "principal";
+    private boolean sePuedePulsarBotonUNO;
+    
 	@Override
-	
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
 		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
@@ -288,6 +291,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		if(esNuevoTurno) {
 			turnoAnterior = turnoActual;
+			sePuedePulsarBotonUNO = true;
+			botonUno.setDisable(false);
+			botonUno.setEffect(null);
 		}
 		
 		
@@ -424,7 +430,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
-		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
+		mostrarPopUpIntercambiarMano(null);
+//		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
 //        final Animation animation = new Transition() {
 //
 //            {
@@ -529,7 +536,24 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private void mostrarPopUpIntercambiarMano(Carta carta) {
 		try {
 			IntercambiarManoController imc = new IntercambiarManoController();
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cambiarColor.fxml"));
+			int numJugadores = partida.getJugadores().size();
+			for (int i = 0; i < numJugadores; i++) {
+				Jugador jugador = partida.getJugadores().get(i);
+				String nombreJugador = "";
+				int imageID;
+				if(jugador.isEsIA()){
+					imageID = ImageManager.IA_IMAGE_ID;
+					nombreJugador = getIAName(i);
+				} else {
+					UsuarioVO usuarioVO = sala.getParticipante(jugador.getJugadorID());
+					imageID = usuarioVO.getAvatar();
+					nombreJugador = usuarioVO.getNombre();
+				}
+				imc.listaAvatares.add(imageID);
+				imc.listaNombres.add(nombreJugador);
+			}
+			
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("intercambiarMano.fxml"));
 			fxmlLoader.setController(imc);
 			Parent root1 = (Parent) fxmlLoader.load();
 			Scene scene = new Scene(root1);
@@ -545,7 +569,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			int jugadorIDdevuelto = popUpIntercambiarMano.showAndReturnSwapHandResult(imc);
 			System.out.println("recupero un " + jugadorIDdevuelto);
 			
-			if (jugadorIDdevuelto != CANCELAR) {
+			if (jugadorIDdevuelto != IntercambiarManoController.Resultado.CANCELAR.ordinal()) {
 				System.out.println("Se va a enviar la carta " + carta);
 				Jugada jugada = new Jugada(Collections.singletonList(carta));
 				jugada.setJugadorObjetivo(jugadorIDdevuelto);
@@ -613,6 +637,21 @@ public class PartidaController extends SalaReceiver implements Initializable {
     }
     
     private void inicializarEfectos() {
+    	botonUno.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				botonUno.setFitWidth(210);
+				botonUno.setFitHeight(110);
+			}
+		});
+    	botonUno.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				botonUno.setFitWidth(200);
+				botonUno.setFitHeight(100);
+			}
+		});
+		
     	//Efecto para bajar el brillo a una carta
     	oscurecerCarta = new Lighting();
     	oscurecerCarta.setDiffuseConstant(1.0);
@@ -680,6 +719,23 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 		SuscripcionSala.enviarJugada(jugada);	
 		}
+    }
+    
+    @FXML
+    public void botonUnoPulsado(MouseEvent event) {
+    	if(sePuedePulsarBotonUNO){
+    		sePuedePulsarBotonUNO = false;
+    		botonUno.setDisable(true);
+    		
+    		ColorAdjust colorAdjust = new ColorAdjust();
+			colorAdjust.setBrightness(-0.5);
+			colorAdjust.setSaturation(-0.7);
+			
+    		botonUno.setEffect(colorAdjust);
+
+            App.apiweb.sendObject("/app/partidas/botonUNO/" + SuscripcionSala.sala.getSalaID(), "vacio");
+            if (DEBUG) System.out.println("Has pulsado el botón UNO");
+        }
     }
     
     @FXML

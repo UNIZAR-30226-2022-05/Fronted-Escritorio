@@ -251,7 +251,7 @@
          </padding>
          <children>
             <Button fx:id="btnCargarDatos" mnemonicParsing="false" onAction="#cargarDatos" text="Cargar Datos" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+            <HBox alignment="CENTER" VBox.vgrow="SOMETIMES">
                <children>
                   <Label fx:id="labelVotacion" disable="true" text="Votación pausa: ?/?" textFill="#ffdba6" visible="false">
                      <font>
@@ -284,7 +284,14 @@
                   <Pane HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="SOMETIMES" />
+            <HBox alignment="CENTER" prefHeight="120.0" prefWidth="762.0" VBox.vgrow="SOMETIMES">
+               <children>
+                  <ImageView fx:id="botonUno" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#botonUnoPulsado" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/botonUno.png" />
+                     </image>
+                  </ImageView>
+               </children></HBox>
          </children>
       </VBox>
    </center>
