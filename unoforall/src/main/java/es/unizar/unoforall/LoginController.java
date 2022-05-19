@@ -1,26 +1,39 @@
 package es.unizar.unoforall;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.HashUtils;
+import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
-public class LoginController {
+public class LoginController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
+	
+	@FXML private VBox fondo;
 	
 	@FXML private Label labelInformacion;
 	@FXML private Label labelError;
 
 	@FXML private TextField cajaCorreo;
 	@FXML private PasswordField cajaContrasenya;
-    
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		fondo.setBackground(ImageManager.getBackgroundImage(ImageManager.FONDO_DIBUJITOS));
+	}
+	
 	@FXML
 	private void cambiarIP (ActionEvent event) {
 		App.setRoot("cambiarIP");

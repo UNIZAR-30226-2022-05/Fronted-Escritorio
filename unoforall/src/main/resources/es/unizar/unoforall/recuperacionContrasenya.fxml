@@ -18,9 +18,9 @@
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="430.0" style="-fx-background-color: white;">
          <children>
-            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="141.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="159.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/arista.png" />
+                  <Image url="@images/logoUno.png" />
                </image>
             </ImageView>
             <GridPane layoutX="5.0" layoutY="211.0" prefHeight="85.0" prefWidth="424.0">

@@ -3,7 +3,6 @@ package es.unizar.unoforall.utils;
 import java.util.HashMap;
 
 import es.unizar.unoforall.App;
-import es.unizar.unoforall.VistaSalaPausadaController;
 import es.unizar.unoforall.model.partidas.Carta;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -34,9 +33,6 @@ public class ImageManager {
     public static final int IMAGEN_PERFIL_6_ID = 6;
     public static final int NUM_AVATARES = 8;
     
-    public static final int IMAGEN_FONDO_0_ID = 0;
-    public static final int IMAGEN_FONDO_1_ID = 1;
-    public static final int IMAGEN_FONDO_2_ID = 2;
 
     public static final int IMAGEN_EMOJI_O_ID = 0;
     public static final int IMAGEN_EMOJI_1_ID = 1;
@@ -48,6 +44,7 @@ public class ImageManager {
 	public static final int FONDO_AZUL = 0;
 	public static final int FONDO_MORADO = 1;
 	public static final int FONDO_GRIS = 2;
+    public static final int FONDO_DIBUJITOS = 3;
     
     private static Image imageSentidoHorario = null;
     private static Image imageSentidoAntihorario = null;
@@ -196,6 +193,7 @@ public class ImageManager {
     		backgroundsMap.put(FONDO_AZUL, cargarImagen("images/fondos/azul.png"));
     		backgroundsMap.put(FONDO_MORADO, cargarImagen("images/fondos/morado.png"));
     		backgroundsMap.put(FONDO_GRIS, cargarImagen("images/fondos/gris.png"));
+    		backgroundsMap.put(FONDO_DIBUJITOS, cargarImagen("images/fondos/dibujitos.png"));
     	}
     	
     	return new Background(
