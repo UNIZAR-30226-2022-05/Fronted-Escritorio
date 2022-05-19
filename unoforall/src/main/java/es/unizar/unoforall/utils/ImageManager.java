@@ -142,18 +142,24 @@ public class ImageManager {
     	if(imageSentidoHorario == null || imageSentidoAntihorario == null){
     		imageSentidoHorario = cargarImagen("images/sentidoHorario.png");
     		imageSentidoAntihorario = cargarImagen("images/sentidoAntihorario.png");
-    		
-    		AnimationManager.inicializarAnimacionesSentido(imageView, sentidoHorario);
-    		//Guardar la imagen correspondiente en el imageView
-    		if(sentidoHorario) {
-    			imageView.setImage(imageSentidoHorario);
-    			imageView.setUserData(imageSentidoHorario);
-    		} else {
-    			imageView.setImage(imageSentidoAntihorario);
-    			imageView.setUserData(imageSentidoAntihorario);
-    		}
-
-    	}
+    		AnimationManager.inicializarAnimacionesSentido();
+    	//}
+    	
+    	System.out.println(AnimationManager.sentidoIsNotRunning());
+    	AnimationManager.setAnimacionSentido(imageView, sentidoHorario);
+    	//if (AnimationManager.sentidoIsNotRunning()) {
+    		//AnimationManager.inicializarAnimacionesSentido(imageView, sentidoHorario);
+		//Guardar la imagen correspondiente en el imageView
+		if(sentidoHorario) {
+			imageView.setImage(imageSentidoHorario);
+			imageView.setUserData(imageSentidoHorario);
+		} else {
+			imageView.setImage(imageSentidoAntihorario);
+			imageView.setUserData(imageSentidoAntihorario);
+		}}
+    	System.out.println(AnimationManager.sentidoIsNotRunning());
+    	if (!AnimationManager.sentidoIsNotRunning()) { 
+    		AnimationManager.setAnimacionSentido(imageView, sentidoHorario);}
     	
     	if (sentidoHorario) {
     		if ((Image)imageView.getUserData() == imageSentidoAntihorario) {

@@ -350,7 +350,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			//partida.getJugadores().get(i).getMano().forEach(carta ->
 		}
 		//Recargar sentido de la partida
-		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
+		//ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
 
 		//Poner la nueva carta en la pila de descartes
 		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
@@ -404,19 +404,20 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
-        final Animation animation = new Transition() {
-
-            {
-                setCycleDuration(Duration.millis(1000));
-                setInterpolator(Interpolator.EASE_OUT);
-            }
-
-            @Override
-            protected void interpolate(double frac) {
-                circulo.setFill(new Color(1, 0, 0, 1 - frac));
-            }
-        };
-        animation.play();
+		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
+//        final Animation animation = new Transition() {
+//
+//            {
+//                setCycleDuration(Duration.millis(1000));
+//                setInterpolator(Interpolator.EASE_OUT);
+//            }
+//
+//            @Override
+//            protected void interpolate(double frac) {
+//                circulo.setFill(new Color(1, 0, 0, 1 - frac));
+//            }
+//        };
+//        animation.play();
 		
 		/*Carta aux = new Carta();
 		aux = partida.getJugadorActual().getMano().get(1);
