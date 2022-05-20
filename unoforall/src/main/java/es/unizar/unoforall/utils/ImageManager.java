@@ -21,6 +21,8 @@ public class ImageManager {
     private static final HashMap<Integer, Image> backgroundsMap = new HashMap<>();
 	private static final HashMap<Integer, Image> avatarsMap = new HashMap<>();
 	private static final HashMap<Boolean, Image> readyMap = new HashMap<>();
+	private static final HashMap<Boolean, Image> readyStairsMap = new HashMap<>();
+	
     
     //public static final int DEFAULT_IMAGE_ID = -2;
     public static final int IA_IMAGE_ID = -1;
@@ -128,6 +130,15 @@ public class ImageManager {
         }
 		imageView.setImage(readyMap.get(listo));
     }
+    
+    public static void setImagenListoEscalera(ImageView imageView, boolean listo) {
+        if(readyStairsMap.isEmpty()){
+        	readyStairsMap.put(true, cargarImagen("images/readyStairs.png"));
+        	readyStairsMap.put(false, cargarImagen("images/notreadyStairs.png"));
+        }
+		imageView.setImage(readyMap.get(listo));
+    }
+    
     
 //Devuelve el ImageView del mazo de cartas correspondiente.
     public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode) {

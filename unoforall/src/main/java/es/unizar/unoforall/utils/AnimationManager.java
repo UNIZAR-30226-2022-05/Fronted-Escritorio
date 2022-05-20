@@ -1,9 +1,11 @@
 package es.unizar.unoforall.utils;
 
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
@@ -14,6 +16,7 @@ public class AnimationManager {
     public static RotateTransition rtRapida;
     public static ScaleTransition agrandar;
     public static ScaleTransition disminuir;
+    public static FadeTransition errorEscalera;
     
     
     public static void inicializarAnimacionesSentido() {
@@ -86,5 +89,16 @@ public class AnimationManager {
 
 	public static boolean sentidoIsNotRunning() {
 		return (rtHorario.getCurrentRate()!=0.0d || rtAntihorario.getCurrentRate()!=0.0d);
+	}
+	
+	public static void fadeErrorEscalera (Label labelErrorEscalera) {
+		
+		
+		errorEscalera = new FadeTransition(Duration.millis(5000));
+		errorEscalera.setFromValue(1.0);
+		errorEscalera.setToValue(0.0);
+		
+		errorEscalera.setNode(labelErrorEscalera);
+		errorEscalera.play();
 	}
 }

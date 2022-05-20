@@ -16,6 +16,7 @@ import es.unizar.unoforall.model.partidas.Jugada;
 import es.unizar.unoforall.model.partidas.Jugador;   
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
+import es.unizar.unoforall.utils.AnimationManager;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
 import es.unizar.unoforall.utils.StringUtils;
@@ -143,9 +144,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView contadorJugadorDerecha;
 	private ImageView[] contadoresJugadores;
 	
+	@FXML private ImageView readyStairs;
+	@FXML private ImageView notreadyStairs;
+	
 	@FXML private ImageView botonUno;
 	
 	@FXML private Label labelVotacion;
+    @FXML private Label errorEscalera;
 	
 	private Sala sala;
 	private Partida partida; 
@@ -270,6 +275,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 							timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
 				}
 			}
+			readyStairs.setOnMouseClicked(event -> validarEscalera());
+			notreadyStairs.setOnMouseClicked(event -> cancelarEscalera());
+			
 		}
 		administrarSala(SuscripcionSala.sala);
 	}
@@ -285,11 +293,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
 		//Recuperar la partida nueva
 		partida = sala.getPartida();
-		listaCartasEscalera.clear();
 		int turnoActual = partida.getTurno();
 		boolean esNuevoTurno = turnoActual != turnoAnterior || partida.isRepeticionTurno();
 		
 		if(esNuevoTurno) {
+			comenzarEscalera = false;
+			listaCartasEscalera.clear();
+			readyStairs.setVisible(false);
+			notreadyStairs.setVisible(false);
+			
 			turnoAnterior = turnoActual;
 			sePuedePulsarBotonUNO = true;
 			botonUno.setDisable(false);
@@ -370,7 +382,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			//Si no es mi turno, no se encenderán mis cartas.
 			
             for(Carta carta : jugador.getMano()){
-            	addCarta(sala, jugadorIDmap.get(jugadorID), esMiTurno, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
+            	addCarta(sala, jugadorID, esMiTurno, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
             }
             ImageManager.setImagenContador(contadoresJugadores[jugadorIDmap.get(jugadorID)], jugador.getMano().size()); 
 			//partida.getJugadores().get(i).getMano().forEach(carta ->
@@ -482,7 +494,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		imageview.setOnMouseClicked(event -> {
 			if(event.getButton() == MouseButton.PRIMARY) {
 				cartaClickada(imageview);
-			} else if (event.getButton() == MouseButton.SECONDARY){  
+			} else if (event.getButton() == MouseButton.SECONDARY && sala.getConfiguracion().getReglas().isJugarVariasCartas()){  
 				cartaSeleccionada(imageview);
 			}
 		});
@@ -511,7 +523,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	private void cartaSeleccionada(ImageView imageview) {
-		if(!comenzarEscalera && (Carta.esNumero( ( (Carta) imageview.getUserData()).getTipo() ) )) {
+		Carta cartaSeleccionada = (Carta) imageview.getUserData();
+		if(!comenzarEscalera && (Carta.esNumero(cartaSeleccionada.getTipo())) && sePuedeUsarCarta(partida, cartaSeleccionada)
+				&& partida.getTurno() == jugadorActualID) {
+			readyStairs.setVisible(true);
+			notreadyStairs.setVisible(true);
 			comenzarEscalera = true;
 			//for(int i=0;i<partida.getJugadorActual().getMano().size();i++){
 			for (Node child : cartasJugadores[jugadorActualID].getChildren()) {
@@ -526,13 +542,47 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				//if (Carta.esNumero(cartas.get(i).getTipo());
 			imageview.setEffect(new Glow(0.8));
 			System.out.println(imageview.getEffect().toString());
-		} else {
-			if((Carta.esNumero( ( (Carta) imageview.getUserData()).getTipo() ) )) {
-				imageview.setEffect(new Glow(0.8));
-			}
+		}
+		
+		if((comenzarEscalera && Carta.esNumero( ( (Carta) imageview.getUserData()).getTipo() ) )) {
+			imageview.setEffect(new Glow(0.8));
+			listaCartasEscalera.add((Carta) imageview.getUserData());
 		}
 		
 	}
+	private void validarEscalera() {
+		Jugada jugada = new Jugada(listaCartasEscalera);
+		if(partida.validarJugada(jugada)) {
+			SuscripcionSala.enviarJugada(jugada);
+			errorEscalera.setText("Has jugado un combo de " + listaCartasEscalera.size() +" carta(s).");
+		    errorEscalera.setTextFill(Color.GREEN);
+			AnimationManager.fadeErrorEscalera(errorEscalera);
+		} else {
+			//mostrar mensaje de error 
+			//Tu escalera no es correcta. Comprueba tu jugada.
+			errorEscalera.setText("Tu escalera no es correcta. Comprueba tu jugada.");
+			errorEscalera.setTextFill(Color.RED);
+		    AnimationManager.fadeErrorEscalera(errorEscalera);
+		}
+		
+		
+	}
+	
+	private void cancelarEscalera() {
+		comenzarEscalera = false;
+		listaCartasEscalera.clear();
+		readyStairs.setVisible(false);
+		notreadyStairs.setVisible(false);
+		cartasJugadores[jugadorIDmap.get(jugadorActualID)].getChildren().clear();
+		
+		Jugador jugador = partida.getJugadores().get(jugadorActualID);
+        for(Carta carta : jugador.getMano()){
+        	addCarta(sala, jugadorIDmap.get(jugadorActualID), true, carta, cartasJugadores[jugadorIDmap.get(jugadorActualID)]);
+        }
+		
+	}
+	
+	
 	private void mostrarPopUpIntercambiarMano(Carta carta) {
 		try {
 			IntercambiarManoController imc = new IntercambiarManoController();
@@ -708,6 +758,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 					case JUGAR_CARTA:
 						if(cartaRobada.getColor() == Carta.Color.comodin) {
 							mostrarPopUpCambiarColor(cartaRobada);
+						} else if(cartaRobada.getTipo() == Carta.Tipo.intercambio) {
+							mostrarPopUpIntercambiarMano(cartaRobada);
 						} else {
 							jugada = new Jugada(Collections.singletonList(cartaRobada));
 							SuscripcionSala.enviarJugada(jugada);
