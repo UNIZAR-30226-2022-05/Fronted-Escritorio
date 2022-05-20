@@ -285,6 +285,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@Override
 	public void administrarSala(Sala sala) {
 		if (sala.isEnPausa()) {
+			timeline.stop();
 			SuscripcionSala.cancelarSuscripcionCanalVotacionPausa();
 			App.setRoot("vistaSalaPausada");
 			return;
