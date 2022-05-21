@@ -139,11 +139,17 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView avatarJugadorDerecha;
 	private ImageView[] avataresJugadores;
 	
-	@FXML private ImageView contadorJugadorAbajo;
-	@FXML private ImageView contadorJugadorIzquierda;
-	@FXML private ImageView contadorJugadorArriba;
-	@FXML private ImageView contadorJugadorDerecha;
-	private ImageView[] contadoresJugadores;
+	@FXML private Label contadorJugadorAbajo;
+	@FXML private Label contadorJugadorIzquierda;
+	@FXML private Label contadorJugadorArriba;
+	@FXML private Label contadorJugadorDerecha;
+	private Label[] contadoresJugadores;
+	
+	@FXML private ImageView fondoContadorJugadorAbajo;
+	@FXML private ImageView fondoContadorJugadorIzquierda;
+	@FXML private ImageView fondoContadorJugadorArriba;
+	@FXML private ImageView fondoContadorJugadorDerecha;
+	private ImageView[] fondoContadoresJugadores;
 
 	@FXML private ImageView emojiJugadorAbajo;
 	@FXML private ImageView emojiJugadorIzquierda;
@@ -226,11 +232,17 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				avatarJugadorDerecha
 			};
 			
-			contadoresJugadores = new ImageView[] {
+			contadoresJugadores = new Label[] {
 				contadorJugadorAbajo,
 				contadorJugadorIzquierda,
 				contadorJugadorArriba,
 				contadorJugadorDerecha
+			};
+			fondoContadoresJugadores = new ImageView[] {
+				fondoContadorJugadorAbajo,
+				fondoContadorJugadorIzquierda,
+				fondoContadorJugadorArriba,
+				fondoContadorJugadorDerecha
 			};
 			
 			nombresJugadores = new Label[] {
@@ -262,6 +274,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	                grupoEmojisJugadorDerecha.setVisible(false);
 	                contadorJugadorIzquierda.setVisible(false);
 	                contadorJugadorDerecha.setVisible(false);
+					fondoContadorJugadorIzquierda.setVisible(false);
+	                fondoContadorJugadorDerecha.setVisible(false);
+					
 	                scrollJugadorIzquierda.setVisible(false);
 	                scrollJugadorDerecha.setVisible(false);
 					imagenSentidoPartida.setVisible(false);
@@ -273,6 +288,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	              //A futuro ocultar jugador derecha
 	                grupoEmojisJugadorDerecha.setVisible(false);
 	                contadorJugadorDerecha.setVisible(false);
+					fondoContadorJugadorDerecha.setVisible(false);
 	                scrollJugadorDerecha.setVisible(false);
 	                
 	                break;
@@ -423,8 +439,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
             for(Carta carta : jugador.getMano()){
             	addCarta(sala, jugadorID, esMiTurno, carta, cartasJugadores[jugadorIDmap.get(jugadorID)]);
             }
-            ImageManager.setImagenContador(contadoresJugadores[jugadorIDmap.get(jugadorID)], jugador.getMano().size()); 
-			//partida.getJugadores().get(i).getMano().forEach(carta ->
+
+			contadoresJugadores[jugadorIDmap.get(i)].setText(String.format("%d", jugador.getMano().size()));
+			if(jugador.getMano().size() >= 20){
+				// RED
+				contadoresJugadores[jugadorIDmap.get(i)].setTextFill(Color.web("#FF0000"));
+			}else{
+				// WHITE
+				contadoresJugadores[jugadorIDmap.get(i)].setTextFill(Color.web("#FFFFFF"));
+			}
 		}
 		//Recargar sentido de la partida
 		//ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
@@ -459,7 +482,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     }
 
 	private void mostrarTimerVisual(int jugadorIDmapTurnoActual, int jugadorIDmapTurnoAnterior, int jugadorID) {
-        if (timeline != null && jugadorIDmapTurnoActual != jugadorIDmapTurnoAnterior){
+        if (timeline != null){
         	timeline.stop();
         	timersJugadores[jugadorIDmapTurnoAnterior].set((STARTTIME)*100);
         }

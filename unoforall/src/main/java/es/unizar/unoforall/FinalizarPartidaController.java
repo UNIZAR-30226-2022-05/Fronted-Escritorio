@@ -12,18 +12,11 @@ import es.unizar.unoforall.model.partidas.PartidaJugadaCompacta;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.utils.ImageManager;
-import es.unizar.unoforall.utils.MyStage;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -34,10 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 public class FinalizarPartidaController implements Initializable {
 	
