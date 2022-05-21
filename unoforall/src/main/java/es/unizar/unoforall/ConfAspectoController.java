@@ -9,14 +9,12 @@ import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -94,16 +92,11 @@ public class ConfAspectoController implements Initializable {
 		//AVATARES
 		avatares[avatarSelec].setEffect(dropShadow);
 		//CARTAS
-		if(cartaSelec==0) carta0.setEffect(dropShadow);
-		else carta1.setEffect(dropShadow);
+		cartas[cartaSelec].setEffect(dropShadow);
 		//TABLEROS
-		switch(tableroSelec){
-			case 0: tablero0.setEffect(dropShadow); break;
-			case 1: tablero1.setEffect(dropShadow); break;
-			case 2: tablero2.setEffect(dropShadow); break;
-		}
+		tableros[tableroSelec].setEffect(dropShadow);
 
-		for(int i = 0; i < avatares.length; i++){
+		for(int i=0; i<avatares.length; i++){
 			int avatar = i;
 			avatares[i].setOnMouseClicked(event -> {
 				for (int j = 0; j < avatares.length; j++) {
@@ -111,253 +104,64 @@ public class ConfAspectoController implements Initializable {
 				}
 				avatares[avatar].setEffect(dropShadow);
 			});
-		}
-		
-		for(int i = 0; i < avatares.length; i++){
-			int avatar = i;
-			avatares[i].setOnMouseClicked(event -> {				
-				for (int j = 0; j < avatares.length; j++) {
-					avatares[j].setEffect(null);
-				}
-				avatares[avatar].setEffect(dropShadow);
+			avatares[i].setOnMouseEntered(event -> {
+				avatares[avatar].setFitWidth(110);
+				avatares[avatar].setFitHeight(110);
+			});
+			avatares[i].setOnMouseExited(event -> {
+				avatares[avatar].setFitWidth(100);
+				avatares[avatar].setFitHeight(100);
 			});
 		}
-		
-		carta0.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				cartaSelec = 0;
-				carta0.setEffect(dropShadow);
-				carta1.setEffect(null);
-			}
-		});
-		carta1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				cartaSelec = 1;
-				carta1.setEffect(dropShadow);
-				carta0.setEffect(null);
-			}
-		});
 
-		tablero0.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tableroSelec = 0;
-				tablero0.setEffect(dropShadow);
-				tablero1.setEffect(null); tablero2.setEffect(null);
-			}
-		});
-		tablero1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tableroSelec = 1;
-				tablero1.setEffect(dropShadow);
-				tablero0.setEffect(null); tablero2.setEffect(null);
-			}
-		});
-		tablero2.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tableroSelec = 2;
-				tablero2.setEffect(dropShadow);
-				tablero0.setEffect(null); tablero1.setEffect(null);
-			}
-		});
-		
-		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMAGENES
-		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				imgMenu.setFitWidth(210);
-				imgMenu.setFitHeight(160);
-				imgMenu.setEffect(new Glow(0.3));
-			}
-		});
-		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				imgMenu.setFitWidth(200);
-				imgMenu.setFitHeight(150);
-				imgMenu.setEffect(null);
-			}
-		});
-		
-		avatar0.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar0.setFitWidth(110);
-				avatar0.setFitHeight(110);
-			}
-		});
-		avatar1.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar1.setFitWidth(110);
-				avatar1.setFitHeight(110);
-			}
-		});
-		avatar2.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar2.setFitWidth(110);
-				avatar2.setFitHeight(110);
-			}
-		});
-		avatar3.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar3.setFitWidth(110);
-				avatar3.setFitHeight(110);
-			}
-		});
-		avatar4.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar4.setFitWidth(110);
-				avatar4.setFitHeight(110);
-			}
-		});
-		avatar5.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar5.setFitWidth(110);
-				avatar5.setFitHeight(110);
-			}
-		});
-		avatar6.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar6.setFitWidth(110);
-				avatar6.setFitHeight(110);
-			}
-		});		
+		for(int i=0; i<tableros.length; i++){
+			int tablero = i;
+			tableros[i].setOnMouseClicked(event -> {
+				for(int j=0; j<tableros.length; j++){
+					tableros[j].setEffect(null);
+				}
+				tableros[tablero].setEffect(dropShadow);
+			});
+			tableros[i].setOnMouseEntered(event -> {
+				tableros[tablero].setFitWidth(210);
+				tableros[tablero].setFitHeight(160);
+			});
+			tableros[i].setOnMouseExited(event -> {
+				tableros[tablero].setFitWidth(200);
+				tableros[tablero].setFitHeight(150);
+			});
+		}
 
-		carta0.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				carta0.setFitWidth(210);
-				carta0.setFitHeight(160);
-			}
-		});
-		carta1.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				carta1.setFitWidth(210);
-				carta1.setFitHeight(160);
-			}
-		});
+		for(int i=0; i<cartas.length; i++){
+			int tipoCartas = i;
+			cartas[i].setOnMouseClicked(event -> {
+				for(int j=0; j<cartas.length; j++){
+					cartas[j].setEffect(null);
+				}
+				cartas[tipoCartas].setEffect(dropShadow);
+			});
+			cartas[i].setOnMouseEntered(event -> {
+				cartas[tipoCartas].setFitWidth(120);
+				cartas[tipoCartas].setFitHeight(160);
+			});
+			cartas[i].setOnMouseExited(event -> {
+				cartas[tipoCartas].setFitWidth(200);
+				cartas[tipoCartas].setFitHeight(150);
+			});
+		}
 
-		tablero0.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tablero0.setFitWidth(210);
-				tablero0.setFitHeight(160);
-			}
-		});
-		tablero1.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tablero1.setFitWidth(210);
-				tablero1.setFitHeight(160);
-			}
-		});
-		tablero2.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tablero2.setFitWidth(210);
-				tablero2.setFitHeight(160);
-			}
-		});
 		
-		//ASOCIAR EVENTOS DE AREA EXITED A LAS IMAGENES
-		avatar0.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar0.setFitWidth(100);
-				avatar0.setFitHeight(100);
-			}
+		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMÁGENES
+		imgMenu.setOnMouseEntered(event -> {
+			imgMenu.setFitWidth(210);
+			imgMenu.setFitHeight(160);
+			imgMenu.setEffect(new Glow(0.3));
 		});
-		avatar1.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar1.setFitWidth(100);
-				avatar1.setFitHeight(100);
-			}
+		imgMenu.setOnMouseExited(event -> {
+			imgMenu.setFitWidth(200);
+			imgMenu.setFitHeight(150);
+			imgMenu.setEffect(null);
 		});
-		avatar2.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar2.setFitWidth(100);
-				avatar2.setFitHeight(100);
-			}
-		});
-		avatar3.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar3.setFitWidth(100);
-				avatar3.setFitHeight(100);
-			}
-		});
-		avatar4.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar4.setFitWidth(100);
-				avatar4.setFitHeight(100);
-			}
-		});
-		avatar5.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar5.setFitWidth(100);
-				avatar5.setFitHeight(100);
-			}
-		});
-		avatar6.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				avatar6.setFitWidth(100);
-				avatar6.setFitHeight(100);
-			}
-		});		
-
-		carta0.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				carta0.setFitWidth(200);
-				carta0.setFitHeight(150);
-			}
-		});
-		carta1.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				carta1.setFitWidth(200);
-				carta1.setFitHeight(150);
-			}
-		});
-
-		tablero0.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tablero0.setFitWidth(200);
-				tablero0.setFitHeight(150);
-			}
-		});
-		tablero1.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tablero1.setFitWidth(200);
-				tablero1.setFitHeight(150);
-			}
-		});
-		tablero2.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				tablero2.setFitWidth(200);
-				tablero2.setFitHeight(150);
-			}
-		});
-		
 	}
 
 	private static void inicializarEfectos() {

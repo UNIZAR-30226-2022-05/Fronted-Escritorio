@@ -143,11 +143,18 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView contadorJugadorArriba;
 	@FXML private ImageView contadorJugadorDerecha;
 	private ImageView[] contadoresJugadores;
+
+	@FXML private ImageView emojiJugadorAbajo;
+	@FXML private ImageView emojiJugadorIzquierda;
+	@FXML private ImageView emojiJugadorArriba;
+	@FXML private ImageView emojiJugadorDerecha;
+	private ImageView[] emojisJugadores;
 	
 	@FXML private ImageView readyStairs;
 	@FXML private ImageView notreadyStairs;
-	
-	@FXML private ImageView botonUno;
+	@FXML private ImageView btnUno;
+	@FXML private ImageView btnHabilitarEmojis;
+    @FXML private ImageView btnSeleccionarEmoji;
 	
 	@FXML private Label labelVotacion;
     @FXML private Label errorEscalera;
@@ -158,6 +165,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private MyStage popUpCambiarColor;
 	private MyStage popUpIntercambiarMano;
 	private MyStage popUpFinalizarPartida;
+	private MyStage popUpSeleccionarEmojis;
     //int que representa el ID del jugador que está ejecutando la App.
 	private int jugadorActualID = -1;
     private int turnoAnterior = -1;
@@ -166,12 +174,14 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private boolean defaultMode;
     private boolean comenzarEscalera;
     private boolean sePuedePulsarBotonUNO;
+	private boolean emojisHabilitados;
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
 		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		inicializarEfectos();
+		emojisHabilitados = true;
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
@@ -188,6 +198,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				labelVotacion.setText(String.format("Votación pausa: %d/%d", numVotos, numVotantes));
 			}
 			if (DEBUG) System.out.println("Votantes: " + numVotantes + "; Votos: " + numVotos);
+		});
+
+		SuscripcionSala.suscribirseCanalEmojis(respuestaEmojis -> {
+			// TODO se recibe un EnvioEmoji, y hay que mostrarlo donde pertenezca
+
+
 		});
 		
 		int numJugadores = partida.getJugadores().size();
@@ -227,6 +243,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				nombreJugadorIzquierda,
 			    nombreJugadorArriba,
 			    nombreJugadorDerecha
+			};
+
+			emojisJugadores = new ImageView[] {
+				emojiJugadorAbajo,
+				emojiJugadorIzquierda,
+				emojiJugadorArriba,
+				emojiJugadorDerecha
 			};
 			
  			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
@@ -286,8 +309,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@Override
 	public void administrarSala(Sala sala) {
 		if (sala.isEnPausa()) {
-			timeline.stop();
+			if(timeline != null) {
+				timeline.stop();
+			}
 			SuscripcionSala.cancelarSuscripcionCanalVotacionPausa();
+			SuscripcionSala.cancelarSuscripcionCanalEmojis();
 			App.setRoot("vistaSalaPausada");
 			return;
 		}
@@ -312,8 +338,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			
 			turnoAnterior = turnoActual;
 			sePuedePulsarBotonUNO = true;
-			botonUno.setDisable(false);
-			botonUno.setEffect(null);
+			btnUno.setDisable(false);
+			btnUno.setEffect(null);
 		}
 		
 		
@@ -402,12 +428,16 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
 
 		if (sala.getPartida().estaTerminada()) {
-			timeline.stop();
+			if(timeline != null) {
+				timeline.stop();
+			}
 			switch (mostrarPopUpFinalizacionPartida()) {
 				case FinalizarPartidaController.SALIR:
 					App.setRoot("principal");
 					break;
 				case FinalizarPartidaController.CONTINUAR:
+					SuscripcionSala.cancelarSuscripcionCanalVotacionPausa();
+					SuscripcionSala.cancelarSuscripcionCanalEmojis();
 					App.setRoot("vistaSala");
 					break;
 			}
@@ -463,9 +493,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
+		mostrarPopUpSeleccionarEmoji();
+		
 		//mostrarPopUpIntercambiarMano(null);
-		timeline.stop();
-		abandonarPartida(null);
 //		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
 //        final Animation animation = new Transition() {
 //
@@ -721,7 +751,32 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			e.printStackTrace();
 		}
 		return resultado;
+	}
 
+	private void mostrarPopUpSeleccionarEmoji() {
+		try {
+			SeleccionarEmojisController sec = new SeleccionarEmojisController();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("seleccionarEmojis.fxml"));
+			fxmlLoader.setController(sec);
+			Parent root1 = (Parent) fxmlLoader.load();
+			Scene scene = new Scene(root1);
+			popUpSeleccionarEmojis = new MyStage();
+			
+			scene.setFill(Color.TRANSPARENT);
+			popUpSeleccionarEmojis.setTitle("Pantalla de selección de emojis");
+			popUpSeleccionarEmojis.setScene(scene);
+			popUpSeleccionarEmojis.initStyle(StageStyle.UNDECORATED);
+			popUpSeleccionarEmojis.initModality(Modality.APPLICATION_MODAL);
+			popUpSeleccionarEmojis.initOwner(marco.getScene().getWindow());
+			int resultado = popUpSeleccionarEmojis.showAndReturnSelectedEmojiResult(sec);
+
+			if (resultado != CANCELAR) {
+				SuscripcionSala.enviarEmoji(jugadorActualID,resultado);
+			}
+		} catch (Exception e) {
+			System.out.println("No se ha podido cargar la pagina: " + e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void robarCarta() throws IOException {
@@ -736,18 +791,18 @@ public class PartidaController extends SalaReceiver implements Initializable {
     }
     
     private void inicializarEfectos() {
-    	botonUno.setOnMouseEntered(new EventHandler<MouseEvent>() {
+    	btnUno.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				botonUno.setFitWidth(210);
-				botonUno.setFitHeight(110);
+				btnUno.setFitWidth(210);
+				btnUno.setFitHeight(110);
 			}
 		});
-    	botonUno.setOnMouseExited(new EventHandler<MouseEvent>() {
+    	btnUno.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				botonUno.setFitWidth(200);
-				botonUno.setFitHeight(100);
+				btnUno.setFitWidth(200);
+				btnUno.setFitHeight(100);
 			}
 		});
 		
@@ -826,19 +881,42 @@ public class PartidaController extends SalaReceiver implements Initializable {
     public void botonUnoPulsado(MouseEvent event) {
     	if(sePuedePulsarBotonUNO){
     		sePuedePulsarBotonUNO = false;
-    		botonUno.setDisable(true);
+    		btnUno.setDisable(true);
     		
     		ColorAdjust colorAdjust = new ColorAdjust();
 			colorAdjust.setBrightness(-0.5);
 			colorAdjust.setSaturation(-0.7);
 			
-    		botonUno.setEffect(colorAdjust);
+    		btnUno.setEffect(colorAdjust);
 
             App.apiweb.sendObject("/app/partidas/botonUNO/" + SuscripcionSala.sala.getSalaID(), "vacio");
             if (DEBUG) System.out.println("Has pulsado el botón UNO");
         }
     }
     
+	@FXML
+	public void habilitarEmojis() {
+		if (emojisHabilitados) {
+			emojisHabilitados = false;
+			ColorAdjust colorAdjust = new ColorAdjust();
+			colorAdjust.setBrightness(-0.5);
+			colorAdjust.setSaturation(-0.7);
+			
+			btnSeleccionarEmoji.setEffect(colorAdjust);
+		} else {
+			emojisHabilitados = true;
+			btnSeleccionarEmoji.setEffect(null);
+		}
+		ImageManager.setImagenEnableEmojis(btnHabilitarEmojis, emojisHabilitados);
+	}
+
+	@FXML
+	public void seleccionarEmojis() {
+		if (emojisHabilitados) {
+			mostrarPopUpSeleccionarEmoji();
+		}
+	}
+
     @FXML
 	public void pausarPartida(ActionEvent event) {
     	//MEGAPAUSA

@@ -5,7 +5,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
@@ -16,7 +16,7 @@ public class AnimationManager {
     public static RotateTransition rtRapida;
     public static ScaleTransition agrandar;
     public static ScaleTransition disminuir;
-    public static FadeTransition errorEscalera;
+    public static FadeTransition fadeOut;
     
     
     public static void inicializarAnimacionesSentido() {
@@ -91,14 +91,14 @@ public class AnimationManager {
 		return (rtHorario.getCurrentRate()!=0.0d || rtAntihorario.getCurrentRate()!=0.0d);
 	}
 	
-	public static void fadeErrorEscalera (Label labelErrorEscalera) {
+	public static void fadeErrorEscalera (Node node) {
+		fadeOut = new FadeTransition(Duration.millis(5000));
+		fadeOut.setFromValue(1.0);
+		fadeOut.setToValue(0.0);
 		
-		
-		errorEscalera = new FadeTransition(Duration.millis(5000));
-		errorEscalera.setFromValue(1.0);
-		errorEscalera.setToValue(0.0);
-		
-		errorEscalera.setNode(labelErrorEscalera);
-		errorEscalera.play();
+		fadeOut.setNode(node);
+		fadeOut.play();
 	}
+
+
 }

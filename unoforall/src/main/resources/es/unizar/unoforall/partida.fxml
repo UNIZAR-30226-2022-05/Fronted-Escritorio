@@ -47,25 +47,30 @@
                      </children>
                   </GridPane>
                </content></ScrollPane>
-            <Group fx:id="grupoEmojisJugadorAbajo" layoutX="100.0" layoutY="7.0">
+            <Group fx:id="grupoEmojisJugadorAbajo" layoutX="53.0" layoutY="7.0">
                <children>
-                  <Circle fx:id="circulo" fill="#1f93ff00" layoutX="62.0" layoutY="50.0" radius="59.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <ProgressIndicator fx:id="progresoJugadorAbajo" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
+                  <Circle fx:id="circulo" fill="#1f93ff00" layoutX="140.0" layoutY="38.0" radius="43.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <ProgressIndicator fx:id="progresoJugadorAbajo" layoutX="94.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
                      <styleClass>
                         <String fx:value="progress-indicator" />
                         <String fx:value="percentage" />
                      </styleClass>
                   </ProgressIndicator>
-                  <ImageView fx:id="avatarJugadorAbajo" fitHeight="90.0" fitWidth="89.0" layoutX="18.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="avatarJugadorAbajo" fitHeight="60.0" fitWidth="59.0" layoutX="112.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="nombreJugadorAbajo" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-35.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="200.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="nombreJugadorAbajo" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
+                  <ImageView fx:id="btnHabilitarEmojis1" fitHeight="100.0" fitWidth="200.0" layoutX="-24.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Group>
             <ImageView fx:id="contadorJugadorAbajo" fitHeight="100.0" fitWidth="100.0" layoutX="1075.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
@@ -111,26 +116,6 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Group fx:id="grupoEmojisJugadorArriba" layoutX="100.0">
-               <children>
-                  <ProgressIndicator fx:id="progresoJugadorArriba" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
-                     <styleClass>
-                        <String fx:value="progress-indicator" />
-                        <String fx:value="percentage" />
-                     </styleClass>
-                  </ProgressIndicator>
-                  <ImageView fx:id="avatarJugadorArriba" fitHeight="90.0" fitWidth="89.0" layoutX="18.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/avatares/0-cero.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="nombreJugadorArriba" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-35.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="200.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Group>
             <ImageView fx:id="contadorJugadorArriba" fitHeight="100.0" fitWidth="100.0" layoutX="1055.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
                <image>
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
@@ -145,6 +130,31 @@
                   <Font size="14.0" />
                </font>
             </MenuButton>
+            <Group fx:id="grupoEmojisJugadorArriba" layoutX="53.0" layoutY="10.0">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorArriba" layoutX="94.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorArriba" fitHeight="60.0" fitWidth="59.0" layoutX="112.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombreJugadorArriba" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="emojiJugadorArriba" fitHeight="100.0" fitWidth="200.0" layoutX="-24.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children></Pane>
    </top>
    <left>
@@ -173,31 +183,36 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Group fx:id="grupoEmojisJugadorIzquierda" layoutX="25.0">
-               <children>
-                  <ProgressIndicator fx:id="progresoJugadorIzquierda" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
-                     <styleClass>
-                        <String fx:value="progress-indicator" />
-                        <String fx:value="percentage" />
-                     </styleClass>
-                  </ProgressIndicator>
-                  <ImageView fx:id="avatarJugadorIzquierda" fitHeight="90.0" fitWidth="89.0" layoutX="18.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/avatares/0-cero.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="nombreJugadorIzquierda" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-35.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="200.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Group>
             <ImageView fx:id="contadorJugadorIzquierda" fitHeight="100.0" fitWidth="100.0" layoutX="164.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
                <image>
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
                </image>
             </ImageView>
+            <Group fx:id="grupoEmojisJugadorIzquierda" layoutX="52.0" layoutY="5.0">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorIzquierda" layoutX="-15.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorIzquierda" fitHeight="60.0" fitWidth="59.0" layoutX="3.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombreJugadorIzquierda" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="emojiJugadorIzquierda" fitHeight="100.0" fitWidth="200.0" layoutX="84.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children></Pane>
    </left>
    <right>
@@ -226,31 +241,36 @@
                </content>
             </ScrollPane>
             <VBox prefHeight="200.0" prefWidth="100.0" />
-            <Group fx:id="grupoEmojisJugadorDerecha" layoutX="84.0" layoutY="320.0">
-               <children>
-                  <ProgressIndicator fx:id="progresoJugadorDerecha" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="124.0" progress="0.0">
-                     <styleClass>
-                        <String fx:value="progress-indicator" />
-                        <String fx:value="percentage" />
-                     </styleClass>
-                  </ProgressIndicator>
-                  <ImageView fx:id="avatarJugadorDerecha" fitHeight="90.0" fitWidth="89.0" layoutX="18.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/avatares/0-cero.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="nombreJugadorDerecha" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-35.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="200.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Group>
             <ImageView fx:id="contadorJugadorDerecha" fitHeight="100.0" fitWidth="100.0" layoutX="21.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
                <image>
                   <Image url="@images/cartas/contadoresCartas/1NumCartas.png" />
                </image>
             </ImageView>
+            <Group fx:id="grupoEmojisJugadorDerecha" layoutX="26.0" layoutY="345.0">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorDerecha" layoutX="94.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorDerecha" fitHeight="60.0" fitWidth="59.0" layoutX="112.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombreJugadorDerecha" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="emojiJugadorDerecha" fitHeight="100.0" fitWidth="200.0" layoutX="-24.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children>
       </Pane>
    </right>
@@ -260,7 +280,6 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
          <children>
-            <Button fx:id="btnCargarDatos" mnemonicParsing="false" onAction="#cargarDatos" text="Cargar Datos" />
             <HBox alignment="CENTER" VBox.vgrow="SOMETIMES">
                <children>
                   <Label fx:id="labelVotacion" disable="true" text="Votación pausa: ?/?" textFill="#ffdba6" visible="false">
@@ -268,6 +287,7 @@
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
+                  <Button fx:id="btnCargarDatos" mnemonicParsing="false" onAction="#cargarDatos" text="Cargar Datos" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="116.0" prefWidth="840.0" VBox.vgrow="ALWAYS">
@@ -296,9 +316,25 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="120.0" prefWidth="762.0" VBox.vgrow="SOMETIMES">
                <children>
-                  <ImageView fx:id="botonUno" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#botonUnoPulsado" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnHabilitarEmojis" fitHeight="100.0" fitWidth="200.0" layoutX="322.0" layoutY="20.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
                      <image>
-                        <Image url="@images/botonUno.png" />
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+                  <Pane prefHeight="120.0" prefWidth="25.0" />
+                  <VBox alignment="CENTER" prefHeight="120.0" prefWidth="160.0">
+                     <children>
+                        <ImageView fx:id="btnUno" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#botonUnoPulsado" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/botonUno.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <Pane prefHeight="120.0" prefWidth="25.0" />
+                  <ImageView fx:id="btnSeleccionarEmoji" fitHeight="100.0" fitWidth="200.0" layoutX="391.0" layoutY="20.0" onMouseClicked="#seleccionarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8">
+                     <image>
+                        <Image url="@images/emoticonos/expandir.png" />
                      </image>
                   </ImageView>
                </children></HBox>

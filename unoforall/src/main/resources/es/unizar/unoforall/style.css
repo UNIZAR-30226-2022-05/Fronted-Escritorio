@@ -38,3 +38,7 @@
 }
 
 .red-bar    { -fx-accent: red;    }
+
+.hbox {
+  -fx-background-color: -fx-control-inner-background;
+}
