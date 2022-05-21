@@ -1,6 +1,7 @@
 package es.unizar.unoforall.utils;
 
 import es.unizar.unoforall.CambiarColorController;
+import es.unizar.unoforall.FinalizarPartidaController;
 import es.unizar.unoforall.IntercambiarManoController;
 import es.unizar.unoforall.RobarOJugarCartaController;
 import es.unizar.unoforall.model.partidas.Carta;
@@ -18,6 +19,10 @@ public class MyStage extends Stage{
 	}
 
 	public int showAndReturnSwapHandResult(IntercambiarManoController controller) {
+		super.showAndWait();
+		return controller.getReturn();
+	}
+	public int showAndReturnFinishedGameResult(FinalizarPartidaController controller) {
 		super.showAndWait();
 		return controller.getReturn();
 	}

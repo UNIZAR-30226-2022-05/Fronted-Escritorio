@@ -37,19 +37,19 @@ public class SuscripcionSala {
 	
 	public static void salirDeSala() {
 		if (sala == null) {return;}
-			
-		App.apiweb.sendObject("/app/salas/salir/" + sala.getSalaID(), VACIO);
-		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
 		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID() + "/votaciones");
+		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
+		App.apiweb.sendObject("/app/salas/salir/" + sala.getSalaID(), VACIO);
+		
 		sala = null;
 	}
 	
 	public static void salirDeSalaDefinitivo() {
 		if (sala == null) {return;}
 			
-		App.apiweb.sendObject("/app/salas/salirDefinitivo/" + sala.getSalaID(), VACIO);
-		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
 		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID() + "/votaciones");
+		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
+		App.apiweb.sendObject("/app/salas/salirDefinitivo/" + sala.getSalaID(), VACIO);
 		sala = null;
 	}
 	

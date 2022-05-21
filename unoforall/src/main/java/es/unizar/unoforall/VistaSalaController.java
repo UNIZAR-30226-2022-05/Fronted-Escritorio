@@ -116,7 +116,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 				imgMenu.setFitHeight(160);
 				imgMenu.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -124,33 +124,33 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 				imgMenu.setFitHeight(150);
 				imgMenu.setEffect(null);
 			}
-		});;
+		});
 		
 		botonAbandonar.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				botonAbandonar.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		botonAbandonar.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				botonAbandonar.setEffect(null);
 			}
-		});;
+		});
 		
 		botonListo.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				botonListo.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		botonListo.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				botonListo.setEffect(null);
 			}
-		});;
+		});
 		
 		//SE ASUME QUE YA SE HA ENTRADO EN LA SALA
 		
@@ -187,6 +187,11 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 		amigosChoiceBox.getSelectionModel().selectFirst();
 		amigosChoiceBox.getItems().addAll(nombresAmigos);
 		amigosChoiceBox.setOnAction(this::invitarAmigo);
+
+		Sala sala = SuscripcionSala.sala;
+		if(sala != null){
+			administrarSala(sala);
+		}
 	}
 	
 	@Override

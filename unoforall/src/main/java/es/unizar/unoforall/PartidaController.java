@@ -157,6 +157,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private MyStage popUpRobarCarta;
     private MyStage popUpCambiarColor;
 	private MyStage popUpIntercambiarMano;
+	private MyStage popUpFinalizarPartida;
     //int que representa el ID del jugador que está ejecutando la App.
 	private int jugadorActualID = -1;
     private int turnoAnterior = -1;
@@ -296,6 +297,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		partida = sala.getPartida();
 		int turnoActual = partida.getTurno();
 		boolean esNuevoTurno = turnoActual != turnoAnterior || partida.isRepeticionTurno();
+
+		if(turnoActual == jugadorActualID){
+			imagenTacoRobo.setEffect(null);
+		}else{
+			imagenTacoRobo.setEffect(oscurecerCarta);
+		}
 		
 		if(esNuevoTurno) {
 			comenzarEscalera = false;
@@ -393,8 +400,21 @@ public class PartidaController extends SalaReceiver implements Initializable {
 
 		//Poner la nueva carta en la pila de descartes
 		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
+
+		if (sala.getPartida().estaTerminada()) {
+			timeline.stop();
+			switch (mostrarPopUpFinalizacionPartida()) {
+				case FinalizarPartidaController.SALIR:
+					App.setRoot("principal");
+					break;
+				case FinalizarPartidaController.CONTINUAR:
+					App.setRoot("vistaSala");
+					break;
+			}
+		}
 	}
     
+
 	public static String getIAName(){
         return "IA";
     }
@@ -443,7 +463,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	public void cargarDatos() {
-		mostrarPopUpIntercambiarMano(null);
+		//mostrarPopUpIntercambiarMano(null);
+		timeline.stop();
+		abandonarPartida(null);
 //		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
 //        final Animation animation = new Transition() {
 //
@@ -474,7 +496,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	}
 	
 	private void addCarta(Sala sala, int jugadorID, boolean esMiTurno, Carta carta, GridPane cartasJugadorX) {
-		boolean isVisible = jugadorID == jugadorActualID;
+		boolean isVisible = jugadorID == jugadorActualID || carta.isVisiblePor(jugadorActualID);
 		//ColumnConstraints col1 = new ColumnConstraints();
 		ImageView imageview = new ImageView();
 		//Si son las cartas del usuario, ilumina sus cartas usables.
@@ -613,7 +635,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			scene.setFill(Color.TRANSPARENT);
 			popUpIntercambiarMano.setTitle("Pantalla Cambiar de color");
 			popUpIntercambiarMano.setScene(scene);
-			popUpIntercambiarMano.initStyle(StageStyle.UTILITY);
+			popUpIntercambiarMano.initStyle(StageStyle.UNDECORATED);
 			popUpIntercambiarMano.initModality(Modality.APPLICATION_MODAL);
 			popUpIntercambiarMano.initOwner(marco.getScene().getWindow());
 			
@@ -628,6 +650,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 		} catch (Exception e) {
 			System.out.println("No se ha podido cargar la pagina: " + e);
+
 		} 
 	}
 
@@ -643,7 +666,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			scene.setFill(Color.TRANSPARENT);
 			popUpCambiarColor.setTitle("Pantalla Cambiar de color");
 			popUpCambiarColor.setScene(scene);
-			popUpCambiarColor.initStyle(StageStyle.UTILITY);
+			popUpCambiarColor.initStyle(StageStyle.UNDECORATED);
 			popUpCambiarColor.initModality(Modality.APPLICATION_MODAL);
 			popUpCambiarColor.initOwner(marco.getScene().getWindow());
 
@@ -674,6 +697,31 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		} catch (Exception e) {
 			System.out.println("No se ha podido cargar la pagina: " + e);
 		} 
+	}
+	
+	private int mostrarPopUpFinalizacionPartida() {
+		int resultado = -2;
+		try {
+			FinalizarPartidaController fpc = new FinalizarPartidaController();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("finalizarPartida.fxml"));
+			fxmlLoader.setController(fpc);
+			Parent root1 = (Parent) fxmlLoader.load();
+			Scene scene = new Scene(root1);
+			popUpFinalizarPartida = new MyStage();
+			
+			scene.setFill(Color.TRANSPARENT);
+			popUpFinalizarPartida.setTitle("Pantalla Finalización");
+			popUpFinalizarPartida.setScene(scene);
+			popUpFinalizarPartida.initStyle(StageStyle.UNDECORATED);
+			popUpFinalizarPartida.initModality(Modality.APPLICATION_MODAL);
+			popUpFinalizarPartida.initOwner(marco.getScene().getWindow());
+			resultado = popUpFinalizarPartida.showAndReturnFinishedGameResult(fpc);
+		} catch (Exception e) {
+			System.out.println("No se ha podido cargar la pagina: " + e);
+			e.printStackTrace();
+		}
+		return resultado;
+
 	}
 	
 	public void robarCarta() throws IOException {
@@ -745,7 +793,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				scene.setFill(Color.TRANSPARENT);
 				popUpRobarCarta.setTitle("Pantalla Cambiar de color");
 				popUpRobarCarta.setScene(scene);
-				popUpRobarCarta.initStyle(StageStyle.UTILITY);
+				popUpRobarCarta.initStyle(StageStyle.UNDECORATED);
 				popUpRobarCarta.initModality(Modality.APPLICATION_MODAL);
 				popUpRobarCarta.initOwner(marco.getScene().getWindow());
 	
