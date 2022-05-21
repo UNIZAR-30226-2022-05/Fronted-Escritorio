@@ -64,19 +64,19 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Nombre: ">
+                  <Label styleClass="outline" text="Nombre: " textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Correo: " GridPane.rowIndex="1">
+                  <Label text="Correo: " textFill="WHITE" GridPane.rowIndex="1">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Contraseña: " GridPane.columnIndex="2">
+                  <Label text="Contraseña: " textFill="WHITE" GridPane.columnIndex="2">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <TextField fx:id="cajaNombre" GridPane.columnIndex="1">
@@ -89,9 +89,9 @@
                         <Font size="24.0" />
                      </font>
                   </TextField>
-                  <Label text="Confirmar Contraseña: " GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Label prefHeight="74.0" prefWidth="145.0" text="Confirmar Contraseña:" textFill="WHITE" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <PasswordField fx:id="cajaContrasenya" GridPane.columnIndex="3">
@@ -116,6 +116,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
+                  <Pane prefHeight="106.0" prefWidth="241.0" />
                   <Button mnemonicParsing="false" onAction="#actualizarCuenta" prefHeight="57.0" prefWidth="276.0" text="Cambiar">
                      <font>
                         <Font size="24.0" />

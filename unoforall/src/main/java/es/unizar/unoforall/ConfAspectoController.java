@@ -49,11 +49,13 @@ public class ConfAspectoController implements Initializable {
 	@FXML private ImageView tablero1;
 	@FXML private ImageView tablero2;
 	private ImageView[] tableros;
-
-	DropShadow dropShadow;
 	
-
-	public ConfAspectoController(){
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		//OBTENER CONFIGURACION ACTUAL
+		
+		HashMap<String, Integer> personalizacion = App.getPersonalizacion();
+		
 		avatares = new ImageView[] {
 			avatar0, 
 			avatar1, 
@@ -74,19 +76,17 @@ public class ConfAspectoController implements Initializable {
 			tablero1,
 			tablero2
 		};
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		//OBTENER CONFIGURACION ACTUAL
 		
-		HashMap<String, Integer> personalizacion = App.getPersonalizacion();
 		avatarSelec = personalizacion.get("avatarSelec");
 		cartaSelec = personalizacion.get("cartaSelec");
 		tableroSelec = personalizacion.get("tableroSelec");
-		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
+		
+		DropShadow dropShadow = new DropShadow();
+		dropShadow.setColor(Color.ALICEBLUE);
+		dropShadow.setRadius(20.0);
 
-		inicializarEfectos();
+		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
+		
 		
 		//PONER SELECCIONADOS INICIALES
 		//AVATARES
@@ -103,6 +103,7 @@ public class ConfAspectoController implements Initializable {
 					avatares[j].setEffect(null);
 				}
 				avatares[avatar].setEffect(dropShadow);
+				avatarSelec = avatar;
 			});
 			avatares[i].setOnMouseEntered(event -> {
 				avatares[avatar].setFitWidth(110);
@@ -121,6 +122,7 @@ public class ConfAspectoController implements Initializable {
 					tableros[j].setEffect(null);
 				}
 				tableros[tablero].setEffect(dropShadow);
+				tableroSelec = tablero;
 			});
 			tableros[i].setOnMouseEntered(event -> {
 				tableros[tablero].setFitWidth(210);
@@ -139,6 +141,7 @@ public class ConfAspectoController implements Initializable {
 					cartas[j].setEffect(null);
 				}
 				cartas[tipoCartas].setEffect(dropShadow);
+				cartaSelec = tipoCartas;
 			});
 			cartas[i].setOnMouseEntered(event -> {
 				cartas[tipoCartas].setFitWidth(120);
@@ -162,12 +165,6 @@ public class ConfAspectoController implements Initializable {
 			imgMenu.setFitHeight(150);
 			imgMenu.setEffect(null);
 		});
-	}
-
-	private static void inicializarEfectos() {
-		DropShadow dropShadow = new DropShadow();
-		dropShadow.setColor(Color.ALICEBLUE);
-		dropShadow.setRadius(20.0);
 	}
 
 	@FXML

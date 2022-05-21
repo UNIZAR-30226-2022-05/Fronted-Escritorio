@@ -16,6 +16,7 @@ import es.unizar.unoforall.model.partidas.Jugada;
 import es.unizar.unoforall.model.partidas.Jugador;   
 import es.unizar.unoforall.model.partidas.Partida;
 import es.unizar.unoforall.model.salas.Sala;
+import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.utils.AnimationManager;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
@@ -199,12 +200,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 			if (DEBUG) System.out.println("Votantes: " + numVotantes + "; Votos: " + numVotos);
 		});
-
-		SuscripcionSala.suscribirseCanalEmojis(respuestaEmojis -> {
-			// TODO se recibe un EnvioEmoji, y hay que mostrarlo donde pertenezca
-
-
-		});
 		
 		int numJugadores = partida.getJugadores().size();
 		//Si no conocemos quién es el jugador actual todavía
@@ -303,6 +298,16 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			notreadyStairs.setOnMouseClicked(event -> cancelarEscalera());
 			
 		}
+
+		SuscripcionSala.suscribirseCanalEmojis(respuestaEmojis -> {
+			int jugadorID = respuestaEmojis.getEmisor();
+			int emoji = respuestaEmojis.getEmoji();
+			
+			ImageManager.setImagenEmoji(emojisJugadores[jugadorIDmap.get(jugadorID)], emoji);
+			emojisJugadores[jugadorIDmap.get(jugadorID)].setVisible(true);
+			AnimationManager.fadeErrorEscalera(emojisJugadores[jugadorIDmap.get(jugadorID)]);
+		});
+
 		administrarSala(SuscripcionSala.sala);
 	}
 	
@@ -454,7 +459,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     }
 
 	private void mostrarTimerVisual(int jugadorIDmapTurnoActual, int jugadorIDmapTurnoAnterior, int jugadorID) {
-        if (timeline != null || jugadorIDmapTurnoActual != jugadorIDmapTurnoAnterior){
+        if (timeline != null && jugadorIDmapTurnoActual != jugadorIDmapTurnoAnterior){
         	timeline.stop();
         	timersJugadores[jugadorIDmapTurnoAnterior].set((STARTTIME)*100);
         }
@@ -525,8 +530,23 @@ public class PartidaController extends SalaReceiver implements Initializable {
         }*/
 	}
 	
+	private int getParejaID(int jugadorID){
+		return (jugadorID + 2) % 4;
+	}
 	private void addCarta(Sala sala, int jugadorID, boolean esMiTurno, Carta carta, GridPane cartasJugadorX) {
-		boolean isVisible = jugadorID == jugadorActualID || carta.isVisiblePor(jugadorActualID);
+		boolean isVisible;
+		if(jugadorID == jugadorActualID){
+			isVisible = true;
+		}else if(sala.getConfiguracion().getModoJuego() == ConfigSala.ModoJuego.Parejas){
+			if(jugadorID == getParejaID(jugadorActualID)){
+				isVisible = true;
+			}else{
+				isVisible = carta.isVisiblePor(jugadorActualID);
+			}
+		}else{
+			isVisible = carta.isVisiblePor(jugadorActualID);
+		}
+
 		//ColumnConstraints col1 = new ColumnConstraints();
 		ImageView imageview = new ImageView();
 		//Si son las cartas del usuario, ilumina sus cartas usables.

@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
@@ -37,6 +38,8 @@ public class PrincipalController implements Initializable {
     @FXML private ImageView imgAmigos;
     @FXML private ImageView imgHistorial;
     @FXML private ImageView imgNotificaciones;
+
+	@FXML private MenuButton btnMenuConfiguracion;
 	
 	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
 	static {
@@ -298,11 +301,13 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToConfAspecto(ActionEvent event) {
-        App.setRoot("confAspecto");
+        btnMenuConfiguracion.hide();
+		App.setRoot("confAspecto");
     }
 
 	@FXML
     private void goToConfCuenta(ActionEvent event) {
-        App.setRoot("confCuenta");
+      	btnMenuConfiguracion.hide();
+	    App.setRoot("confCuenta");
     }
 }

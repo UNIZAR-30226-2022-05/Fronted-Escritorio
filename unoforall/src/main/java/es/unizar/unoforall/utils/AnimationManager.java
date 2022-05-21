@@ -11,12 +11,12 @@ import javafx.util.Duration;
 
 public class AnimationManager {
 	
-    public static RotateTransition rtHorario;
-    public static RotateTransition rtAntihorario; 
-    public static RotateTransition rtRapida;
-    public static ScaleTransition agrandar;
-    public static ScaleTransition disminuir;
-    public static FadeTransition fadeOut;
+    private static RotateTransition rtHorario;
+    private static RotateTransition rtAntihorario; 
+    private static RotateTransition rtRapida;
+    private static ScaleTransition agrandar;
+    private static ScaleTransition disminuir;
+    private static FadeTransition fadeOut;
     
     
     public static void inicializarAnimacionesSentido() {

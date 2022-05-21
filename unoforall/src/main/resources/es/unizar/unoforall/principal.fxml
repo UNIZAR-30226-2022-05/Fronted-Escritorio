@@ -46,7 +46,7 @@
                         <Image url="@images/iconoAjustes.png" />
                      </image>
                   </ImageView>
-                  <MenuButton mnemonicParsing="false" prefHeight="39.0" prefWidth="190.0" text="Configuración">
+                  <MenuButton fx:id="btnMenuConfiguracion" mnemonicParsing="false" prefHeight="39.0" prefWidth="190.0" text="Configuración">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#configurarCuenta" text="Configuración de Cuenta" />
                       <MenuItem mnemonicParsing="false" onAction="#configurarAspecto" text="Configuración de Aspecto" />
