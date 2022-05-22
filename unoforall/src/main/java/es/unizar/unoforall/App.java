@@ -32,6 +32,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
+    public static String nomPantalla;
 	private static String sesionID;
 	private static RespuestaLogin respLogin;
 	private static UUID salaID;
@@ -45,7 +46,8 @@ public class App extends Application {
     
     @Override
     public void start(Stage s) throws IOException {
-        scene = new Scene(loadFXML("login"));
+        nomPantalla = "login";
+        scene = new Scene(loadFXML(nomPantalla));
         stage = s;
         Image icon = new Image(getClass().getResourceAsStream("images/logoUno.png"));
         stage.getIcons().add(icon);
@@ -62,7 +64,8 @@ public class App extends Application {
     
     static void setRoot(String fxml) {
         scene.setRoot(loadFXML(fxml));
-
+        nomPantalla = fxml;
+        
     	if (fxml.equals("login")) {
     		setWindowed();
     	}
@@ -211,30 +214,38 @@ public class App extends Application {
     }
     
     private static void gestionarInvitacionSala(NotificacionSala notif) {
-    	Alert alert = new Alert(AlertType.CONFIRMATION);
-    	alert.setTitle("Solicitud de amistad");
-    	alert.setHeaderText(StringUtils.parseString(notif.getRemitente().getNombre()) + " te ha invitado a una sala");
-    	alert.setContentText("En caso de cancelación, la invitación seguirá estando disponible en el menú de notificaciones");
-
-    	if (DEBUG) System.out.println("Invitación de: " + StringUtils.parseString(notif.getRemitente().getNombre()) + " a la sala " + notif.getSalaID());
-    	
-    	ButtonType respuesta = alert.showAndWait().get();
-    	if (respuesta == ButtonType.OK) {
-    		
-    		//UNIRSE A LA SALA
-			App.setSalaID(notif.getSalaID());
-			boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
-			if (!exito) {
-				App.setRoot("principal");
-			} else {
-				App.setRoot("vistaSala");
-			}
-	    	
-    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
-    		
-    	} else if (respuesta == ButtonType.CANCEL) {
-    		NotificacionesController.annadirInvitacionSala(notif);
-    		if (DEBUG) System.out.println("Has rechazado la invitación");
+    	switch (nomPantalla) {
+    		case "partida" :
+    		case "vistaSala" :
+    		case "vistaSalaPausada" :
+	    		NotificacionesController.annadirInvitacionSala(notif);
+    			break;
+    		default :
+		    	Alert alert = new Alert(AlertType.CONFIRMATION);
+		    	alert.setTitle("Solicitud de unirse a sala");
+		    	alert.setHeaderText(StringUtils.parseString(notif.getRemitente().getNombre()) + " te ha invitado a una sala");
+		    	alert.setContentText("En caso de cancelación, la invitación seguirá estando disponible en el menú de notificaciones");
+		
+		    	if (DEBUG) System.out.println("Invitación de: " + StringUtils.parseString(notif.getRemitente().getNombre()) + " a la sala " + notif.getSalaID());
+		    	
+		    	ButtonType respuesta = alert.showAndWait().get();
+		    	if (respuesta == ButtonType.OK) {
+		    		
+		    		//UNIRSE A LA SALA
+					App.setSalaID(notif.getSalaID());
+					boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
+					if (!exito) {
+						App.setRoot("principal");
+					} else {
+						App.setRoot("vistaSala");
+					}
+			    	
+		    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
+		    		
+		    	} else if (respuesta == ButtonType.CANCEL) {
+		    		NotificacionesController.annadirInvitacionSala(notif);
+		    		if (DEBUG) System.out.println("Has rechazado la invitación");
+		    	}
     	}
     }
     
