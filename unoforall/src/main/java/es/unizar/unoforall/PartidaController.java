@@ -126,7 +126,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private GridPane cartasJugadorDerecha;
 	private GridPane[] cartasJugadores;
 	
-	@FXML private Button btnCargarDatos;
 	@FXML private Button test;
 	
 	@FXML private ImageView imagenTacoRobo;
@@ -397,7 +396,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
             if(sala.isEnPartida() && (turnoActual == jugadorID) && esNuevoTurno){
             	mostrarTimerVisual(jugadorIDmap.get(jugadorID), jugadorIDmap.get(jugadorIDTurnoAnterior), jugadorID);  
             }
-
+            
 			if(jugadorActualID == jugadorID){
                 //Esto a futuro
 				/*
@@ -408,7 +407,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				if(esMiTurno) {
 					seleccionRobo();
 				}
-
+				
                 jugador.getMano().sort((carta1, carta2) -> {
                     boolean sePuedeUsarCarta1 = sePuedeUsarCarta(partida, carta1);
                     boolean sePuedeUsarCarta2 = sePuedeUsarCarta(partida, carta2);
@@ -520,39 +519,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		animation.play();
 	}
 	
-	public void cargarDatos() {
-		mostrarPopUpSeleccionarEmoji();
-		
-		//mostrarPopUpIntercambiarMano(null);
-//		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
-//        final Animation animation = new Transition() {
-//
-//            {
-//                setCycleDuration(Duration.millis(1000));
-//                setInterpolator(Interpolator.EASE_OUT);
-//            }
-//
-//            @Override
-//            protected void interpolate(double frac) {
-//                circulo.setFill(new Color(1, 0, 0, 1 - frac));
-//            }
-//        };
-//        animation.play();
-		
-		/*Carta aux = new Carta();
-		aux = partida.getJugadorActual().getMano().get(1);
-		for (int i = 1; i < 20; i++) {
-			
-			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorAbajo);
-			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorDerecha);
-			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorIzquierda);
-			//addCarta(sala, JUGADOR_ABAJO, jugadorActualID, aux, cartasJugadorArriba);
-			
-			partida.getJugadorActual().getMano().forEach(carta ->
-			addCarta(sala, JUGADOR_ABAJO, jugadorActualID, carta, cartasJugadorAbajo));
-        }*/
-	}
-	
 	private int getParejaID(int jugadorID){
 		return (jugadorID + 2) % 4;
 	}
@@ -587,13 +553,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		//Guarda el objeto carta en el ImageView que lo representa.
 		imageview.setUserData(carta);
 		//imageview.setOnMouseClicked(event -> System.out.println(carta.toString()));
-		imageview.setOnMouseClicked(event -> {
-			if(event.getButton() == MouseButton.PRIMARY) {
-				cartaClickada(imageview);
-			} else if (event.getButton() == MouseButton.SECONDARY && sala.getConfiguracion().getReglas().isJugarVariasCartas()){  
-				cartaSeleccionada(imageview);
-			}
-		});
+		if (jugadorID == jugadorActualID && esMiTurno) {
+			imageview.setOnMouseClicked(event -> {
+				if(event.getButton() == MouseButton.PRIMARY) {
+					cartaClickada(imageview);
+				} else if (event.getButton() == MouseButton.SECONDARY && sala.getConfiguracion().getReglas().isJugarVariasCartas()){  
+					cartaSeleccionada(imageview);
+				}
+			});
+		}
 			//imageview.setOnContextMenuRequested(event -> cartaSeleccionada(imageview));
 		cartasJugadorX.addColumn(cartasJugadorX.getColumnCount(), imageview);
 		//creo que la siguiente línea no hace nada
@@ -677,7 +645,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
         }
 		
 	}
-	
 	
 	private void mostrarPopUpIntercambiarMano(Carta carta) {
 		try {

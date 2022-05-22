@@ -4,7 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -28,7 +27,7 @@
          <children>
             <ScrollPane fx:id="scrollJugadorAbajo" hbarPolicy="NEVER" hmax="2.0" layoutX="240.0" layoutY="-20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="176.0" prefWidth="818.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
-                  <GridPane fx:id="cartasJugadorAbajo" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                  <GridPane fx:id="cartasJugadorAbajo" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
@@ -105,7 +104,7 @@
          <children>
             <ScrollPane fx:id="scrollJugadorArriba" hbarPolicy="NEVER" hmax="2.0" layoutX="230.0" layoutY="-52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="820.0" rotate="180.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
-                  <GridPane fx:id="cartasJugadorArriba" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                  <GridPane fx:id="cartasJugadorArriba" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
@@ -180,12 +179,11 @@
          <children>
             <ScrollPane fx:id="scrollJugadorIzquierda" hbarPolicy="NEVER" hmax="2.0" layoutX="-114.0" layoutY="208.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="309.0" rotate="90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
-                  <GridPane fx:id="cartasJugadorIzquierda" gridLinesVisible="true" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                  <GridPane fx:id="cartasJugadorIzquierda" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <columnConstraints>
-                        <ColumnConstraints />
                         <ColumnConstraints />
                      </columnConstraints>
                      <children>
@@ -247,7 +245,7 @@
          <children>
             <ScrollPane fx:id="scrollJugadorDerecha" hbarPolicy="NEVER" hmax="2.0" layoutX="4.0" layoutY="59.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="365.0" rotate="-90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
-                  <GridPane fx:id="cartasJugadorDerecha" gridLinesVisible="true" layoutY="-1.0" maxHeight="150.0" maxWidth="1825.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1825.0" styleClass="scroll-pane" stylesheets="@style.css">
+                  <GridPane fx:id="cartasJugadorDerecha" gridLinesVisible="true" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
@@ -318,12 +316,11 @@
          <children>
             <HBox alignment="CENTER" VBox.vgrow="SOMETIMES">
                <children>
-                  <Label fx:id="labelVotacion" disable="true" text="Votación pausa: ?/?" textFill="#ffdba6" visible="false">
+                  <Label fx:id="labelVotacion" disable="true" text="Votación pausa: ?/?" textFill="#ffc370" visible="false">
                      <font>
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnCargarDatos" mnemonicParsing="false" onAction="#cargarDatos" text="Cargar Datos" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="116.0" prefWidth="840.0" VBox.vgrow="ALWAYS">
