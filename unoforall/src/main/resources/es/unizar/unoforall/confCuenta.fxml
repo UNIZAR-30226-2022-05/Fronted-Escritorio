@@ -94,12 +94,12 @@
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="cajaContrasenya" GridPane.columnIndex="3">
+                  <PasswordField fx:id="cajaContrasenya" promptText="(Contraseña sin modificar)" GridPane.columnIndex="3">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </PasswordField>
-                  <PasswordField fx:id="cajaContrasenya2" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <PasswordField fx:id="cajaContrasenya2" promptText="(Contraseña sin modificar)" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -108,15 +108,6 @@
             </GridPane>
             <HBox alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#autoCompletar" prefHeight="57.0" prefWidth="276.0" text="Auto-Completar">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Pane prefHeight="106.0" prefWidth="241.0" />
                   <Button mnemonicParsing="false" onAction="#actualizarCuenta" prefHeight="57.0" prefWidth="276.0" text="Cambiar">
                      <font>
                         <Font size="24.0" />
@@ -126,6 +117,9 @@
                      </HBox.margin>
                   </Button>
                </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
             </HBox>
          </children>
       </VBox>
