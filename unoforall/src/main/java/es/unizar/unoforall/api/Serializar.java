@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 
 public class Serializar {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     public static <T> String serializar(T dato){
         String mensaje;

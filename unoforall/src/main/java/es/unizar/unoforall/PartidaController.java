@@ -180,13 +180,14 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private boolean sePuedePulsarBotonUNO;
 	private boolean emojisHabilitados;
 	
+	private final int[] numCartasAnteriores = {-1, -1, -1, -1};
 	
-	private static final Point2D COORDS_TACO_ROBO = new Point2D(750, 220); 
-	private static final Point2D COORDS_TACO_DESCARTES = new Point2D(455, 220); 
-	private static final Point2D COORDS_JUGADOR_ABAJO = new Point2D(240, 565);
-	private static final Point2D COORDS_JUGADOR_IZQUIERDA = new Point2D(25, 260);
-	private static final Point2D COORDS_JUGADOR_ARRIBA = new Point2D(950, -55);
-	private static final Point2D COORDS_JUGADOR_DERECHA = new Point2D(1160, 350);
+	private static final Point2D COORDS_TACO_ROBO = new Point2D(800, 300); 
+	private static final Point2D COORDS_TACO_DESCARTES = new Point2D(503, 295); 
+	private static final Point2D COORDS_JUGADOR_ABAJO = new Point2D(288, 640);
+	private static final Point2D COORDS_JUGADOR_IZQUIERDA = new Point2D(73, 335);
+	private static final Point2D COORDS_JUGADOR_ARRIBA = new Point2D(998, 20);
+	private static final Point2D COORDS_JUGADOR_DERECHA = new Point2D(1208, 425);
 	
 	private static final Point2D[] COORDS_JUGADORES = {
 		COORDS_JUGADOR_ABAJO,
@@ -195,9 +196,15 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		COORDS_JUGADOR_DERECHA
 	};
 	
+	private boolean sentidoAnterior = false;
+	
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		marco.setOnMouseClicked(mouseEvent -> {
+            System.out.println("X: " + mouseEvent.getX());
+            System.out.println("Y: " + mouseEvent.getY());
+        });
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
@@ -209,7 +216,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		ImageManager.setImagenMazoCartas(imagenTacoRobo, defaultMode);
+		AnimationManager.inicializarAnimacionesSentido();
 		inicializarEfectos();
+		
 		emojisHabilitados = true;
 		SuscripcionSala.suscribirseCanalVotacionPausa(respuestaVotacionPausa -> {
 			int numVotantes = respuestaVotacionPausa.getNumVotantes();
@@ -333,11 +342,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			AnimationManager.fadeErrorEscalera(emojisJugadores[jugadorIDmap.get(jugadorID)]);
 		});
 
-		AnimationManager.Builder builder = new AnimationManager.Builder(marco);
-		builder.withstartPoint(COORDS_TACO_ROBO)
-		.withendPoint(COORDS_JUGADOR_ABAJO)
-		.withDefaultMode(defaultMode)
-		.withCartasRobo(2).start();
+//		AnimationManager.Builder builder = new AnimationManager.Builder(marco);
+//		builder.withstartPoint(COORDS_TACO_ROBO)
+//		.withendPoint(COORDS_JUGADOR_ABAJO)
+//		.withDefaultMode(defaultMode)
+//		.withCartasRobo(2).start();
 		
 		
 		administrarSala(SuscripcionSala.sala);
@@ -377,6 +386,62 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			sePuedePulsarBotonUNO = true;
 			btnUno.setDisable(false);
 			btnUno.setEffect(null);
+			
+
+			Jugada jugada = partida.getUltimaJugada();
+            if(jugada != null && !jugada.isRobar()){
+                List<Carta> cartasJugada = jugada.getCartas();
+                // Es una jugada del jugador del turno anterior que no es robar
+                int jugadorIDTurnoAnterior = partida.getTurnoUltimaJugada();
+                
+                //Caso jugador juega una carta.
+                AnimationManager.Builder builder = new AnimationManager.Builder(marco);
+                builder
+                        .withstartPoint(COORDS_JUGADORES[jugadorIDmap.get(jugadorIDTurnoAnterior)])
+                        .withendPoint(COORDS_TACO_DESCARTES)
+                        .withDefaultMode(defaultMode)
+                        .withCartas(cartasJugada, true)
+                        .withEndAction(() -> {
+                            // Se vuelve a obtener la sala, porque podría estar desactualizada
+                            Sala salaActual = SuscripcionSala.sala;
+                            if(salaActual != null){
+                                Partida partidaActual = salaActual.getPartida();
+                                if(partidaActual != null){
+                                	ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
+                                }
+                            }
+                        })
+                        .start();
+
+                if(cartasJugada.get(0).getTipo() == Carta.Tipo.intercambio){
+                    // Caso es un intercambio de cartas entre el jugador del turno anterior
+                    //  y el jugador objetivo de la jugada
+
+                    int jugadorIDObjetivo = jugada.getJugadorObjetivo();
+
+                    // Mover las cartas del jugador anterior(host) al jugador objetivo
+                    AnimationManager.Builder builder1 = new AnimationManager.Builder(marco);
+                    builder1
+                            .withstartPoint(COORDS_JUGADORES[jugadorIDmap.get(jugadorIDTurnoAnterior)])
+                            .withendPoint(COORDS_JUGADORES[jugadorIDmap.get(jugadorIDObjetivo)])
+                            .withDefaultMode(defaultMode)
+                            .withCartas(partida.getJugadores().get(jugadorIDObjetivo).getMano(), false)
+                            .withHost(true)
+                            .start();
+
+                    // Mover las cartas del jugador objetivo al jugador anterior(host)
+                    AnimationManager.Builder builder2 = new AnimationManager.Builder(marco);
+                    builder2
+                            .withstartPoint(COORDS_JUGADORES[jugadorIDmap.get(jugadorIDObjetivo)])
+                            .withendPoint(COORDS_JUGADORES[jugadorIDmap.get(jugadorIDTurnoAnterior)])
+                            .withDefaultMode(defaultMode)
+                            .withCartas(partida.getJugadores().get(jugadorIDTurnoAnterior).getMano(), false)
+                            .start();
+                }
+            } else {
+            	//Poner la nueva carta en la pila de descartes
+        		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
+            }
 		}
 		
 		
@@ -467,12 +532,38 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				// WHITE
 				contadoresJugadores[jugadorIDmap.get(i)].setTextFill(Color.web("#FFFFFF"));
 			}
-		}
-		//Recargar sentido de la partida
-		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
+			
+			
+            int numCartasAntes = numCartasAnteriores[jugadorID];
+            int numCartasAhora = jugador.getMano().size();
+            if(numCartasAntes != -1 && numCartasAhora > numCartasAntes){
+                if(partida.getUltimaCartaJugada().getTipo() != Carta.Tipo.intercambio){
+                    int numCartasRobadas = numCartasAhora - numCartasAntes;
+                    if(jugadorID == jugadorActualID){
+                        System.out.println("Has robado " + numCartasRobadas + " carta(s)");
+                    }else{
+                    	System.out.println(nombreJugador + " robó " + numCartasRobadas + " carta(s)");
+                    }
 
+                    // Mostrar animación de las cartas robadas
+                    AnimationManager.Builder builder = new AnimationManager.Builder(marco);
+                    builder
+                            .withstartPoint(COORDS_TACO_ROBO)
+                            .withendPoint(COORDS_JUGADORES[jugadorIDmap.get(jugadorID)])
+                            .withDefaultMode(defaultMode)
+                            .withCartasRobo(numCartasRobadas)
+                            .start();
+                }
+            }
+            numCartasAnteriores[jugadorID] = numCartasAhora;
+		}
+		boolean sentidoActual = sala.getPartida().isSentidoHorario();
+		//Recargar sentido de la partida
+		AnimationManager.setAnimacionSentido(imagenSentidoPartida, sentidoAnterior, sentidoActual);
+		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sentidoActual);
+		sentidoAnterior = sentidoActual;
 		//Poner la nueva carta en la pila de descartes
-		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
+		//ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
 
 		if (sala.getPartida().estaTerminada()) {
 			if(timeline != null) {
@@ -785,8 +876,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	public void robarCarta() throws IOException {
 		Jugada jugada = new Jugada();
-		SuscripcionSala.enviarJugada(jugada);
-
+		if(partida.validarJugada(jugada)) {
+			SuscripcionSala.enviarJugada(jugada);	
+		}
+		
 	}
 	
     private boolean sePuedeUsarCarta(Partida partida, Carta carta){

@@ -176,11 +176,10 @@ public class ImageManager {
     	if(imageSentidoHorario == null || imageSentidoAntihorario == null){
     		imageSentidoHorario = cargarImagen("images/sentidoHorario.png");
     		imageSentidoAntihorario = cargarImagen("images/sentidoAntihorario.png");
-    		AnimationManager.inicializarAnimacionesSentido();
-    	//}
+    		//AnimationManager.inicializarAnimacionesSentido();
+    	}
     	
-    	System.out.println(AnimationManager.sentidoIsNotRunning());
-    	AnimationManager.setAnimacionSentido(imageView, sentidoHorario);
+    	//AnimationManager.setAnimacionSentido(imageView, sentidoHorario);
     	//if (AnimationManager.sentidoIsNotRunning()) {
     		//AnimationManager.inicializarAnimacionesSentido(imageView, sentidoHorario);
 		//Guardar la imagen correspondiente en el imageView
@@ -190,30 +189,32 @@ public class ImageManager {
 		} else {
 			imageView.setImage(imageSentidoAntihorario);
 			imageView.setUserData(imageSentidoAntihorario);
-		}}
-    	System.out.println(AnimationManager.sentidoIsNotRunning());
-    	if (!AnimationManager.sentidoIsNotRunning()) { 
-    		AnimationManager.setAnimacionSentido(imageView, sentidoHorario);}
-    	
-    	if (sentidoHorario) {
-    		if ((Image)imageView.getUserData() == imageSentidoAntihorario) {
-
-    			imageView.setUserData(imageSentidoHorario);
-        		imageView.setImage(imageSentidoHorario);
-        		//Transicionar a sentido Horario
-        		AnimationManager.AntihorarioAHorario(imageView);
-    		}
-    		
-    	} else {
-    		if((Image)imageView.getUserData() == imageSentidoHorario) {
-    			
-    			imageView.setUserData(imageSentidoAntihorario);
-    			imageView.setImage(imageSentidoAntihorario);
-    			//Transicionar a sentido Antihorario
-        		AnimationManager.HorarioAAntihorario(imageView);
-    		}
-    	}
-    }
+		}
+	}
+  
+//    	if (!AnimationManager.sentidoIsNotRunning()) { 
+//    		AnimationManager.setAnimacionSentido(imageView, sentidoHorario);
+//    	}
+//    	
+//    	if (sentidoHorario) {
+//    		if ((Image)imageView.getUserData() == imageSentidoAntihorario) {
+//
+//    			imageView.setUserData(imageSentidoHorario);
+//        		imageView.setImage(imageSentidoHorario);
+//        		//Transicionar a sentido Horario
+//        		AnimationManager.AntihorarioAHorario(imageView);
+//    		}
+//    		
+//    	} else {
+//    		if((Image)imageView.getUserData() == imageSentidoHorario) {
+//    			
+//    			imageView.setUserData(imageSentidoAntihorario);
+//    			imageView.setImage(imageSentidoAntihorario);
+//    			//Transicionar a sentido Antihorario
+//        		AnimationManager.HorarioAAntihorario(imageView);
+//    		}
+//    	}
+//    }
     
 //En este método se declaran las dimensiones de las imágenes.
     public static Image cargarImagen(String path) {

@@ -20,12 +20,18 @@ import javafx.util.Duration;
 public class AnimationManager {
 
 	private static final long CARD_MOVEMENT_START_DELAY = 500L;
-    private static final Duration CARD_MOVEMENT_DURATION = Duration.millis(1000L);
+    private static final Duration CARD_MOVEMENT_DURATION = Duration.millis(650);
+    //private static final Duration HOST_CARD_MOVEMENT_DURATION = Duration.millis(450);
+    private static final Duration HOST_CARD_MOVEMENT_DURATION = CARD_MOVEMENT_DURATION.divide(2);
     private static RotateTransition rtHorario;
     private static RotateTransition rtAntihorario; 
     private static RotateTransition rtRapida;
     private static ScaleTransition agrandar;
     private static ScaleTransition disminuir;
+    private static ScaleTransition aPequenito;
+    private static ScaleTransition aGrande;
+    private static ScaleTransition aPequenitoHost;
+    private static ScaleTransition aGrandeHost;
     private static FadeTransition fadeOut;
     
     
@@ -59,16 +65,60 @@ public class AnimationManager {
 		disminuir = new ScaleTransition(Duration.millis(250));
 		disminuir.setToX(1);
 		disminuir.setToY(1);
+		
+		aPequenito = new ScaleTransition(CARD_MOVEMENT_DURATION.divide(2));
+		aPequenito.setToX(0.5);
+		aPequenito.setToY(0.5);
+		
+		aGrande = new ScaleTransition(CARD_MOVEMENT_DURATION.divide(2));
+		aGrande.setToX(1);
+		aGrande.setToY(1);
+		aGrande.setOnFinished(event -> aPequenito.play());
+		
+		aPequenitoHost = new ScaleTransition(HOST_CARD_MOVEMENT_DURATION.divide(2));
+		aPequenitoHost.setToX(0.5);
+		aPequenitoHost.setToY(0.5);
+		
+		aGrandeHost = new ScaleTransition(HOST_CARD_MOVEMENT_DURATION.divide(2));
+		aGrandeHost.setToX(1);
+		aGrandeHost.setToY(1);
+		aGrandeHost.setOnFinished(event -> aPequenitoHost.play());
     }
-    public static void setAnimacionSentido(ImageView imageView, boolean sentidoHorario) {
+    
+    public static void setAnimacionSentido(ImageView imageView, boolean sentidoAnterior, boolean sentidoActual) {
 		//Inicializar animación inicial a la imagen del sentido de la partida
-		if(sentidoHorario) {
+    	if(sentidoAnterior == sentidoActual) {
+    		return;
+    	} 
+    	
+    	
+		if(sentidoActual) {
 			rtHorario.setNode(imageView);
 			rtHorario.play();
+			AnimationManager.AntihorarioAHorario(imageView);
 		} else {
 			rtAntihorario.setNode(imageView);
 			rtAntihorario.play();
+			AnimationManager.HorarioAAntihorario(imageView);
 		}
+		
+//		if (sentidoHorario) {
+//    		if ((Image)imageView.getUserData() == imageSentidoAntihorario) {
+//
+//    			imageView.setUserData(imageSentidoHorario);
+//        		imageView.setImage(imageSentidoHorario);
+//        		//Transicionar a sentido Horario
+//        		AnimationManager.AntihorarioAHorario(imageView);
+//    		}
+//    		
+//    	} else {
+//    		if((Image)imageView.getUserData() == imageSentidoHorario) {
+//    			
+//    			imageView.setUserData(imageSentidoAntihorario);
+//    			imageView.setImage(imageSentidoAntihorario);
+//    			//Transicionar a sentido Antihorario
+//        		AnimationMcorreanager.HorarioAAntihorario(imageView);
+//    		}
     }
   
     //Transición de rotación en sentido Antihorario a sentido Horario
@@ -98,7 +148,7 @@ public class AnimationManager {
     }
 
     private static void animateCardMovement(BorderPane viewGroup, Point2D startPoint, Point2D endPoint,
-    	Carta carta, boolean isVisible, long startDelay, boolean defaultMode, Runnable endAction){
+    	Carta carta, boolean isVisible, long startDelay, boolean defaultMode, boolean host, Runnable endAction){
 		if(startPoint == endPoint){
 			return;
 		}
@@ -107,19 +157,25 @@ public class AnimationManager {
 		ImageManager.setImagenCarta(cartaView, carta, defaultMode, isVisible);
 		cartaView.setFitWidth(96);
 		cartaView.setFitHeight(150);
+//		cartaView.setScaleX(0.5);
+//		cartaView.setScaleY(0.5);
 		viewGroup.getChildren().add(cartaView);
-		
+		cartaView.setX(-100);
+		cartaView.setY(-100);
 		Line movePath = new Line(startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY());
 		//movePath.setVisible(false);
-		
-		PathTransition path = new PathTransition(CARD_MOVEMENT_DURATION, movePath, cartaView);
+
+		PathTransition path = new PathTransition(host ? HOST_CARD_MOVEMENT_DURATION : CARD_MOVEMENT_DURATION, movePath, cartaView);	
 		path.setDelay(Duration.millis(startDelay));
 		path.setOnFinished(event -> {
 			viewGroup.getChildren().remove(cartaView);
 			viewGroup.getChildren().remove(movePath);
 			endAction.run();
 		});
+//		aGrande.setNode(viewGroup);
+//		aGrande.play();
 		path.play();
+		
 //		TranslateTransition movimiento =
 //				new TranslateTransition(CARD_MOVEMENT_DURATION, cartaView);
 //		
@@ -180,12 +236,14 @@ public class AnimationManager {
         private List<Carta> cartas;
         private boolean isVisible;
         private boolean defaultMode;
+        private boolean host;
 
         private Runnable endAction;
 
         public Builder(BorderPane viewGroup){
             this.viewGroup = viewGroup;
             this.endAction = () -> {};
+            this.host = false;
         }
 
         public Builder withstartPoint(Point2D startPoint){
@@ -222,6 +280,11 @@ public class AnimationManager {
             this.endAction = endAction;
             return this;
         }
+        
+        public Builder withHost(boolean host){
+            this.host = host;
+            return this;
+        }
 
         public void start(){
             int n = this.cartas.size();
@@ -234,7 +297,7 @@ public class AnimationManager {
                 }
                 
                 animateCardMovement(viewGroup, startPoint, endPoint, this.cartas.get(i), isVisible,
-                        i * CARD_MOVEMENT_START_DELAY, defaultMode, runnable);
+                        i * CARD_MOVEMENT_START_DELAY, defaultMode, host, runnable);
             }
         }
     }
