@@ -79,7 +79,7 @@
                         <Image url="@images/cartas/contadoresCartas/numCartas.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="contadorJugadorAbajo" alignment="CENTER" graphicTextGap="0.0" layoutX="23.0" layoutY="32.0" maxHeight="25.0" maxWidth="32.0" minHeight="25.0" minWidth="32.0" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
+                  <Label fx:id="contadorJugadorAbajo" alignment="CENTER" graphicTextGap="0.0" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="23.0" />
                      </font>
@@ -165,7 +165,7 @@
                         <Image url="@images/cartas/contadoresCartas/numCartas.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="contadorJugadorArriba" layoutX="25.0" layoutY="32.0" text="20" textFill="WHITE">
+                  <Label fx:id="contadorJugadorArriba" alignment="CENTER" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="23.0" />
                      </font>
@@ -231,7 +231,7 @@
                         <Image url="@images/cartas/contadoresCartas/numCartas.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="contadorJugadorIzquierda" layoutX="25.0" layoutY="32.0" text="20" textFill="WHITE">
+                  <Label fx:id="contadorJugadorIzquierda" alignment="CENTER" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="23.0" />
                      </font>
@@ -298,7 +298,7 @@
                         <Image url="@images/cartas/contadoresCartas/numCartas.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="contadorJugadorDerecha" layoutX="25.0" layoutY="32.0" text="20" textFill="WHITE">
+                  <Label fx:id="contadorJugadorDerecha" alignment="CENTER" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="23.0" />
                      </font>
