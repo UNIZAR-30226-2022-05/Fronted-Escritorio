@@ -902,9 +902,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			App.setRoot("principal");
         } else if (respuesta == styledExit) {
         	System.out.println("SORPRESA");
-        	AudioClip buzzer = new AudioClip(getClass().getResource("images/styledExit.mp3").toExternalForm()); 
+        	AudioClip buzzer = new AudioClip(getClass().getResource("audio/styledExit.mp3").toExternalForm()); 
         	buzzer.play();
-        	//SuscripcionSala.salirDeSalaDefinitivo();
         	
         	App.setRoot("principal");
         	SuscripcionSala.salirDeSala();
