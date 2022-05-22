@@ -22,11 +22,9 @@ import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.animation.Animation;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.animation.Transition;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -56,14 +54,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class PartidaController extends SalaReceiver implements Initializable {
-    @FXML
-    private Circle circulo;
     private static final Integer STARTTIME = (Partida.TIMEOUT_TURNO - 1000)/1000;
     private Timeline timeline;
     private IntegerProperty[] timersJugadores = new IntegerProperty[] {
@@ -822,24 +817,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
     	oscurecerCarta.setSpecularConstant(0.0);
     	oscurecerCarta.setSpecularExponent(0.0);
     	oscurecerCarta.setSurfaceScale(0.0);
-    	
-		DropShadow dropShadow = new DropShadow();
-		dropShadow.setColor(Color.ALICEBLUE);
-		dropShadow.setRadius(20.0);
-		
-        animation = new Transition() {
-
-            {
-                setCycleDuration(Duration.millis(1000));
-                setInterpolator(Interpolator.EASE_OUT);
-            }
-
-            @Override
-            protected void interpolate(double frac) {
-                circulo.setFill(new Color(1, 0, 0, 1 - frac));
-            }
-        };
-        //animation.play();
     }
     
     private void seleccionRobo() {
