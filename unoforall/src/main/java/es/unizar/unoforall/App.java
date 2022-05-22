@@ -251,9 +251,9 @@ public class App extends Application {
     
     static void salir() {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
-    	alert.setTitle("Cierre de Sesión");
-    	alert.setHeaderText("¡Estás a punto de cerrar sesión!");
-    	alert.setContentText("¿Estás seguro de querer salir de la aplicación?: ");
+    	alert.setTitle("Cierre de Aplicación");
+    	alert.setHeaderText("¡Estás a punto de cerrar la aplicación!");
+    	alert.setContentText("¿Estás seguro?");
     	
     	if (alert.showAndWait().get() == ButtonType.OK) {
     		if (DEBUG) System.out.println("Has salido de la aplicación correctamente");
