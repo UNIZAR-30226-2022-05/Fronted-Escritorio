@@ -20,8 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -87,7 +88,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView rdyIconJug4;
 	@FXML private Label nomJug4;
 	
-	@FXML private ChoiceBox<String> amigosChoiceBox;
+	@FXML private MenuButton amigosMenuButton;
 	private ArrayList<String> nombresAmigos = new ArrayList<String>();
 	private ArrayList<UsuarioVO> listaAmigos = new ArrayList<UsuarioVO>();
 
@@ -183,10 +184,16 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 		}
 		
 		//ACTUALIZAR LISTA DE AMIGOS PARA INVITAR
-		amigosChoiceBox.getItems().add("Invitar amigos");
-		amigosChoiceBox.getSelectionModel().selectFirst();
-		amigosChoiceBox.getItems().addAll(nombresAmigos);
-		amigosChoiceBox.setOnAction(this::invitarAmigo);
+		for (int i=0; i < nombresAmigos.size(); i++) {
+			int amigo = i;
+			MenuItem item = new MenuItem(nombresAmigos.get(i));
+			item.setOnAction(event -> {
+				if (SuscripcionSala.sala.getParticipantes().size() < SuscripcionSala.sala.getConfiguracion().getMaxParticipantes()) {
+					App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(amigo).getId(), SuscripcionSala.sala.getSalaID());
+				}
+			});
+			amigosMenuButton.getItems().add(item);
+		}
 
 		Sala sala = SuscripcionSala.sala;
 		if(sala != null){
@@ -219,14 +226,6 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 				HashMap<UsuarioVO, Boolean> participantes = sala.getParticipantes();
 				cargarParticipantes(tamanyo, participantes);
 			}
-		}
-	}
-	
-	@FXML
-	public void invitarAmigo(ActionEvent event) {
-		Integer idx = amigosChoiceBox.getSelectionModel().getSelectedIndex();
-		if (idx != 0 && SuscripcionSala.sala.getParticipantes().size() < SuscripcionSala.sala.getConfiguracion().getMaxParticipantes()) {
-			App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(idx-1).getId(), SuscripcionSala.sala.getSalaID());
 		}
 	}
 	

@@ -2,8 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -181,7 +181,11 @@
                </font>
             </Button>
             <Pane prefHeight="200.0" prefWidth="200.0" />
-            <ChoiceBox fx:id="amigosChoiceBox" prefHeight="60.0" prefWidth="450.0" />
+            <MenuButton fx:id="amigosMenuButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="400.0" text="Invitar Amigo">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </MenuButton>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
