@@ -156,6 +156,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView btnUno;
 	@FXML private ImageView btnHabilitarEmojis;
     @FXML private ImageView btnSeleccionarEmoji;
+    
+    @FXML private ImageView iluminacionFondo;
 	
 	@FXML private Label labelVotacion;
     @FXML private Label errorEscalera;
@@ -396,7 +398,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
                 }
 				*/
 				if(esMiTurno) {
-					seleccionRobo();
+					iluminacionFondo.setVisible(true);
+					comprobarRobo();
+				} else {
+					iluminacionFondo.setVisible(false);
 				}
 				
                 jugador.getMano().sort((carta1, carta2) -> {
@@ -789,7 +794,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     	oscurecerCarta.setSurfaceScale(0.0);
     }
     
-    private void seleccionRobo() {
+    private void comprobarRobo() {
     	Jugada jugada = new Jugada();
 		if(partida.isModoJugarCartaRobada()) {
 			try {
@@ -886,12 +891,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "  ", styledExit, ButtonType.OK, ButtonType.CANCEL);
         alert.setTitle("Abandonar Sala");
         alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
-        alert.setContentText("Si sales, serás expulsado de la partida\n y tus amigos te llamarán cobarde");
+        alert.setContentText("Si sales, serás expulsado de la partida\n y no obtendrás puntos");
         ButtonType respuesta = alert.showAndWait().get();
         if (respuesta == ButtonType.OK) {
-            //Llamada a la clase de Sala para desubscribirse
-            //SuscripcionSala.salirDeSalaDefinitivo();
-            //Volver a la pantalla anterior
             App.setRoot("principal");
 
             System.out.println("Has abandonado la sala.");

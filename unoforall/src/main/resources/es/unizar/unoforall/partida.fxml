@@ -24,6 +24,11 @@
    <bottom>
       <Pane prefHeight="135.0" prefWidth="1280.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
+            <ImageView fx:id="iluminacionFondo" fitHeight="300.0" fitWidth="1280.0" layoutY="-162.0" pickOnBounds="true">
+               <image>
+                  <Image url="@images/fondos/iluminacionEscritorio.png" />
+               </image>
+            </ImageView>
             <ScrollPane fx:id="scrollJugadorAbajo" hbarPolicy="NEVER" hmax="2.0" layoutX="240.0" layoutY="-20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="176.0" prefWidth="818.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                <content>
                   <GridPane fx:id="cartasJugadorAbajo" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
