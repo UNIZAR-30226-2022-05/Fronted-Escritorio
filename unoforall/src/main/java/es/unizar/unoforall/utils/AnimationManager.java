@@ -21,14 +21,14 @@ public class AnimationManager {
     
     public static void inicializarAnimacionesSentido() {
 	    //Animación rotación de nodo en sentido Horario	
-		rtHorario = new RotateTransition(Duration.seconds(2));
+		rtHorario = new RotateTransition(Duration.seconds(6));
 		rtHorario.setFromAngle(0);
 		rtHorario.setToAngle(360);
 		rtHorario.setCycleCount(Animation.INDEFINITE);
 		rtHorario.setInterpolator(Interpolator.LINEAR);
 		
 		//Animación rotación de nodo en sentido Antihorario
-		rtAntihorario = new RotateTransition(Duration.seconds(2));
+		rtAntihorario = new RotateTransition(Duration.seconds(6));
 		rtAntihorario.setFromAngle(360);
 		rtAntihorario.setToAngle(0);
 		rtAntihorario.setCycleCount(Animation.INDEFINITE);
@@ -42,8 +42,8 @@ public class AnimationManager {
 		
 		//Animación agrandar y disminuir nodo
 		agrandar = new ScaleTransition(Duration.millis(250));
-		agrandar.setToX(2);
-		agrandar.setToY(2);
+		agrandar.setToX(1.5);
+		agrandar.setToY(1.5);
 		agrandar.setOnFinished(event-> disminuir.play());
 	
 		disminuir = new ScaleTransition(Duration.millis(250));

@@ -273,7 +273,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 					
 	                scrollJugadorIzquierda.setVisible(false);
 	                scrollJugadorDerecha.setVisible(false);
-					imagenSentidoPartida.setVisible(false);
 	                
 	                break;
 	            case 3:
@@ -444,7 +443,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 		}
 		//Recargar sentido de la partida
-		//ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
+		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sala.getPartida().isSentidoHorario());
 
 		//Poner la nueva carta en la pila de descartes
 		ImageManager.setImagenCarta(imagenTacoDescartes, partida.getUltimaCartaJugada(), defaultMode, true);
@@ -482,38 +481,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
         }
         timersJugadores[jugadorIDmapTurnoActual].set((STARTTIME)*100);
         timeline = new Timeline();
-        boolean miTimer = jugadorActualID == jugadorID;//jugadorIDmap.get(partida.getIndiceJugador(partida.getJugadorActual().getJugadorID()));
-        if(miTimer) {
-        	System.out.println("miTurno");
-	        timeline.getKeyFrames().addAll(
-	                new KeyFrame(Duration.seconds(STARTTIME + 1), new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.70), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.75), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.80), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.85), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.87), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.89), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.91), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.93), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.95), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.96), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.97), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.98), this::doAnimation),
-	                new KeyFrame(Duration.millis(((STARTTIME + 1) * 1000) * 0.99), this::doAnimation));	
-        } else {
-        	System.out.println("no es miTurno");
-        	timeline.getKeyFrames().addAll(
-	                new KeyFrame(Duration.seconds(STARTTIME + 1), new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)));
-        }
+        timeline.getKeyFrames().addAll(
+        		new KeyFrame(Duration.seconds(STARTTIME + 1), new KeyValue(timersJugadores[jugadorIDmapTurnoActual], 0)));
         timeline.playFromStart();
 
 	}
-	
-	private void doAnimation(ActionEvent actionEvent) {
-		animation.stop();
-		animation.play();
-	}
-	
+
 	private int getParejaID(int jugadorID){
 		return (jugadorID + 2) % 4;
 	}
