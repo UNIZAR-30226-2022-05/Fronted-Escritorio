@@ -15,13 +15,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 public class LoginController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 	
-	@FXML private AnchorPane fondo;
+	@FXML private VBox fondo;
 	
 	@FXML private Label labelInformacion;
 	@FXML private Label labelError;
@@ -92,7 +92,6 @@ public class LoginController implements Initializable {
 	    			
 	    			//ENTRAR A LA APLICACION
 		        	App.setRoot("principal");
-		    		App.setFullScreen();
 	    		}
 	    	});
 	    	

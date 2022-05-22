@@ -12,82 +12,88 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.LoginController">
+<VBox fx:id="fondo" alignment="CENTER" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.LoginController">
    <children>
-      <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="344.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/logoUno.png" />
-         </image>
-      </ImageView>
-      <Label alignment="CENTER" layoutX="175.0" layoutY="218.0" prefHeight="17.0" prefWidth="450.0" text="Bienvenido a la aplicación de UnoForAll" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelInformacion" alignment="CENTER" layoutX="175.0" layoutY="246.0" prefHeight="17.0" prefWidth="450.0" text="Introduzca su correo y contraseña" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <GridPane layoutX="270.0" layoutY="282.0" prefHeight="60.0" prefWidth="282.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="117.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="110.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0">
          <children>
-            <Label text="Correo" textAlignment="RIGHT" textFill="WHITE">
+            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="244.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logoUno.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="75.0" layoutY="239.0" prefHeight="17.0" prefWidth="450.0" text="Bienvenido a la aplicación de UnoForAll" textFill="WHITE">
                <font>
-                  <Font name="System Bold Italic" size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
             </Label>
-            <TextField fx:id="cajaCorreo" onAction="#onGoCajaContrasenya" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" />
-            <Label text="Contraseña" textFill="WHITE" GridPane.rowIndex="1">
+            <Label fx:id="labelInformacion" alignment="CENTER" layoutX="75.0" layoutY="267.0" prefHeight="17.0" prefWidth="450.0" text="Introduzca su correo y contraseña" textFill="WHITE">
                <font>
-                  <Font name="System Bold Italic" size="18.0" />
+                  <Font size="18.0" />
                </font>
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
             </Label>
-            <PasswordField fx:id="cajaContrasenya" onAction="#onEnter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <GridPane layoutX="170.0" layoutY="303.0" prefHeight="60.0" prefWidth="282.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="117.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="110.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Correo" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="cajaCorreo" onAction="#onGoCajaContrasenya" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" />
+                  <Label text="Contraseña" textFill="WHITE" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <PasswordField fx:id="cajaContrasenya" onAction="#onEnter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane layoutX="154.0" layoutY="385.0" prefHeight="113.0" prefWidth="314.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="80.0" minHeight="21.0" prefHeight="80.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#login" text="Iniciar Sesión">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Hyperlink onAction="#register" prefHeight="23.0" text="No tengo una cuenta" textAlignment="CENTER" textFill="#002bff" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Hyperlink>
+                  <Hyperlink onAction="#forgotPass" prefHeight="23.0" text="He olvidado mi contraseña" textAlignment="CENTER" textFill="#002bff" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </GridPane>
+            <Button layoutX="75.0" layoutY="103.0" mnemonicParsing="false" onAction="#cambiarIP" text="IP" />
+            <Label fx:id="labelError" alignment="CENTER" layoutX="75.0" layoutY="481.0" prefHeight="17.0" prefWidth="450.0" textAlignment="CENTER" textFill="RED" />
          </children>
-      </GridPane>
-      <GridPane layoutX="254.0" layoutY="364.0" prefHeight="113.0" prefWidth="314.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="80.0" minHeight="21.0" prefHeight="80.0" vgrow="ALWAYS" />
-          <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button mnemonicParsing="false" onAction="#login" text="Iniciar Sesión">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font></Button>
-            <Hyperlink onAction="#register" prefHeight="23.0" text="No tengo una cuenta" textAlignment="CENTER" textFill="#002bff" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold Italic" size="18.0" />
-               </font>
-            </Hyperlink>
-            <Hyperlink onAction="#forgotPass" prefHeight="23.0" text="He olvidado mi contraseña" textAlignment="CENTER" textFill="#002bff" GridPane.rowIndex="2">
-               <font>
-                  <Font name="System Bold Italic" size="18.0" />
-               </font>
-            </Hyperlink>
-         </children>
-      </GridPane>
-      <Button layoutX="175.0" layoutY="82.0" mnemonicParsing="false" onAction="#cambiarIP" text="IP" />
-      <Label fx:id="labelError" alignment="CENTER" layoutX="175.0" layoutY="460.0" prefHeight="17.0" prefWidth="450.0" textAlignment="CENTER" textFill="RED" />
+      </AnchorPane>
    </children>
-</AnchorPane>
+</VBox>

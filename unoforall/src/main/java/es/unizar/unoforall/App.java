@@ -52,9 +52,9 @@ public class App extends Application {
         Image icon = new Image(getClass().getResourceAsStream("images/logoUno.png"));
         stage.getIcons().add(icon);
         stage.setScene(scene);
-        setWindowed();
         stage.setTitle("UnoForAll");
         stage.show();
+        setBounds();
         
         stage.setOnCloseRequest(event -> {
         	event.consume();
@@ -62,34 +62,26 @@ public class App extends Application {
         });
     }
     
+    static void setBounds() {
+        stage.sizeToScene();
+        
+        stage.setMinWidth(stage.getWidth());
+        stage.setMinHeight(stage.getHeight());
+        
+        stage.setMaxWidth(1920);
+        stage.setMaxHeight(1080);
+    }
+    
     static void setRoot(String fxml) {
         scene.setRoot(loadFXML(fxml));
         nomPantalla = fxml;
+        setBounds();
         
-    	if (fxml.equals("login")) {
-    		setWindowed();
+    	if (fxml.equals("partida")) {
+    		stage.setResizable(false);
+    	} else {
+    		stage.setResizable(true);
     	}
-    }
-    
-    static void setFullScreen() {
-//	Para cambiar la tecla para salir de pantalla completa:
-//    	stage.setFullScreenExitHint("Q para salir de pantalla completa");
-//    	stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Q"));
-    	
-//	Para imposibilitar salir de pantalla completa:
-//    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-//    	stage.setFullScreen(true);
-        //stage.setMaximized(true);
-        stage.sizeToScene();
-        stage.setMinWidth(stage.getWidth());
-        stage.setMinHeight(stage.getHeight());
-    }
-    
-    static void setWindowed() {
-    	stage.setFullScreen(false);
-        stage.sizeToScene();
-        stage.setMinWidth(stage.getWidth());
-        stage.setMinHeight(stage.getHeight());
     }
     
     public static Scene getScene() {
