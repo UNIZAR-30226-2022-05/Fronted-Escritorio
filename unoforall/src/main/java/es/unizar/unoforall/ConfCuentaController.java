@@ -56,6 +56,8 @@ public class ConfCuentaController implements Initializable {
 	
 	@FXML VBox contenedorOculto;
 	@FXML TextField cajaCodigo;
+	
+	private UsuarioVO usuario;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -80,7 +82,7 @@ public class ConfCuentaController implements Initializable {
 				imgMenu.setFitHeight(160);
 				imgMenu.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -88,7 +90,7 @@ public class ConfCuentaController implements Initializable {
 				imgMenu.setFitHeight(150);
 				imgMenu.setEffect(null);
 			}
-		});;
+		});
 		
 
 		btnEliminar.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -96,17 +98,18 @@ public class ConfCuentaController implements Initializable {
 			public void handle(MouseEvent event) {
 				btnEliminar.setEffect(new Glow(0.5));
 			}
-		});;
+		});
 		btnEliminar.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				btnEliminar.setEffect(null);
 			}
-		});;
+		});
+		
+		autoCompletar();
 	}
 	
-	@FXML
-	public void autoCompletar(ActionEvent event) {	
+	public void autoCompletar() {	
 		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
 		String sesionID = App.getSessionID();
 		apirest.addParameter("sesionID",sesionID);
@@ -115,6 +118,7 @@ public class ConfCuentaController implements Initializable {
 		apirest.openConnection();
     	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
     	if (retorno.isExito()) {
+    		usuario = retorno;
     		cajaNombre.setText(StringUtils.parseString(retorno.getNombre()));
     		cajaCorreo.setText(StringUtils.parseString(retorno.getCorreo()));
     	} else {
@@ -169,19 +173,24 @@ public class ConfCuentaController implements Initializable {
 		String nuevaContrasenna = cajaContrasenya.getText();
 		String confirmarContrasenna = cajaContrasenya2.getText();
     	
-		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null ) {
+		if (nuevoCorreo.equals("") || nuevoNombre.equals("")) {
 			labelError.setText("Faltan parámetros");
 			if (DEBUG) System.out.println("Faltan parámetros");
 		} else if (!nuevaContrasenna.equals(confirmarContrasenna)) {
 			labelError.setText("Las contraseñas no coinciden");
 			if (DEBUG) System.out.println("Las contraseñas no coinciden");
 		} else {
+			if (nuevaContrasenna.equals("")) {
+				nuevaContrasenna = usuario.getContrasenna();
+			} else {
+				HashUtils.cifrarContrasenna(nuevaContrasenna);
+			}
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
 			String sesionID = App.getSessionID();
 			apirest.addParameter("sesionID",sesionID);
 			apirest.addParameter("correoNuevo",nuevoCorreo);
 			apirest.addParameter("nombre",nuevoNombre);
-			apirest.addParameter("contrasenna",HashUtils.cifrarContrasenna(nuevaContrasenna));
+			apirest.addParameter("contrasenna",nuevaContrasenna);
 			apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 			
 			apirest.openConnection();
@@ -221,9 +230,7 @@ public class ConfCuentaController implements Initializable {
 		String retorno = apirest.receiveObject(String.class);
     	if (retorno == null) {
     		if (DEBUG) System.out.println("Exito.");
-    		//Para ocultar la caja del código una vez ya se ha usado
-    		contenedorOculto.setDisable(true);
-    		contenedorOculto.setVisible(false);
+    		App.setRoot("principal");
     	} else {
     		labelError.setText(StringUtils.parseString(retorno));
     		if (DEBUG) System.out.println(retorno);
