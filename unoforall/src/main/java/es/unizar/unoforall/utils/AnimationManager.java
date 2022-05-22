@@ -1,16 +1,26 @@
 package es.unizar.unoforall.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import es.unizar.unoforall.model.partidas.Carta;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class AnimationManager {
-	
+
+	private static final long CARD_MOVEMENT_START_DELAY = 500L;
+    private static final Duration CARD_MOVEMENT_DURATION = Duration.millis(1000L);
     private static RotateTransition rtHorario;
     private static RotateTransition rtAntihorario; 
     private static RotateTransition rtRapida;
@@ -87,6 +97,68 @@ public class AnimationManager {
 		agrandar.play();
     }
 
+    private static void animateCardMovement(BorderPane viewGroup, Point2D startPoint, Point2D endPoint,
+    	Carta carta, boolean isVisible, long startDelay, boolean defaultMode, Runnable endAction){
+		if(startPoint == endPoint){
+			return;
+		}
+		
+		ImageView cartaView = new ImageView();
+		ImageManager.setImagenCarta(cartaView, carta, defaultMode, isVisible);
+		cartaView.setFitWidth(96);
+		cartaView.setFitHeight(150);
+		viewGroup.getChildren().add(cartaView);
+		
+		Line movePath = new Line(startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY());
+		//movePath.setVisible(false);
+		
+		PathTransition path = new PathTransition(CARD_MOVEMENT_DURATION, movePath, cartaView);
+		path.setDelay(Duration.millis(startDelay));
+		path.setOnFinished(event -> {
+			viewGroup.getChildren().remove(cartaView);
+			viewGroup.getChildren().remove(movePath);
+			endAction.run();
+		});
+		path.play();
+//		TranslateTransition movimiento =
+//				new TranslateTransition(CARD_MOVEMENT_DURATION, cartaView);
+//		
+//		movimiento.setDelay(Duration.millis(CARD_MOVEMENT_START_DELAY));
+		
+		//TACO DESCARTES
+		//X = 455
+		//Y = 220
+		
+		//TACO ROBO
+		//X = 750
+		//Y = 220
+		
+		//JUGADOR ABAJO
+		//X = 240
+		//Y = 565
+		
+		//JUGADOR IZQUIERDA
+		//X = 25
+		//Y = 260
+		
+		//JUGADOR ARRIBA
+		//X = 950
+		//Y = -55
+		
+		//JUGADOR DERECHA
+		//X = 1160
+		//Y = 350
+		
+//		movimiento.setToX(25);
+//		movimiento.setToY(260);
+//		movimiento.setOnFinished(event -> {
+//			viewGroup.getChildren().remove(cartaView);
+//			endAction.run();
+//		});
+		
+//		movimiento.play();
+    }
+	
 	public static boolean sentidoIsNotRunning() {
 		return (rtHorario.getCurrentRate()!=0.0d || rtAntihorario.getCurrentRate()!=0.0d);
 	}
@@ -99,6 +171,71 @@ public class AnimationManager {
 		fadeOut.setNode(node);
 		fadeOut.play();
 	}
+	
+	public static class Builder{
+        private final BorderPane viewGroup;
+        private Point2D startPoint;
+        private Point2D endPoint;
 
+        private List<Carta> cartas;
+        private boolean isVisible;
+        private boolean defaultMode;
 
+        private Runnable endAction;
+
+        public Builder(BorderPane viewGroup){
+            this.viewGroup = viewGroup;
+            this.endAction = () -> {};
+        }
+
+        public Builder withstartPoint(Point2D startPoint){
+            this.startPoint = startPoint;
+            return this;
+        }
+
+        public Builder withendPoint(Point2D endPoint){
+            this.endPoint = endPoint;
+            return this;
+        }
+
+        public Builder withDefaultMode(boolean defaultMode){
+            this.defaultMode = defaultMode;
+            return this;
+        }
+
+        public Builder withCartasRobo(int numCartasRobo){
+            this.isVisible = false;
+            this.cartas = new ArrayList<>();
+            for(int i=0; i<numCartasRobo; i++){
+                this.cartas.add(null);
+            }
+            return this;
+        }
+
+        public Builder withCartas(List<Carta> cartas, boolean isVisible){
+            this.isVisible = isVisible;
+            this.cartas = cartas;
+            return this;
+        }
+
+        public Builder withEndAction(Runnable endAction){
+            this.endAction = endAction;
+            return this;
+        }
+
+        public void start(){
+            int n = this.cartas.size();
+            for(int i=0; i<n; i++){
+                Runnable runnable;
+                if(i == n-1){
+                    runnable = this.endAction;
+                }else{
+                    runnable = () -> {};
+                }
+                
+                animateCardMovement(viewGroup, startPoint, endPoint, this.cartas.get(i), isVisible,
+                        i * CARD_MOVEMENT_START_DELAY, defaultMode, runnable);
+            }
+        }
+    }
 }

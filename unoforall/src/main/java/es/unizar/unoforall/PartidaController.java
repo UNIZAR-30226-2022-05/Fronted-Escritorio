@@ -33,6 +33,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -178,6 +179,22 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private boolean comenzarEscalera;
     private boolean sePuedePulsarBotonUNO;
 	private boolean emojisHabilitados;
+	
+	
+	private static final Point2D COORDS_TACO_ROBO = new Point2D(750, 220); 
+	private static final Point2D COORDS_TACO_DESCARTES = new Point2D(455, 220); 
+	private static final Point2D COORDS_JUGADOR_ABAJO = new Point2D(240, 565);
+	private static final Point2D COORDS_JUGADOR_IZQUIERDA = new Point2D(25, 260);
+	private static final Point2D COORDS_JUGADOR_ARRIBA = new Point2D(950, -55);
+	private static final Point2D COORDS_JUGADOR_DERECHA = new Point2D(1160, 350);
+	
+	private static final Point2D[] COORDS_JUGADORES = {
+		COORDS_JUGADOR_ABAJO,
+		COORDS_JUGADOR_IZQUIERDA,
+		COORDS_JUGADOR_ARRIBA,
+		COORDS_JUGADOR_DERECHA
+	};
+	
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -316,6 +333,13 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			AnimationManager.fadeErrorEscalera(emojisJugadores[jugadorIDmap.get(jugadorID)]);
 		});
 
+		AnimationManager.Builder builder = new AnimationManager.Builder(marco);
+		builder.withstartPoint(COORDS_TACO_ROBO)
+		.withendPoint(COORDS_JUGADOR_ABAJO)
+		.withDefaultMode(defaultMode)
+		.withCartasRobo(2).start();
+		
+		
 		administrarSala(SuscripcionSala.sala);
 	}
 	
