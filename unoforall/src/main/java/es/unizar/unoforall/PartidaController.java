@@ -179,15 +179,19 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
-		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
-		inicializarEfectos();
-		emojisHabilitados = true;
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
 		sala = SuscripcionSala.sala;
+	
+		jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
+		UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
+		defaultMode = usuarioActual.getAspectoCartas() == 0;
 		
+		marco.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
+		ImageManager.setImagenMazoCartas(imagenTacoRobo, defaultMode);
+		inicializarEfectos();
+		emojisHabilitados = true;
 		SuscripcionSala.suscribirseCanalVotacionPausa(respuestaVotacionPausa -> {
 			int numVotantes = respuestaVotacionPausa.getNumVotantes();
 			int numVotos = respuestaVotacionPausa.getNumVotos();
@@ -202,111 +206,104 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		});
 		
 		int numJugadores = partida.getJugadores().size();
-		//Si no conocemos quién es el jugador actual todavía
-		if (jugadorActualID == -1) {
-			listaCartasEscalera = new ArrayList<>();
-			cartasJugadores = new GridPane[] {
-				cartasJugadorAbajo,
-				cartasJugadorIzquierda,
-				cartasJugadorArriba,
-				cartasJugadorDerecha,
-			};
-			
-			progresoJugadores = new ProgressIndicator[] {
-				progresoJugadorAbajo,
-				progresoJugadorIzquierda,
-				progresoJugadorArriba,
-				progresoJugadorDerecha
-			};
-			
-			avataresJugadores = new ImageView[] {
-				avatarJugadorAbajo,
-				avatarJugadorIzquierda,
-				avatarJugadorArriba,
-				avatarJugadorDerecha
-			};
-			
-			contadoresJugadores = new Label[] {
-				contadorJugadorAbajo,
-				contadorJugadorIzquierda,
-				contadorJugadorArriba,
-				contadorJugadorDerecha
-			};
-			fondoContadoresJugadores = new ImageView[] {
-				fondoContadorJugadorAbajo,
-				fondoContadorJugadorIzquierda,
-				fondoContadorJugadorArriba,
-				fondoContadorJugadorDerecha
-			};
-			
-			nombresJugadores = new Label[] {
-				nombreJugadorAbajo,
-				nombreJugadorIzquierda,
-			    nombreJugadorArriba,
-			    nombreJugadorDerecha
-			};
+		
+		listaCartasEscalera = new ArrayList<>();
+		cartasJugadores = new GridPane[] {
+			cartasJugadorAbajo,
+			cartasJugadorIzquierda,
+			cartasJugadorArriba,
+			cartasJugadorDerecha,
+		};
+		
+		progresoJugadores = new ProgressIndicator[] {
+			progresoJugadorAbajo,
+			progresoJugadorIzquierda,
+			progresoJugadorArriba,
+			progresoJugadorDerecha
+		};
+		
+		avataresJugadores = new ImageView[] {
+			avatarJugadorAbajo,
+			avatarJugadorIzquierda,
+			avatarJugadorArriba,
+			avatarJugadorDerecha
+		};
+		
+		contadoresJugadores = new Label[] {
+			contadorJugadorAbajo,
+			contadorJugadorIzquierda,
+			contadorJugadorArriba,
+			contadorJugadorDerecha
+		};
+		fondoContadoresJugadores = new ImageView[] {
+			fondoContadorJugadorAbajo,
+			fondoContadorJugadorIzquierda,
+			fondoContadorJugadorArriba,
+			fondoContadorJugadorDerecha
+		};
+		
+		nombresJugadores = new Label[] {
+			nombreJugadorAbajo,
+			nombreJugadorIzquierda,
+		    nombreJugadorArriba,
+		    nombreJugadorDerecha
+		};
 
-			emojisJugadores = new ImageView[] {
-				emojiJugadorAbajo,
-				emojiJugadorIzquierda,
-				emojiJugadorArriba,
-				emojiJugadorDerecha
-			};
+		emojisJugadores = new ImageView[] {
+			emojiJugadorAbajo,
+			emojiJugadorIzquierda,
+			emojiJugadorArriba,
+			emojiJugadorDerecha
+		};
 			
- 			jugadorActualID = partida.getIndiceJugador(App.getUsuarioID());
- 			
-			UsuarioVO usuarioActual = sala.getParticipante(App.getUsuarioID());
-			defaultMode = usuarioActual.getAspectoCartas() == 0;
-			//Creación del hashmap para los jugadores
-			jugadorIDmap.clear();
-            jugadorIDmap.put(jugadorActualID, JUGADOR_ABAJO);
-			switch(numJugadores){
-	            case 2:
-	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_ARRIBA);
-	                //A futuro ocultar jugador izquierda y jugador derecha
-	                grupoEmojisJugadorIzquierda.setVisible(false);
-	                grupoEmojisJugadorDerecha.setVisible(false);
-	                contadorJugadorIzquierda.setVisible(false);
-	                contadorJugadorDerecha.setVisible(false);
-					fondoContadorJugadorIzquierda.setVisible(false);
-	                fondoContadorJugadorDerecha.setVisible(false);
-					
-	                scrollJugadorIzquierda.setVisible(false);
-	                scrollJugadorDerecha.setVisible(false);
-	                
-	                break;
-	            case 3:
-	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_IZQUIERDA);
-	                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
-	              //A futuro ocultar jugador derecha
-	                grupoEmojisJugadorDerecha.setVisible(false);
-	                contadorJugadorDerecha.setVisible(false);
-					fondoContadorJugadorDerecha.setVisible(false);
-	                scrollJugadorDerecha.setVisible(false);
-	                
-	                break;
-	            case 4:
-	                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_IZQUIERDA);
-	                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
-	                jugadorIDmap.put((jugadorActualID+3) % numJugadores, JUGADOR_DERECHA);
-	                break;
-			}
-			jugadorIDmap.forEach((k, v) -> System.out.println(k + " - " + v));
-			System.out.println(jugadorIDmap);
-			System.out.println(numJugadores);
-
-			for (int i = 0; i < MAX_JUGADORES; i++) {
-				final int jugadorID = i;
-				if(jugadorIDmap.containsKey(jugadorID)) {
-					//Bindear el tiempo del timer a cada jugador
-					progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
-							timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
-				}
-			}
-			readyStairs.setOnMouseClicked(event -> validarEscalera());
-			notreadyStairs.setOnMouseClicked(event -> cancelarEscalera());
-			
+		//Creación del hashmap para los jugadores
+		jugadorIDmap.clear();
+        jugadorIDmap.put(jugadorActualID, JUGADOR_ABAJO);
+		switch(numJugadores){
+            case 2:
+                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_ARRIBA);
+                //A futuro ocultar jugador izquierda y jugador derecha
+                grupoEmojisJugadorIzquierda.setVisible(false);
+                grupoEmojisJugadorDerecha.setVisible(false);
+                contadorJugadorIzquierda.setVisible(false);
+                contadorJugadorDerecha.setVisible(false);
+				fondoContadorJugadorIzquierda.setVisible(false);
+                fondoContadorJugadorDerecha.setVisible(false);
+				
+                scrollJugadorIzquierda.setVisible(false);
+                scrollJugadorDerecha.setVisible(false);
+                
+                break;
+            case 3:
+                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_IZQUIERDA);
+                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
+              //A futuro ocultar jugador derecha
+                grupoEmojisJugadorDerecha.setVisible(false);
+                contadorJugadorDerecha.setVisible(false);
+				fondoContadorJugadorDerecha.setVisible(false);
+                scrollJugadorDerecha.setVisible(false);
+                
+                break;
+            case 4:
+                jugadorIDmap.put((jugadorActualID+1) % numJugadores, JUGADOR_IZQUIERDA);
+                jugadorIDmap.put((jugadorActualID+2) % numJugadores, JUGADOR_ARRIBA);
+                jugadorIDmap.put((jugadorActualID+3) % numJugadores, JUGADOR_DERECHA);
+                break;
 		}
+		jugadorIDmap.forEach((k, v) -> System.out.println(k + " - " + v));
+		System.out.println(jugadorIDmap);
+		System.out.println(numJugadores);
+
+		for (int i = 0; i < MAX_JUGADORES; i++) {
+			final int jugadorID = i;
+			if(jugadorIDmap.containsKey(jugadorID)) {
+				//Bindear el tiempo del timer a cada jugador
+				progresoJugadores[jugadorIDmap.get(jugadorID)].progressProperty().bind(
+						timersJugadores[jugadorIDmap.get(jugadorID)].divide(STARTTIME*100.0).subtract(1).multiply(-1));
+			}
+		}
+		readyStairs.setOnMouseClicked(event -> validarEscalera());
+		notreadyStairs.setOnMouseClicked(event -> cancelarEscalera());
 
 		SuscripcionSala.suscribirseCanalEmojis(respuestaEmojis -> {
 			int jugadorID = respuestaEmojis.getEmisor();

@@ -167,8 +167,8 @@ public class ImageManager {
     
     
 //Devuelve el ImageView del mazo de cartas correspondiente.
-    public static ImageView setImagenMazoCartas(ImageView imageView, boolean defaultMode) {
-    	return new ImageView(getResourceMazoCartas(defaultMode));
+    public static void setImagenMazoCartas(ImageView imageView, boolean defaultMode) {
+    	imageView.setImage(getResourceMazoCartas(defaultMode));
     }
     
     public static void setImagenSentidoPartida(ImageView imageView, boolean sentidoHorario) {
