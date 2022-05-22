@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import java.util.HashMap;
 
 import es.unizar.unoforall.model.salas.NotificacionSala;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,7 +40,7 @@ public class InvitacionItemController {
     	icono.setImage(avatares.get(notificacion.getRemitente().getAvatar()));
     	
     	//ACTUALIZAR EL RESTO DE PARÁMETROS
-    	nombre.setText(notificacion.getRemitente().getNombre());
+    	nombre.setText(StringUtils.parseString(notificacion.getRemitente().getNombre()));
     	idSala.setText(notificacion.getSalaID().toString());
 	}
 

@@ -12,6 +12,7 @@ import es.unizar.unoforall.model.partidas.PartidaJugadaCompacta;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -188,7 +189,7 @@ public class FinalizarPartidaController implements Initializable {
 			}
 			
 			ImageManager.setImagenPerfil(avatares[puesto-1], avatar);
-			labelsNombreJugadores[puesto-1].setText(nombre);
+			labelsNombreJugadores[puesto-1].setText(StringUtils.parseString(nombre));
 		}
 		
 		btnContinuar.setOnAction(siguientePantalla);
