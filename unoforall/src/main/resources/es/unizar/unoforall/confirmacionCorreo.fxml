@@ -15,14 +15,14 @@
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.ConfirmCorreoController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="430.0" style="-fx-background-color: white;">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;">
          <children>
-            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="161.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="244.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logoUno.png" />
                </image>
             </ImageView>
-            <GridPane layoutX="63.0" layoutY="220.0" prefHeight="25.0" prefWidth="304.0">
+            <GridPane layoutX="148.0" layoutY="321.0" prefHeight="25.0" prefWidth="304.0">
               <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="204.0" />
@@ -43,10 +43,22 @@
                   </TextField>
                </children>
             </GridPane>
-            <Button alignment="CENTER" layoutX="181.0" layoutY="290.0" mnemonicParsing="false" onAction="#confirmCode" text="Confirmar" />
+            <Button alignment="CENTER" layoutX="265.0" layoutY="374.0" mnemonicParsing="false" onAction="#confirmCode" text="Confirmar" />
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" text="Volver" />
-            <TextArea fx:id="labelInfo" editable="false" layoutX="37.0" layoutY="126.0" prefHeight="49.0" prefWidth="360.0" text="Por favor introduzca el código de confirmación que le ha llegado a su correo." wrapText="true" />
-            <Label fx:id="labelError" alignment="CENTER" layoutX="2.0" layoutY="386.0" prefHeight="17.0" prefWidth="430.0" textAlignment="CENTER" textFill="RED" />
+            <TextArea fx:id="labelInfo" editable="false" layoutX="114.0" layoutY="242.0" prefHeight="58.0" prefWidth="372.0" text="Por favor introduzca el código de confirmación que le ha llegado a su correo." wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextArea>
+            <Label fx:id="labelError" alignment="CENTER" layoutX="85.0" layoutY="416.0" prefHeight="17.0" prefWidth="430.0" textAlignment="CENTER" textFill="RED" />
+            <VBox alignment="CENTER" layoutX="97.0" layoutY="16.0">
+               <children>
+                  <Label fx:id="infoText" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="112.0" prefWidth="418.0" text="Por favor introduzca el código de confirmación que le ha llegado a su correo." wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </children>
