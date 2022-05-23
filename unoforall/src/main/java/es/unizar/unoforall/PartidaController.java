@@ -550,6 +550,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			switch (mostrarPopUpFinalizacionPartida()) {
 				case FinalizarPartidaController.SALIR_CON_ESTILO:
 				case FinalizarPartidaController.SALIR:
+					SuscripcionSala.salirDeSala();
 					App.setRoot("principal");
 					break;
 				case FinalizarPartidaController.CONTINUAR :
