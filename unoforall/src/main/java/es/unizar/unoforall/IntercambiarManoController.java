@@ -63,14 +63,9 @@ public class IntercambiarManoController implements Initializable {
 					resultado = Resultado.CANCELAR; 
 					System.out.println("Has elegido no elegir");
 	      		}
-		      	// take some action
-		      	//...
-		      	//resultado = 3;
-		      	// close the dialog.
+	      		
 		      	Node  source = (Node)  actionEvent.getSource(); 
 		      	Stage stage  = (Stage) source.getScene().getWindow();
-		      	//Por alguna razón peta, ¿será realmente necesario?
-		      	//stage.getOnCloseRequest().handle(null);
 		      	stage.close();
 	      	}
 		};

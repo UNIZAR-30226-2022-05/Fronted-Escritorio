@@ -74,14 +74,9 @@ public class CambiarColorController implements Initializable{
 	      	  	} else if(actionEvent.getSource().equals(btnCancelar)) {
 	      			System.out.println("Has clickado el botón de cancelar jugada"); 
 	      		}
-		      	// take some action
-		      	//...
-		      	//resultado = 3;
-		      	// close the dialog.
+	      		
 		      	Node  source = (Node)  actionEvent.getSource(); 
 		      	Stage stage  = (Stage) source.getScene().getWindow();
-		      	//Por alguna razón peta, ¿será realmente necesario?
-		      	//stage.getOnCloseRequest().handle(null);
 		      	stage.close();
 	      	}
 		};

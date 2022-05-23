@@ -38,8 +38,6 @@ public class RobarOJugarCartaController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		//Handler que realiza una acción dependiendo de qué botón ha sido pulsado.
 		//Tras pulsarse, está configurado para cerrar el popup.
-		//Stage stagetest = (Stage) btnRobarCarta.getScene().getWindow();
-		//MyStage stage = (MyStage) (Stage) vb.getScene().getWindow();
 		defaultMode = App.getPersonalizacion().get("cartaSelec") == 0;
 		isVisible = true;
 		System.out.println(carta);
@@ -54,14 +52,9 @@ public class RobarOJugarCartaController implements Initializable{
 	      			System.out.println("Has clickado el botón jugar carta");
 	      			resultado = JUGAR_CARTA;
 	      		} 
-		      	// take some action
-		      	//...
-		      	//resultado = 3;
-		      	// close the dialog.
+
 		      	Node  source = (Node)  actionEvent.getSource(); 
 		      	Stage stage  = (Stage) source.getScene().getWindow();
-		      	//Por alguna razón peta, ¿será realmente necesario?
-		      	//stage.getOnCloseRequest().handle(null);
 		      	stage.close();
 	      	}
 		};
