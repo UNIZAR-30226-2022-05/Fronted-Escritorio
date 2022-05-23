@@ -11,6 +11,7 @@ import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.ListaUsuarios;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.Sala;
+import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -40,27 +41,9 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 
-	private static HashMap<Integer,Image> fondos = new HashMap<Integer, Image>();
-	static {
-		fondos.put(0, new Image(App.class.getResourceAsStream("images/fondos/azul.png")));
-		fondos.put(1, new Image(App.class.getResourceAsStream("images/fondos/morado.png")));
-		fondos.put(2, new Image(App.class.getResourceAsStream("images/fondos/gris.png")));
-	}
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;
 	@FXML private Label labelError;
-	
-	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
-	static {
-		avatares.put(0, new Image(App.class.getResourceAsStream("images/avatares/0-cero.png")));
-		avatares.put(1, new Image(App.class.getResourceAsStream("images/avatares/1-uno.png")));
-		avatares.put(2, new Image(App.class.getResourceAsStream("images/avatares/2-dos.png")));
-		avatares.put(3, new Image(App.class.getResourceAsStream("images/avatares/3-tres.png")));
-		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
-		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
-		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
-		avatares.put(7, new Image(App.class.getResourceAsStream("images/iconoPerfil.png")));
-	}
 	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
 	private static Image notready = new Image(VistaSalaController.class.getResourceAsStream("images/notready.png"));
@@ -97,17 +80,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 		//ESTABLECER EN QUÉ PANTALLA ESTOY PARA SALAS Y PARTIDAS
 		SuscripcionSala.dondeEstoy(this);
 		//PONER EL FONDO CORRESPONDIENTE
-		fondo.setBackground(
-			new Background(
-				new BackgroundImage(
-					fondos.get(App.getPersonalizacion().get("tableroSelec")),
-					BackgroundRepeat.NO_REPEAT,
-					BackgroundRepeat.NO_REPEAT,
-					BackgroundPosition.CENTER,
-					BackgroundSize.DEFAULT
-				)
-			)
-		);
+		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		
 		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMAGENES
 		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -232,54 +205,108 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	private void cargarParticipantes(int tamanyo, HashMap<UsuarioVO, Boolean> participantes) {
 		if (tamanyo == 1) {
 			//VISIBLES
-			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
+			if (!caja1.isVisible())	{
+				caja1.setDisable(false); 
+				caja1.setVisible(true);
+			}
 			//INVISIBLES
-			if (caja2.isVisible())	{caja2.setDisable(true); caja2.setVisible(false);}
-			if (caja3.isVisible())	{caja3.setDisable(true); caja3.setVisible(false);}
-			if (caja4.isVisible())	{caja4.setDisable(true); caja4.setVisible(false);}
+			if (caja2.isVisible()) {
+				caja2.setDisable(true);
+				caja2.setVisible(false);
+			}
+			
+			if (caja3.isVisible()) {
+				caja3.setDisable(true);
+				caja3.setVisible(false);
+			}
+			
+			if (caja4.isVisible()) {
+				caja4.setDisable(true);
+				caja4.setVisible(false);
+			}
+			
 		} else if (tamanyo == 2) {
 			//VISIBLES
-			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
-			if (!caja2.isVisible())	{caja2.setDisable(false); caja2.setVisible(true);}
+			if (!caja1.isVisible())	{
+				caja1.setDisable(false);
+				caja1.setVisible(true);
+			}
+			
+			if (!caja2.isVisible())	{
+				caja2.setDisable(false);
+				caja2.setVisible(true);
+			}
 			//INVISIBLES
-			if (caja3.isVisible())	{caja3.setDisable(true); caja3.setVisible(false);}
-			if (caja4.isVisible())	{caja4.setDisable(true); caja4.setVisible(false);}
+			if (caja3.isVisible()) {
+				caja3.setDisable(true);
+				caja3.setVisible(false);
+			}
+			if (caja4.isVisible()) {
+				caja4.setDisable(true);
+				caja4.setVisible(false);
+			}
 		} else if (tamanyo == 3) {
 			//VISIBLES
-			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
-			if (!caja2.isVisible())	{caja2.setDisable(false); caja2.setVisible(true);}
-			if (!caja3.isVisible())	{caja3.setDisable(false); caja3.setVisible(true);}
+			if (!caja1.isVisible())	{
+				caja1.setDisable(false); 
+				caja1.setVisible(true);
+			}
+			
+			if (!caja2.isVisible())	{
+				caja2.setDisable(false);
+				caja2.setVisible(true);
+			}
+			
+			if (!caja3.isVisible())	{
+				caja3.setDisable(false);
+				caja3.setVisible(true);
+			}
 			//INVISIBLES
-			if (caja4.isVisible())	{caja4.setDisable(true); caja4.setVisible(false);}
+			if (caja4.isVisible()) {
+				caja4.setDisable(true);
+				caja4.setVisible(false);
+			}
 		} else {
 			//TODAS VISIBLES
-			if (!caja1.isVisible())	{caja1.setDisable(false); caja1.setVisible(true);}
-			if (!caja2.isVisible())	{caja2.setDisable(false); caja2.setVisible(true);}
-			if (!caja3.isVisible())	{caja3.setDisable(false); caja3.setVisible(true);}
-			if (!caja4.isVisible())	{caja4.setDisable(false); caja4.setVisible(true);}
+			if (!caja1.isVisible())	{
+				caja1.setDisable(false);
+				caja1.setVisible(true);
+			}
+			if (!caja2.isVisible())	{
+				caja2.setDisable(false);
+				caja2.setVisible(true);
+			}
+			if (!caja3.isVisible())	{
+				caja3.setDisable(false);
+				caja3.setVisible(true);
+			}
+			if (!caja4.isVisible())	{
+				caja4.setDisable(false);
+				caja4.setVisible(true);
+			}
 		}
 		List<UsuarioVO> usuariosVO = new ArrayList<>(participantes.keySet());
 		usuariosVO.sort(Comparator.comparing(UsuarioVO::getNombre));
 		
 		//POR DEFECTO, PONER ESPERANDO JUGADOR E IMAGEN DE IA
 		nomJug1.setText(StringUtils.parseString("Esperando Jugador 1"));
-		pfpJug1.setImage(avatares.get(7));
+		ImageManager.setImagenPerfil(pfpJug1, ImageManager.ICONO_PERFIL_ID);
 		nomJug2.setText(StringUtils.parseString("Esperando Jugador 2"));
-		pfpJug2.setImage(avatares.get(7));
+		ImageManager.setImagenPerfil(pfpJug2, ImageManager.ICONO_PERFIL_ID);
 		nomJug3.setText(StringUtils.parseString("Esperando Jugador 3"));
-		pfpJug3.setImage(avatares.get(7));
+		ImageManager.setImagenPerfil(pfpJug3, ImageManager.ICONO_PERFIL_ID);
 		nomJug4.setText(StringUtils.parseString("Esperando Jugador 4"));
-		pfpJug4.setImage(avatares.get(7));
+		ImageManager.setImagenPerfil(pfpJug4, ImageManager.ICONO_PERFIL_ID);
 
 		int i = 1;
-		for (UsuarioVO u : usuariosVO) {
-			String nombre = u.getNombre();
-			boolean listo = participantes.get(u);
+		for (UsuarioVO jugador : usuariosVO) {
+			String nombre = jugador.getNombre();
+			boolean listo = participantes.get(jugador);
 			if (i == 1) {	//EN LA CAJA 1
 				//PONER NOMBRE DE USUARIO 1
 				nomJug1.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 1
-				pfpJug1.setImage(avatares.get(u.getAvatar()));
+				ImageManager.setImagenPerfil(pfpJug1, jugador.getAvatar());
 				//PONER A LISTO USUARIO 1
 				if (listo) {
 					rdyIconJug1.setImage(ready);
@@ -291,7 +318,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 				//PONER NOMBRE DE USUARIO 2
 				nomJug2.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 2
-				pfpJug2.setImage(avatares.get(u.getAvatar()));
+				ImageManager.setImagenPerfil(pfpJug2, jugador.getAvatar());
 				//PONER A LISTO USUARIO 2
 				if (listo) {
 					rdyIconJug2.setImage(ready);
@@ -303,7 +330,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 				//PONER NOMBRE DE USUARIO 3
 				nomJug3.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 3
-				pfpJug3.setImage(avatares.get(u.getAvatar()));
+				ImageManager.setImagenPerfil(pfpJug3, jugador.getAvatar());
 				//PONER A LISTO USUARIO 3
 				if (listo) {
 					rdyIconJug3.setImage(ready);
@@ -315,7 +342,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 				//PONER NOMBRE DE USUARIO 4
 				nomJug4.setText(StringUtils.parseString(nombre));
 				//PONER ICONO DE USUARIO 4
-				pfpJug4.setImage(avatares.get(u.getAvatar()));
+				ImageManager.setImagenPerfil(pfpJug4, jugador.getAvatar());
 				//PONER A LISTO USUARIO 4
 				if (listo) {
 					rdyIconJug4.setImage(ready);

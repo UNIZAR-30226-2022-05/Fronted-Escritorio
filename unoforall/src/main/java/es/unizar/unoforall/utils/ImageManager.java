@@ -35,7 +35,8 @@ public class ImageManager {
     public static final int IMAGEN_PERFIL_4_ID = 4;
     public static final int IMAGEN_PERFIL_5_ID = 5;
     public static final int IMAGEN_PERFIL_6_ID = 6;
-    public static final int NUM_AVATARES = 8;
+    public static final int ICONO_PERFIL_ID = 7;
+    public static final int NUM_AVATARES = 9;
     
 
     public static final int IMAGEN_EMOJI_0_ID = 0;
@@ -108,7 +109,7 @@ public class ImageManager {
     }
     
     public static void setImagenPerfil(ImageView imageView, int imageID) {
-        if(imageID < -2 || imageID > 6){
+        if(imageID < -2 || imageID > 7){
             throw new IllegalArgumentException("ID de imagen inválido: " + imageID + ". Debe estar entre -2 y 6");
         }
         if(avatarsMap.isEmpty()){
@@ -121,6 +122,7 @@ public class ImageManager {
 			avatarsMap.put(IMAGEN_PERFIL_4_ID, cargarImagen("images/avatares/4-cuatro.png"));
 			avatarsMap.put(IMAGEN_PERFIL_5_ID, cargarImagen("images/avatares/5-cinco.png"));
 			avatarsMap.put(IMAGEN_PERFIL_6_ID, cargarImagen("images/avatares/6-seis.png"));
+			avatarsMap.put(ICONO_PERFIL_ID, cargarImagen("images/iconoPerfil.png"));
         } 
 		imageView.setImage(avatarsMap.get(imageID));
     }

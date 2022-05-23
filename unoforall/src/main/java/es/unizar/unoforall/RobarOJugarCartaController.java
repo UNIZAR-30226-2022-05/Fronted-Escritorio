@@ -26,8 +26,7 @@ public class RobarOJugarCartaController implements Initializable{
     @FXML private ImageView cartaRobada;
     private Carta carta;
     
-    @FXML
-    private VBox vb;
+    @FXML private VBox vb;
     MyStage myStage;
     private boolean defaultMode;
     private boolean isVisible;
