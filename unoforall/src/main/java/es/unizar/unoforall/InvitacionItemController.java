@@ -45,7 +45,7 @@ public class InvitacionItemController {
 	}
 
     @FXML
-    void aceptar(ActionEvent event) {
+    private void aceptar(ActionEvent event) {
     	//UNIRSE A LA SALA
 		App.setSalaID(notificacion.getSalaID());
 		
@@ -60,7 +60,7 @@ public class InvitacionItemController {
     }
 
     @FXML
-    void cancelar(ActionEvent event) {
+    private void cancelar(ActionEvent event) {
 		//ELIMINAR DE INVITACIONES RECIBIDAS (RECARGANDO LA PÁGINA)
     	NotificacionesController.invitaciones.remove(notificacion);
     	App.setRoot("notificaciones");

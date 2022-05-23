@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="marco" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
+<BorderPane fx:id="marco" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
    <bottom>
       <Pane prefHeight="135.0" prefWidth="1280.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
@@ -352,12 +352,16 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="120.0" prefWidth="762.0" VBox.vgrow="SOMETIMES">
                <children>
-                  <ImageView fx:id="btnHabilitarEmojis" fitHeight="100.0" fitWidth="200.0" layoutX="322.0" layoutY="20.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
-                     <image>
-                        <Image url="@images/emoticonos/aceptar.png" />
-                     </image>
-                  </ImageView>
-                  <Pane prefHeight="120.0" prefWidth="25.0" />
+                  <VBox alignment="CENTER" prefHeight="120.0" prefWidth="160.0">
+                     <children>
+                        <ImageView fx:id="btnHabilitarEmojis" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                           <image>
+                              <Image url="@images/emoticonos/aceptar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <Pane prefHeight="120.0" prefWidth="10.0" />
                   <VBox alignment="CENTER" prefHeight="120.0" prefWidth="160.0">
                      <children>
                         <ImageView fx:id="btnUno" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#botonUnoPulsado" pickOnBounds="true" preserveRatio="true">
@@ -367,12 +371,16 @@
                         </ImageView>
                      </children>
                   </VBox>
-                  <Pane prefHeight="120.0" prefWidth="25.0" />
-                  <ImageView fx:id="btnSeleccionarEmoji" fitHeight="100.0" fitWidth="200.0" layoutX="391.0" layoutY="20.0" onMouseClicked="#seleccionarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8">
-                     <image>
-                        <Image url="@images/emoticonos/expandir.png" />
-                     </image>
-                  </ImageView>
+                  <Pane prefHeight="120.0" prefWidth="9.0" />
+                  <VBox alignment="CENTER" prefHeight="120.0" prefWidth="160.0">
+                     <children>
+                        <ImageView fx:id="btnSeleccionarEmoji" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#seleccionarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                           <image>
+                              <Image url="@images/emoticonos/expandir.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
                </children></HBox>
             <VBox alignment="TOP_CENTER">
                <children>

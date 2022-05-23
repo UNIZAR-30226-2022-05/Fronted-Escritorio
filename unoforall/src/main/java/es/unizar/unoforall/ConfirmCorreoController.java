@@ -20,8 +20,7 @@ public class ConfirmCorreoController {
 	@FXML private TextField cajaCodigo;
 	public static String correo = null;
 	
-	@FXML
-    private void goBack(ActionEvent event) {
+	@FXML private void goBack(ActionEvent event) {
 		labelError.setText("");
     	//CANCELACION DE REGISTRO
 		RestAPI apirest = new RestAPI("/api/registerCancel");

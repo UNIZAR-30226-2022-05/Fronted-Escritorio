@@ -29,7 +29,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -725,6 +724,38 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				btnUno.setFitHeight(100);
 			}
 		});
+    	//Agrandar botón habilitar emojis
+    	btnHabilitarEmojis.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnHabilitarEmojis.setFitWidth(210);
+				btnHabilitarEmojis.setFitHeight(110);
+			}
+		});
+    	//Disminuir botón habilitar emojis
+    	btnHabilitarEmojis.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnHabilitarEmojis.setFitWidth(200);
+				btnHabilitarEmojis.setFitHeight(100);
+			}
+		});
+    	//Agrandar botón seleccionar emojis
+    	btnSeleccionarEmoji.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnSeleccionarEmoji.setFitWidth(210);
+				btnSeleccionarEmoji.setFitHeight(110);
+			}
+		});
+    	//Disminuir botón seleccionar emojis
+    	btnSeleccionarEmoji.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnSeleccionarEmoji.setFitWidth(200);
+				btnSeleccionarEmoji.setFitHeight(100);
+			}
+		});
 		
     	//Efecto para bajar el brillo a una carta
     	oscurecerCarta = new Lighting();
@@ -771,10 +802,28 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			colorAdjust.setSaturation(-0.7);
 			
 			btnSeleccionarEmoji.setEffect(colorAdjust);
+			btnSeleccionarEmoji.setOnMouseEntered(null);
+			btnSeleccionarEmoji.setOnMouseExited(null);
 			
 		} else {
 			emojisHabilitados = true;
 			btnSeleccionarEmoji.setEffect(null);
+	    	//Agrandar botón seleccionar emojis
+	    	btnSeleccionarEmoji.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					btnSeleccionarEmoji.setFitWidth(210);
+					btnSeleccionarEmoji.setFitHeight(110);
+				}
+			});
+	    	//Disminuir botón seleccionar emojis
+	    	btnSeleccionarEmoji.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					btnSeleccionarEmoji.setFitWidth(200);
+					btnSeleccionarEmoji.setFitHeight(100);
+				}
+			});
 		}
 		ImageManager.setImagenEnableEmojis(btnHabilitarEmojis, emojisHabilitados);
 	}
