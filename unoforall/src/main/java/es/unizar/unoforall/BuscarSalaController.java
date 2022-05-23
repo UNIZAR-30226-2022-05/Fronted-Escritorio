@@ -71,7 +71,7 @@ public class BuscarSalaController implements Initializable {
 				imgMenu.setFitHeight(160);
 				imgMenu.setEffect(new Glow(0.3));
 			}
-		});;
+		});
 		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -79,7 +79,9 @@ public class BuscarSalaController implements Initializable {
 				imgMenu.setFitHeight(150);
 				imgMenu.setEffect(null);
 			}
-		});;
+		});
+		
+		findRooms(null);
 	}
 	
 	@FXML
