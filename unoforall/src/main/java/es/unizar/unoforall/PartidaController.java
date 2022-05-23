@@ -184,9 +184,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private static final Point2D COORDS_TACO_ROBO = new Point2D(800, 300); 
 	private static final Point2D COORDS_TACO_DESCARTES = new Point2D(503, 295); 
 	private static final Point2D COORDS_JUGADOR_ABAJO = new Point2D(288, 640);
-	private static final Point2D COORDS_JUGADOR_IZQUIERDA = new Point2D(73, 335);
-	private static final Point2D COORDS_JUGADOR_ARRIBA = new Point2D(998, 20);
-	private static final Point2D COORDS_JUGADOR_DERECHA = new Point2D(1208, 425);
+	private static final Point2D COORDS_JUGADOR_IZQUIERDA = new Point2D(73, 283);
+	private static final Point2D COORDS_JUGADOR_ARRIBA = new Point2D(962, 20);
+	private static final Point2D COORDS_JUGADOR_DERECHA = new Point2D(1208, 405);
 	
 	private static final Point2D[] COORDS_JUGADORES = {
 		COORDS_JUGADOR_ABAJO,
@@ -200,6 +200,10 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		marco.setOnMouseClicked(mouseEvent -> {
+            System.out.println("X: " + mouseEvent.getX());
+            System.out.println("Y: " + mouseEvent.getY());
+        });
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
