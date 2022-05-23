@@ -200,10 +200,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		marco.setOnMouseClicked(mouseEvent -> {
-            System.out.println("X: " + mouseEvent.getX());
-            System.out.println("Y: " + mouseEvent.getY());
-        });
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();

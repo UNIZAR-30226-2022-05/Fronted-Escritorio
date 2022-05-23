@@ -72,6 +72,7 @@ public class BuscarSalaController implements Initializable {
 				imgMenu.setEffect(new Glow(0.3));
 			}
 		});
+		
 		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
