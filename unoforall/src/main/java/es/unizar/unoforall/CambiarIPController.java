@@ -7,8 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 public class CambiarIPController {
-	@FXML
-	private TextField cajaIP;
+	@FXML private TextField cajaIP;
 	
 	@FXML
 	private void cambiarIP (ActionEvent event) {

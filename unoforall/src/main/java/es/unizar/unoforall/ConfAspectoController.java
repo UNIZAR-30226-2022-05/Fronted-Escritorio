@@ -195,7 +195,6 @@ public class ConfAspectoController implements Initializable {
 			});
 		}
 
-		
 		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMÁGENES
 		imgMenu.setOnMouseEntered(event -> {
 			imgMenu.setFitWidth(160);

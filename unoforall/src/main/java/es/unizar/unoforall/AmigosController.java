@@ -39,15 +39,14 @@ public class AmigosController implements Initializable{
     private ArrayList<UsuarioVO> listaAmigosLocal = new ArrayList<UsuarioVO>();
 
     @FXML
-    void goBack(ActionEvent event) {
+    private void goBack(ActionEvent event) {
     	App.setRoot("principal");
     }
 
     @FXML
-    void goToMain(MouseEvent event) {
+    private void goToMain(MouseEvent event) {
     	App.setRoot("principal");
     }
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -142,8 +141,9 @@ public class AmigosController implements Initializable{
     		}
     	}
 	}
+	
     @FXML
-    void cleanSearch(ActionEvent event) {
+    private void cleanSearch(ActionEvent event) {
 		labelError.setText("");
 		//BORRAR RESULTADOS ANTERIORES DE LA VENTANA DE RESULTADOS
 		listaAmigos.getChildren().clear();
@@ -167,7 +167,7 @@ public class AmigosController implements Initializable{
     }
 
     @FXML
-    void findFriend(ActionEvent event) {
+    private void findFriend(ActionEvent event) {
 		labelError.setText("");
 		//BORRAR RESULTADOS ANTERIORES DE LA VENTANA DE RESULTADOS
 		listaAmigos.getChildren().clear();

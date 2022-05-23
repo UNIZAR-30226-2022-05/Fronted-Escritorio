@@ -49,13 +49,13 @@ public class ConfCuentaController implements Initializable {
 	@FXML private Button btnEliminar;
 	
 	@FXML private Label labelError;
-	@FXML TextField cajaNombre;	
-	@FXML TextField cajaCorreo;	
-	@FXML PasswordField cajaContrasenya;
-	@FXML PasswordField cajaContrasenya2;
+	@FXML private TextField cajaNombre;	
+	@FXML private TextField cajaCorreo;	
+	@FXML private PasswordField cajaContrasenya;
+	@FXML private PasswordField cajaContrasenya2;
 	
-	@FXML VBox contenedorOculto;
-	@FXML TextField cajaCodigo;
+	@FXML private VBox contenedorOculto;
+	@FXML private TextField cajaCodigo;
 	
 	private UsuarioVO usuario;
 

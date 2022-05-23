@@ -67,7 +67,7 @@ public class App extends Application {
         });
     }
     
-    static void setBounds() {
+    public static void setBounds() {
         stage.sizeToScene();
         
         stage.setMinWidth(stage.getWidth());
@@ -77,7 +77,7 @@ public class App extends Application {
         stage.setMaxHeight(1080);
     }
     
-    static void setRoot(String fxml) {
+    public static void setRoot(String fxml) {
         scene.setRoot(loadFXML(fxml));
         nomPantalla = fxml;
         setBounds();

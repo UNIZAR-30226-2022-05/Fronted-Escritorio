@@ -28,14 +28,12 @@ public class PeticionItemController {
 	private UsuarioVO usuario;
 	boolean enviada;
 
-    @FXML
-    private Button botonAceptar;
-    @FXML
-    private Button botonCancelar;
-    @FXML
-    private ImageView icono;
-    @FXML
-    private Label nombre;
+    @FXML private Button botonAceptar;
+    @FXML private Button botonCancelar;
+    
+    @FXML private ImageView icono;
+    
+    @FXML private Label nombre;
 
 	public void setData(UsuarioVO usr, boolean env) {
     	usuario = usr;
@@ -56,7 +54,7 @@ public class PeticionItemController {
 	}
 
     @FXML
-    void aceptar(ActionEvent event) {
+    private void aceptar(ActionEvent event) {
 		//ACEPTAR PETICION DE AMISTAD
 		RestAPI apirest = new RestAPI("/api/aceptarPeticionAmistad");
 		apirest.addParameter("sesionID", App.getSessionID());
@@ -75,7 +73,7 @@ public class PeticionItemController {
     }
 
     @FXML
-    void cancelar(ActionEvent event) {
+    private void cancelar(ActionEvent event) {
 		//CANCELAR PETICION
 		RestAPI apirest = new RestAPI("/api/cancelarPeticionAmistad");
 		apirest.addParameter("sesionID", App.getSessionID());

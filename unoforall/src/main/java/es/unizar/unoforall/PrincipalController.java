@@ -196,7 +196,7 @@ public class PrincipalController implements Initializable {
 	}
 	
 	@FXML
-	public void configurarCuenta(ActionEvent event) {
+	private void configurarCuenta(ActionEvent event) {
 		if (estaPausada) {
 			Alert alert = new Alert(AlertType.WARNING);
 	    	alert.setTitle("Aviso");
@@ -209,7 +209,7 @@ public class PrincipalController implements Initializable {
 	}
 
 	@FXML
-	public void configurarAspecto(ActionEvent event) {
+	private void configurarAspecto(ActionEvent event) {
 		if (estaPausada) {
 			Alert alert = new Alert(AlertType.WARNING);
 	    	alert.setTitle("Aviso");

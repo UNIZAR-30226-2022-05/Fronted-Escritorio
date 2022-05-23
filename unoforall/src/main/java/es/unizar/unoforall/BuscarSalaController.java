@@ -47,9 +47,9 @@ public class BuscarSalaController implements Initializable {
 	};
 
 	@FXML private Label labelError;
-	@FXML TextField cajaIdSala;
+	@FXML private TextField cajaIdSala;
 	
-	@FXML GridPane listaSalas;
+	@FXML private GridPane listaSalas;
 	
 	private static ConfigSala config =
 			new ConfigSala(ConfigSala.ModoJuego.Undefined, new ReglasEspeciales(), -1, true);
