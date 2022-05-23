@@ -319,9 +319,9 @@
          <children>
             <HBox alignment="CENTER" VBox.vgrow="SOMETIMES">
                <children>
-                  <Label fx:id="labelVotacion" disable="true" text="Votación pausa: ?/?" textFill="#ffc370" visible="false">
+                  <Label fx:id="labelVotacion" text="Votacion pausa ?/?" textFill="#ffc370" visible="false">
                      <font>
-                        <Font name="System Bold Italic" size="24.0" />
+                        <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
                </children>

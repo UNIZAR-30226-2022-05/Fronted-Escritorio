@@ -79,7 +79,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="X2" textFill="WHITE" GridPane.rowIndex="4">
+                  <Label text="x2" textFill="WHITE" GridPane.rowIndex="4">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -222,8 +222,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="56.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="74.0" valignment="CENTER" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Label text="Modo de Juego" textFill="WHITE">
@@ -231,22 +231,22 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Encadenar +2 y +4" textFill="WHITE" GridPane.rowIndex="1">
+                  <Label text="Acumular efecto de +2 y +4" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Redirigir +2 y +4" textFill="WHITE" GridPane.rowIndex="2">
+                  <Label text="Redirigir efecto de +2 y +4" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Jugar Varias Cartas" textFill="WHITE" GridPane.rowIndex="3">
+                  <Label alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="268.0" text="Permite escalera y jugar varias del mismo número" textFill="WHITE" wrapText="true" GridPane.rowIndex="3">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Evitar Especial Final" textFill="WHITE" GridPane.rowIndex="4">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="74.0" prefWidth="270.0" text="Penaliza si tu útlima carta es +4 o cambio de color" textFill="WHITE" wrapText="true" GridPane.rowIndex="4">
                      <font>
                         <Font size="24.0" />
                      </font>

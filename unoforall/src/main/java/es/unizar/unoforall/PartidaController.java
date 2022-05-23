@@ -227,6 +227,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				labelVotacion.setVisible(false);
 			} else {
 				labelVotacion.setVisible(true);
+				labelVotacion.toFront();
 				labelVotacion.setText(String.format("Votación pausa: %d/%d", numVotos, numVotantes));
 			}
 			if (DEBUG) System.out.println("Votantes: " + numVotantes + "; Votos: " + numVotos);
