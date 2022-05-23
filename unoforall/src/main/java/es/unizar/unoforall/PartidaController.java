@@ -52,6 +52,7 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -699,7 +700,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if(partida.validarJugada(jugada)) {
 			SuscripcionSala.enviarJugada(jugada);
 			errorEscalera.setText("Has jugado un combo de " + listaCartasEscalera.size() +" carta(s).");
-		    errorEscalera.setTextFill(Color.GREEN);
+		    errorEscalera.setTextFill(Color.LIMEGREEN);
 			AnimationManager.fadeErrorEscalera(errorEscalera);
 		} else {
 			//mostrar mensaje de error 
