@@ -184,9 +184,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	private static final Point2D COORDS_TACO_ROBO = new Point2D(800, 300); 
 	private static final Point2D COORDS_TACO_DESCARTES = new Point2D(503, 295); 
 	private static final Point2D COORDS_JUGADOR_ABAJO = new Point2D(288, 640);
-	private static final Point2D COORDS_JUGADOR_IZQUIERDA = new Point2D(73, 335);
-	private static final Point2D COORDS_JUGADOR_ARRIBA = new Point2D(998, 20);
-	private static final Point2D COORDS_JUGADOR_DERECHA = new Point2D(1208, 425);
+	private static final Point2D COORDS_JUGADOR_IZQUIERDA = new Point2D(73, 283);
+	private static final Point2D COORDS_JUGADOR_ARRIBA = new Point2D(962, 20);
+	private static final Point2D COORDS_JUGADOR_DERECHA = new Point2D(1208, 405);
 	
 	private static final Point2D[] COORDS_JUGADORES = {
 		COORDS_JUGADOR_ABAJO,
@@ -731,50 +731,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
         return partida.validarJugada(jugada);
     }
     
-    
-    private void comprobarRobo() {
-    	Jugada jugada = new Jugada();
-		if(partida.isModoJugarCartaRobada()) {
-			try {
-				Carta cartaRobada = partida.getCartaRobada(); 
-				RobarOJugarCartaController rojcc = new RobarOJugarCartaController();
-				popUpRobarCarta = new MyStage();
-				(rojcc).setCard(cartaRobada);
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("robarOJugarCarta.fxml"));
-				fxmlLoader.setController(rojcc);
-				Parent root1 = (Parent) fxmlLoader.load();
-				Scene scene = new Scene(root1);
-				
-				scene.setFill(Color.TRANSPARENT);
-				popUpRobarCarta.setTitle("Pantalla Cambiar de color");
-				popUpRobarCarta.setScene(scene);
-				popUpRobarCarta.initStyle(StageStyle.UNDECORATED);
-				popUpRobarCarta.initModality(Modality.APPLICATION_MODAL);
-				popUpRobarCarta.initOwner(marco.getScene().getWindow());
-	
-				int resultado = popUpRobarCarta.showAndReturnDrawResult(rojcc, cartaRobada);
-				System.out.println("recupero un " + resultado);
-				
-				switch(resultado) {
-					case ROBAR_CARTA:
-						break;
-					case JUGAR_CARTA:
-						if(cartaRobada.getColor() == Carta.Color.comodin) {
-							mostrarPopUpCambiarColor(cartaRobada);
-						} else if(cartaRobada.getTipo() == Carta.Tipo.intercambio) {
-							mostrarPopUpIntercambiarMano(cartaRobada);
-						} else {
-							jugada = new Jugada(Collections.singletonList(cartaRobada));
-							SuscripcionSala.enviarJugada(jugada);
-						}
-						break;
-				}
-			} catch (Exception e) {
-				System.out.println("No se ha podido cargar la pagina: " + e);
-			}
-		SuscripcionSala.enviarJugada(jugada);	
-		}
-    }
+
     
     private void inicializarEfectos() {
     	//Agrandar botón UNO
@@ -886,7 +843,52 @@ public class PartidaController extends SalaReceiver implements Initializable {
     }
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////SECCIÓN DE POPUPS///////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////    
+/////////////////////////////////////////////////////////////////////////////////////// 
+    
+    private void comprobarRobo() {
+    	Jugada jugada = new Jugada();
+		if(partida.isModoJugarCartaRobada()) {
+			try {
+				Carta cartaRobada = partida.getCartaRobada(); 
+				RobarOJugarCartaController rojcc = new RobarOJugarCartaController();
+				popUpRobarCarta = new MyStage();
+				(rojcc).setCard(cartaRobada);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("robarOJugarCarta.fxml"));
+				fxmlLoader.setController(rojcc);
+				Parent root1 = (Parent) fxmlLoader.load();
+				Scene scene = new Scene(root1);
+				
+				scene.setFill(Color.TRANSPARENT);
+				popUpRobarCarta.setTitle("Pantalla Cambiar de color");
+				popUpRobarCarta.setScene(scene);
+				popUpRobarCarta.initStyle(StageStyle.UNDECORATED);
+				popUpRobarCarta.initModality(Modality.APPLICATION_MODAL);
+				popUpRobarCarta.initOwner(marco.getScene().getWindow());
+	
+				int resultado = popUpRobarCarta.showAndReturnDrawResult(rojcc, cartaRobada);
+				System.out.println("recupero un " + resultado);
+				
+				switch(resultado) {
+					case ROBAR_CARTA:
+						SuscripcionSala.enviarJugada(jugada);
+						break;
+					case JUGAR_CARTA:
+						if(cartaRobada.getColor() == Carta.Color.comodin) {
+							mostrarPopUpCambiarColor(cartaRobada);
+						} else if(cartaRobada.getTipo() == Carta.Tipo.intercambio) {
+							mostrarPopUpIntercambiarMano(cartaRobada);
+						} else {
+							jugada = new Jugada(Collections.singletonList(cartaRobada));
+							SuscripcionSala.enviarJugada(jugada);
+						}
+						break;
+				}
+			} catch (Exception e) {
+				System.out.println("No se ha podido cargar la pagina: " + e);
+			}	
+		}
+    }
+    
 	private void mostrarPopUpIntercambiarMano(Carta carta) {
 		try {
 			IntercambiarManoController imc = new IntercambiarManoController();
