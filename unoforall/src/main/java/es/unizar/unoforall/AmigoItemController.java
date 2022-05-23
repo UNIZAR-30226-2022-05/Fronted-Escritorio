@@ -17,13 +17,13 @@ public class AmigoItemController {
 	private UsuarioVO usuario;
 	
     @FXML private ImageView icono;
+   
     @FXML private Label nombre;
     @FXML private Label pJugadas;
     @FXML private Label pGanadas;
     @FXML private Label puntos;
-    
-    @FXML
-    private Button botonHacerAmigo;
+   
+    @FXML private Button botonHacerAmigo;
     
     public void setData(UsuarioVO usr, boolean amigo) {
     	usuario = usr;
@@ -47,14 +47,14 @@ public class AmigoItemController {
     }
 
     @FXML
-    void verHistorial(ActionEvent event) {
+    private void verHistorial(ActionEvent event) {
 		//PASAR EL USUARIO A LA VENTANA DE HISTORIAL
 		HistorialController.usuario = usuario;
 		App.setRoot("historial");
     }
     
     @FXML
-    void hacerAmigo(ActionEvent event) {
+    private void hacerAmigo(ActionEvent event) {
 		//ENVIAR PETICIÓN DE AMISTAD
     	App.apiweb.sendObject("/app/notifAmistad/" + usuario.getId(), "vacio");
 		botonHacerAmigo.setDisable(true);

@@ -32,7 +32,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
-    public static String nomPantalla;
+    private static String nomPantalla;
 	private static String sesionID;
 	private static RespuestaLogin respLogin;
 	private static UUID salaID;
@@ -43,6 +43,11 @@ public class App extends Application {
 	static {
 		apiweb = new WebSocketAPI();
 	}
+	
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+    	launch();
+        
+    }
     
     @Override
     public void start(Stage s) throws IOException {
@@ -157,6 +162,25 @@ public class App extends Application {
     	});
     }
     
+    public static void salir() {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Cierre de Aplicación");
+    	alert.setHeaderText("¡Estás a punto de cerrar la aplicación!");
+    	alert.setContentText("¿Estás seguro?");
+    	
+    	if (alert.showAndWait().get() == ButtonType.OK) {
+    		if (DEBUG) System.out.println("Has salido de la aplicación correctamente");
+    		stage.close();
+    	}
+    }
+    
+    public static void cerrarConexion() {
+		App.apiweb.close();
+    	apiweb = new WebSocketAPI();
+    }
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////PRIVADAS////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////// 
     private static void gestionarInvitacionAmigo(UsuarioVO remitente) {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Solicitud de amistad");
@@ -240,23 +264,6 @@ public class App extends Application {
 		    	}
     	}
     }
-    
-    static void salir() {
-    	Alert alert = new Alert(AlertType.CONFIRMATION);
-    	alert.setTitle("Cierre de Aplicación");
-    	alert.setHeaderText("¡Estás a punto de cerrar la aplicación!");
-    	alert.setContentText("¿Estás seguro?");
-    	
-    	if (alert.showAndWait().get() == ButtonType.OK) {
-    		if (DEBUG) System.out.println("Has salido de la aplicación correctamente");
-    		stage.close();
-    	}
-    }
-    
-    public static void cerrarConexion() {
-		App.apiweb.close();
-    	apiweb = new WebSocketAPI();
-    }
 
     private static Parent loadFXML(String fxml) {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -269,8 +276,4 @@ public class App extends Application {
         return result;
     }
 
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
-    	launch();
-        
-    }
 }

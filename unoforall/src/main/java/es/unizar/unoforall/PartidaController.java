@@ -626,7 +626,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		}
 		cartasJugadorX.addColumn(cartasJugadorX.getColumnCount(), imageview);
 		//Esto parece que no se usa.
-		GridPane.setHalignment(imageview, HPos.CENTER);
+		//GridPane.setHalignment(imageview, HPos.CENTER);
 	}
 	
 	private void cartaClickada(ImageView cartaClickada) {
