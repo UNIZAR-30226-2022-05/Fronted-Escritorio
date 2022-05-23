@@ -329,6 +329,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		notreadyStairs.setOnMouseClicked(event -> cancelarEscalera());
 
 		SuscripcionSala.suscribirseCanalEmojis(respuestaEmojis -> {
+			if (!emojisHabilitados) {
+				return;
+			}
 			int jugadorID = respuestaEmojis.getEmisor();
 			int emoji = respuestaEmojis.getEmoji();
 			
@@ -799,6 +802,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			colorAdjust.setSaturation(-0.7);
 			
 			btnSeleccionarEmoji.setEffect(colorAdjust);
+			
 		} else {
 			emojisHabilitados = true;
 			btnSeleccionarEmoji.setEffect(null);
