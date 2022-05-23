@@ -1,35 +1,15 @@
 package es.unizar.unoforall;
 
-import java.util.HashMap;
-
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
 import es.unizar.unoforall.utils.FechaUtils;
+import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class PartidaItemController {
-
-	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
-	static {
-		avatares.put(0, new Image(App.class.getResourceAsStream("images/avatares/0-cero.png")));
-		avatares.put(1, new Image(App.class.getResourceAsStream("images/avatares/1-uno.png")));
-		avatares.put(2, new Image(App.class.getResourceAsStream("images/avatares/2-dos.png")));
-		avatares.put(3, new Image(App.class.getResourceAsStream("images/avatares/3-tres.png")));
-		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
-		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
-		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
-		avatares.put(7, new Image(App.class.getResourceAsStream("images/avatares/-1-IA.png")));
-	}
-
-    private static Image original = new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png"));
-    private static Image attack = new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png"));
-    private static Image parejas = new Image(App.class.getResourceAsStream("images/avatares/2-dos.png"));
-	
-    private PartidaJugada partida;
     
     @FXML private Label fechaFin;
     @FXML private Label fechaInicio;
@@ -51,8 +31,7 @@ public class PartidaItemController {
 	@FXML private ImageView iconoJug4;
     @FXML private Label nomJug4;
     
-	public void setData(PartidaJugada p) {
-		partida = p;
+	public void setData(PartidaJugada partida) {
 		//RELLENAR DATOS DE PARTIDA
 		String fechaI = FechaUtils.formatDate(partida.getPartida().getFechaInicioPartida());
 		String fechaF = FechaUtils.formatDate(partida.getPartida().getFechaFinPartida());
@@ -60,20 +39,30 @@ public class PartidaItemController {
 		fechaFin.setText("Fecha de Fin: " + fechaF);
 		
 		Integer modo = partida.getPartida().getModoJuego();
-		if (modo == 0) modoJuego.setImage(original);
-		else if (modo == 1) modoJuego.setImage(attack);
-		else modoJuego.setImage(parejas);
+		if (modo == 0) {
+			ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_4_ID);
+		} else if(modo == 1) {
+			ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_5_ID);
+		} else {
+			ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_2_ID);
+		}
 		
 		//OCULTAR DATOS DE JUGADORES INEXISTENTES
 		switch(partida.getParticipantes().size()){
 	        case 2:
-	            pos3.setVisible(false);			pos3.setDisable(true);
-	            iconoJug3.setVisible(false);	iconoJug3.setDisable(true);
-	            nomJug3.setVisible(false);		nomJug3.setDisable(true);
+	            pos3.setVisible(false);			
+	            pos3.setDisable(true);
+	            iconoJug3.setVisible(false);	
+	            iconoJug3.setDisable(true);
+	            nomJug3.setVisible(false);		
+	            nomJug3.setDisable(true);
 	        case 3:
-	            pos4.setVisible(false);			pos4.setDisable(true);
-	            iconoJug4.setVisible(false);	iconoJug4.setDisable(true);
-	            nomJug4.setVisible(false);		nomJug4.setDisable(true);
+	            pos4.setVisible(false);			
+	            pos4.setDisable(true);
+	            iconoJug4.setVisible(false);	
+	            iconoJug4.setDisable(true);
+	            nomJug4.setVisible(false);		
+	            nomJug4.setDisable(true);
 	            break;
 		}
 		
@@ -83,11 +72,11 @@ public class PartidaItemController {
 		if (usr != null) {
 			//ASIGNAR HUMANO
 			nomJug1.setText(StringUtils.parseString(usr.getNombre()));
-			iconoJug1.setImage(avatares.get(usr.getAvatar()));
+			ImageManager.setImagenPerfil(iconoJug1, usr.getAvatar());
 		} else {
 			//ASIGNAR IA
 			nomJug1.setText("IA");
-			iconoJug1.setImage(avatares.get(7));
+			ImageManager.setImagenPerfil(iconoJug1, ImageManager.IA_IMAGE_ID);
 		}
 
 		//2do
@@ -100,11 +89,11 @@ public class PartidaItemController {
 		if (usr != null) {
 			//ASIGNAR HUMANO
 			nomJug2.setText(StringUtils.parseString(usr.getNombre()));
-			iconoJug2.setImage(avatares.get(usr.getAvatar()));
+			ImageManager.setImagenPerfil(iconoJug2, usr.getAvatar());
 		} else {
 			//ASIGNAR IA
 			nomJug2.setText("IA");
-			iconoJug2.setImage(avatares.get(7));
+			ImageManager.setImagenPerfil(iconoJug2, ImageManager.IA_IMAGE_ID);
 		}
 		
 		//3o
@@ -119,11 +108,11 @@ public class PartidaItemController {
 			if (usr != null) {
 				//ASIGNAR HUMANO
 				nomJug3.setText(StringUtils.parseString(usr.getNombre()));
-				iconoJug3.setImage(avatares.get(usr.getAvatar()));
+				ImageManager.setImagenPerfil(iconoJug3, usr.getAvatar());
 			} else {
 				//ASIGNAR IA
 				nomJug3.setText("IA");
-				iconoJug3.setImage(avatares.get(7));
+				ImageManager.setImagenPerfil(iconoJug3, ImageManager.IA_IMAGE_ID);
 			} 
 		}
 		
@@ -138,11 +127,11 @@ public class PartidaItemController {
 			if (usr != null) {
 				//ASIGNAR HUMANO
 				nomJug4.setText(StringUtils.parseString(usr.getNombre()));
-				iconoJug4.setImage(avatares.get(usr.getAvatar()));
+				ImageManager.setImagenPerfil(iconoJug4, usr.getAvatar());
 			} else {
 				//ASIGNAR IA
 				nomJug4.setText("IA");
-				iconoJug4.setImage(avatares.get(7));
+				ImageManager.setImagenPerfil(iconoJug4, ImageManager.IA_IMAGE_ID);
 			} 
 		}
 	}

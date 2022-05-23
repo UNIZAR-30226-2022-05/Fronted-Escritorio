@@ -8,7 +8,6 @@ import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.utils.ImageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -51,7 +50,8 @@ public class SalaItemController {
     	case Parejas:
     		ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_2_ID);
     		break;
-		default:break;
+		default:
+			break;
     	}
     	
     	//CONFIGURAR TAMAÑO DE SALA

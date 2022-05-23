@@ -2,7 +2,6 @@ package es.unizar.unoforall;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
@@ -18,14 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -35,28 +28,16 @@ public class HistorialController implements Initializable{
 	
 	@FXML private VBox fondo;
 
-	@FXML private ImageView imgMenu;
-	
-	private static HashMap<Integer,Image> avatares = new HashMap<Integer, Image>();
-	static {
-		avatares.put(0, new Image(App.class.getResourceAsStream("images/avatares/0-cero.png")));
-		avatares.put(1, new Image(App.class.getResourceAsStream("images/avatares/1-uno.png")));
-		avatares.put(2, new Image(App.class.getResourceAsStream("images/avatares/2-dos.png")));
-		avatares.put(3, new Image(App.class.getResourceAsStream("images/avatares/3-tres.png")));
-		avatares.put(4, new Image(App.class.getResourceAsStream("images/avatares/4-cuatro.png")));
-		avatares.put(5, new Image(App.class.getResourceAsStream("images/avatares/5-cinco.png")));
-		avatares.put(6, new Image(App.class.getResourceAsStream("images/avatares/6-seis.png")));
-	}
-
 	public static UsuarioVO usuario;
-	
+	@FXML private ImageView imgMenu;
     @FXML private ImageView icono;
+    
     @FXML private GridPane listaPartidas;
+    
     @FXML private Label nombre;
     @FXML private Label pGanadas;
     @FXML private Label pJugadas;
     @FXML private Label puntos;
-    
     @FXML private Label labelError;
     
     @FXML
@@ -75,7 +56,7 @@ public class HistorialController implements Initializable{
 		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		
 		//PONER LA IMAGEN ADECUADA
-		icono.setImage(avatares.get(usuario.getAvatar()));
+		ImageManager.setImagenPerfil(icono, usuario.getAvatar());
 
     	//ACTUALIZAR EL RESTO DE PARÁMETROS
     	nombre.setText(StringUtils.parseString(usuario.getNombre()));
