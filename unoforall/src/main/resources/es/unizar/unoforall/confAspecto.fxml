@@ -15,7 +15,7 @@
 
 <VBox fx:id="fondo" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.ConfAspectoController">
    <children>
-      <HBox prefWidth="1240.0">
+      <HBox prefHeight="175.0" prefWidth="1240.0">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="162.0">
                <children>
@@ -27,7 +27,7 @@
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ImageView fx:id="imgMenu" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgMenu" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logoUno.png" />
                </image>
@@ -41,16 +41,21 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <GridPane alignment="CENTER" prefHeight="688.0" prefWidth="1450.0" VBox.vgrow="ALWAYS">
+      <Label fx:id="labelPuntos" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Elige un icono de perfil: Tienes XXX puntos" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <GridPane alignment="CENTER" prefHeight="530.0" prefWidth="1240.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="160.0" />
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="861.0" minWidth="10.0" prefWidth="854.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="693.0" minWidth="10.0" prefWidth="226.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
-          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="150.0" valignment="CENTER" vgrow="ALWAYS" />
-          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="150.0" valignment="CENTER" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="169.0" valignment="CENTER" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="175.0" valignment="CENTER" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="146.0" valignment="CENTER" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
             <Label text="Avatar" textFill="WHITE">
@@ -87,41 +92,139 @@
                   <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ImageView fx:id="avatar0" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/avatares/0-cero.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="avatar1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@images/avatares/1-uno.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="avatar2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-                     <image>
-                        <Image url="@images/avatares/2-dos.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="avatar3" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
-                     <image>
-                        <Image url="@images/avatares/3-tres.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="avatar4" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
-                     <image>
-                        <Image url="@images/avatares/4-cuatro.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="avatar5" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
-                     <image>
-                        <Image url="@images/avatares/5-cinco.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="avatar6" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
-                     <image>
-                        <Image url="@images/avatares/6-seis.png" />
-                     </image>
-                  </ImageView>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label text="Icono 1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="avatar0" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/avatares/0-cero.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="45.0" prefWidth="122.0" text="0 puntos necesarios" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="1">
+                     <children>
+                        <Label text="Icono 2" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="avatar1" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/avatares/1-uno.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="45.0" prefWidth="122.0" text="10 puntos necesarios" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="2">
+                     <children>
+                        <Label text="Icono 3" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="avatar2" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/avatares/2-dos.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="45.0" prefWidth="122.0" text="30 puntos necesarios" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="3">
+                     <children>
+                        <Label text="Icono 4" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="avatar3" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/avatares/3-tres.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="45.0" prefWidth="122.0" text="50 puntos necesarios" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="4">
+                     <children>
+                        <Label text="Icono 5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="avatar4" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/avatares/4-cuatro.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="45.0" prefWidth="122.0" text="100 puntos necesarios" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="5">
+                     <children>
+                        <Label text="Icono 6" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="avatar5" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/avatares/5-cinco.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="45.0" prefWidth="122.0" text="200 puntos necesarios" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="6">
+                     <children>
+                        <Label text="Icono 7" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="avatar6" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/avatares/6-seis.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="45.0" prefWidth="122.0" text="500 puntos necesarios" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </GridPane>
             <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
@@ -133,16 +236,34 @@
                   <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ImageView fx:id="carta0" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/cartas/set-1/negras/tacoVacio.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="carta1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@images/cartas/set-2/negras/tacoVacio.png" />
-                     </image>
-                  </ImageView>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <ImageView fx:id="carta0" fitHeight="125.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/negras/tacoVacio.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Colores por defecto" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="1">
+                     <children>
+                        <ImageView fx:id="carta1" fitHeight="125.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-2/negras/tacoVacio.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Colores alternativos" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </GridPane>
             <GridPane alignment="CENTER" prefWidth="854.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
@@ -155,21 +276,48 @@
                   <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ImageView fx:id="tablero0" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/fondos/azul.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tablero1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@images/fondos/morado.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tablero2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-                     <image>
-                        <Image url="@images/fondos/gris.png" />
-                     </image>
-                  </ImageView>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <ImageView fx:id="tablero0" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/fondos/azul.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Fondo 1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="1">
+                     <children>
+                        <ImageView fx:id="tablero1" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/fondos/morado.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Fondo 2" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="2">
+                     <children>
+                        <ImageView fx:id="tablero2" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/fondos/gris.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Fondo 3" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </GridPane>
          </children>

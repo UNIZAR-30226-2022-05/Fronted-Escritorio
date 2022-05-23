@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
@@ -31,6 +33,7 @@ public class ConfAspectoController implements Initializable {
 	@FXML private ImageView imgMenu;
 	
 	@FXML private Label labelError;
+	@FXML private Label labelPuntos;
 	
 	@FXML private ImageView avatar0;
 	@FXML private ImageView avatar1;
@@ -40,6 +43,10 @@ public class ConfAspectoController implements Initializable {
 	@FXML private ImageView avatar5;
 	@FXML private ImageView avatar6;
 	private ImageView[] avatares;
+	private int[] puntuaciones = {
+		0, 10, 30, 50, 100, 200, 500
+	};
+	private int puntuacionUsuario;
 
 	@FXML private ImageView carta0;
 	@FXML private ImageView carta1;
@@ -53,8 +60,20 @@ public class ConfAspectoController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//OBTENER CONFIGURACION ACTUAL
+		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
+		String sesionID = App.getSessionID();
+		apirest.addParameter("sesionID",sesionID);
+		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
-		HashMap<String, Integer> personalizacion = App.getPersonalizacion();
+		apirest.openConnection();
+		UsuarioVO usuario = apirest.receiveObject(UsuarioVO.class);
+		if (!usuario.isExito()) {
+			if (DEBUG) System.out.println("No se han podido autocompletar los datos de la cuenta");
+			return;
+		}
+		
+		puntuacionUsuario = usuario.getPuntos();
+		labelPuntos.setText("Elige un icono de perfil: Tienes " + puntuacionUsuario + " puntos");
 		
 		avatares = new ImageView[] {
 			avatar0, 
@@ -77,13 +96,17 @@ public class ConfAspectoController implements Initializable {
 			tablero2
 		};
 		
-		avatarSelec = personalizacion.get("avatarSelec");
-		cartaSelec = personalizacion.get("cartaSelec");
-		tableroSelec = personalizacion.get("tableroSelec");
+		avatarSelec = usuario.getAvatar();
+		cartaSelec = usuario.getAspectoCartas();
+		tableroSelec = usuario.getAspectoTablero();
 		
 		DropShadow dropShadow = new DropShadow();
 		dropShadow.setColor(Color.ALICEBLUE);
 		dropShadow.setRadius(20.0);
+		
+		ColorAdjust colorAdjust = new ColorAdjust();
+		colorAdjust.setBrightness(-0.3);
+		colorAdjust.setContrast(-0.3);
 
 		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
 		
@@ -95,23 +118,42 @@ public class ConfAspectoController implements Initializable {
 		cartas[cartaSelec].setEffect(dropShadow);
 		//TABLEROS
 		tableros[tableroSelec].setEffect(dropShadow);
+		
+		//IMPEDIR SELECCIONAR LOS QUE TENGAN PUNTUACIÓN NECESARIA MAYOR
+		//AVATARES
+		for (int i=0; i< avatares.length; i++) {
+			if (puntuaciones[i] > puntuacionUsuario) {
+				avatares[i].setEffect(colorAdjust);
+				avatares[i].setDisable(true);
+			}
+		}
+		avatares[avatarSelec].setEffect(dropShadow);
+		//CARTAS
+		cartas[cartaSelec].setEffect(dropShadow);
+		//TABLEROS
+		tableros[tableroSelec].setEffect(dropShadow);
 
 		for(int i=0; i<avatares.length; i++){
 			int avatar = i;
 			avatares[i].setOnMouseClicked(event -> {
 				for (int j = 0; j < avatares.length; j++) {
-					avatares[j].setEffect(null);
+					if (puntuaciones[j] > puntuacionUsuario) {
+						avatares[j].setEffect(colorAdjust);
+						avatares[j].setDisable(true);
+					} else {
+						avatares[j].setEffect(null);
+					}
 				}
 				avatares[avatar].setEffect(dropShadow);
 				avatarSelec = avatar;
 			});
 			avatares[i].setOnMouseEntered(event -> {
-				avatares[avatar].setFitWidth(110);
-				avatares[avatar].setFitHeight(110);
+				avatares[avatar].setFitWidth(80);
+				avatares[avatar].setFitHeight(80);
 			});
 			avatares[i].setOnMouseExited(event -> {
-				avatares[avatar].setFitWidth(100);
-				avatares[avatar].setFitHeight(100);
+				avatares[avatar].setFitWidth(70);
+				avatares[avatar].setFitHeight(70);
 			});
 		}
 
@@ -125,11 +167,11 @@ public class ConfAspectoController implements Initializable {
 				tableroSelec = tablero;
 			});
 			tableros[i].setOnMouseEntered(event -> {
-				tableros[tablero].setFitWidth(210);
+				tableros[tablero].setFitWidth(160);
 				tableros[tablero].setFitHeight(160);
 			});
 			tableros[i].setOnMouseExited(event -> {
-				tableros[tablero].setFitWidth(200);
+				tableros[tablero].setFitWidth(150);
 				tableros[tablero].setFitHeight(150);
 			});
 		}
@@ -144,24 +186,24 @@ public class ConfAspectoController implements Initializable {
 				cartaSelec = tipoCartas;
 			});
 			cartas[i].setOnMouseEntered(event -> {
-				cartas[tipoCartas].setFitWidth(120);
-				cartas[tipoCartas].setFitHeight(160);
+				cartas[tipoCartas].setFitWidth(135);
+				cartas[tipoCartas].setFitHeight(135);
 			});
 			cartas[i].setOnMouseExited(event -> {
-				cartas[tipoCartas].setFitWidth(200);
-				cartas[tipoCartas].setFitHeight(150);
+				cartas[tipoCartas].setFitWidth(125);
+				cartas[tipoCartas].setFitHeight(125);
 			});
 		}
 
 		
 		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMÁGENES
 		imgMenu.setOnMouseEntered(event -> {
-			imgMenu.setFitWidth(210);
+			imgMenu.setFitWidth(160);
 			imgMenu.setFitHeight(160);
 			imgMenu.setEffect(new Glow(0.3));
 		});
 		imgMenu.setOnMouseExited(event -> {
-			imgMenu.setFitWidth(200);
+			imgMenu.setFitWidth(150);
 			imgMenu.setFitHeight(150);
 			imgMenu.setEffect(null);
 		});
