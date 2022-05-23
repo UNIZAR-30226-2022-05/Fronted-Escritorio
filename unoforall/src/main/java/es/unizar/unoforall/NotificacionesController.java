@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.ListaUsuarios;
@@ -42,7 +44,7 @@ public class NotificacionesController implements Initializable{
     @FXML private GridPane listaInvitacionesSala;
     @FXML private GridPane listaRecibidas;
     
-    public static ArrayList<NotificacionSala> invitaciones = new ArrayList<NotificacionSala>();
+    public static Set<NotificacionSala> invitaciones = new LinkedHashSet<NotificacionSala>();
     
     @FXML
     void goBack(ActionEvent event) {
@@ -67,7 +69,8 @@ public class NotificacionesController implements Initializable{
 				imgMenu.setFitHeight(110);
 				imgMenu.setEffect(new Glow(0.3));
 			}
-		});;
+		});
+		
 		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -75,7 +78,7 @@ public class NotificacionesController implements Initializable{
 				imgMenu.setFitHeight(100);
 				imgMenu.setEffect(null);
 			}
-		});;
+		});
     	
 		//CARGAR LISTA DE PETICIONES RECIBIDAS
     	RestAPI apirest = new RestAPI("/api/sacarPeticionesRecibidas");
