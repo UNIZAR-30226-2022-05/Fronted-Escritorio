@@ -144,7 +144,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	@FXML private ImageView fondoContadorJugadorIzquierda;
 	@FXML private ImageView fondoContadorJugadorArriba;
 	@FXML private ImageView fondoContadorJugadorDerecha;
-	private ImageView[] fondoContadoresJugadores;
 
 	@FXML private ImageView emojiJugadorAbajo;
 	@FXML private ImageView emojiJugadorIzquierda;
@@ -262,12 +261,6 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			contadorJugadorIzquierda,
 			contadorJugadorArriba,
 			contadorJugadorDerecha
-		};
-		fondoContadoresJugadores = new ImageView[] {
-			fondoContadorJugadorAbajo,
-			fondoContadorJugadorIzquierda,
-			fondoContadorJugadorArriba,
-			fondoContadorJugadorDerecha
 		};
 		
 		nombresJugadores = new Label[] {
@@ -679,7 +672,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			notreadyStairs.setVisible(true);
 			comenzarEscalera = true;
 			//for(int i=0;i<partida.getJugadorActual().getMano().size();i++){
-			for (Node child : cartasJugadores[jugadorActualID].getChildren()) {
+			for (Node child : cartasJugadores[jugadorIDmap.get(jugadorActualID)].getChildren()) {
 				Carta aux = (Carta) child.getUserData();
 				if (Carta.esNumero(aux.getTipo())) {
 					child.setEffect(null);
@@ -731,6 +724,168 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 	}
 	
+	
+    private boolean sePuedeUsarCarta(Partida partida, Carta carta){
+        Jugada jugada = new Jugada(Collections.singletonList(carta));
+        return partida.validarJugada(jugada);
+    }
+    
+    
+    private void comprobarRobo() {
+    	Jugada jugada = new Jugada();
+		if(partida.isModoJugarCartaRobada()) {
+			try {
+				Carta cartaRobada = partida.getCartaRobada(); 
+				RobarOJugarCartaController rojcc = new RobarOJugarCartaController();
+				popUpRobarCarta = new MyStage();
+				(rojcc).setCard(cartaRobada);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("robarOJugarCarta.fxml"));
+				fxmlLoader.setController(rojcc);
+				Parent root1 = (Parent) fxmlLoader.load();
+				Scene scene = new Scene(root1);
+				
+				scene.setFill(Color.TRANSPARENT);
+				popUpRobarCarta.setTitle("Pantalla Cambiar de color");
+				popUpRobarCarta.setScene(scene);
+				popUpRobarCarta.initStyle(StageStyle.UNDECORATED);
+				popUpRobarCarta.initModality(Modality.APPLICATION_MODAL);
+				popUpRobarCarta.initOwner(marco.getScene().getWindow());
+	
+				int resultado = popUpRobarCarta.showAndReturnDrawResult(rojcc, cartaRobada);
+				System.out.println("recupero un " + resultado);
+				
+				switch(resultado) {
+					case ROBAR_CARTA:
+						break;
+					case JUGAR_CARTA:
+						if(cartaRobada.getColor() == Carta.Color.comodin) {
+							mostrarPopUpCambiarColor(cartaRobada);
+						} else if(cartaRobada.getTipo() == Carta.Tipo.intercambio) {
+							mostrarPopUpIntercambiarMano(cartaRobada);
+						} else {
+							jugada = new Jugada(Collections.singletonList(cartaRobada));
+							SuscripcionSala.enviarJugada(jugada);
+						}
+						break;
+				}
+			} catch (Exception e) {
+				System.out.println("No se ha podido cargar la pagina: " + e);
+			}
+		SuscripcionSala.enviarJugada(jugada);	
+		}
+    }
+    
+    private void inicializarEfectos() {
+    	//Agrandar botón UNO
+    	btnUno.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnUno.setFitWidth(210);
+				btnUno.setFitHeight(110);
+			}
+		});
+    	//Disminuir botón UNO
+    	btnUno.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnUno.setFitWidth(200);
+				btnUno.setFitHeight(100);
+			}
+		});
+		
+    	//Efecto para bajar el brillo a una carta
+    	oscurecerCarta = new Lighting();
+    	oscurecerCarta.setDiffuseConstant(1.0);
+    	oscurecerCarta.setSpecularConstant(0.0);
+    	oscurecerCarta.setSpecularExponent(0.0);
+    	oscurecerCarta.setSurfaceScale(0.0);
+    }
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////SECCIÓN DE FUNCIONES PARA NODOS FXML////////////////////
+///////////////////////////////////////////////////////////////////////////////////////      
+    
+	@FXML
+	private void robarCarta() throws IOException {
+		Jugada jugada = new Jugada();
+		if(partida.validarJugada(jugada)) {
+			SuscripcionSala.enviarJugada(jugada);	
+		}
+		
+	}
+    
+    @FXML
+    private void botonUnoPulsado(MouseEvent event) {
+    	if(sePuedePulsarBotonUNO) {
+    		sePuedePulsarBotonUNO = false;
+    		btnUno.setDisable(true);
+    		
+    		ColorAdjust colorAdjust = new ColorAdjust();
+			colorAdjust.setBrightness(-0.5);
+			colorAdjust.setSaturation(-0.7);
+			
+    		btnUno.setEffect(colorAdjust);
+
+            App.apiweb.sendObject("/app/partidas/botonUNO/" + SuscripcionSala.sala.getSalaID(), "vacio");
+            if (DEBUG) System.out.println("Has pulsado el botón UNO");
+        }
+    }
+    
+	@FXML
+	private void habilitarEmojis() {
+		if (emojisHabilitados) {
+			emojisHabilitados = false;
+			ColorAdjust colorAdjust = new ColorAdjust();
+			colorAdjust.setBrightness(-0.5);
+			colorAdjust.setSaturation(-0.7);
+			
+			btnSeleccionarEmoji.setEffect(colorAdjust);
+		} else {
+			emojisHabilitados = true;
+			btnSeleccionarEmoji.setEffect(null);
+		}
+		ImageManager.setImagenEnableEmojis(btnHabilitarEmojis, emojisHabilitados);
+	}
+
+	@FXML
+	private void seleccionarEmojis() {
+		if (emojisHabilitados) {
+			mostrarPopUpSeleccionarEmoji();
+		}
+	}
+
+    @FXML
+	private void pausarPartida(ActionEvent event) {
+    	//MEGAPAUSA
+    	SuscripcionSala.enviarVotacion();
+    }
+    
+    @FXML
+	private void abandonarPartida(ActionEvent event) {
+		ButtonType styledExit = new ButtonType("Salir con estilo");
+		Alert alert = new Alert(AlertType.CONFIRMATION, "  ", styledExit, ButtonType.OK, ButtonType.CANCEL);
+        alert.setTitle("Abandonar Sala");
+        alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
+        alert.setContentText("Si sales, serás expulsado de la partida\n y no obtendrás puntos");
+        ButtonType respuesta = alert.showAndWait().get();
+        if (respuesta == ButtonType.OK) {
+            App.setRoot("principal");
+
+            System.out.println("Has abandonado la sala.");
+            
+			SuscripcionSala.salirDeSala();
+			App.setRoot("principal");
+        } else if (respuesta == styledExit) {
+        	System.out.println("SORPRESA");
+        	AudioClip buzzer = new AudioClip(getClass().getResource("audio/styledExit.mp3").toExternalForm()); 
+        	buzzer.play();
+        	
+        	App.setRoot("principal");
+        	SuscripcionSala.salirDeSala();
+        }
+    }
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////SECCIÓN DE POPUPS///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////    
 	private void mostrarPopUpIntercambiarMano(Carta carta) {
 		try {
 			IntercambiarManoController imc = new IntercambiarManoController();
@@ -873,157 +1028,4 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
-	public void robarCarta() throws IOException {
-		Jugada jugada = new Jugada();
-		if(partida.validarJugada(jugada)) {
-			SuscripcionSala.enviarJugada(jugada);	
-		}
-		
-	}
-	
-    private boolean sePuedeUsarCarta(Partida partida, Carta carta){
-        Jugada jugada = new Jugada(Collections.singletonList(carta));
-        return partida.validarJugada(jugada);
-    }
-    
-    private void inicializarEfectos() {
-    	btnUno.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				btnUno.setFitWidth(210);
-				btnUno.setFitHeight(110);
-			}
-		});
-    	btnUno.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				btnUno.setFitWidth(200);
-				btnUno.setFitHeight(100);
-			}
-		});
-		
-    	//Efecto para bajar el brillo a una carta
-    	oscurecerCarta = new Lighting();
-    	oscurecerCarta.setDiffuseConstant(1.0);
-    	oscurecerCarta.setSpecularConstant(0.0);
-    	oscurecerCarta.setSpecularExponent(0.0);
-    	oscurecerCarta.setSurfaceScale(0.0);
-    }
-    
-    private void comprobarRobo() {
-    	Jugada jugada = new Jugada();
-		if(partida.isModoJugarCartaRobada()) {
-			try {
-				Carta cartaRobada = partida.getCartaRobada(); 
-				RobarOJugarCartaController rojcc = new RobarOJugarCartaController();
-				popUpRobarCarta = new MyStage();
-				(rojcc).setCard(cartaRobada);
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("robarOJugarCarta.fxml"));
-				fxmlLoader.setController(rojcc);
-				Parent root1 = (Parent) fxmlLoader.load();
-				Scene scene = new Scene(root1);
-				
-				scene.setFill(Color.TRANSPARENT);
-				popUpRobarCarta.setTitle("Pantalla Cambiar de color");
-				popUpRobarCarta.setScene(scene);
-				popUpRobarCarta.initStyle(StageStyle.UNDECORATED);
-				popUpRobarCarta.initModality(Modality.APPLICATION_MODAL);
-				popUpRobarCarta.initOwner(marco.getScene().getWindow());
-	
-				int resultado = popUpRobarCarta.showAndReturnDrawResult(rojcc, cartaRobada);
-				System.out.println("recupero un " + resultado);
-				
-				switch(resultado) {
-					case ROBAR_CARTA:
-						//jugada = new Jugada();
-						break;
-					case JUGAR_CARTA:
-						if(cartaRobada.getColor() == Carta.Color.comodin) {
-							mostrarPopUpCambiarColor(cartaRobada);
-						} else if(cartaRobada.getTipo() == Carta.Tipo.intercambio) {
-							mostrarPopUpIntercambiarMano(cartaRobada);
-						} else {
-							jugada = new Jugada(Collections.singletonList(cartaRobada));
-							SuscripcionSala.enviarJugada(jugada);
-						}
-						break;
-				}
-			} catch (Exception e) {
-				System.out.println("No se ha podido cargar la pagina: " + e);
-			}
-		SuscripcionSala.enviarJugada(jugada);	
-		}
-    }
-    
-    @FXML
-    public void botonUnoPulsado(MouseEvent event) {
-    	if(sePuedePulsarBotonUNO){
-    		sePuedePulsarBotonUNO = false;
-    		btnUno.setDisable(true);
-    		
-    		ColorAdjust colorAdjust = new ColorAdjust();
-			colorAdjust.setBrightness(-0.5);
-			colorAdjust.setSaturation(-0.7);
-			
-    		btnUno.setEffect(colorAdjust);
-
-            App.apiweb.sendObject("/app/partidas/botonUNO/" + SuscripcionSala.sala.getSalaID(), "vacio");
-            if (DEBUG) System.out.println("Has pulsado el botón UNO");
-        }
-    }
-    
-	@FXML
-	public void habilitarEmojis() {
-		if (emojisHabilitados) {
-			emojisHabilitados = false;
-			ColorAdjust colorAdjust = new ColorAdjust();
-			colorAdjust.setBrightness(-0.5);
-			colorAdjust.setSaturation(-0.7);
-			
-			btnSeleccionarEmoji.setEffect(colorAdjust);
-		} else {
-			emojisHabilitados = true;
-			btnSeleccionarEmoji.setEffect(null);
-		}
-		ImageManager.setImagenEnableEmojis(btnHabilitarEmojis, emojisHabilitados);
-	}
-
-	@FXML
-	public void seleccionarEmojis() {
-		if (emojisHabilitados) {
-			mostrarPopUpSeleccionarEmoji();
-		}
-	}
-
-    @FXML
-	public void pausarPartida(ActionEvent event) {
-    	//MEGAPAUSA
-    	SuscripcionSala.enviarVotacion();
-    }
-    
-    @FXML
-	public void abandonarPartida(ActionEvent event) {
-		ButtonType styledExit = new ButtonType("Salir con estilo");
-		Alert alert = new Alert(AlertType.CONFIRMATION, "  ", styledExit, ButtonType.OK, ButtonType.CANCEL);
-        alert.setTitle("Abandonar Sala");
-        alert.setHeaderText("¿Seguro que quieres abandonar la sala?");
-        alert.setContentText("Si sales, serás expulsado de la partida\n y no obtendrás puntos");
-        ButtonType respuesta = alert.showAndWait().get();
-        if (respuesta == ButtonType.OK) {
-            App.setRoot("principal");
-
-            System.out.println("Has abandonado la sala.");
-            
-			SuscripcionSala.salirDeSala();
-			App.setRoot("principal");
-        } else if (respuesta == styledExit) {
-        	System.out.println("SORPRESA");
-        	AudioClip buzzer = new AudioClip(getClass().getResource("audio/styledExit.mp3").toExternalForm()); 
-        	buzzer.play();
-        	
-        	App.setRoot("principal");
-        	SuscripcionSala.salirDeSala();
-        }
-    }
 }
