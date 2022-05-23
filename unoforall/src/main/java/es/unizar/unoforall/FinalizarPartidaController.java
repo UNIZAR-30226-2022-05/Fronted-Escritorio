@@ -34,6 +34,7 @@ public class FinalizarPartidaController implements Initializable {
 	
 	public static final int SALIR = -1;
 	public static final int CONTINUAR = 1;
+	public static final int SALIR_CON_ESTILO = 2;
 	
 	private static int resultado;
     @FXML private VBox marco;
@@ -87,11 +88,15 @@ public class FinalizarPartidaController implements Initializable {
 	      			resultado = CONTINUAR;
 	      		} else if(actionEvent.getSource().equals(btnSalir)) {
 					System.out.println("Has elegido Salir");
-					if (!abandonarPartida(null)) {
+					int aux = abandonarPartida(null);
+					if (aux == CONTINUAR) {
 						return;
-					}
+					} else if (aux == SALIR_CON_ESTILO) {
+						resultado = SALIR_CON_ESTILO;
+					} else {
 	      			resultado = SALIR;
-
+					}
+	      			
 	      		}
 		      	// take some action
 		      	//...
@@ -200,7 +205,7 @@ public class FinalizarPartidaController implements Initializable {
     	return resultado;
     }
 
-	public boolean abandonarPartida(ActionEvent event) {
+	public int abandonarPartida(ActionEvent event) {
 		ButtonType styledExit = new ButtonType("Salir con estilo");
 		Alert alert = new Alert(AlertType.CONFIRMATION, "  ", styledExit, ButtonType.OK, ButtonType.CANCEL);
         alert.setTitle("Abandonar Sala");
@@ -212,15 +217,15 @@ public class FinalizarPartidaController implements Initializable {
             //SuscripcionSala.salirDeSalaDefinitivo();
             //Volver a la pantalla anterior
             System.out.println("Has abandonado la sala.");
-			return true;
+			return SALIR;
         } else if (respuesta == styledExit) {
         	System.out.println("SORPRESA");
         	AudioClip buzzer = new AudioClip(getClass().getResource("images/styledExit.mp3").toExternalForm()); 
         	buzzer.play();
         	//SuscripcionSala.salirDeSalaDefinitivo();
-        	return true;
+        	return SALIR_CON_ESTILO;
         } else{
-			return false;
+			return CONTINUAR;
 		}
     }
 

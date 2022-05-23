@@ -564,10 +564,11 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				timeline.stop();
 			}
 			switch (mostrarPopUpFinalizacionPartida()) {
+				case FinalizarPartidaController.SALIR_CON_ESTILO:
 				case FinalizarPartidaController.SALIR:
 					App.setRoot("principal");
 					break;
-				case FinalizarPartidaController.CONTINUAR:
+				case FinalizarPartidaController.CONTINUAR :
 					SuscripcionSala.cancelarSuscripcionCanalVotacionPausa();
 					SuscripcionSala.cancelarSuscripcionCanalEmojis();
 					App.setRoot("vistaSala");
