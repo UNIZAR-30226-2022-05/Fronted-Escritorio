@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="marco" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
+<BorderPane fx:id="marco" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
    <bottom>
       <Pane prefHeight="135.0" prefWidth="1280.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
@@ -63,7 +63,7 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="nombreJugadorAbajo" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="nombreJugadorAbajo" alignment="BASELINE_RIGHT" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="241.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -149,7 +149,7 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="nombreJugadorArriba" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="nombreJugadorArriba" alignment="BASELINE_RIGHT" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="a" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -215,7 +215,7 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="nombreJugadorIzquierda" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="nombreJugadorIzquierda" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="253.0" text="a" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -282,7 +282,7 @@
                         <Image url="@images/avatares/0-cero.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="nombreJugadorDerecha" alignment="BOTTOM_CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="nombreJugadorDerecha" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="a" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
