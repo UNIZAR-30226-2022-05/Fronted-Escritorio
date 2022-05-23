@@ -892,7 +892,24 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			} catch (Exception e) {
 				System.out.println("No se ha podido cargar la pagina: " + e);
 			}	
-		}
+		} else if(partida.isModoAcumulandoRobo()) {
+            boolean algunaCartaCompatible = false;
+            for(Carta carta : partida.getJugadorActual().getMano()){
+            	jugada = new Jugada(Collections.singletonList(carta));
+                algunaCartaCompatible = partida.validarJugada(jugada);
+                if(algunaCartaCompatible){
+                    break;
+                }
+            }
+
+            if(!algunaCartaCompatible){
+                // Robar las cartas
+            	jugada = new Jugada();
+            	if(partida.validarJugada(jugada)) {
+            		SuscripcionSala.enviarJugada(jugada);
+            	}
+            }
+        }
     }
     
 	private void mostrarPopUpIntercambiarMano(Carta carta) {
