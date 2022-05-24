@@ -30,7 +30,7 @@ import javafx.scene.layout.VBox;
 
 public class BuscarSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 	
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;
@@ -127,7 +127,9 @@ public class BuscarSalaController implements Initializable {
 			apirest.openConnection();
 			Sala r = apirest.receiveObject(Sala.class);
 			
-			if (r.isNoExiste()) {
+			if (r == null) {
+				if (DEBUG) System.out.println("Aquí ha pasado algo");
+			} else if (r.isNoExiste()) {
 				labelError.setText("No se ha encontrado ninguna sala con ese ID");
 				if (DEBUG) System.out.println("No se ha encontrado ninguna sala con ese ID");
     		} else {

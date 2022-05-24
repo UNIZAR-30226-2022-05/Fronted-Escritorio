@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 
 public class InvitacionItemController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 
 	private NotificacionSala notificacion;
 	

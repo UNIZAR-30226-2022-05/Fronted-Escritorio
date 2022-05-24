@@ -71,19 +71,19 @@
             </GridPane>
             <Button layoutX="268.0" layoutY="526.0" mnemonicParsing="false" onAction="#register" text="Registrar" />
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" text="Volver" />
-            <Label layoutX="133.0" layoutY="273.0" prefHeight="17.0" prefWidth="370.0" text="          --&gt; Su correo.">
+            <Label layoutX="210.0" layoutY="273.0" prefHeight="30.0" prefWidth="388.0" text="--&gt; Su correo.">
                <font>
                   <Font size="20.0" />
                </font></Label>
-            <Label layoutX="133.0" layoutY="294.0" prefHeight="17.0" prefWidth="370.0" text="          --&gt; Su contraseña.">
+            <Label layoutX="210.0" layoutY="294.0" prefHeight="30.0" prefWidth="388.0" text="--&gt; Su contraseña.">
                <font>
                   <Font size="20.0" />
                </font></Label>
-            <Label layoutX="133.0" layoutY="316.0" prefHeight="17.0" prefWidth="370.0" text="          --&gt; El nombre de usuario de su cuenta.">
+            <Label layoutX="210.0" layoutY="316.0" prefHeight="30.0" prefWidth="388.0" text="--&gt; El nombre de usuario de su cuenta.">
                <font>
                   <Font size="20.0" />
                </font></Label>
-            <Label layoutX="50.0" layoutY="339.0" prefHeight="30.0" prefWidth="536.0" text="(Todos éstos campos son editables dentro de la aplicación.)">
+            <Label layoutX="50.0" layoutY="339.0" prefHeight="30.0" prefWidth="536.0" text="(Todos estos campos son editables dentro de la aplicación.)">
                <font>
                   <Font name="System Italic" size="20.0" />
                </font></Label>

@@ -12,12 +12,16 @@ import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.NotificacionSala;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogEvent;
 import javafx.scene.image.Image;
 //import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
@@ -28,8 +32,8 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	public static final boolean DEBUG = true;
-	public static final boolean MODO_PRODUCCION = false;
+	public static final boolean DEBUG = false;
+	public static final boolean MODO_PRODUCCION = true;
 	
 	private static final String AZURE_IP = "unoforall.westeurope.cloudapp.azure.com";
 
@@ -42,6 +46,7 @@ public class App extends Application {
 	private static UUID usuarioID;
 	private static HashMap<String, Integer> personalizacion;
 	public static WebSocketAPI apiweb;
+	private static Alert alertaInvitacionSala;
 	
 	static {
 		apiweb = new WebSocketAPI();
@@ -244,31 +249,54 @@ public class App extends Application {
 	    		NotificacionesController.annadirInvitacionSala(notif);
     			break;
     		default :
-		    	Alert alert = new Alert(AlertType.CONFIRMATION);
-		    	alert.setTitle("Solicitud de unirse a sala");
-		    	alert.setHeaderText(StringUtils.parseString(notif.getRemitente().getNombre()) + " te ha invitado a una sala");
-		    	alert.setContentText("En caso de cancelación, la invitación seguirá estando disponible en el menú de notificaciones");
+    			if (alertaInvitacionSala != null) System.out.println("uno--> " + alertaInvitacionSala.toString());
+    	    	if (alertaInvitacionSala != null) {
+    	    		 for ( ButtonType bt : alertaInvitacionSala.getDialogPane().getButtonTypes() ) {
+    	    	            System.out.println( "bt = " + bt );
+    	    	            if ( bt.getButtonData() == ButtonData.CANCEL_CLOSE ) {
+    	    	            	alertaInvitacionSala.setResult(ButtonType.CANCEL);
+			                    Button cancelButton = ( Button ) alertaInvitacionSala.getDialogPane().lookupButton( bt );
+			                    cancelButton.fire();
+			                    if (alertaInvitacionSala != null) System.out.println("a--> " + alertaInvitacionSala.toString());
+			                    break;
+    	    	            }
+    	    		 }
+    	    	}
+    	    	if (alertaInvitacionSala != null) System.out.println("dos--> " + alertaInvitacionSala.toString());
+    	    	alertaInvitacionSala = new Alert(AlertType.CONFIRMATION);
+    	    	alertaInvitacionSala.setTitle("Solicitud de unirse a sala");
+    	    	alertaInvitacionSala.setHeaderText(StringUtils.parseString(notif.getRemitente().getNombre()) + " te ha invitado a una sala");
+    	    	alertaInvitacionSala.setContentText("En caso de cancelación, la invitación seguirá estando disponible en el menú de notificaciones");
 		
 		    	if (DEBUG) System.out.println("Invitación de: " + StringUtils.parseString(notif.getRemitente().getNombre()) + " a la sala " + notif.getSalaID());
-		    	
-		    	ButtonType respuesta = alert.showAndWait().get();
-		    	if (respuesta == ButtonType.OK) {
-		    		
-		    		//UNIRSE A LA SALA
-					App.setSalaID(notif.getSalaID());
-					boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
-					if (!exito) {
-						App.setRoot("principal");
-					} else {
-						App.setRoot("vistaSala");
-					}
-			    	
-		    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
-		    		
-		    	} else if (respuesta == ButtonType.CANCEL) {
-		    		NotificacionesController.annadirInvitacionSala(notif);
-		    		if (DEBUG) System.out.println("Has rechazado la invitación");
-		    	}
+		    	if (alertaInvitacionSala != null) System.out.println("tres--> " + alertaInvitacionSala.toString());
+		    	//ButtonType respuesta = alertaInvitacionSala.showAndWait().get();
+		    	alertaInvitacionSala.show();
+		    	//ButtonType respuesta = alertaInvitacionSala.getResult();
+		    	alertaInvitacionSala.setOnCloseRequest((EventHandler<DialogEvent>) new EventHandler<DialogEvent>() {
+		    	    @Override
+		    	    public void handle(DialogEvent event) {
+		    	        ButtonType respuesta=alertaInvitacionSala.getResult();
+		
+				    	if (respuesta == ButtonType.OK) {
+				    		//UNIRSE A LA SALA
+							App.setSalaID(notif.getSalaID());
+							boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
+							if (!exito) {
+								App.setRoot("principal");
+							} else {
+								App.setRoot("vistaSala");
+							}
+					    	
+				    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
+				    		
+				    	} else if (respuesta == ButtonType.CANCEL) {
+				    		NotificacionesController.annadirInvitacionSala(notif);
+				    		if (DEBUG) System.out.println("Has rechazado la invitación");
+				    	}
+		    	        //result logic
+		    	    }
+		    	});
     	}
     }
 

@@ -299,8 +299,10 @@ public class BusqAvanzSalaController implements Initializable {
 		if (filtrarPorReglas) {
 			reglas = new ReglasEspeciales(encadenar, redirigir, jugarVarias,
 			evitarEspeciales, rayosX, intercambio, modifX2);
+			reglas.setReglasValidas(true);
 		} else {
 			reglas = new ReglasEspeciales();
+			reglas.setReglasValidas(false);
 		}
 
 		ConfigSala.ModoJuego modoJuego;

@@ -10,7 +10,7 @@ import javafx.scene.input.Clipboard;
 
 public class ConfirmCorreoController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 	
 	Clipboard systemClipboard = Clipboard.getSystemClipboard();
 	String clipboardText = systemClipboard.getString();

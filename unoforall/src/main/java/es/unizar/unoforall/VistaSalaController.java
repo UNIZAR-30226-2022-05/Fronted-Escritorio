@@ -25,6 +25,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,11 +35,12 @@ import javafx.scene.layout.VBox;
 
 public class VistaSalaController extends SalaReceiver implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;
 	@FXML private Label labelError;
+	@FXML private TextArea textAreaInfo;
 	
 	private static Image ready = new Image(VistaSalaController.class.getResourceAsStream("images/ready.png"));
 	private static Image notready = new Image(VistaSalaController.class.getResourceAsStream("images/notready.png"));
@@ -172,6 +174,10 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 	@Override
 	public void administrarSala(Sala sala) {
 		//Aquí ya existe Sala sala.
+		
+		//PONER INFORMACIÓN DE LA SALA
+		textAreaInfo.setText("ID de sala: " + sala.getSalaID());
+		
 		if (DEBUG) System.out.println("sala actualizada");
 		labelError.setText("");
 		if (sala.isNoExiste()) {

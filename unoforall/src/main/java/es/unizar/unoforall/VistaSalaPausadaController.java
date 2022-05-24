@@ -21,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
@@ -31,11 +32,12 @@ import javafx.scene.layout.VBox;
 
 public class VistaSalaPausadaController extends SalaReceiver implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 	
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;
 	@FXML private Label labelError;
+	@FXML private TextArea textAreaInfo;
 
 	@FXML private Button botonAbandonar;
 	@FXML private Button botonListo;
@@ -144,6 +146,10 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
 	@Override
 	public void administrarSala(Sala sala) {
 		//Aquí ya existe Sala sala.
+		
+		//PONER INFORMACIÓN DE LA SALA
+		textAreaInfo.setText("ID de sala: " + sala.getSalaID());
+		
 		if (DEBUG) System.out.println("sala actualizada");
 		labelError.setText("");
 		if (sala.isNoExiste()) {
@@ -189,7 +195,7 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
             Jugador jugador = listaJugadores.get(i);
 			
 			String nombre;
-			boolean listo;
+			boolean listo = false;
 			int avatar;
 			if (jugador.isEsIA()) {
 				nombre = "IA_"+i;

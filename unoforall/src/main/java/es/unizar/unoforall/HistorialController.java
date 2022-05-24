@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
 
 public class HistorialController implements Initializable{
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 	
 	@FXML private VBox fondo;
 

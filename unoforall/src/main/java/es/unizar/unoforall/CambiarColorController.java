@@ -14,6 +14,8 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class CambiarColorController implements Initializable{
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	public static final boolean DEBUG = App.DEBUG;
     
 	private static final int CANCELAR = -1;
 	private static final int ROJO = 1;
@@ -60,19 +62,19 @@ public class CambiarColorController implements Initializable{
 	      	@Override 
 	      	public void handle(ActionEvent actionEvent) {
 	      		if(actionEvent.getSource().equals(btnRojo)) {
-	      			System.out.println("Has clickado el botón rojo");
+	      			if (DEBUG) System.out.println("Has clickado el botón rojo");
 	      			resultado = ROJO;
 	      		} else if(actionEvent.getSource().equals(btnVerde)) {
-	      			System.out.println("Has clickado el botón verde");
+	      			if (DEBUG) System.out.println("Has clickado el botón verde");
 	      			resultado = VERDE;
 	      		} else if(actionEvent.getSource().equals(btnAmarillo)) {
-	      			System.out.println("Has clickado el botón amarillo");
+	      			if (DEBUG) System.out.println("Has clickado el botón amarillo");
 	      			resultado = AMARILLO;
 	      		} else if(actionEvent.getSource().equals(btnAzul)) {
-	      			System.out.println("Has clickado el botón azul");
+	      			if (DEBUG) System.out.println("Has clickado el botón azul");
 	      			resultado = AZUL; 
 	      	  	} else if(actionEvent.getSource().equals(btnCancelar)) {
-	      			System.out.println("Has clickado el botón de cancelar jugada"); 
+	      			if (DEBUG) System.out.println("Has clickado el botón de cancelar jugada"); 
 	      		}
 	      		
 		      	Node  source = (Node)  actionEvent.getSource(); 

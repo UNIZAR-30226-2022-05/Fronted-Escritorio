@@ -176,6 +176,8 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private boolean sentidoAnterior = false;
 	
+	public static final boolean DEBUG = App.DEBUG;
+	
 	private static final Point2D COORDS_TACO_ROBO = new Point2D(800, 300); 
 	private static final Point2D COORDS_TACO_DESCARTES = new Point2D(503, 295); 
 	private static final Point2D COORDS_JUGADOR_ABAJO = new Point2D(288, 640);
@@ -218,7 +220,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				labelVotacion.toFront();
 				labelVotacion.setText(String.format("Votación pausa: %d/%d", numVotos, numVotantes));
 			}
-			System.out.println("Votantes: " + numVotantes + "; Votos: " + numVotos);
+			if (DEBUG) System.out.println("Votantes: " + numVotantes + "; Votos: " + numVotos);
 		});
 		
 		int numJugadores = partida.getJugadores().size();
@@ -339,7 +341,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			return;
 		}
 		
-		System.out.println("Sala actualizada, recuperando partida...");
+		if (DEBUG) System.out.println("Sala actualizada, recuperando partida...");
 		//Recuperar la partida nueva
 		partida = sala.getPartida();
 		int turnoActual = partida.getTurno();
@@ -430,6 +432,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if (!partida.isRepeticionTurno() && (popUpRobarCarta != null && popUpRobarCarta.isShowing())) {
 			popUpRobarCarta.close();
 		}
+		if (!partida.isRepeticionTurno() && (popUpSeleccionarEmojis != null && popUpSeleccionarEmojis.isShowing())) {
+			popUpSeleccionarEmojis.close();
+		}
+		if (!partida.isRepeticionTurno() && (popUpIntercambiarMano != null && popUpIntercambiarMano.isShowing())) {
+			popUpIntercambiarMano.close();
+		}
 		//Actualizar todos los jugadores y manos en la partida.
 		int numJugadores = partida.getJugadores().size();
 		for (int i = 0; i < numJugadores; i++) {
@@ -516,9 +524,9 @@ public class PartidaController extends SalaReceiver implements Initializable {
                 if(partida.getUltimaCartaJugada().getTipo() != Carta.Tipo.intercambio){
                     int numCartasRobadas = numCartasAhora - numCartasAntes;
                     if(jugadorID == jugadorActualID){
-                        System.out.println("Has robado " + numCartasRobadas + " carta(s)");
+                    	if (DEBUG) System.out.println("Has robado " + numCartasRobadas + " carta(s)");
                     } else {
-                    	System.out.println(nombreJugador + " robó " + numCartasRobadas + " carta(s)");
+                    	if (DEBUG) System.out.println(nombreJugador + " robó " + numCartasRobadas + " carta(s)");
                     }
 
                     // Mostrar animación de las cartas robadas
@@ -633,7 +641,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		if(!comenzarEscalera) {
 			Carta carta = (Carta)cartaClickada.getUserData();
 			if(sePuedeUsarCarta(partida, carta)) {
-				System.out.println("se valida la carta" + carta);
+				if (DEBUG) System.out.println("se valida la carta" + carta);
 				if(carta.getColor() == Carta.Color.comodin) {
 					mostrarPopUpCambiarColor(carta);
 				} else if(carta.getTipo() == Carta.Tipo.intercambio) {
@@ -643,7 +651,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 					SuscripcionSala.enviarJugada(jugada);
 				}
 			}	
-			System.out.println(carta.toString());
+			if (DEBUG) System.out.println(carta.toString());
 		}
 	}
 	
@@ -664,7 +672,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 			
 			imageview.setEffect(new Glow(0.8));
-			System.out.println(imageview.getEffect().toString());
+			if (DEBUG) System.out.println(imageview.getEffect().toString());
 		}
 		
 		if((comenzarEscalera && Carta.esNumero( ( (Carta) imageview.getUserData()).getTipo() ) )) {
@@ -696,7 +704,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		
 		Jugador jugador = partida.getJugadores().get(jugadorActualID);
         for(Carta carta : jugador.getMano()){
-        	addCarta(sala, jugadorIDmap.get(jugadorActualID), true, carta, cartasJugadores[jugadorIDmap.get(jugadorActualID)]);
+        	addCarta(sala, jugadorActualID, true, carta, cartasJugadores[jugadorIDmap.get(jugadorActualID)]);
         }
 		
 	}
@@ -789,7 +797,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     		btnUno.setEffect(colorAdjust);
 
             App.apiweb.sendObject("/app/partidas/botonUNO/" + SuscripcionSala.sala.getSalaID(), "vacio");
-            System.out.println("Has pulsado el botón UNO");
+            if (DEBUG) System.out.println("Has pulsado el botón UNO");
         }
     }
     
@@ -852,12 +860,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
         if (respuesta == ButtonType.OK) {
             App.setRoot("principal");
 
-            System.out.println("Has abandonado la sala.");
+            if (DEBUG) System.out.println("Has abandonado la sala.");
             
 			SuscripcionSala.salirDeSala();
 			App.setRoot("principal");
         } else if (respuesta == styledExit) {
-        	System.out.println("SORPRESA");
+        	if (DEBUG) System.out.println("SORPRESA");
         	AudioClip buzzer = new AudioClip(getClass().getResource("audio/styledExit.mp3").toExternalForm()); 
         	buzzer.play();
         	
@@ -890,7 +898,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				popUpRobarCarta.initOwner(marco.getScene().getWindow());
 	
 				int resultado = popUpRobarCarta.showAndReturnDrawResult(rojcc, cartaRobada);
-				System.out.println("recupero un " + resultado);
+				if (DEBUG) System.out.println("recupero un " + resultado);
 				
 				switch(resultado) {
 					case ROBAR_CARTA:
@@ -908,7 +916,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 						break;
 				}
 			} catch (Exception e) {
-				System.out.println("No se ha podido cargar la pagina: " + e);
+				if (DEBUG) System.out.println("No se ha podido cargar la pagina: " + e);
 			}	
 		} else if(partida.isModoAcumulandoRobo()) {
             boolean algunaCartaCompatible = false;
@@ -964,16 +972,16 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			popUpIntercambiarMano.initOwner(marco.getScene().getWindow());
 			
 			int jugadorIDdevuelto = popUpIntercambiarMano.showAndReturnSwapHandResult(imc);
-			System.out.println("recupero un " + jugadorIDdevuelto);
+			if (DEBUG) System.out.println("recupero un " + jugadorIDdevuelto);
 			
 			if (jugadorIDdevuelto != IntercambiarManoController.Resultado.CANCELAR.ordinal()) {
-				System.out.println("Se va a enviar la carta " + carta);
+				if (DEBUG) System.out.println("Se va a enviar la carta " + carta);
 				Jugada jugada = new Jugada(Collections.singletonList(carta));
 				jugada.setJugadorObjetivo(jugadorIDdevuelto);
 				SuscripcionSala.enviarJugada(jugada);
 			}
 		} catch (Exception e) {
-			System.out.println("No se ha podido cargar la pagina: " + e);
+			if (DEBUG) System.out.println("No se ha podido cargar la pagina: " + e);
 
 		} 
 	}
@@ -995,7 +1003,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			popUpCambiarColor.initOwner(marco.getScene().getWindow());
 
 			int resultado = popUpCambiarColor.showAndReturnColourResult(ccc);
-			System.out.println("recupero un " + resultado);
+			if (DEBUG) System.out.println("recupero un " + resultado);
 			//Ponerle a la carta el color deseado por el jugador mediante el popup.
 			//Ojo, el defaultmode elige el color real, no se hace aquí.
 			switch(resultado) {
@@ -1015,12 +1023,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 			
 			if (resultado != CANCELAR) {
-				System.out.println("Se va a enviar la carta " + carta);
+				if (DEBUG) System.out.println("Se va a enviar la carta " + carta);
 				Jugada jugada = new Jugada(Collections.singletonList(carta));
 				SuscripcionSala.enviarJugada(jugada);
 			}
 		} catch (Exception e) {
-			System.out.println("No se ha podido cargar la pagina: " + e);
+			if (DEBUG) System.out.println("No se ha podido cargar la pagina: " + e);
 		} 
 	}
 	
@@ -1042,7 +1050,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			popUpFinalizarPartida.initOwner(marco.getScene().getWindow());
 			resultado = popUpFinalizarPartida.showAndReturnFinishedGameResult(fpc);
 		} catch (Exception e) {
-			System.out.println("No se ha podido cargar la pagina: " + e);
+			if (DEBUG) System.out.println("No se ha podido cargar la pagina: " + e);
 			e.printStackTrace();
 		}
 		return resultado;
@@ -1069,7 +1077,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				SuscripcionSala.enviarEmoji(jugadorActualID,resultado);
 			}
 		} catch (Exception e) {
-			System.out.println("No se ha podido cargar la pagina: " + e);
+			if (DEBUG) System.out.println("No se ha podido cargar la pagina: " + e);
 			e.printStackTrace();
 		}
 	}

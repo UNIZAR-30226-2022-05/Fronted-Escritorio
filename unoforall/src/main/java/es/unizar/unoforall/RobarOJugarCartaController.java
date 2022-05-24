@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class RobarOJugarCartaController implements Initializable{
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	public static final boolean DEBUG = App.DEBUG;
     
 	private static final int ROBAR_CARTA = 0;
 	private static final int JUGAR_CARTA = 1;
@@ -39,16 +41,16 @@ public class RobarOJugarCartaController implements Initializable{
 		//Tras pulsarse, está configurado para cerrar el popup.
 		defaultMode = App.getPersonalizacion().get("cartaSelec") == 0;
 		isVisible = true;
-		System.out.println(carta);
+		if (DEBUG) System.out.println(carta);
 		ImageManager.setImagenCarta(cartaRobada, carta, defaultMode, isVisible);
 		robarOJugar = new EventHandler<ActionEvent>() {
 	      	@Override 
 	      	public void handle(ActionEvent actionEvent) {
 	      		if(actionEvent.getSource().equals(btnRobarCarta)) {
-	      			System.out.println("Has clickado el botón robar carta");
+	      			if (DEBUG) System.out.println("Has clickado el botón robar carta");
 	      			resultado = ROBAR_CARTA;
 	      		} else if(actionEvent.getSource().equals(btnJugarCarta)) {
-	      			System.out.println("Has clickado el botón jugar carta");
+	      			if (DEBUG) System.out.println("Has clickado el botón jugar carta");
 	      			resultado = JUGAR_CARTA;
 	      		} 
 

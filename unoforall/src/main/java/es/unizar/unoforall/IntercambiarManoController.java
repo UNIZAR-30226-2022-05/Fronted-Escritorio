@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,6 +17,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class IntercambiarManoController implements Initializable {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	public static final boolean DEBUG = App.DEBUG;
+	
 	@FXML private ImageView avatarJugador1;
     @FXML private ImageView avatarJugador2;
     @FXML private ImageView avatarJugador3;
@@ -48,20 +52,20 @@ public class IntercambiarManoController implements Initializable {
 	      	@Override 
 	      	public void handle(ActionEvent actionEvent) {
 	      		if(actionEvent.getSource().equals(btnJugador1)) {
-	      			System.out.println("Has elegido el jugador 1");
+	      			if (DEBUG) System.out.println("Has elegido el jugador 1");
 	      			resultado = Resultado.JUGADOR1;
 	      		} else if(actionEvent.getSource().equals(btnJugador2)) {
-					System.out.println("Has elegido el jugador 2");
+					if (DEBUG) System.out.println("Has elegido el jugador 2");
 	      			resultado = Resultado.JUGADOR2;
 	      		} else if(actionEvent.getSource().equals(btnJugador3)) {
-					System.out.println("Has elegido el jugador 3");
+					if (DEBUG) System.out.println("Has elegido el jugador 3");
 	      			resultado = Resultado.JUGADOR3;
 	      		} else if(actionEvent.getSource().equals(btnJugador4)) {
-					System.out.println("Has elegido el jugador 4");
+					if (DEBUG) System.out.println("Has elegido el jugador 4");
 	      			resultado = Resultado.JUGADOR4; 
 	      	  	} else {
 					resultado = Resultado.CANCELAR; 
-					System.out.println("Has elegido no elegir");
+					if (DEBUG) System.out.println("Has elegido no elegir");
 	      		}
 	      		
 		      	Node  source = (Node)  actionEvent.getSource(); 
@@ -89,7 +93,7 @@ public class IntercambiarManoController implements Initializable {
 		int i;
 		for (i=0;i<listaAvatares.size();i++) {
 			ImageManager.setImagenPerfil(avatares[i], listaAvatares.get(i));
-			botones[i].setText(listaNombres.get(i));
+			botones[i].setText(StringUtils.parseString(listaNombres.get(i)));
 			botones[i].setOnAction(elegirJugador);
 		}
 		btnCancelar.setOnAction(elegirJugador);

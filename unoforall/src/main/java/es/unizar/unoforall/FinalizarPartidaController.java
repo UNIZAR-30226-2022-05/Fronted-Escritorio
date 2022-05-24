@@ -31,6 +31,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class FinalizarPartidaController implements Initializable {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	public static final boolean DEBUG = App.DEBUG;
 	
 	public static final int SALIR = -1;
 	public static final int CONTINUAR = 1;
@@ -84,10 +86,10 @@ public class FinalizarPartidaController implements Initializable {
 	      	@Override 
 	      	public void handle(ActionEvent actionEvent) {
 	      		if(actionEvent.getSource().equals(btnContinuar)) {
-	      			System.out.println("Has elegido continuar");
+	      			if (DEBUG) System.out.println("Has elegido continuar");
 	      			resultado = CONTINUAR;
 	      		} else if(actionEvent.getSource().equals(btnSalir)) {
-					System.out.println("Has elegido Salir");
+					if (DEBUG) System.out.println("Has elegido Salir");
 					int aux = abandonarPartida(null);
 					if (aux == CONTINUAR) {
 						return;
@@ -102,7 +104,7 @@ public class FinalizarPartidaController implements Initializable {
 		      	//...
 		      	//resultado = 3;
 		      	// close the dialog.
-				System.out.println("Has elegido " + resultado);
+				if (DEBUG) System.out.println("Has elegido " + resultado);
 		      	Node  source = (Node)  actionEvent.getSource(); 
 		      	Stage stage  = (Stage) source.getScene().getWindow();
 		      	//Por alguna razón peta, ¿será realmente necesario?
@@ -216,10 +218,10 @@ public class FinalizarPartidaController implements Initializable {
             //Llamada a la clase de Sala para desubscribirse
             //SuscripcionSala.salirDeSalaDefinitivo();
             //Volver a la pantalla anterior
-            System.out.println("Has abandonado la sala.");
+            if (DEBUG) System.out.println("Has abandonado la sala.");
 			return SALIR;
         } else if (respuesta == styledExit) {
-        	System.out.println("SORPRESA");
+        	if (DEBUG) System.out.println("SORPRESA");
         	AudioClip buzzer = new AudioClip(getClass().getResource("audio/styledExit.mp3").toExternalForm()); 
         	buzzer.play();
         	//SuscripcionSala.salirDeSalaDefinitivo();
