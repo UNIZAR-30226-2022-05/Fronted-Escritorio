@@ -173,6 +173,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private boolean comenzarEscalera;
     private boolean sePuedePulsarBotonUNO;
 	private boolean emojisHabilitados;
+	private boolean partidaNoFinalizada;
 	
 	private boolean sentidoAnterior = false;
 	
@@ -194,6 +195,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		partidaNoFinalizada = true;
 		SuscripcionSala.dondeEstoy(this); 
 		//La primera vez recuperamos partida y sala de la clase Suscripción sala. El resto por administrarSala();
 		partida = SuscripcionSala.sala.getPartida();
@@ -548,7 +550,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sentidoActual);
 		sentidoAnterior = sentidoActual;
 		//Se ejecuta solo en caso de que la partida haya acabado
-		if (sala.getPartida().estaTerminada() && popUpFinalizarPartida != null) {
+		if (sala.getPartida().estaTerminada() && partidaNoFinalizada) {
 			//Parar los timers de los jugadores.
 			if(timeline != null) {
 				timeline.stop();
@@ -1048,6 +1050,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			popUpFinalizarPartida.initStyle(StageStyle.UNDECORATED);
 			popUpFinalizarPartida.initModality(Modality.APPLICATION_MODAL);
 			popUpFinalizarPartida.initOwner(marco.getScene().getWindow());
+			partidaNoFinalizada = false;
 			resultado = popUpFinalizarPartida.showAndReturnFinishedGameResult(fpc);
 		} catch (Exception e) {
 			if (DEBUG) System.out.println("No se ha podido cargar la pagina: " + e);
