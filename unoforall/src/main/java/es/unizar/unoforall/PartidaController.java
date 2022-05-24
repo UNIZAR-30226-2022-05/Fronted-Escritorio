@@ -173,6 +173,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
     private boolean comenzarEscalera;
     private boolean sePuedePulsarBotonUNO;
 	private boolean emojisHabilitados;
+	private boolean partidaFinalizada;
 	
 	private boolean sentidoAnterior = false;
 	
@@ -548,7 +549,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sentidoActual);
 		sentidoAnterior = sentidoActual;
 		//Se ejecuta solo en caso de que la partida haya acabado
-		if (sala.getPartida().estaTerminada() && popUpFinalizarPartida != null) {
+		if (sala.getPartida().estaTerminada() && partidaFinalizada) {
 			//Parar los timers de los jugadores.
 			if(timeline != null) {
 				timeline.stop();
@@ -1034,6 +1035,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private int mostrarPopUpFinalizacionPartida() {
 		int resultado = -2;
+		partidaFinalizada = true;
 		try {
 			FinalizarPartidaController fpc = new FinalizarPartidaController();
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("finalizarPartida.fxml"));
