@@ -21,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
@@ -36,6 +37,7 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;
 	@FXML private Label labelError;
+	@FXML private TextArea textAreaInfo;
 
 	@FXML private Button botonAbandonar;
 	@FXML private Button botonListo;
@@ -144,6 +146,10 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
 	@Override
 	public void administrarSala(Sala sala) {
 		//Aquí ya existe Sala sala.
+		
+		//PONER INFORMACIÓN DE LA SALA
+		textAreaInfo.setText("ID de sala: " + sala.getSalaID());
+		
 		if (DEBUG) System.out.println("sala actualizada");
 		labelError.setText("");
 		if (sala.isNoExiste()) {
