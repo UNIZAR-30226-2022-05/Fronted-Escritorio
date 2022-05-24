@@ -1,13 +1,16 @@
 package es.unizar.unoforall;
 
 import es.unizar.unoforall.model.UsuarioVO;
+import es.unizar.unoforall.model.partidas.Participante;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
+import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.utils.FechaUtils;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public class PartidaItemController {
     
@@ -31,7 +34,24 @@ public class PartidaItemController {
 	@FXML private ImageView iconoJug4;
     @FXML private Label nomJug4;
     
+    private Label[] posiciones;
+    private ImageView[] iconos;
+    private Label[] nombres;
+    
 	public void setData(PartidaJugada partida) {
+		//INICIALIZAR LOS VECTORES
+		posiciones = new Label[] {
+			pos1, pos2, pos3, pos4
+		};
+		
+		iconos = new ImageView[] {
+			iconoJug1, iconoJug2, iconoJug3, iconoJug4
+		};
+		
+		nombres = new Label[] {
+			nomJug1, nomJug2, nomJug3, nomJug4
+		};
+		
 		//RELLENAR DATOS DE PARTIDA
 		String fechaI = FechaUtils.formatDate(partida.getPartida().getFechaInicioPartida());
 		String fechaF = FechaUtils.formatDate(partida.getPartida().getFechaFinPartida());
@@ -66,73 +86,42 @@ public class PartidaItemController {
 	            break;
 		}
 		
-		//RELLENAR DATOS DE JUGADORES
-		//1o
-		UsuarioVO usr = partida.getParticipantes().get(0).getUsuario();
-		if (usr != null) {
-			//ASIGNAR HUMANO
-			nomJug1.setText(StringUtils.parseString(usr.getNombre()));
-			ImageManager.setImagenPerfil(iconoJug1, usr.getAvatar());
+		//CARGAR DATOS DE PARTIDA
+		if(modo == ConfigSala.ModoJuego.Parejas.ordinal()){
+			posiciones[0].setText("1º");
+			posiciones[1].setText("1º");
+			posiciones[2].setText("2º");
+			posiciones[3].setText("2º");
+			posiciones[0].setTextFill(Color.web("#D4AF37"));
+			posiciones[1].setTextFill(Color.web("#D4AF37"));
+			posiciones[2].setTextFill(Color.web("#C2C2C3"));
+			posiciones[3].setTextFill(Color.web("#C2C2C3"));
 		} else {
-			//ASIGNAR IA
-			nomJug1.setText("IA");
-			ImageManager.setImagenPerfil(iconoJug1, ImageManager.IA_IMAGE_ID);
-		}
-
-		//2do
-		if (partida.getPartida().getModoJuego() == 2) {
-			//SI ES POR PAREJAS, TAMBIÉN QUEDA EN PRIMER LUGAR
-			pos2.setText("1º");
-		}
-		
-		usr = partida.getParticipantes().get(1).getUsuario();
-		if (usr != null) {
-			//ASIGNAR HUMANO
-			nomJug2.setText(StringUtils.parseString(usr.getNombre()));
-			ImageManager.setImagenPerfil(iconoJug2, usr.getAvatar());
-		} else {
-			//ASIGNAR IA
-			nomJug2.setText("IA");
-			ImageManager.setImagenPerfil(iconoJug2, ImageManager.IA_IMAGE_ID);
+			posiciones[0].setText("1º");
+			posiciones[1].setText("2º");
+			posiciones[2].setText("3º");
+			posiciones[3].setText("4º");
+			posiciones[0].setTextFill(Color.web("#D4AF37"));
+			posiciones[1].setTextFill(Color.web("#C2C2C3"));
+			posiciones[2].setTextFill(Color.web("#CD7F32"));
+			posiciones[3].setTextFill(Color.web("#6C78BD"));
 		}
 		
-		//3o
-		if (partida.getPartida().getModoJuego() == 2) {
-			//SI ES POR PAREJAS, QUEDA EN SEGUNDO LUGAR
-			pos3.setText("2º");
-		}
-		
-		if (partida.getParticipantes().size() > 2) {
-			//3ero
-			usr = partida.getParticipantes().get(2).getUsuario();
-			if (usr != null) {
-				//ASIGNAR HUMANO
-				nomJug3.setText(StringUtils.parseString(usr.getNombre()));
-				ImageManager.setImagenPerfil(iconoJug3, usr.getAvatar());
+		for(Participante participante : partida.getParticipantes()) {
+			int puesto = participante.getPuesto();
+			UsuarioVO usuario = participante.getUsuario();
+			String nombre;
+			int avatar;
+			if (usuario == null) {
+				//ES UNA IA
+				nombre = "IA";
+				avatar = ImageManager.IA_IMAGE_ID;
 			} else {
-				//ASIGNAR IA
-				nomJug3.setText("IA");
-				ImageManager.setImagenPerfil(iconoJug3, ImageManager.IA_IMAGE_ID);
-			} 
-		}
-		
-		//4o
-		if (partida.getPartida().getModoJuego() == 2) {
-			//SI ES POR PAREJAS, TAMBIÉN QUEDA EN SEGUNDO LUGAR
-			pos4.setText("2º");
-		}
-		if (partida.getParticipantes().size() > 3) {
-			//3ero
-			usr = partida.getParticipantes().get(3).getUsuario();
-			if (usr != null) {
-				//ASIGNAR HUMANO
-				nomJug4.setText(StringUtils.parseString(usr.getNombre()));
-				ImageManager.setImagenPerfil(iconoJug4, usr.getAvatar());
-			} else {
-				//ASIGNAR IA
-				nomJug4.setText("IA");
-				ImageManager.setImagenPerfil(iconoJug4, ImageManager.IA_IMAGE_ID);
-			} 
+				nombre = usuario.getNombre();
+				avatar = usuario.getAvatar();
+			}
+			nombres[puesto-1].setText(StringUtils.parseString(nombre));
+			ImageManager.setImagenPerfil(iconos[puesto-1], avatar);
 		}
 	}
 
