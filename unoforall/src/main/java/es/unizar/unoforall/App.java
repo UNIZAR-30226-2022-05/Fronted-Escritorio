@@ -28,7 +28,10 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	public static final boolean DEBUG = true;
+	public static final boolean MODO_PRODUCCION = false;
+	
+	private static final String AZURE_IP = "unoforall.westeurope.cloudapp.azure.com";
 
     private static Scene scene;
     private static Stage stage;
@@ -42,6 +45,10 @@ public class App extends Application {
 	
 	static {
 		apiweb = new WebSocketAPI();
+		if (MODO_PRODUCCION) {
+			RestAPI.setServerIP(AZURE_IP);
+			WebSocketAPI.setServerIP(AZURE_IP);
+		}
 	}
 	
     public static void main(String[] args) throws InterruptedException, ExecutionException {

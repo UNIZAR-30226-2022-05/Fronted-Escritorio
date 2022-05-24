@@ -12,6 +12,7 @@ import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,6 +23,7 @@ public class LoginController implements Initializable {
 	private static final boolean DEBUG = true;
 	
 	@FXML private VBox fondo;
+	@FXML private Button btnCambiarIP;
 	
 	@FXML private Label labelInformacion;
 	@FXML private Label labelError;
@@ -32,6 +34,10 @@ public class LoginController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fondo.setBackground(ImageManager.getBackgroundImage(ImageManager.FONDO_DIBUJITOS));
+		if (App.MODO_PRODUCCION) {
+			btnCambiarIP.setVisible(false);
+			btnCambiarIP.setDisable(true);
+		}
 	}
 	
 	@FXML
@@ -54,7 +60,7 @@ public class LoginController implements Initializable {
 		apirest.openConnection();
     	RespuestaLogin resp = apirest.receiveObject(RespuestaLogin.class);
     	
-    	if (resp.isExito()) {
+    	if (resp != null && resp.isExito()) {
     		//GUARDAR RESPUESTALOGIN EN CASO DE NECESITARLO
     		App.setRespLogin(resp);
     		if (DEBUG) System.out.println("clave inicio: " + resp.getClaveInicio());
@@ -97,12 +103,15 @@ public class LoginController implements Initializable {
 	    	
 			App.apiweb.sendObject("/app/conectarse/" + resp.getClaveInicio(), "vacio");		
 			if (DEBUG) System.out.println("Esperando inicio sesión... ");
-    	} else {
+    	} else if (resp != null) {
     		if (DEBUG) {
     			labelError.setText(StringUtils.parseString(resp.getErrorInfo()));
 		    	System.out.println("Exito: " + resp.isExito());
 		    	System.out.println("Tipo de error: " + resp.getErrorInfo());
     		}
+    	} else {
+    		labelError.setText("El servidor no es alcanzable");
+    		if (DEBUG) System.out.println("El servidor no es alcanzable");
     	}
 	}
     
