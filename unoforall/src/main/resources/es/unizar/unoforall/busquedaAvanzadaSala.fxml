@@ -52,14 +52,14 @@
                 <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Label text="Participantes" GridPane.rowIndex="1">
+                  <Label text="Participantes" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
                      <children>
-                        <RadioButton fx:id="partTodos" mnemonicParsing="false" onAction="#selectNumParticip" selected="true" text="Todos">
+                        <RadioButton fx:id="partTodos" mnemonicParsing="false" onAction="#selectNumParticip" selected="true" text="Todos" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -67,7 +67,7 @@
                               <ToggleGroup fx:id="Participantes" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="part2" mnemonicParsing="false" onAction="#selectNumParticip" text="2" toggleGroup="$Participantes">
+                        <RadioButton fx:id="part2" mnemonicParsing="false" onAction="#selectNumParticip" text="2" textFill="WHITE" toggleGroup="$Participantes">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -75,7 +75,7 @@
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="part3" mnemonicParsing="false" onAction="#selectNumParticip" text="3" toggleGroup="$Participantes">
+                        <RadioButton fx:id="part3" mnemonicParsing="false" onAction="#selectNumParticip" text="3" textFill="WHITE" toggleGroup="$Participantes">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -83,7 +83,7 @@
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="part4" mnemonicParsing="false" onAction="#selectNumParticip" text="4" toggleGroup="$Participantes">
+                        <RadioButton fx:id="part4" mnemonicParsing="false" onAction="#selectNumParticip" text="4" textFill="WHITE" toggleGroup="$Participantes">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -96,20 +96,20 @@
                         <Insets />
                      </opaqueInsets>
                   </HBox>
-                  <Label text="Modo de Juego">
+                  <Label text="Modo de Juego" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <ChoiceBox fx:id="GameModeChoiceBox" prefHeight="40.0" prefWidth="227.0" GridPane.columnIndex="1" />
-                  <Label text="Filtrar Por Reglas" GridPane.rowIndex="2">
+                  <Label text="Filtrar Por Reglas" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <RadioButton fx:id="filtrarReglasSi" mnemonicParsing="false" onAction="#filtrarPorReglas" text="Si">
+                        <RadioButton fx:id="filtrarReglasSi" mnemonicParsing="false" onAction="#filtrarPorReglas" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -120,7 +120,7 @@
                               <ToggleGroup fx:id="FiltrarReglas" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="filtrarReglasNo" mnemonicParsing="false" onAction="#filtrarPorReglas" selected="true" text="No" toggleGroup="$FiltrarReglas">
+                        <RadioButton fx:id="filtrarReglasNo" mnemonicParsing="false" onAction="#filtrarPorReglas" selected="true" text="No" textFill="WHITE" toggleGroup="$FiltrarReglas">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -148,29 +148,29 @@
                   <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Encadenar +2 y +4" GridPane.rowIndex="3">
+                  <Label text="Encadenar +2 y +4" textFill="WHITE" GridPane.rowIndex="3">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Redirigir +2 y +4" GridPane.rowIndex="4">
+                  <Label text="Redirigir +2 y +4" textFill="WHITE" GridPane.rowIndex="4">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Jugar Varias Cartas" GridPane.rowIndex="5">
+                  <Label text="Jugar Varias Cartas" textFill="WHITE" GridPane.rowIndex="5">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Evitar Cartas especiales" GridPane.rowIndex="6">
+                  <Label text="Evitar Cartas especiales" textFill="WHITE" GridPane.rowIndex="6">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="3">
                      <children>
-                        <RadioButton fx:id="encadenarSi" mnemonicParsing="false" onAction="#selectEncadenar" text="Si">
+                        <RadioButton fx:id="encadenarSi" mnemonicParsing="false" onAction="#selectEncadenar" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -181,7 +181,7 @@
                               <ToggleGroup fx:id="Encadenar" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="encadenarNo" mnemonicParsing="false" onAction="#selectEncadenar" selected="true" text="No" toggleGroup="$Encadenar">
+                        <RadioButton fx:id="encadenarNo" mnemonicParsing="false" onAction="#selectEncadenar" selected="true" text="No" textFill="WHITE" toggleGroup="$Encadenar">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -193,7 +193,7 @@
                   </HBox>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="4">
                      <children>
-                        <RadioButton fx:id="redirigirSi" mnemonicParsing="false" onAction="#selectRedirigir" text="Si">
+                        <RadioButton fx:id="redirigirSi" mnemonicParsing="false" onAction="#selectRedirigir" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -204,7 +204,7 @@
                               <ToggleGroup fx:id="Redirigir" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="redirigirNo" mnemonicParsing="false" onAction="#selectRedirigir" selected="true" text="No" toggleGroup="$Redirigir">
+                        <RadioButton fx:id="redirigirNo" mnemonicParsing="false" onAction="#selectRedirigir" selected="true" text="No" textFill="WHITE" toggleGroup="$Redirigir">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -216,7 +216,7 @@
                   </HBox>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="5">
                      <children>
-                        <RadioButton fx:id="jugarVariasSi" mnemonicParsing="false" onAction="#selectJugarVarias" text="Si">
+                        <RadioButton fx:id="jugarVariasSi" mnemonicParsing="false" onAction="#selectJugarVarias" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -227,7 +227,7 @@
                               <ToggleGroup fx:id="JugarVarias" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="jugarVariasNo" mnemonicParsing="false" onAction="#selectJugarVarias" selected="true" text="No" toggleGroup="$JugarVarias">
+                        <RadioButton fx:id="jugarVariasNo" mnemonicParsing="false" onAction="#selectJugarVarias" selected="true" text="No" textFill="WHITE" toggleGroup="$JugarVarias">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -239,7 +239,7 @@
                   </HBox>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="6">
                      <children>
-                        <RadioButton fx:id="evitarEspecialesSi" mnemonicParsing="false" onAction="#selectEvitarEspeciales" text="Si">
+                        <RadioButton fx:id="evitarEspecialesSi" mnemonicParsing="false" onAction="#selectEvitarEspeciales" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -250,7 +250,7 @@
                               <ToggleGroup fx:id="EvitarEspeciales" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="evitarEspecialesNo" mnemonicParsing="false" onAction="#selectEvitarEspeciales" selected="true" text="No" toggleGroup="$EvitarEspeciales">
+                        <RadioButton fx:id="evitarEspecialesNo" mnemonicParsing="false" onAction="#selectEvitarEspeciales" selected="true" text="No" textFill="WHITE" toggleGroup="$EvitarEspeciales">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -260,14 +260,14 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <Label text="RayosX">
+                  <Label text="RayosX" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER">
                      <children>
-                        <RadioButton fx:id="rayosXSi" mnemonicParsing="false" onAction="#selectRayosX" text="Si">
+                        <RadioButton fx:id="rayosXSi" mnemonicParsing="false" onAction="#selectRayosX" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -278,7 +278,7 @@
                               <ToggleGroup fx:id="RayosX" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rayosXNo" mnemonicParsing="false" onAction="#selectRayosX" selected="true" text="No" toggleGroup="$RayosX">
+                        <RadioButton fx:id="rayosXNo" mnemonicParsing="false" onAction="#selectRayosX" selected="true" text="No" textFill="WHITE" toggleGroup="$RayosX">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -288,19 +288,19 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <Label text="Intercambio" GridPane.rowIndex="1">
+                  <Label text="Intercambio" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="X2" GridPane.rowIndex="2">
+                  <Label text="X2" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
                      <children>
-                        <RadioButton fx:id="intercambioSi" mnemonicParsing="false" onAction="#selectIntercambio" text="Si">
+                        <RadioButton fx:id="intercambioSi" mnemonicParsing="false" onAction="#selectIntercambio" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -311,7 +311,7 @@
                               <ToggleGroup fx:id="Intercambio" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="intercambioNo" mnemonicParsing="false" onAction="#selectIntercambio" selected="true" text="No" toggleGroup="$Intercambio">
+                        <RadioButton fx:id="intercambioNo" mnemonicParsing="false" onAction="#selectIntercambio" selected="true" text="No" textFill="WHITE" toggleGroup="$Intercambio">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -323,7 +323,7 @@
                   </HBox>
                   <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2">
                      <children>
-                        <RadioButton fx:id="modifX2Si" mnemonicParsing="false" onAction="#selectX2" text="Si">
+                        <RadioButton fx:id="modifX2Si" mnemonicParsing="false" onAction="#selectX2" text="Si" textFill="WHITE">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
@@ -334,7 +334,7 @@
                               <ToggleGroup fx:id="X2" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="modifX2No" mnemonicParsing="false" onAction="#selectX2" selected="true" text="No" toggleGroup="$X2">
+                        <RadioButton fx:id="modifX2No" mnemonicParsing="false" onAction="#selectX2" selected="true" text="No" textFill="WHITE" toggleGroup="$X2">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin>
