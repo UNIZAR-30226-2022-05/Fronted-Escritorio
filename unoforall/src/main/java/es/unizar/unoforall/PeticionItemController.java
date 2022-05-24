@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -38,7 +39,7 @@ public class PeticionItemController {
     	ImageManager.setImagenPerfil(icono, usuario.getAvatar());
     	
     	//ACTUALIZAR EL RESTO DE PARÁMETROS
-    	nombre.setText(usuario.getNombre());
+    	nombre.setText(StringUtils.parseString(usuario.getNombre()));
 	}
 
     @FXML
