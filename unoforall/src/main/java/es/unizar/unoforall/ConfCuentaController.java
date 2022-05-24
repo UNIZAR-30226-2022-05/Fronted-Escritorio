@@ -217,49 +217,38 @@ public class ConfCuentaController implements Initializable {
 	@FXML
     private void deleteAccount(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-    	alert.setTitle("Abandonar Sala");
-    	alert.setHeaderText("¿Seguro que quieres eliminar tu cuenta?");
-    	alert.setContentText("A diferencia de cuando instalas UnoForAll en android\n"
-    						+ "con esta acción sí que eliminarás todos tus datos");
+    	alert.setTitle("Eliminar cuenta");
+    	alert.setHeaderText("¿Quieres eliminar tu cuenta?");
     	
     	ButtonType respuesta = alert.showAndWait().get();
     	if (respuesta == ButtonType.OK) {
-    		if (DEBUG) System.out.println("Un paso más cerca de la destrucción");
+    		if (DEBUG) System.out.println("Primera confirmación eliminación cuenta");
     		
     		alert = new Alert(AlertType.CONFIRMATION);
-        	alert.setTitle("Abandonar Sala");
-        	alert.setHeaderText("¿Seguro seguro?");
-        	alert.setContentText("Si fuera tú no lo haría");
+        	alert.setTitle("Eliminar cuenta");
+        	alert.setHeaderText("¿Estás seguro?");
+        	alert.setContentText("Esta acción no es reversible y eliminará \n"
+        						+ "TODOS los datos de tu cuenta de forma permanente");
         	
         	respuesta = alert.showAndWait().get();
         	if (respuesta == ButtonType.OK) {
-        		if (DEBUG) System.out.println("So you chose DEATH.");
+        		if (DEBUG) System.out.println("Segunda confirmación eliminación cuenta.");
         		
-        		alert = new Alert(AlertType.WARNING);
-            	alert.setTitle("Abandonar Sala");
-            	alert.setHeaderText("Has elegido la muerte");
-            	alert.setContentText("Acepta las consecuencias");
-            	
-            	respuesta = alert.showAndWait().get();
-            	if (respuesta == ButtonType.OK) {
-            		if (DEBUG) System.out.println("A D I O S.");
-            		
-            		//DESTRUCCION CUENTAL
-            		RestAPI apirest = new RestAPI("/api/borrarCuenta");
-            		String sesionID = App.getSessionID();
-            		apirest.addParameter("sesionID",sesionID);
-            		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
-            		
-            		apirest.openConnection();
-                	String retorno = apirest.receiveObject(String.class);
-                	if (retorno.equals("BORRADA")) {
-            	    	App.setRoot("login");
-            	        App.cerrarConexion();
-            	    	if (DEBUG) System.out.println("Cuenta eliminada");
-                	} else {
-                		labelError.setText(StringUtils.parseString(retorno));
-                		if (DEBUG) System.out.println(retorno);
-                	}
+        		//DESTRUCCION CUENTA
+        		RestAPI apirest = new RestAPI("/api/borrarCuenta");
+        		String sesionID = App.getSessionID();
+        		apirest.addParameter("sesionID",sesionID);
+        		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+        		
+        		apirest.openConnection();
+            	String retorno = apirest.receiveObject(String.class);
+            	if (retorno.equals("BORRADA")) {
+        	    	App.setRoot("login");
+        	        App.cerrarConexion();
+        	    	if (DEBUG) System.out.println("Cuenta eliminada");
+            	} else {
+            		labelError.setText(StringUtils.parseString(retorno));
+            		if (DEBUG) System.out.println(retorno);
             	}
         	}
     	}
