@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -89,7 +90,7 @@ public class IntercambiarManoController implements Initializable {
 		int i;
 		for (i=0;i<listaAvatares.size();i++) {
 			ImageManager.setImagenPerfil(avatares[i], listaAvatares.get(i));
-			botones[i].setText(listaNombres.get(i));
+			botones[i].setText(StringUtils.parseString(listaNombres.get(i)));
 			botones[i].setOnAction(elegirJugador);
 		}
 		btnCancelar.setOnAction(elegirJugador);
