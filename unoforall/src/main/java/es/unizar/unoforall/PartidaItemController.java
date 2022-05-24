@@ -2,7 +2,7 @@ package es.unizar.unoforall;
 
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.Participante;
-import es.unizar.unoforall.model.partidas.PartidaJugada;
+import es.unizar.unoforall.model.partidas.PartidaJugadaCompacta;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.utils.FechaUtils;
 import es.unizar.unoforall.utils.ImageManager;
@@ -38,7 +38,7 @@ public class PartidaItemController {
     private ImageView[] iconos;
     private Label[] nombres;
     
-	public void setData(PartidaJugada partida) {
+	public void setData(PartidaJugadaCompacta partida) {
 		//INICIALIZAR LOS VECTORES
 		posiciones = new Label[] {
 			pos1, pos2, pos3, pos4
@@ -53,18 +53,23 @@ public class PartidaItemController {
 		};
 		
 		//RELLENAR DATOS DE PARTIDA
-		String fechaI = FechaUtils.formatDate(partida.getPartida().getFechaInicioPartida());
-		String fechaF = FechaUtils.formatDate(partida.getPartida().getFechaFinPartida());
+		String fechaI = FechaUtils.formatDate(partida.getFechaInicio());
+		String fechaF = FechaUtils.formatDate(partida.getFechaFin());
 		fechaInicio.setText("Fecha de Inicio: " + fechaI);
 		fechaFin.setText("Fecha de Fin: " + fechaF);
 		
-		Integer modo = partida.getPartida().getModoJuego();
-		if (modo == 0) {
-			ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_4_ID);
-		} else if(modo == 1) {
-			ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_5_ID);
-		} else {
-			ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_2_ID);
+		switch(partida.getModoJuego()) {
+			case Original:
+				ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_4_ID);
+				break;
+			case Attack:
+				ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_5_ID);
+				break;
+			case Parejas:
+				ImageManager.setImagenPerfil(modoJuego, ImageManager.IMAGEN_PERFIL_2_ID);
+				break;
+			default:
+				break;
 		}
 		
 		//OCULTAR DATOS DE JUGADORES INEXISTENTES
@@ -87,7 +92,7 @@ public class PartidaItemController {
 		}
 		
 		//CARGAR DATOS DE PARTIDA
-		if(modo == ConfigSala.ModoJuego.Parejas.ordinal()){
+		if(partida.getModoJuego() == ConfigSala.ModoJuego.Parejas){
 			posiciones[0].setText("1º");
 			posiciones[1].setText("1º");
 			posiciones[2].setText("2º");

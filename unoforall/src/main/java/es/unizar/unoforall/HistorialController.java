@@ -76,8 +76,11 @@ public class HistorialController implements Initializable{
 		//COMPROBAR SI HA HABIDO ALGÚN ERROR
 		String error = partidas.getError();
 		if (error != null) {
-			
-			for (PartidaJugada partida : partidas.getPartidas()) {
+			partidas.getPartidas().stream()
+            .map(PartidaJugada::getPartidaJugadaCompacta)
+            .sorted(((partidaJugadaCompacta1, partidaJugadaCompacta2) ->
+                            partidaJugadaCompacta2.getFechaInicio().compareTo(partidaJugadaCompacta1.getFechaInicio())))
+            .forEach(partida -> {
 				try {
         	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("partidaItem.fxml"));
     	        	VBox salaItem = fxmlLoader.load();
@@ -88,13 +91,13 @@ public class HistorialController implements Initializable{
     	    			public void handle(MouseEvent event) {
     	    				salaItem.setEffect(new Glow(0.3));
     	    			}
-    	    		});;
+    	    		});
     	    		salaItem.setOnMouseExited(new EventHandler<MouseEvent>() {
     	    			@Override
     	    			public void handle(MouseEvent event) {
     	    				salaItem.setEffect(null);
     	    			}
-    	    		});;
+    	    		});
     	        	
     	        	PartidaItemController partidaItemController = fxmlLoader.getController();
     	        	partidaItemController.setData(partida);
@@ -103,7 +106,7 @@ public class HistorialController implements Initializable{
     			} catch (IOException e) {
     				if (DEBUG) e.printStackTrace();
     			}
-			}
+            });
 			
 		} else {
 			labelError.setText(StringUtils.parseString(error));
