@@ -176,7 +176,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 	
 	private boolean sentidoAnterior = false;
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = App.DEBUG;
 	
 	private static final Point2D COORDS_TACO_ROBO = new Point2D(800, 300); 
 	private static final Point2D COORDS_TACO_DESCARTES = new Point2D(503, 295); 

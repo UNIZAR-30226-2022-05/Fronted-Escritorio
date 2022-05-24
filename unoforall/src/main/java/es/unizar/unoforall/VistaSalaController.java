@@ -35,7 +35,7 @@ import javafx.scene.layout.VBox;
 
 public class VistaSalaController extends SalaReceiver implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 
 	@FXML private VBox fondo;
 	@FXML private ImageView imgMenu;

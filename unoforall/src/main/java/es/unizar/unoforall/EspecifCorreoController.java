@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 
 public class EspecifCorreoController {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 
 	@FXML private Label labelError;
 	@FXML private TextField cajaCorreo;

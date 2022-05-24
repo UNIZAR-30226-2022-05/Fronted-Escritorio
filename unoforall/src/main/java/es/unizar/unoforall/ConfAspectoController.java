@@ -22,7 +22,7 @@ import javafx.scene.paint.Color;
 
 public class ConfAspectoController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = App.DEBUG;
 
 	private Integer avatarSelec;
 	private Integer cartaSelec;

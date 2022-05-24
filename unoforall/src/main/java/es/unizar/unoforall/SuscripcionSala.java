@@ -8,6 +8,8 @@ import es.unizar.unoforall.model.partidas.*;
 import es.unizar.unoforall.model.salas.Sala;
 
 public class SuscripcionSala {
+	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
+	public static final boolean DEBUG = App.DEBUG;
 	private static final String VACIO = "vacio";
 	public static Sala sala;
 	private static SalaReceiver pantallaActual;
@@ -29,7 +31,7 @@ public class SuscripcionSala {
 			});
 			App.apiweb.sendObject("/app/salas/unirse/" + salaID, VACIO);
 		} else {
-			System.err.println("No se puede unir a la sala");
+			if (DEBUG) System.err.println("No se puede unir a la sala");
 		}
 		return exito;
 	}
@@ -109,7 +111,7 @@ public class SuscripcionSala {
             api.openConnection();
             boolean exito = api.receiveObject(Boolean.class);
             if (!exito) {
-            	System.err.println("Se ha producido un error al enviar el ACK");
+            	if (DEBUG) System.err.println("Se ha producido un error al enviar el ACK");
             }
         }
 	}
