@@ -548,7 +548,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 		ImageManager.setImagenSentidoPartida(imagenSentidoPartida, sentidoActual);
 		sentidoAnterior = sentidoActual;
 		//Se ejecuta solo en caso de que la partida haya acabado
-		if (sala.getPartida().estaTerminada()) {
+		if (sala.getPartida().estaTerminada() && popUpFinalizarPartida != null) {
 			//Parar los timers de los jugadores.
 			if(timeline != null) {
 				timeline.stop();
