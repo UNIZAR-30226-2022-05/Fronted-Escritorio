@@ -5,17 +5,26 @@ import java.util.ResourceBundle;
 
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
+import es.unizar.unoforall.utils.ImageManager;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class BusqAvanzSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
-	private static final boolean DEBUG = true;
+	//	private static final boolean DEBUG = true;
+	
+	@FXML private VBox fondo;
+	@FXML private ImageView imgMenu;
 	
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
 	private static final String[] gamemodes = {"Todos", "Uno Clásico", "Uno Attack", "Uno por Parejas" };
@@ -66,6 +75,27 @@ public class BusqAvanzSalaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		//PONER EL FONDO CORRESPONDIENTE
+		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
+
+		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMAGENES
+		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(210);
+				imgMenu.setFitHeight(160);
+				imgMenu.setEffect(new Glow(0.3));
+			}
+		});;
+		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(200);
+				imgMenu.setFitHeight(150);
+				imgMenu.setEffect(null);
+			}
+		});;
+		
 		partTodos.setSelected(maxParticipantes==-1);
 		part2.setSelected(maxParticipantes==2);
 		part3.setSelected(maxParticipantes==3);
@@ -120,6 +150,25 @@ public class BusqAvanzSalaController implements Initializable {
 			selectedGamemode = gamemodes[2];
 		} else {
 			selectedGamemode = gamemodes[3];
+		}
+
+		//SI ES UNO POR PAREJAS OCULTAR OPCIONES PARA 2 Y 3 PARTICIPANTES
+		if (choice.equals(gamemodes[3])) {
+			partTodos.setDisable(true);
+			partTodos.setVisible(false);
+			part2.setDisable(true);
+			part2.setVisible(false);
+			part3.setDisable(true);
+			part3.setVisible(false);
+			part4.setSelected(true);
+			maxParticipantes = 4;
+		} else {
+			partTodos.setDisable(false);
+			partTodos.setVisible(true);
+			part2.setDisable(false);
+			part2.setVisible(true);
+			part3.setDisable(false);
+			part3.setVisible(true);
 		}
 	}
 	

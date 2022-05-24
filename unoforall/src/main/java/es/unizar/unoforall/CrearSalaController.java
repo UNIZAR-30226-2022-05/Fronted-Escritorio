@@ -4,23 +4,34 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import es.unizar.unoforall.api.RestAPI;
-import es.unizar.unoforall.model.salas.RespuestaSala;
 import es.unizar.unoforall.model.salas.ConfigSala;
-import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.model.salas.ConfigSala.ModoJuego;
+import es.unizar.unoforall.model.salas.ReglasEspeciales;
+import es.unizar.unoforall.model.salas.RespuestaSala;
+import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 public class CrearSalaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
-
+	
+	@FXML private VBox fondo;
+	@FXML private ImageView imgMenu;
+	@FXML private Button btnCrearSala;
+	
 	@FXML private Label labelError;
 	@FXML private ChoiceBox<String> GameModeChoiceBox;
 	private String[] gamemodes = {"Uno Clásico", "Uno Attack", "Uno por Parejas"};
@@ -68,6 +79,39 @@ public class CrearSalaController implements Initializable {
 		GameModeChoiceBox.getItems().addAll(gamemodes);
 		GameModeChoiceBox.setOnAction(this::getGameMode);
 		GameModeChoiceBox.getSelectionModel().selectFirst();
+
+		//PONER EL FONDO CORRESPONDIENTE
+		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
+		//ASOCIAR EVENTOS DE AREA ENTERED A LAS IMAGENES
+		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(210);
+				imgMenu.setFitHeight(160);
+				imgMenu.setEffect(new Glow(0.3));
+			}
+		});;
+		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(200);
+				imgMenu.setFitHeight(150);
+				imgMenu.setEffect(null);
+			}
+		});;
+		
+		btnCrearSala.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnCrearSala.setEffect(new Glow(0.3));
+			}
+		});;
+		btnCrearSala.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnCrearSala.setEffect(null);
+			}
+		});;
 	}
 	
 	@FXML
@@ -80,6 +124,21 @@ public class CrearSalaController implements Initializable {
 			selectedGamemode = gamemodes[1];
 		} else {
 			selectedGamemode = gamemodes[2];
+		}
+		
+		//SI ES UNO POR PAREJAS OCULTAR OPCIONES PARA 2 Y 3 PARTICIPANTES
+		if (choice.equals(gamemodes[2])) {
+			part2.setDisable(true);
+			part2.setVisible(false);
+			part3.setDisable(true);
+			part3.setVisible(false);
+			part4.setSelected(true);
+			maxParticipantes = 4;
+		} else {
+			part2.setDisable(false);
+			part2.setVisible(true);
+			part3.setDisable(false);
+			part3.setVisible(true);
 		}
 	}
 	
@@ -210,17 +269,17 @@ public class CrearSalaController implements Initializable {
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
 		apirest.openConnection();
-		RespuestaSala salaID = apirest.receiveObject(RespuestaSala.class);
-		if (salaID.isExito()) {
-			if (DEBUG) System.out.println("sala creada:" + salaID.getSalaID());
-    		//GUARDAR RESPUESTASALA EN CASO DE NECESITARLO
-			App.setSalaID(salaID.getSalaID());
-			//IR A LA VISTA DE LA SALA
-		    VistaSalaController.deDondeVengo = "crearSala";
-	    	App.setRoot("vistaSala");
+		RespuestaSala respSala = apirest.receiveObject(RespuestaSala.class);
+		if (respSala.isExito()) {
+			if (DEBUG) System.out.println("sala creada:" + respSala.getSalaID());
+    		//GUARDAR SALA ID EN CASO DE NECESITARLO
+			App.setSalaID(respSala.getSalaID());
+			if (SuscripcionSala.unirseASala(respSala.getSalaID())) {
+				App.setRoot("vistaSala");
+			}
 		} else {
-			labelError.setText("error: " + StringUtils.parseString(salaID.getErrorInfo()));
-			if (DEBUG) System.out.println("error: " + salaID.getErrorInfo());
+			labelError.setText("error: " + StringUtils.parseString(respSala.getErrorInfo()));
+			if (DEBUG) System.out.println("error: " + respSala.getErrorInfo());
 		}
 	}
 

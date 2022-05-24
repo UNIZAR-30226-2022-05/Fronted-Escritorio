@@ -12,7 +12,11 @@ public class Main {
          *
          *  Fuente: https://stackoverflow.com/questions/57019143/build-executable-jar-with-javafx11-from-maven
 		 */
+		try {
+			App.main(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		App.main(args);
 	}
 }

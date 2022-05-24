@@ -1,4 +1,44 @@
 .bodybg{
- -fx-background-image: url('images/fondo_degradado.png');
+ -fx-background-image: url('images/fondos/azul.png');
  -fx-background-size: 100% 100%;
+}
+/* para hacer los scrollpanes transparentes */
+.scroll-pane > .viewport {
+	-fx-background-color: transparent;
+}
+
+.scroll-pane {
+	-fx-background-color: transparent;
+}
+
+.root { -fx-background-color: transparent; }
+
+.progress-indicator .percentage {
+   -fx-fill:null;
+   -fx-progress-color: linear-gradient(to bottom right, red, black);
+   -fx-progress-color: green;
+}
+.progress-indicator .indicator {
+  -fx-background-color: black;
+}
+
+.progress-indicator .progress {
+	-fx-background-color: white;
+}
+/*
+.label {
+    -fx-font-size: 50px;
+}
+*/
+.outline.label .text {
+    /*-fx-fill: lightseagreen;*/
+    /*-fx-fill: white;*/
+    -fx-stroke: black;
+    -fx-stroke-width: 0.8px;
+}
+
+.red-bar    { -fx-accent: red;    }
+
+.hbox {
+  -fx-background-color: -fx-control-inner-background;
 }

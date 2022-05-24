@@ -2,25 +2,30 @@ package es.unizar.unoforall.api;
 
 import com.google.gson.Gson;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 
 public class Serializar {
     private static final boolean DEBUG = false;
 
     public static <T> String serializar(T dato){
+        String mensaje;
         if(dato instanceof String){
-            return (String) dato;
+            mensaje = (String) dato;
         }else{
-            return new Gson().toJson(dato);
+            mensaje = new Gson().toJson(dato);
         }
+
+        if(DEBUG){
+            System.out.println("Mensaje enviado: " + mensaje);
+        }
+
+        return mensaje;
     }
 
-    public static <T> T deserializar(String mensaje, Type expectedClass){
+    @SuppressWarnings("unchecked")
+	public static <T> T deserializar(String mensaje, Type expectedClass){
         if(DEBUG){
             System.out.println("Mensaje recibido: " + mensaje);
         }
@@ -47,4 +52,5 @@ public class Serializar {
         String mensaje = mensajeBuilder.toString();
         return deserializar(mensaje, expectedClass);
     }
+    
 }

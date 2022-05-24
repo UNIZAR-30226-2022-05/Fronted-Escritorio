@@ -2,8 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -11,119 +12,123 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="background" alignment="CENTER" cache="true" cacheHint="SPEED" depthTest="DISABLE" prefHeight="720.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PrincipalController">
+<VBox fx:id="fondo" alignment="CENTER" cache="true" cacheHint="SPEED" depthTest="DISABLE" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PrincipalController">
    <children>
-      <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-      <HBox prefHeight="199.0" prefWidth="1240.0">
+      <HBox prefHeight="199.0" prefWidth="1240.0" VBox.vgrow="SOMETIMES">
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="200.0">
+            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="250.0">
                <children>
-                  <ImageView fitHeight="94.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgHistorial" fitHeight="94.0" fitWidth="83.0" onMouseClicked="#goToHistorial" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/usrIcon.png" />
+                        <Image url="@images/iconoPerfil.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Configuración">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Perfil" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="configChoiceBox" prefHeight="25.0" prefWidth="184.0" />
                   <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ImageView fitHeight="226.0" fitWidth="290.0" onMouseClicked="#goToLogin" pickOnBounds="true" preserveRatio="true">
+            <Pane prefHeight="227.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
+            <ImageView fitHeight="158.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logoUno.png" />
                </image>
             </ImageView>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="200.0">
+            <Pane prefHeight="227.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
+            <VBox alignment="CENTER" prefHeight="138.0" prefWidth="250.0">
                <children>
-                  <ImageView fitHeight="94.0" fitWidth="83.0" onMouseClicked="#goToHistorial" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="94.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/historial.png" />
+                        <Image url="@images/iconoAjustes.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Historial">
+                  <MenuButton fx:id="btnMenuConfiguracion" mnemonicParsing="false" prefHeight="39.0" prefWidth="190.0" text="Configuración">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#configurarCuenta" text="Configuración de Cuenta" />
+                      <MenuItem mnemonicParsing="false" onAction="#configurarAspecto" text="Configuración de Aspecto" />
+                        <MenuItem mnemonicParsing="false" onAction="#goToLogin" text="Cerrar Sesión" />
+                    </items>
                      <font>
-                        <Font size="24.0" />
+                        <Font size="18.0" />
                      </font>
-                  </Label>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </MenuButton>
                   <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-      <Pane prefHeight="200.0" prefWidth="200.0" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <Pane VBox.vgrow="SOMETIMES" />
+      <HBox alignment="CENTER" prefHeight="130.0" VBox.vgrow="SOMETIMES">
          <VBox.margin>
             <Insets />
          </VBox.margin>
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#makeRoom" prefHeight="77.0" prefWidth="250.0" text="Crear Sala">
+            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES" />
+            <Button fx:id="btnCrearSala" mnemonicParsing="false" onAction="#makeRoom" prefHeight="77.0" prefWidth="350.0" style="-fx-background-color: #2ec322;" text="Crear Sala" textFill="WHITE">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold Italic" size="28.0" />
                </font>
                <HBox.margin>
-                  <Insets left="50.0" right="10.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
-            <Button disable="true" mnemonicParsing="false" onAction="#joinPausedRoom" prefHeight="77.0" prefWidth="250.0" text="Reanudar" visible="false">
+            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES" />
+            <Button fx:id="btnBuscarSala" mnemonicParsing="false" onAction="#searchRooms" prefHeight="77.0" prefWidth="350.0" style="-fx-background-color: #2ec322;" text="Buscar Sala" textFill="WHITE">
                <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#searchRooms" prefHeight="77.0" prefWidth="250.0" text="Buscar Sala">
-               <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold Italic" size="28.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="50.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES" />
          </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
       </HBox>
-      <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="210.0" VBox.vgrow="SOMETIMES">
          <children>
             <Pane prefHeight="150.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="150.0">
+            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="120.0" onMouseClicked="#goToAmigos" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgAmigos" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#goToAmigos" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/social.png" />
+                        <Image url="@images/iconoAmigos.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Amigos">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Amigos" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <Pane prefHeight="150.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="150.0">
+            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="120.0" onMouseClicked="#goToNotificaciones" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgNotificaciones" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#goToNotificaciones" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/notificaciones.png" />
+                        <Image url="@images/iconoNotifs.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Notificaciones">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="183.0" text="Notificaciones" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                </children>
@@ -133,10 +138,12 @@
          <VBox.margin>
             <Insets />
          </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </HBox>
-      <Pane prefHeight="200.0" prefWidth="200.0" />
    </children>
    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      <Insets bottom="20.0" left="20.0" right="20.0" top="50.0" />
    </padding>
 </VBox>

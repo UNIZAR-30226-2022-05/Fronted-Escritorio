@@ -7,9 +7,9 @@ import es.unizar.unoforall.model.PartidasAcabadasVO;
 public class PartidaJugada {
 
 	private PartidasAcabadasVO partida;
-	private ArrayList<HaJugadoVO> participantes = null;
+	private ArrayList<Participante> participantes = null;
 	
-	public PartidaJugada (PartidasAcabadasVO partida, ArrayList<HaJugadoVO> participantes) {
+	public PartidaJugada (PartidasAcabadasVO partida, ArrayList<Participante> participantes) {
 		this.partida=partida;
 		this.participantes=participantes;
 	}
@@ -22,12 +22,20 @@ public class PartidaJugada {
 		this.partida = partida;
 	}
 
-	public ArrayList<HaJugadoVO> getParticipantes() {
+	public ArrayList<Participante> getParticipantes() {
 		return participantes;
 	}
 
-	public void setParticipantes(ArrayList<HaJugadoVO> participantes) {
+	public void setParticipantes(ArrayList<Participante> participantes) {
 		this.participantes = participantes;
+	}
+	
+	public void agnadirParticipante (Participante nuevoParticipante) {
+		this.participantes.add(nuevoParticipante);
+	}
+	
+	public PartidaJugadaCompacta getPartidaJugadaCompacta() {
+		return new PartidaJugadaCompacta(this);
 	}
 	
 }

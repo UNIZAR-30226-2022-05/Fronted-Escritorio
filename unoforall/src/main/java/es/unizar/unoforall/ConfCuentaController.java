@@ -6,35 +6,87 @@ import java.util.ResourceBundle;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.HashUtils;
+import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 public class ConfCuentaController implements Initializable {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	private static final boolean DEBUG = true;
 
-	@FXML private Label labelError;
-	@FXML TextField cajaNombre;	
-	@FXML TextField cajaCorreo;	
-	@FXML PasswordField cajaContrasenya;
-	@FXML PasswordField cajaContrasenya2;
+	@FXML private VBox fondo;
 	
-	@FXML VBox contenedorOculto;
-	@FXML TextField cajaCodigo;
+	@FXML private ImageView imgMenu;
+	
+	@FXML private Button btnEliminar;
+	
+	@FXML private Label labelError;
+	@FXML private TextField cajaNombre;	
+	@FXML private TextField cajaCorreo;	
+	@FXML private PasswordField cajaContrasenya;
+	@FXML private PasswordField cajaContrasenya2;
+	
+	@FXML private VBox contenedorOculto;
+	@FXML private TextField cajaCodigo;
+	
+	private UsuarioVO usuario;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//PONER EL FONDO CORRESPONDIENTE
+		fondo.setBackground(ImageManager.getBackgroundImage(App.getPersonalizacion().get("tableroSelec")));
+		
+		//CONFIGURACION DE EFECTO DE HOVER
+		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(210);
+				imgMenu.setFitHeight(160);
+				imgMenu.setEffect(new Glow(0.3));
+			}
+		});
+		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				imgMenu.setFitWidth(200);
+				imgMenu.setFitHeight(150);
+				imgMenu.setEffect(null);
+			}
+		});
+		
+
+		btnEliminar.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnEliminar.setEffect(new Glow(0.5));
+			}
+		});
+		btnEliminar.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				btnEliminar.setEffect(null);
+			}
+		});
+		
+		autoCompletar();
 	}
 	
-	@FXML
-	public void autoCompletar(ActionEvent event) {	
+	public void autoCompletar() {	
 		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
 		String sesionID = App.getSessionID();
 		apirest.addParameter("sesionID",sesionID);
@@ -43,6 +95,7 @@ public class ConfCuentaController implements Initializable {
 		apirest.openConnection();
     	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
     	if (retorno.isExito()) {
+    		usuario = retorno;
     		cajaNombre.setText(StringUtils.parseString(retorno.getNombre()));
     		cajaCorreo.setText(StringUtils.parseString(retorno.getCorreo()));
     	} else {
@@ -97,19 +150,24 @@ public class ConfCuentaController implements Initializable {
 		String nuevaContrasenna = cajaContrasenya.getText();
 		String confirmarContrasenna = cajaContrasenya2.getText();
     	
-		if (nuevoCorreo == null || nuevoNombre == null || nuevaContrasenna == null ) {
+		if (nuevoCorreo.equals("") || nuevoNombre.equals("")) {
 			labelError.setText("Faltan parámetros");
 			if (DEBUG) System.out.println("Faltan parámetros");
 		} else if (!nuevaContrasenna.equals(confirmarContrasenna)) {
 			labelError.setText("Las contraseñas no coinciden");
 			if (DEBUG) System.out.println("Las contraseñas no coinciden");
 		} else {
+			if (nuevaContrasenna.equals("")) {
+				nuevaContrasenna = usuario.getContrasenna();
+			} else {
+				HashUtils.cifrarContrasenna(nuevaContrasenna);
+			}
 			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
 			String sesionID = App.getSessionID();
 			apirest.addParameter("sesionID",sesionID);
 			apirest.addParameter("correoNuevo",nuevoCorreo);
 			apirest.addParameter("nombre",nuevoNombre);
-			apirest.addParameter("contrasenna",HashUtils.cifrarContrasenna(nuevaContrasenna));
+			apirest.addParameter("contrasenna",nuevaContrasenna);
 			apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 			
 			apirest.openConnection();
@@ -149,9 +207,7 @@ public class ConfCuentaController implements Initializable {
 		String retorno = apirest.receiveObject(String.class);
     	if (retorno == null) {
     		if (DEBUG) System.out.println("Exito.");
-    		//Para ocultar la caja del código una vez ya se ha usado
-    		contenedorOculto.setDisable(true);
-    		contenedorOculto.setVisible(false);
+    		App.setRoot("principal");
     	} else {
     		labelError.setText(StringUtils.parseString(retorno));
     		if (DEBUG) System.out.println(retorno);
@@ -160,20 +216,52 @@ public class ConfCuentaController implements Initializable {
 	
 	@FXML
     private void deleteAccount(ActionEvent event) {
-		RestAPI apirest = new RestAPI("/api/borrarCuenta");
-		String sesionID = App.getSessionID();
-		apirest.addParameter("sesionID",sesionID);
-		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
-		
-		apirest.openConnection();
-    	String retorno = apirest.receiveObject(String.class);
-    	if (retorno.equals("BORRADA")) {
-	    	App.setRoot("login");
-	        App.cerrarConexion();
-	    	if (DEBUG) System.out.println("Cuenta eliminada");
-    	} else {
-    		labelError.setText(StringUtils.parseString(retorno));
-    		if (DEBUG) System.out.println(retorno);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Abandonar Sala");
+    	alert.setHeaderText("¿Seguro que quieres eliminar tu cuenta?");
+    	alert.setContentText("A diferencia de cuando instalas UnoForAll en android\n"
+    						+ "con esta acción sí que eliminarás todos tus datos");
+    	
+    	ButtonType respuesta = alert.showAndWait().get();
+    	if (respuesta == ButtonType.OK) {
+    		if (DEBUG) System.out.println("Un paso más cerca de la destrucción");
+    		
+    		alert = new Alert(AlertType.CONFIRMATION);
+        	alert.setTitle("Abandonar Sala");
+        	alert.setHeaderText("¿Seguro seguro?");
+        	alert.setContentText("Si fuera tú no lo haría");
+        	
+        	respuesta = alert.showAndWait().get();
+        	if (respuesta == ButtonType.OK) {
+        		if (DEBUG) System.out.println("So you chose DEATH.");
+        		
+        		alert = new Alert(AlertType.WARNING);
+            	alert.setTitle("Abandonar Sala");
+            	alert.setHeaderText("Has elegido la muerte");
+            	alert.setContentText("Acepta las consecuencias");
+            	
+            	respuesta = alert.showAndWait().get();
+            	if (respuesta == ButtonType.OK) {
+            		if (DEBUG) System.out.println("A D I O S.");
+            		
+            		//DESTRUCCION CUENTAL
+            		RestAPI apirest = new RestAPI("/api/borrarCuenta");
+            		String sesionID = App.getSessionID();
+            		apirest.addParameter("sesionID",sesionID);
+            		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
+            		
+            		apirest.openConnection();
+                	String retorno = apirest.receiveObject(String.class);
+                	if (retorno.equals("BORRADA")) {
+            	    	App.setRoot("login");
+            	        App.cerrarConexion();
+            	    	if (DEBUG) System.out.println("Cuenta eliminada");
+                	} else {
+                		labelError.setText(StringUtils.parseString(retorno));
+                		if (DEBUG) System.out.println(retorno);
+                	}
+            	}
+        	}
     	}
 	}
 

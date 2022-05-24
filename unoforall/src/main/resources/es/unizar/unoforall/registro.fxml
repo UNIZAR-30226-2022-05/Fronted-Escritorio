@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -11,20 +12,21 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.RegistroController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="430.0" style="-fx-background-color: white;">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;">
          <children>
-            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="140.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="85.0" fitWidth="200.0" layoutX="244.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/arista.png" />
+                  <Image url="@images/logoUno.png" />
                </image>
             </ImageView>
-            <GridPane layoutX="75.0" layoutY="209.0" prefHeight="113.0" prefWidth="283.0">
+            <GridPane layoutX="45.0" layoutY="395.0" prefHeight="113.0" prefWidth="456.0">
               <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="161.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="234.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="77.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -33,24 +35,64 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Correo:" textAlignment="RIGHT" />
+                  <Label text="Correo" textAlignment="RIGHT">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin></Label>
                   <TextField fx:id="cajaCorreo" onAction="#onGoCajaContrasenya" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" />
-                  <Label text="Contraseña:" GridPane.rowIndex="1" />
+                  <Label text="Contraseña" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin></Label>
                   <PasswordField fx:id="cajaContrasenya" onAction="#onGoCajaContrasenya2" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Confirmar Contraseña:" GridPane.rowIndex="2" />
+                  <Label text="Confirmar Contraseña" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin></Label>
                   <PasswordField fx:id="cajaContrasenya2" onAction="#onGoCajaNomUsuario" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="Nombre de usuario:" GridPane.rowIndex="3" />
+                  <Label text="Nombre de usuario" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin></Label>
                   <TextField fx:id="cajaNomUsuario" onAction="#onEnter" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <Button layoutX="184.0" layoutY="337.0" mnemonicParsing="false" onAction="#register" text="Registrar" />
+            <Button layoutX="268.0" layoutY="526.0" mnemonicParsing="false" onAction="#register" text="Registrar" />
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" text="Volver" />
-            <Label layoutX="31.0" layoutY="106.0" prefHeight="17.0" prefWidth="370.0" text="Para crear una cuenta de servicios UnoForAll por favor introduzca:" />
-            <Label layoutX="31.0" layoutY="123.0" prefHeight="17.0" prefWidth="370.0" text="          ·Su correo." />
-            <Label layoutX="30.0" layoutY="140.0" prefHeight="17.0" prefWidth="370.0" text="          ·Su contraseña." />
-            <Label layoutX="30.0" layoutY="157.0" prefHeight="17.0" prefWidth="370.0" text="          ·El nombre de usuario de su cuenta." />
-            <Label layoutX="31.0" layoutY="174.0" prefHeight="17.0" prefWidth="370.0" text="Todos éstos campos son editables dentro de la aplicación." />
-            <Label fx:id="labelError" alignment="CENTER" layoutX="2.0" layoutY="386.0" prefHeight="17.0" prefWidth="430.0" textAlignment="CENTER" textFill="RED" />
+            <Label layoutX="133.0" layoutY="273.0" prefHeight="17.0" prefWidth="370.0" text="          --&gt; Su correo.">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Label layoutX="133.0" layoutY="294.0" prefHeight="17.0" prefWidth="370.0" text="          --&gt; Su contraseña.">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Label layoutX="133.0" layoutY="316.0" prefHeight="17.0" prefWidth="370.0" text="          --&gt; El nombre de usuario de su cuenta.">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Label layoutX="50.0" layoutY="339.0" prefHeight="30.0" prefWidth="536.0" text="(Todos éstos campos son editables dentro de la aplicación.)">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font></Label>
+            <Label fx:id="labelError" alignment="CENTER" layoutX="85.0" layoutY="560.0" prefHeight="17.0" prefWidth="430.0" textAlignment="CENTER" textFill="RED" />
+            <Label fx:id="infoText" alignment="CENTER" contentDisplay="CENTER" layoutX="91.0" layoutY="191.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="112.0" prefWidth="418.0" text="Para crear una cuenta de servicios UnoForAll por favor introduzca:" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

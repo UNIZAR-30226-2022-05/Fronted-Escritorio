@@ -14,13 +14,13 @@ public class ConfirmCorreoController {
 	
 	Clipboard systemClipboard = Clipboard.getSystemClipboard();
 	String clipboardText = systemClipboard.getString();
-
+	
+	@FXML private Label labelInfo;
 	@FXML private Label labelError;
 	@FXML private TextField cajaCodigo;
 	public static String correo = null;
 	
-	@FXML
-    private void goBack(ActionEvent event) {
+	@FXML private void goBack(ActionEvent event) {
 		labelError.setText("");
     	//CANCELACION DE REGISTRO
 		RestAPI apirest = new RestAPI("/api/registerCancel");

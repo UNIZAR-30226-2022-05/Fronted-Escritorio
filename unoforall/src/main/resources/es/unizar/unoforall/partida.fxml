@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="marco" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.unizar.unoforall.PartidaController">
+   <bottom>
+      <Pane prefHeight="135.0" prefWidth="1280.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="iluminacionFondo" fitHeight="300.0" fitWidth="1280.0" layoutY="-162.0" pickOnBounds="true">
+               <image>
+                  <Image url="@images/fondos/iluminacionEscritorio.png" />
+               </image>
+            </ImageView>
+            <ScrollPane fx:id="scrollJugadorAbajo" hbarPolicy="NEVER" hmax="2.0" layoutX="240.0" layoutY="-20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="176.0" prefWidth="772.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+               <content>
+                  <GridPane fx:id="cartasJugadorAbajo" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
+                           </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content></ScrollPane>
+            <Group fx:id="grupoEmojisJugadorAbajo" layoutX="53.0" layoutY="7.0">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorAbajo" layoutX="94.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorAbajo" fitHeight="60.0" fitWidth="59.0" layoutX="112.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombreJugadorAbajo" alignment="BASELINE_RIGHT" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="241.0" text="ZhugeKongming" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="emojiJugadorAbajo" fitHeight="100.0" fitWidth="200.0" layoutX="-24.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="1070.0" layoutY="50.0">
+               <children>
+                  <ImageView fx:id="fondoContadorJugadorAbajo" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
+                     <image>
+                        <Image url="@images/cartas/contadoresCartas/numCartas.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="contadorJugadorAbajo" alignment="CENTER" graphicTextGap="0.0" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+            <ImageView fx:id="readyStairs" fitHeight="150.0" fitWidth="200.0" layoutX="1107.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true" scaleX="0.4" scaleY="0.4" visible="false">
+               <image>
+                  <Image url="@images/readyStairs.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="notreadyStairs" fitHeight="150.0" fitWidth="200.0" layoutX="1107.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" scaleX="0.4" scaleY="0.4" visible="false">
+               <image>
+                  <Image url="@images/cancelarStairs.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </bottom>
+   <top>
+      <Pane prefHeight="130.0" prefWidth="1280.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fx:id="scrollJugadorArriba" hbarPolicy="NEVER" hmax="2.0" layoutX="240.0" layoutY="-52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="772.0" rotate="180.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+               <content>
+                  <GridPane fx:id="cartasJugadorArriba" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
+                           </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <MenuButton contentDisplay="RIGHT" layoutX="1160.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="115.0" text="Opciones">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#pausarPartida" text="Pausar Partida" />
+                <MenuItem mnemonicParsing="false" onAction="#abandonarPartida" text="Abandonar Partida" />
+              </items>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </MenuButton>
+            <Group fx:id="grupoEmojisJugadorArriba" layoutX="53.0" layoutY="3.0">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorArriba" layoutX="94.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorArriba" fitHeight="60.0" fitWidth="59.0" layoutX="112.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombreJugadorArriba" alignment="BASELINE_RIGHT" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="a" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="emojiJugadorArriba" fitHeight="100.0" fitWidth="200.0" layoutX="-24.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="1070.0" layoutY="15.0">
+               <children>
+                  <ImageView fx:id="fondoContadorJugadorArriba" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
+                     <image>
+                        <Image url="@images/cartas/contadoresCartas/numCartas.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="contadorJugadorArriba" alignment="CENTER" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+         </children></Pane>
+   </top>
+   <left>
+      <Pane prefHeight="458.0" prefWidth="252.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fx:id="scrollJugadorIzquierda" hbarPolicy="NEVER" hmax="2.0" layoutX="-148.0" layoutY="199.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="388.0" rotate="90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+               <content>
+                  <GridPane fx:id="cartasJugadorIzquierda" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
+                           </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <Group fx:id="grupoEmojisJugadorIzquierda" layoutX="52.0" layoutY="-23.0">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorIzquierda" layoutX="-15.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorIzquierda" fitHeight="60.0" fitWidth="59.0" layoutX="3.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombreJugadorIzquierda" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="253.0" text="a" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="emojiJugadorIzquierda" fitHeight="100.0" fitWidth="200.0" layoutX="84.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="163.0" layoutY="77.0">
+               <children>
+                  <ImageView fx:id="fondoContadorJugadorIzquierda" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
+                     <image>
+                        <Image url="@images/cartas/contadoresCartas/numCartas.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="contadorJugadorIzquierda" alignment="CENTER" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+         </children></Pane>
+   </left>
+   <right>
+      <Pane prefHeight="455.0" prefWidth="226.0" stylesheets="@style.css" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <ScrollPane fx:id="scrollJugadorDerecha" hbarPolicy="NEVER" hmax="2.0" layoutX="-9.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="150.0" prefWidth="388.0" rotate="-90.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+               <content>
+                  <GridPane fx:id="cartasJugadorDerecha" gridLinesVisible="true" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" styleClass="scroll-pane" stylesheets="@style.css">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cartas/set-1/amarillas/rayosX-amarillo.png" />
+                           </image>
+                           <rotationAxis>
+                              <Point3D y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+            <Group fx:id="grupoEmojisJugadorDerecha" layoutX="26.0" layoutY="345.0">
+               <children>
+                  <ProgressIndicator fx:id="progresoJugadorDerecha" layoutX="94.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="90.0" prefWidth="94.0" progress="0.0">
+                     <styleClass>
+                        <String fx:value="progress-indicator" />
+                        <String fx:value="percentage" />
+                     </styleClass>
+                  </ProgressIndicator>
+                  <ImageView fx:id="avatarJugadorDerecha" fitHeight="60.0" fitWidth="59.0" layoutX="112.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/avatares/0-cero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombreJugadorDerecha" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="-53.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="255.0" text="a" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="emojiJugadorDerecha" fitHeight="100.0" fitWidth="200.0" layoutX="-24.0" layoutY="-10.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" visible="false">
+                     <image>
+                        <Image url="@images/emoticonos/aceptar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="14.0" layoutY="260.0">
+               <children>
+                  <ImageView fx:id="fondoContadorJugadorDerecha" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" scaleX="0.6" scaleY="0.6">
+                     <image>
+                        <Image url="@images/cartas/contadoresCartas/numCartas.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="contadorJugadorDerecha" alignment="CENTER" layoutX="23.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="32.0" text="20" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+         </children>
+      </Pane>
+   </right>
+   <center>
+      <VBox fx:id="fondo" prefHeight="455.0" prefWidth="837.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER" VBox.vgrow="SOMETIMES">
+               <children>
+                  <Label fx:id="labelVotacion" text="Votacion pausa ?/?" textFill="#ffc370" visible="false">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="116.0" prefWidth="840.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="imagenTacoDescartes" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" scaleX="1.3" scaleY="1.3">
+                     <image>
+                        <Image url="@images/cartas/set-1/negras/tacoVacio.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imagenSentidoPartida" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/sentidoAntihorario.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="50.0" right="50.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fx:id="imagenTacoRobo" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#robarCarta" pickOnBounds="true" preserveRatio="true" scaleX="1.3" scaleY="1.3">
+                     <image>
+                        <Image url="@images/cartas/set-1/negras/tacoLleno.png" />
+                     </image>
+                  </ImageView>
+                  <Pane HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="120.0" prefWidth="762.0" VBox.vgrow="SOMETIMES">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="120.0" prefWidth="160.0">
+                     <children>
+                        <ImageView fx:id="btnHabilitarEmojis" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#habilitarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                           <image>
+                              <Image url="@images/emoticonos/aceptar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <Pane prefHeight="120.0" prefWidth="10.0" />
+                  <VBox alignment="CENTER" prefHeight="120.0" prefWidth="160.0">
+                     <children>
+                        <ImageView fx:id="btnUno" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#botonUnoPulsado" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/botonUno.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <Pane prefHeight="120.0" prefWidth="9.0" />
+                  <VBox alignment="CENTER" prefHeight="120.0" prefWidth="160.0">
+                     <children>
+                        <ImageView fx:id="btnSeleccionarEmoji" fitHeight="100.0" fitWidth="200.0" onMouseClicked="#seleccionarEmojis" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                           <image>
+                              <Image url="@images/emoticonos/expandir.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+               </children></HBox>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <Label fx:id="errorEscalera" alignment="BOTTOM_CENTER" contentDisplay="CENTER" styleClass="outline" stylesheets="@style.css" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+</BorderPane>
