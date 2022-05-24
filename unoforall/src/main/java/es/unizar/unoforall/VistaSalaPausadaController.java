@@ -195,7 +195,7 @@ public class VistaSalaPausadaController extends SalaReceiver implements Initiali
             Jugador jugador = listaJugadores.get(i);
 			
 			String nombre;
-			boolean listo;
+			boolean listo = false;
 			int avatar;
 			if (jugador.isEsIA()) {
 				nombre = "IA_"+i;
