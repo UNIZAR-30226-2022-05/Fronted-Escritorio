@@ -53,6 +53,14 @@
             <artifactId>gson</artifactId>
             <version>2.9.0</version>
         </dependency>
+        
+        <dependency>
+		    <groupId>me.i2000c</groupId>
+		    <artifactId>web_utils</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/WebUtils.jar</systemPath>
+		</dependency>
     </dependencies>
     
     
