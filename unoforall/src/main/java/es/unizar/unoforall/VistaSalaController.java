@@ -126,49 +126,49 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 		//SE ASUME QUE YA SE HA ENTRADO EN LA SALA
 		
 		//BUSCAR AMIGOS
-		String sesionID = App.getSessionID();
-		
-		RestAPI apirest = new RestAPI("/api/sacarAmigos");
-		apirest.addParameter("sesionID", sesionID);
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
-		apirest.openConnection();
-		ListaUsuarios usuarios = apirest.receiveObject(ListaUsuarios.class);
-		
-		//COMPROBAR SI HA HABIDO ALGÚN ERROR
-		String error = usuarios.getError();
-		if (error.equals("null")) {
-			
-			for (UsuarioVO usuario : usuarios.getUsuarios()) {
-				listaAmigos.add(usuario);
-				String nombre = StringUtils.parseString(usuario.getNombre());
-				String correo = StringUtils.parseString(usuario.getCorreo());
-				nombresAmigos.add(nombre + " (" + correo + ") ");
+		apirest.openConnection("/api/sacarAmigos");
+		apirest.receiveObject(ListaUsuarios.class, usuarios -> {
+			//COMPROBAR SI HA HABIDO ALGÚN ERROR
+			String error = usuarios.getError();
+			if (error.equals("null")) {
 				
-    			if (DEBUG) System.out.println("amigo encontrado:" + usuario.getCorreo());
+				for (UsuarioVO usuario : usuarios.getUsuarios()) {
+					listaAmigos.add(usuario);
+					String nombre = StringUtils.parseString(usuario.getNombre());
+					String correo = StringUtils.parseString(usuario.getCorreo());
+					nombresAmigos.add(nombre + " (" + correo + ") ");
+					
+	    			if (DEBUG) System.out.println("amigo encontrado:" + usuario.getCorreo());
+				}
+				
+			} else {
+				labelError.setText(StringUtils.parseString(error));
+				if (DEBUG) System.out.println(StringUtils.parseString(error));
 			}
 			
-		} else {
-			labelError.setText(StringUtils.parseString(error));
-			if (DEBUG) System.out.println(StringUtils.parseString(error));
-		}
-		
-		//ACTUALIZAR LISTA DE AMIGOS PARA INVITAR
-		for (int i=0; i < nombresAmigos.size(); i++) {
-			int amigo = i;
-			MenuItem item = new MenuItem(nombresAmigos.get(i));
-			item.setOnAction(event -> {
-				if (SuscripcionSala.sala.getParticipantes().size() < SuscripcionSala.sala.getConfiguracion().getMaxParticipantes()) {
-					App.apiweb.sendObject("/app/notifSala/" + listaAmigos.get(amigo).getId(), SuscripcionSala.sala.getSalaID());
-				}
-			});
-			amigosMenuButton.getItems().add(item);
-		}
-
-		Sala sala = SuscripcionSala.sala;
-		if(sala != null){
-			administrarSala(sala);
-		}
+			//ACTUALIZAR LISTA DE AMIGOS PARA INVITAR
+			for (int i=0; i < nombresAmigos.size(); i++) {
+				int amigo = i;
+				MenuItem item = new MenuItem(nombresAmigos.get(i));
+				item.setOnAction(event -> {
+					if (SuscripcionSala.sala.getParticipantes().size() < SuscripcionSala.sala.getConfiguracion().getMaxParticipantes()) {
+						RestAPI apirest2 = App.apiweb.getRestAPI();
+						apirest2.addParameter("salaID", SuscripcionSala.sala.getSalaID());
+						apirest2.openConnection("/app/notifSala/" + listaAmigos.get(amigo).getId());
+						apirest.receiveObject(String.class, null);
+					}
+				});
+				amigosMenuButton.getItems().add(item);
+			}
+	
+			Sala sala = SuscripcionSala.sala;
+			if(sala != null){
+				administrarSala(sala);
+			}
+		});
 	}
 	
 	@Override
