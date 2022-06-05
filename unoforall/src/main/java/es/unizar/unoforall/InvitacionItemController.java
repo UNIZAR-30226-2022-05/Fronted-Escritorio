@@ -36,9 +36,11 @@ public class InvitacionItemController {
     	//UNIRSE A LA SALA
 		App.setSalaID(notificacion.getSalaID());
 		
-		if (SuscripcionSala.unirseASala(notificacion.getSalaID())) {
-			App.setRoot("vistaSala");
-		}
+		SuscripcionSala.unirseASala(notificacion.getSalaID(), exito -> {
+			if(exito) {
+				App.setRoot("vistaSala");
+			}			
+		});
     	
     	//ELIMINAR DE INVITACIONES RECIBIDAS
     	NotificacionesController.invitaciones.remove(notificacion);

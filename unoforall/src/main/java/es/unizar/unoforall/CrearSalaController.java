@@ -273,9 +273,11 @@ public class CrearSalaController implements Initializable {
 				if (DEBUG) System.out.println("sala creada:" + respSala.getSalaID());
 	    		//GUARDAR SALA ID EN CASO DE NECESITARLO
 				App.setSalaID(respSala.getSalaID());
-				if (SuscripcionSala.unirseASala(respSala.getSalaID())) {
-					App.setRoot("vistaSala");
-				}
+				SuscripcionSala.unirseASala(respSala.getSalaID(), exito -> {
+					if(exito) {
+						App.setRoot("vistaSala");
+					}
+				});
 			} else {
 				labelError.setText("error: " + StringUtils.parseString(respSala.getErrorInfo()));
 				if (DEBUG) System.out.println("error: " + respSala.getErrorInfo());

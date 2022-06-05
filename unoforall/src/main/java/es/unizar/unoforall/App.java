@@ -269,12 +269,14 @@ public class App extends Application {
 				    	if (respuesta == ButtonType.OK) {
 				    		//UNIRSE A LA SALA
 							App.setSalaID(notif.getSalaID());
-							boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
-							if (!exito) {
-								App.setRoot("principal");
-							} else {
-								App.setRoot("vistaSala");
-							}
+							SuscripcionSala.unirseASala(App.getSalaID(), exito -> {
+								if (exito) {
+									App.setRoot("vistaSala");									
+								} else {
+									App.setRoot("principal");
+								}
+							});
+								
 					    	
 				    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
 				    		

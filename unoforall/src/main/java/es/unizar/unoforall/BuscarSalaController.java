@@ -40,9 +40,9 @@ public class BuscarSalaController implements Initializable {
 		public void onClickListener(UUID salaID) {
 			App.setSalaID(salaID);
 			
-			if (SuscripcionSala.unirseASala(salaID)) {
+			SuscripcionSala.unirseASala(salaID, exito -> {
 				App.setRoot("vistaSala");
-			}
+			});
 		}
 	};
 
