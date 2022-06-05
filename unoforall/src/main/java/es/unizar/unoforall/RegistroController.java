@@ -34,22 +34,22 @@ public class RegistroController {
     	
     	if (contrasenna.equals(contrasenna2)) {
     		///REGISTRO
-			RestAPI apirest = new RestAPI("/api/registerStepOne");
+			RestAPI apirest = new RestAPI();
 			apirest.addParameter("correo", correo);
 			apirest.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
 			apirest.addParameter("nombre", nombre);
 			apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 
-			apirest.openConnection();
-	    	String error = apirest.receiveObject(String.class);
-	    	
-	    	if (error == null) {	    	
-	    		ConfirmCorreoController.correo = correo;
-	        	App.setRoot("confirmacionCorreo");
-	    	} else {
-	    		labelError.setText(StringUtils.parseString(error));
-	    		if (DEBUG) System.out.println(error);
-	    	}
+			apirest.openConnection("/api/registerStepOne");
+	    	apirest.receiveObject(String.class, error -> {
+	    		if (error == null) {	    	
+		    		ConfirmCorreoController.correo = correo;
+		        	App.setRoot("confirmacionCorreo");
+		    	} else {
+		    		labelError.setText(StringUtils.parseString(error));
+		    		if (DEBUG) System.out.println(error);
+		    	}
+	    	});
     	} else {
     		labelError.setText("Las contraseñas no coinciden.");
     		if (DEBUG) System.out.println("Las contraseñas no coinciden.");
