@@ -263,24 +263,24 @@ public class CrearSalaController implements Initializable {
 		if (DEBUG) System.out.println("Creando: " + config);
 		
 		///CREAR SALA					
-		RestAPI apirest = new RestAPI("/api/crearSala");
-		apirest.addParameter("sesionID", App.getSessionID());
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.addParameter("configuracion", config);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
-		apirest.openConnection();
-		RespuestaSala respSala = apirest.receiveObject(RespuestaSala.class);
-		if (respSala.isExito()) {
-			if (DEBUG) System.out.println("sala creada:" + respSala.getSalaID());
-    		//GUARDAR SALA ID EN CASO DE NECESITARLO
-			App.setSalaID(respSala.getSalaID());
-			if (SuscripcionSala.unirseASala(respSala.getSalaID())) {
-				App.setRoot("vistaSala");
+		apirest.openConnection("/api/crearSala");
+		apirest.receiveObject(RespuestaSala.class, respSala -> {
+			if (respSala.isExito()) {
+				if (DEBUG) System.out.println("sala creada:" + respSala.getSalaID());
+	    		//GUARDAR SALA ID EN CASO DE NECESITARLO
+				App.setSalaID(respSala.getSalaID());
+				if (SuscripcionSala.unirseASala(respSala.getSalaID())) {
+					App.setRoot("vistaSala");
+				}
+			} else {
+				labelError.setText("error: " + StringUtils.parseString(respSala.getErrorInfo()));
+				if (DEBUG) System.out.println("error: " + respSala.getErrorInfo());
 			}
-		} else {
-			labelError.setText("error: " + StringUtils.parseString(respSala.getErrorInfo()));
-			if (DEBUG) System.out.println("error: " + respSala.getErrorInfo());
-		}
+		});
 	}
 
 }
