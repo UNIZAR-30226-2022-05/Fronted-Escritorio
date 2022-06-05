@@ -73,55 +73,55 @@ public class NotificacionesController implements Initializable{
 		});
     	
 		//CARGAR LISTA DE PETICIONES RECIBIDAS
-    	RestAPI apirest = new RestAPI("/api/sacarPeticionesRecibidas");
-		apirest.addParameter("sesionID", App.getSessionID());
+    	RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.setOnError(e -> {
 			if(DEBUG) System.out.println(e);
 			labelError.setText(StringUtils.parseString(e.toString()));
 		});
 		
-		apirest.openConnection();
-    	ListaUsuarios recibidas = apirest.receiveObject(ListaUsuarios.class);
-    	if(recibidas.isExpirado()) {
-    		if(DEBUG) System.out.println("La sesión ha expirado.");
-			labelError.setText("La sesión ha expirado.");
-    	} else if (!recibidas.getError().equals("null")) {
-    		if(DEBUG) System.out.println("Error en peticiones Recibidas: " + StringUtils.parseString(recibidas.getError()));
-			labelError.setText("Error en peticiones Recibidas: " + StringUtils.parseString(recibidas.getError()));
-    	} else {
-    		for (UsuarioVO recibida : recibidas.getUsuarios()) {
-    			try {
-        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("peticionItem.fxml"));
-    	        	HBox salaItem = fxmlLoader.load();
-    	        	
-    	        	PeticionItemController peticionItemController = fxmlLoader.getController();
-    	        	peticionItemController.setData(recibida, false);
-    	        	
-    	        	listaRecibidas.addRow(listaRecibidas.getRowCount(), salaItem);
-        			
-        			if (DEBUG) System.out.println("amigo encontrado:" + recibida.getCorreo());
-    			} catch (IOException e) {
-    				if (DEBUG) e.printStackTrace();
-    			}
-    		}
-    	}
-    	
-		//CARGAR LISTA DE INVITACIONES
-    	for (NotificacionSala notif : invitaciones) {
-			try {
-    	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("invitacionItem.fxml"));
-	        	HBox invitacionItem = fxmlLoader.load();
-	        	
-	        	InvitacionItemController invitacionItemController = fxmlLoader.getController();
-	        	invitacionItemController.setData(notif);
-	        	
-	        	listaInvitacionesSala.addRow(listaInvitacionesSala.getRowCount(), invitacionItem);
-    			
-    			if (DEBUG) System.out.println("invitación encontrada");
-			} catch (IOException e) {
-				if (DEBUG) e.printStackTrace();
+		apirest.openConnection("/api/sacarPeticionesRecibidas");
+    	apirest.receiveObject(ListaUsuarios.class, recibidas -> {
+    		if(recibidas.isExpirado()) {
+	    		if(DEBUG) System.out.println("La sesión ha expirado.");
+				labelError.setText("La sesión ha expirado.");
+	    	} else if (!recibidas.getError().equals("null")) {
+	    		if(DEBUG) System.out.println("Error en peticiones Recibidas: " + StringUtils.parseString(recibidas.getError()));
+				labelError.setText("Error en peticiones Recibidas: " + StringUtils.parseString(recibidas.getError()));
+	    	} else {
+	    		for (UsuarioVO recibida : recibidas.getUsuarios()) {
+	    			try {
+	        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("peticionItem.fxml"));
+	    	        	HBox salaItem = fxmlLoader.load();
+	    	        	
+	    	        	PeticionItemController peticionItemController = fxmlLoader.getController();
+	    	        	peticionItemController.setData(recibida, false);
+	    	        	
+	    	        	listaRecibidas.addRow(listaRecibidas.getRowCount(), salaItem);
+	        			
+	        			if (DEBUG) System.out.println("amigo encontrado:" + recibida.getCorreo());
+	    			} catch (IOException e) {
+	    				if (DEBUG) e.printStackTrace();
+	    			}
+	    		}
+	    	}
+    		
+    		//CARGAR LISTA DE INVITACIONES
+	    	for (NotificacionSala notif : invitaciones) {
+				try {
+	    	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("invitacionItem.fxml"));
+		        	HBox invitacionItem = fxmlLoader.load();
+		        	
+		        	InvitacionItemController invitacionItemController = fxmlLoader.getController();
+		        	invitacionItemController.setData(notif);
+		        	
+		        	listaInvitacionesSala.addRow(listaInvitacionesSala.getRowCount(), invitacionItem);
+	    			
+	    			if (DEBUG) System.out.println("invitación encontrada");
+				} catch (IOException e) {
+					if (DEBUG) e.printStackTrace();
+				}
 			}
-		}
+    	});
 	}
 
 	public static void annadirInvitacionSala(NotificacionSala notif) {
