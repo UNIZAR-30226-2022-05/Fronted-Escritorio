@@ -73,7 +73,7 @@ public class HistorialController implements Initializable{
 		apirest.receiveObject(ListaPartidas.class, partidas -> {
 			//COMPROBAR SI HA HABIDO ALGÚN ERROR
 			String error = partidas.getError();
-			if (error != null) {
+			if (error == null) {
 				partidas.getPartidas().stream()
 	            .map(PartidaJugada::getPartidaJugadaCompacta)
 	            .sorted(((partidaJugadaCompacta1, partidaJugadaCompacta2) ->
