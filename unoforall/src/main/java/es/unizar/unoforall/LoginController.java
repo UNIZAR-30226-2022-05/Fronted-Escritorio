@@ -8,6 +8,7 @@ import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.utils.HashUtils;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,6 +89,8 @@ public class LoginController implements Initializable {
     				}	    				
     			});
     		}else {
+    			labelError.setText(StringUtils.parseString(respuestaLogin.getErrorInfo()));
+    			System.out.println("Tipo de error: " + respuestaLogin.getErrorInfo());
     			App.apiweb.close();
     		}
     	});

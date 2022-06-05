@@ -173,6 +173,9 @@ public class App extends Application {
     	alert.setContentText("¿Estás seguro?");
     	
     	if (alert.showAndWait().get() == ButtonType.OK) {
+    		if(apiweb != null) {
+    			apiweb.close();
+    		}
     		if (DEBUG) System.out.println("Has salido de la aplicación correctamente");
     		stage.close();
     	}
