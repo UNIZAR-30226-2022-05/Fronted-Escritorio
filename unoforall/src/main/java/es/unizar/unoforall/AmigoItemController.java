@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 
+import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.StringUtils;
@@ -56,7 +57,9 @@ public class AmigoItemController {
     @FXML
     private void hacerAmigo(ActionEvent event) {
 		//ENVIAR PETICIÓN DE AMISTAD
-    	App.apiweb.sendObject("/app/notifAmistad/" + usuario.getId(), "vacio");
+    	RestAPI restapi = App.apiweb.getRestAPI();
+    	restapi.openConnection("/app/notifAmistad/" + usuario.getId());
+    	restapi.receiveObject(String.class, null);
 		botonHacerAmigo.setDisable(true);
 		botonHacerAmigo.setText("Petición enviada");
     }
