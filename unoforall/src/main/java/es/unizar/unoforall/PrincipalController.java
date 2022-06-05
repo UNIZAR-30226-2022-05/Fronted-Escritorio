@@ -226,12 +226,13 @@ public class PrincipalController implements Initializable {
     private void joinPausedRoom(ActionEvent event) {
     	if (DEBUG) System.out.println("INTENTANDO UNIRSE A SALA PAUSADA");
 		
-		boolean exito = SuscripcionSala.unirseASala(App.getSalaID());
-		if (!exito) {
-			App.setRoot("principal");
-		} else {
-			App.setRoot("vistaSalaPausada");
-		}
+		SuscripcionSala.unirseASala(App.getSalaID(), exito -> {
+			if (!exito) {
+				App.setRoot("principal");
+			} else {
+				App.setRoot("vistaSalaPausada");
+			}
+		});
     }
 
 	@FXML

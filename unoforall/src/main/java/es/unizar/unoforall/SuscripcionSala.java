@@ -10,30 +10,30 @@ import es.unizar.unoforall.model.salas.Sala;
 public class SuscripcionSala {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	public static final boolean DEBUG = App.DEBUG;
-	private static final String VACIO = "vacio";
 	public static Sala sala;
 	private static SalaReceiver pantallaActual;
 	
-	public static boolean unirseASala(UUID salaID){
-		RestAPI api = new RestAPI("/api/comprobarUnirseSala");
-        api.addParameter("sesionID", App.getSessionID());
+	public static void unirseASala(UUID salaID, Consumer<Boolean> consumer){
+		RestAPI api = App.apiweb.getRestAPI();
         api.addParameter("salaID", salaID);
-        api.openConnection();
-        boolean exito = api.receiveObject(Boolean.class);
-        
-		if (exito) {
-			App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> {
-				if (pantallaActual != null) {
-					sala = s;
-					ackSala();
-					pantallaActual.administrarSala(s);
-				}
-			});
-			App.apiweb.sendObject("/app/salas/unirse/" + salaID, VACIO);
-		} else {
-			if (DEBUG) System.err.println("No se puede unir a la sala");
-		}
-		return exito;
+        api.openConnection("/api/comprobarUnirseSala");
+        api.receiveObject(Boolean.class, exito -> {
+        	if (exito) {
+				App.apiweb.subscribe("/topic/salas/" + salaID, Sala.class, s -> {
+					if (pantallaActual != null) {
+						sala = s;
+						ackSala();
+						pantallaActual.administrarSala(s);
+					}
+				});
+				RestAPI api2 = App.apiweb.getRestAPI();
+				api2.openConnection("/app/salas/unirse/" + salaID);
+				api2.receiveObject(String.class, null);
+			} else {
+				if (DEBUG) System.err.println("No se puede unir a la sala");
+			}
+        	consumer.accept(exito);
+        });
 	}
 	
 	public static void salirDeSala() {
@@ -41,8 +41,10 @@ public class SuscripcionSala {
 		cancelarSuscripcionCanalVotacionPausa();
 		cancelarSuscripcionCanalEmojis();
 		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
-		App.apiweb.sendObject("/app/salas/salir/" + sala.getSalaID(), VACIO);
 		
+		RestAPI api = App.apiweb.getRestAPI();
+		api.openConnection("/app/salas/salir/" + sala.getSalaID());
+		api.receiveObject(String.class, null);
 		sala = null;
 	}
 	
@@ -52,13 +54,18 @@ public class SuscripcionSala {
 		cancelarSuscripcionCanalVotacionPausa();
 		cancelarSuscripcionCanalEmojis();
 		App.apiweb.unsubscribe("/topic/salas/" + sala.getSalaID());
-		App.apiweb.sendObject("/app/salas/salirDefinitivo/" + sala.getSalaID(), VACIO);
+		
+		RestAPI api = App.apiweb.getRestAPI();
+		api.openConnection("/app/salas/salirDefinitivo/" + sala.getSalaID());
+		api.receiveObject(String.class, null);
 		sala = null;
 	}
 	
 	public static void listoSala() {
 		if (sala == null) {return;}
-		App.apiweb.sendObject("/app/salas/listo/" + sala.getSalaID(), VACIO);
+		RestAPI api = App.apiweb.getRestAPI();
+		api.openConnection("/app/salas/listo/" + sala.getSalaID());
+		api.receiveObject(String.class, null);
 	}
 	
 	public static void dondeEstoy(SalaReceiver pantallaActual) {
@@ -66,13 +73,18 @@ public class SuscripcionSala {
 	}
 	
 	public static void enviarJugada(Jugada jugada) {
-		App.apiweb.sendObject("/app/partidas/turnos/" + sala.getSalaID(), jugada);
+		RestAPI api = App.apiweb.getRestAPI();
+		api.addParameter("jugada", jugada);
+		api.openConnection("/app/partidas/turnos/" + sala.getSalaID());
+		api.receiveObject(String.class, null);
 	}
 	
 
 	// Votación pausa
 	public static void enviarVotacion(){
-		App.apiweb.sendObject("/app/partidas/votaciones/" + sala.getSalaID(), VACIO);
+		RestAPI api = App.apiweb.getRestAPI();
+		api.openConnection("/app/partidas/votaciones/" + sala.getSalaID());
+		api.receiveObject(String.class, null);
 	}
 
 	public static void suscribirseCanalVotacionPausa(Consumer<RespuestaVotacionPausa> consumer){
@@ -99,12 +111,23 @@ public class SuscripcionSala {
     }
     public static void enviarEmoji(int jugadorID, int emojiID){
         EnvioEmoji envioEmoji = new EnvioEmoji(emojiID, jugadorID, false);
-        App.apiweb.sendObject("/app/partidas/emojiPartida/" + sala.getSalaID(), envioEmoji);
+        
+        RestAPI api = App.apiweb.getRestAPI();
+        api.addParameter("emoji", envioEmoji);
+        api.openConnection("/app/partidas/emojiPartida/" + sala.getSalaID());
+        api.receiveObject(String.class, null);
+    }
+    
+    public static void pulsarBotonUNO(){
+    	RestAPI api = App.apiweb.getRestAPI();
+    	api.openConnection("/app/partidas/botonUNO/" + SuscripcionSala.sala.getSalaID());
+    	api.receiveObject(String.class, null);
+        if (DEBUG) System.out.println("Has pulsado el botón UNO");
     }
 
 
 	private static void ackSala() {
-		if(sala != null){
+		/*if(sala != null){
             RestAPI api = new RestAPI("/api/ack");
             api.addParameter("sesionID", App.getSessionID());
             api.addParameter("salaID", sala.getSalaID());
@@ -113,7 +136,7 @@ public class SuscripcionSala {
             if (!exito) {
             	if (DEBUG) System.err.println("Se ha producido un error al enviar el ACK");
             }
-        }
+        }*/
 	}
 
 }
