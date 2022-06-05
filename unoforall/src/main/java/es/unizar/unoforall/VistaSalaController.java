@@ -12,6 +12,7 @@ import es.unizar.unoforall.model.ListaUsuarios;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -186,14 +187,14 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 			if (DEBUG) System.out.println(sala.getError());
 			//Si error volver a la pantalla principal
 			SuscripcionSala.salirDeSala();
-			App.setRoot("principal");
+			App.setRoot(Pantalla.PRINCIPAL);
 		} else {
 			if (DEBUG) System.out.println("");
 			if (DEBUG) System.out.println("Estado de la sala: " + sala);
 			if (sala.isEnPartida()) {
 				//CARGAR LA VISTA DE LA PARTIDA
 				if (DEBUG) System.out.println("En partida");
-				App.setRoot("partida");
+				App.setRoot(Pantalla.PARTIDA);
 			} else {
 				//RECARGAR LA VISTA DE SALA
 				int tamanyo = sala.getConfiguracion().getMaxParticipantes();
@@ -368,7 +369,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
     		//Llamada a la clase de Sala para desubscribirse
     		SuscripcionSala.salirDeSala();
     		//Volver a la pantalla principal
-        	App.setRoot("principal");
+        	App.setRoot(Pantalla.PRINCIPAL);
         	
     		if (DEBUG) System.out.println("Has abandonado la sala.");
     	}
@@ -386,7 +387,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
 			//Llamada a la clase de Sala para desubscribirse
 			SuscripcionSala.salirDeSala();
 			//Volver a la pantalla principal
-	    	App.setRoot("principal");
+	    	App.setRoot(Pantalla.PRINCIPAL);
 	    	
 			if (DEBUG) System.out.println("Has abandonado la sala.");
 		}
@@ -404,7 +405,7 @@ public class VistaSalaController extends SalaReceiver implements Initializable {
     		//Llamada a la clase de Sala para desubscribirse
     		SuscripcionSala.salirDeSala();
     		//Volver a la pantalla principal
-        	App.setRoot("principal");
+        	App.setRoot(Pantalla.PRINCIPAL);
         	
     		if (DEBUG) System.out.println("Has abandonado la sala.");
     	}

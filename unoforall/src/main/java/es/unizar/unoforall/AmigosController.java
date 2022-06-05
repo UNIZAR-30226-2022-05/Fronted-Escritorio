@@ -9,6 +9,7 @@ import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.ListaUsuarios;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,12 +41,12 @@ public class AmigosController implements Initializable{
 
     @FXML
     private void goBack(ActionEvent event) {
-    	App.setRoot("principal");
+    	App.setRoot(Pantalla.PRINCIPAL);
     }
 
     @FXML
     private void goToMain(MouseEvent event) {
-    	App.setRoot("principal");
+    	App.setRoot(Pantalla.PRINCIPAL);
     }
 
 	@Override

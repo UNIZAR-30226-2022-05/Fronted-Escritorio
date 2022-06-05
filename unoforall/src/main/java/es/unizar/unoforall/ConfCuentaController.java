@@ -7,6 +7,7 @@ import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.HashUtils;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -114,11 +115,11 @@ public class ConfCuentaController implements Initializable {
 		    		labelError.setText(StringUtils.parseString(retorno));
 		    		if (DEBUG) System.out.println(StringUtils.parseString(retorno));
 		    	} else {
-					App.setRoot("principal");
+					App.setRoot(Pantalla.PRINCIPAL);
 				}
 	    	});
 		} else {
-			App.setRoot("principal");
+			App.setRoot(Pantalla.PRINCIPAL);
 		}
 	}
 
@@ -134,7 +135,7 @@ public class ConfCuentaController implements Initializable {
 		    		labelError.setText(StringUtils.parseString(retorno));
 		    		if (DEBUG) System.out.println(retorno);
 		    	}else {
-		    		App.setRoot("principal");
+		    		App.setRoot(Pantalla.PRINCIPAL);
 		    	}
 	    	});
 		}
@@ -202,7 +203,7 @@ public class ConfCuentaController implements Initializable {
 		apirest.receiveObject(String.class, retorno -> {
 			if (retorno == null) {
 	    		if (DEBUG) System.out.println("Exito.");
-	    		App.setRoot("principal");
+	    		App.setRoot(Pantalla.PRINCIPAL);
 	    	} else {
 	    		labelError.setText(StringUtils.parseString(retorno));
 	    		if (DEBUG) System.out.println(retorno);
@@ -237,7 +238,7 @@ public class ConfCuentaController implements Initializable {
         		apirest.openConnection("/api/borrarCuenta");
             	apirest.receiveObject(String.class, retorno -> {
             		if (retorno.equals("BORRADA")) {
-	        	    	App.setRoot("login");
+	        	    	App.setRoot(Pantalla.LOGIN);
 	        	        App.cerrarConexion();
 	        	    	if (DEBUG) System.out.println("Cuenta eliminada");
 	            	} else {

@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.utils.Pantalla;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -13,7 +14,7 @@ public class CambiarIPController {
 		String ip = cajaIP.getText();
 		RestAPI.setServerIP(ip);
 		try {
-			App.setRoot("login");
+			App.setRoot(Pantalla.LOGIN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

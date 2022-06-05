@@ -9,6 +9,7 @@ import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.interfaces.SalaListener;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.model.salas.RespuestaSalas;
@@ -41,7 +42,7 @@ public class BuscarSalaController implements Initializable {
 			App.setSalaID(salaID);
 			
 			SuscripcionSala.unirseASala(salaID, exito -> {
-				App.setRoot("vistaSala");
+				App.setRoot(Pantalla.SALA);
 			});
 		}
 	};
@@ -95,17 +96,17 @@ public class BuscarSalaController implements Initializable {
 
 	@FXML
     private void goBack (ActionEvent event) {
-	    App.setRoot("principal");
+	    App.setRoot(Pantalla.PRINCIPAL);
 	}
 
 	@FXML
     private void goToMain (Event event) {
-	    App.setRoot("principal");
+	    App.setRoot(Pantalla.PRINCIPAL);
 	}
 	
 	@FXML
     private void advancedSearch (Event event) {
-	    App.setRoot("busquedaAvanzadaSala");
+	    App.setRoot(Pantalla.BUSQUEDA_AVANZADA_SALA);
 	}
 	
 	@FXML

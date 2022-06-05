@@ -7,6 +7,7 @@ import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -207,19 +208,19 @@ public class PrincipalController implements Initializable {
     	
     	if (alert.showAndWait().get() == ButtonType.OK) {
     		if (DEBUG) System.out.println("Has cerrado sesión.");
-            App.setRoot("login");
+            App.setRoot(Pantalla.LOGIN);
             App.cerrarConexion();
     	}
     }
 	
 	@FXML
     private void searchRooms(ActionEvent event) {
-        App.setRoot("buscarSala");
+        App.setRoot(Pantalla.BUSQUEDA_SALA);
     }
 	
 	@FXML
     private void makeRoom(ActionEvent event) {
-        App.setRoot("crearSala");
+        App.setRoot(Pantalla.CREAR_SALA);
     }
 
 	@FXML
@@ -228,9 +229,9 @@ public class PrincipalController implements Initializable {
 		
 		SuscripcionSala.unirseASala(App.getSalaID(), exito -> {
 			if (!exito) {
-				App.setRoot("principal");
+				App.setRoot(Pantalla.PRINCIPAL);
 			} else {
-				App.setRoot("vistaSalaPausada");
+				App.setRoot(Pantalla.SALA_PAUSADA);
 			}
 		});
     }
@@ -245,7 +246,7 @@ public class PrincipalController implements Initializable {
     	ButtonType respuesta = alert.showAndWait().get();
     	if (respuesta == ButtonType.OK) {
         	SuscripcionSala.salirDeSalaDefinitivo();
-        	App.setRoot("principal");
+        	App.setRoot(Pantalla.PRINCIPAL);
         	
     		if (DEBUG) System.out.println("Has abandonado la sala.");
     	}
@@ -253,12 +254,12 @@ public class PrincipalController implements Initializable {
 
 	@FXML
     private void goToNotificaciones(MouseEvent event) {
-        App.setRoot("notificaciones");
+        App.setRoot(Pantalla.NOTIFICACIONES);
     }
 
 	@FXML
     private void goToAmigos(MouseEvent event) {
-        App.setRoot("amigos");
+        App.setRoot(Pantalla.AMIGOS);
     }
 
 	@FXML
@@ -272,19 +273,19 @@ public class PrincipalController implements Initializable {
 		apirest.receiveObject(UsuarioVO.class, usuario -> {
 			//PASAR EL USUARIO A LA VENTANA DE HISTORIAL
 			HistorialController.usuario = usuario;
-			App.setRoot("historial");
+			App.setRoot(Pantalla.HISTORIAL);
 		});
     }
 
 	@FXML
     private void goToConfAspecto(ActionEvent event) {
         btnMenuConfiguracion.hide();
-		App.setRoot("confAspecto");
+		App.setRoot(Pantalla.CONFIGURAR_ASPECTO);
     }
 
 	@FXML
     private void goToConfCuenta(ActionEvent event) {
       	btnMenuConfiguracion.hide();
-	    App.setRoot("confCuenta");
+	    App.setRoot(Pantalla.CONFIGURAR_CUENTA);
     }
 }

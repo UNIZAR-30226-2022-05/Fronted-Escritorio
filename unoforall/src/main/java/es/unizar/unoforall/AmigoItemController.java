@@ -4,6 +4,7 @@ package es.unizar.unoforall;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,7 +52,7 @@ public class AmigoItemController {
     private void verHistorial(ActionEvent event) {
 		//PASAR EL USUARIO A LA VENTANA DE HISTORIAL
 		HistorialController.usuario = usuario;
-		App.setRoot("historial");
+		App.setRoot(Pantalla.HISTORIAL);
     }
     
     @FXML

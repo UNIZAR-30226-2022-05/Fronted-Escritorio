@@ -2,6 +2,7 @@ package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.utils.HashUtils;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ public class RecupContrasenyaController {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-		App.setRoot("especificacionCorreo");
+		App.setRoot(Pantalla.ESPECIFICACION_CORREO);
     }
     
 	@FXML
@@ -59,7 +60,7 @@ public class RecupContrasenyaController {
 					apirest.openConnection("/api/reestablecerContrasennaStepThree");
 			    	apirest.receiveObject(String.class, error2 -> {
 			    		if (error2 == null) {
-				    		App.setRoot("login");
+				    		App.setRoot(Pantalla.LOGIN);
 				    	} else {
 				    		labelError.setText(StringUtils.parseString(error2));
 				    		if (DEBUG) System.out.println(error2);

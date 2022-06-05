@@ -3,6 +3,7 @@ package es.unizar.unoforall;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,7 +57,7 @@ public class PeticionItemController {
 				if(DEBUG) System.out.println("error: " + error);
 			} else {
 				//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
-				App.setRoot("notificaciones");
+				App.setRoot(Pantalla.NOTIFICACIONES);
 			}
 		});
     }
@@ -75,7 +76,7 @@ public class PeticionItemController {
 				if(DEBUG) System.out.println("error: " + error);
 			} else {
 				//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
-				App.setRoot("notificaciones");
+				App.setRoot(Pantalla.NOTIFICACIONES);
 			}
 		});
     }

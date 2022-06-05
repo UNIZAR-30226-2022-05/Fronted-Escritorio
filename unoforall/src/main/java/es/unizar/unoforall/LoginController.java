@@ -8,6 +8,7 @@ import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.utils.HashUtils;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +43,7 @@ public class LoginController implements Initializable {
 	
 	@FXML
 	private void cambiarIP (ActionEvent event) {
-		App.setRoot("cambiarIP");
+		App.setRoot(Pantalla.CAMBIAR_IP);
 	}
 	
     @FXML
@@ -83,7 +84,7 @@ public class LoginController implements Initializable {
 		    			App.activarNotificaciones();
 		    			
 		    			//ENTRAR A LA APLICACION
-			        	App.setRoot("principal");
+			        	App.setRoot(Pantalla.PRINCIPAL);
     				}else {
     					App.apiweb.close();
     				}	    				
@@ -98,12 +99,12 @@ public class LoginController implements Initializable {
     
     @FXML
     private void register(ActionEvent event) {
-        App.setRoot("registro");
+        App.setRoot(Pantalla.REGISTER);
     }
     
     @FXML
     private void forgotPass(ActionEvent event) {
-        App.setRoot("especificacionCorreo");
+        App.setRoot(Pantalla.ESPECIFICACION_CORREO);
     	
     }
     @FXML

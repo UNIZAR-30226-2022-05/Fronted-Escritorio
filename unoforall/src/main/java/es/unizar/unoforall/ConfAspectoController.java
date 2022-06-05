@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -212,12 +213,12 @@ public class ConfAspectoController implements Initializable {
 
 	@FXML
     private void goBack(ActionEvent event) {
-	    App.setRoot("principal");
+	    App.setRoot(Pantalla.PRINCIPAL);
 	}
 
 	@FXML
     private void goToMain(Event event) {
-	    App.setRoot("principal");
+	    App.setRoot(Pantalla.PRINCIPAL);
 	}
 	
 	@FXML
@@ -242,7 +243,7 @@ public class ConfAspectoController implements Initializable {
 				personalizacion.put("tableroSelec", tableroSelec);
 	    		App.setPersonalizacion(personalizacion);
 	    		
-	    		App.setRoot("confAspecto");
+	    		App.setRoot(Pantalla.CONFIGURAR_ASPECTO);
 	    		if (DEBUG) System.out.println("Configuración seleccionada: \n" +
 						"\t Avatar: " + avatarSelec + "\n" +
 						"\t Cartas: " + cartaSelec + "\n" +

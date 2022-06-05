@@ -2,6 +2,7 @@ package es.unizar.unoforall;
 
 import es.unizar.unoforall.model.salas.NotificacionSala;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +39,7 @@ public class InvitacionItemController {
 		
 		SuscripcionSala.unirseASala(notificacion.getSalaID(), exito -> {
 			if(exito) {
-				App.setRoot("vistaSala");
+				App.setRoot(Pantalla.SALA);
 			}			
 		});
     	
@@ -52,7 +53,7 @@ public class InvitacionItemController {
     private void cancelar(ActionEvent event) {
 		//ELIMINAR DE INVITACIONES RECIBIDAS (RECARGANDO LA PÁGINA)
     	NotificacionesController.invitaciones.remove(notificacion);
-    	App.setRoot("notificaciones");
+    	App.setRoot(Pantalla.NOTIFICACIONES);
     	
 		if (DEBUG) System.out.println("Has cancelado la solicitud.");
     }

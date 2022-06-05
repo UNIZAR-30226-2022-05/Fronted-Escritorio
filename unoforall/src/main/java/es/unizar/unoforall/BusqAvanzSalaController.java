@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import es.unizar.unoforall.model.salas.ConfigSala;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -174,12 +175,12 @@ public class BusqAvanzSalaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-	    App.setRoot("buscarSala");
+	    App.setRoot(Pantalla.BUSQUEDA_SALA);
 	}
 
 	@FXML
     private void goToMain(Event event) {
-	    App.setRoot("principal");
+	    App.setRoot(Pantalla.PRINCIPAL);
 	}
 	
     public static void cleanSearchParameters() {
@@ -315,6 +316,6 @@ public class BusqAvanzSalaController implements Initializable {
 		
 		BuscarSalaController.addSearchParameters(config);
 
-	    App.setRoot("buscarSala");
+	    App.setRoot(Pantalla.BUSQUEDA_SALA);
 	}
 }

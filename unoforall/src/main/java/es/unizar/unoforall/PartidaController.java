@@ -18,6 +18,7 @@ import es.unizar.unoforall.model.salas.Sala;
 import es.unizar.unoforall.utils.AnimationManager;
 import es.unizar.unoforall.utils.ImageManager;
 import es.unizar.unoforall.utils.MyStage;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -339,7 +340,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			}
 			SuscripcionSala.cancelarSuscripcionCanalVotacionPausa();
 			SuscripcionSala.cancelarSuscripcionCanalEmojis();
-			App.setRoot("vistaSalaPausada");
+			App.setRoot(Pantalla.SALA_PAUSADA);
 			return;
 		}
 		
@@ -560,12 +561,12 @@ public class PartidaController extends SalaReceiver implements Initializable {
 				case FinalizarPartidaController.SALIR_CON_ESTILO:
 				case FinalizarPartidaController.SALIR:
 					SuscripcionSala.salirDeSala();
-					App.setRoot("principal");
+					App.setRoot(Pantalla.PRINCIPAL);
 					break;
 				case FinalizarPartidaController.CONTINUAR :
 					SuscripcionSala.cancelarSuscripcionCanalVotacionPausa();
 					SuscripcionSala.cancelarSuscripcionCanalEmojis();
-					App.setRoot("vistaSala");
+					App.setRoot(Pantalla.SALA);
 					break;
 			}
 		}
@@ -859,18 +860,18 @@ public class PartidaController extends SalaReceiver implements Initializable {
         alert.setContentText("Si sales, serás expulsado de la partida\n y no obtendrás puntos");
         ButtonType respuesta = alert.showAndWait().get();
         if (respuesta == ButtonType.OK) {
-            App.setRoot("principal");
+            App.setRoot(Pantalla.PRINCIPAL);
 
             if (DEBUG) System.out.println("Has abandonado la sala.");
             
 			SuscripcionSala.salirDeSala();
-			App.setRoot("principal");
+			App.setRoot(Pantalla.PRINCIPAL);
         } else if (respuesta == styledExit) {
         	if (DEBUG) System.out.println("SORPRESA");
         	AudioClip buzzer = new AudioClip(getClass().getResource("audio/styledExit.mp3").toExternalForm()); 
         	buzzer.play();
         	
-        	App.setRoot("principal");
+        	App.setRoot(Pantalla.PRINCIPAL);
         	SuscripcionSala.salirDeSala();
         }
     }

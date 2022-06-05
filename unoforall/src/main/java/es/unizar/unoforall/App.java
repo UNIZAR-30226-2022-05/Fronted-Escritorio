@@ -11,6 +11,7 @@ import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
 import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.salas.NotificacionSala;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -40,7 +41,8 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
-    private static String nomPantalla;
+    private static Pantalla pantallaActual;
+    
 	private static RespuestaLogin respLogin;
 	private static UUID salaID;
 	private static UUID usuarioID;
@@ -61,8 +63,8 @@ public class App extends Application {
     
     @Override
     public void start(Stage s) throws IOException {
-        nomPantalla = "login";
-        scene = new Scene(loadFXML(nomPantalla));
+    	pantallaActual = Pantalla.LOGIN;
+        scene = new Scene(loadFXML(pantallaActual.getFXML()));
         stage = s;
         Image icon = new Image(getClass().getResourceAsStream("images/logoUno.png"));
         stage.getIcons().add(icon);
@@ -87,12 +89,26 @@ public class App extends Application {
         stage.setMaxHeight(1080);
     }
     
-    public static void setRoot(String fxml) {
-        scene.setRoot(loadFXML(fxml));
-        nomPantalla = fxml;
+    public static void setRoot(Pantalla pantalla) {
+    	if(apiweb == null || apiweb.isClosed()) {
+    		switch(pantalla) {
+    			case LOGIN:
+    			case CAMBIAR_IP:
+    			case REGISTER:
+    			case CONFIRMACION_CORREO:
+    			case REESTABLECER_PASSWORD:
+    			case ESPECIFICACION_CORREO:
+    				break;
+				default:
+					pantalla = Pantalla.LOGIN;
+    		}
+    	}
+    	
+        scene.setRoot(loadFXML(pantalla.getFXML()));
+        pantallaActual = pantalla;
         setBounds();
         
-    	if (fxml.equals("partida")) {
+    	if (pantalla == Pantalla.PARTIDA) {
     		stage.setResizable(false);
     	} else {
     		stage.setResizable(true);
@@ -235,10 +251,10 @@ public class App extends Application {
     }
     
     private static void gestionarInvitacionSala(NotificacionSala notif) {
-    	switch (nomPantalla) {
-    		case "partida" :
-    		case "vistaSala" :
-    		case "vistaSalaPausada" :
+    	switch (pantallaActual) {
+    		case PARTIDA:
+    		case SALA:
+    		case SALA_PAUSADA :
 	    		NotificacionesController.annadirInvitacionSala(notif);
     			break;
     		default :
@@ -276,9 +292,9 @@ public class App extends Application {
 							App.setSalaID(notif.getSalaID());
 							SuscripcionSala.unirseASala(App.getSalaID(), exito -> {
 								if (exito) {
-									App.setRoot("vistaSala");									
+									App.setRoot(Pantalla.SALA);									
 								} else {
-									App.setRoot("principal");
+									App.setRoot(Pantalla.PRINCIPAL);
 								}
 							});
 								

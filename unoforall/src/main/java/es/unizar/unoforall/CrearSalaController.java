@@ -9,6 +9,7 @@ import es.unizar.unoforall.model.salas.ConfigSala.ModoJuego;
 import es.unizar.unoforall.model.salas.ReglasEspeciales;
 import es.unizar.unoforall.model.salas.RespuestaSala;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -145,12 +146,12 @@ public class CrearSalaController implements Initializable {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-	    App.setRoot("principal");
+	    App.setRoot(Pantalla.PRINCIPAL);
 	}
 
 	@FXML
     private void goToMain(Event event) {
-	    App.setRoot("principal");
+	    App.setRoot(Pantalla.PRINCIPAL);
 	}
 	
 	@FXML
@@ -275,7 +276,7 @@ public class CrearSalaController implements Initializable {
 				App.setSalaID(respSala.getSalaID());
 				SuscripcionSala.unirseASala(respSala.getSalaID(), exito -> {
 					if(exito) {
-						App.setRoot("vistaSala");
+						App.setRoot(Pantalla.SALA);
 					}
 				});
 			} else {

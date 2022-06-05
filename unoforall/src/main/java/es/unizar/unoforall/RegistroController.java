@@ -2,6 +2,7 @@ package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.utils.HashUtils;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ public class RegistroController {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-        App.setRoot("login");
+        App.setRoot(Pantalla.LOGIN);
     }
     
 	@FXML
@@ -44,7 +45,7 @@ public class RegistroController {
 	    	apirest.receiveObject(String.class, error -> {
 	    		if (error == null) {	    	
 		    		ConfirmCorreoController.correo = correo;
-		        	App.setRoot("confirmacionCorreo");
+		        	App.setRoot(Pantalla.CONFIRMACION_CORREO);
 		    	} else {
 		    		labelError.setText(StringUtils.parseString(error));
 		    		if (DEBUG) System.out.println(error);

@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,7 +34,7 @@ public class ConfirmCorreoController {
 	    		labelError.setText(StringUtils.parseString(error));
 	    		if (DEBUG) System.out.println(error);
 	    	}else {
-	    		App.setRoot("registro");
+	    		App.setRoot(Pantalla.REGISTER);
 	    	}
     	});
     }
@@ -60,7 +61,7 @@ public class ConfirmCorreoController {
 		apirest.openConnection("/api/registerStepTwo");
     	apirest.receiveObject(String.class, error -> {
     		if (error == null) {
-	        	App.setRoot("login");
+	        	App.setRoot(Pantalla.LOGIN);
 	    	} else {
 	    		labelError.setText(StringUtils.parseString(error));
 	    		if (DEBUG) System.out.println(error);

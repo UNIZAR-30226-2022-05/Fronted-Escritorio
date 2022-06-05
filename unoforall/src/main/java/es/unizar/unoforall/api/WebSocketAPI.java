@@ -29,18 +29,10 @@ public class WebSocketAPI {
     }
 
     public void openConnection(String path){
-        if(isClosed()){
-            gotoPantallaInicial();
-        }
-
         client.openConnection(path);
     }
 
     public <T> void subscribe(String topic, Class<T> expectedClass, Consumer<T> consumer){
-        if(isClosed()){
-            gotoPantallaInicial();
-        }
-
         if(consumer == null){
             return;
         }
@@ -51,18 +43,10 @@ public class WebSocketAPI {
     }
 
     public void unsubscribe(String topic){
-        if(isClosed()){
-            gotoPantallaInicial();
-        }
-
         client.unsubscribe(topic);
     }
 
     public RestAPI getRestAPI() {
-        if(isClosed()){
-            gotoPantallaInicial();
-        }
-
         RestClient restClient = client.getRestClient();
         if(restClient == null){
             restClient = new RestClient("");
@@ -82,9 +66,5 @@ public class WebSocketAPI {
 
     public void close(){
         client.close();
-    }
-
-    private void gotoPantallaInicial(){
-        // Volver a la pantalla de login
     }
 }

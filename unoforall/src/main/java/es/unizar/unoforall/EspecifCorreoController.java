@@ -1,6 +1,7 @@
 package es.unizar.unoforall;
 
 import es.unizar.unoforall.api.RestAPI;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +17,7 @@ public class EspecifCorreoController {
 	
 	@FXML
     private void goBack(ActionEvent event) {
-        App.setRoot("login");
+        App.setRoot(Pantalla.LOGIN);
     }
     
 	@FXML
@@ -33,7 +34,7 @@ public class EspecifCorreoController {
     	apirest.receiveObject(String.class, error -> {
     		if (error == null) {
 	    		RecupContrasenyaController.correo = correo;
-	        	App.setRoot("recuperacionContrasenya");
+	        	App.setRoot(Pantalla.REESTABLECER_PASSWORD);
 	    	} else {
 	    		labelError.setText(StringUtils.parseString(error));
 	    		if (DEBUG) System.out.println(error);

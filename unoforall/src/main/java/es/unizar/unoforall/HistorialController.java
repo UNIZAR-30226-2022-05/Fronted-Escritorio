@@ -9,6 +9,7 @@ import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.model.partidas.ListaPartidas;
 import es.unizar.unoforall.model.partidas.PartidaJugada;
 import es.unizar.unoforall.utils.ImageManager;
+import es.unizar.unoforall.utils.Pantalla;
 import es.unizar.unoforall.utils.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -42,12 +43,12 @@ public class HistorialController implements Initializable{
     
     @FXML
     void goBack(ActionEvent event) {
-    	App.setRoot("principal");
+    	App.setRoot(Pantalla.PRINCIPAL);
     }
 
     @FXML
     void goToMain(MouseEvent event) {
-    	App.setRoot("principal");
+    	App.setRoot(Pantalla.PRINCIPAL);
     }
 
 	@Override
