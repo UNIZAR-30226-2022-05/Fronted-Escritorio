@@ -33,7 +33,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 	//VARIABLE BOOLEANA PARA MOSTRAR MENSAJES POR LA CONSOLA
 	public static final boolean DEBUG = true;
-	public static final boolean MODO_PRODUCCION = true;
+	public static final boolean MODO_PRODUCCION = false;
 	
 	private static final String AZURE_IP = "unoforall.westeurope.cloudapp.azure.com";
 
