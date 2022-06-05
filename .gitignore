@@ -26,6 +26,8 @@ ignorar/
 
 #ignorar target
 unoforall/target
+unoforall/build
+unoforall/.gradle
 
 *.lst
 

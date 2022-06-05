@@ -1,7 +1,7 @@
 @echo off
 
 IF not exist mvnw.cmd (
-    echo Error: El archivo "mvnw.cmd" no existe
+    echo Error: El archivo "gradlew.bat" no existe
     echo Has colocado "compilar.bat" en el directorio del proyecto?
     pause
     exit 1
@@ -10,7 +10,7 @@ IF not exist mvnw.cmd (
 del Unoforall_escritorio.jar 1>nul 2>nul
 
 title Compilando frontend de Escritorio...
-call mvnw package
+call gradlew jar
 
 if NOT "%ERRORLEVEL%" == "0" (
     title Error en la compilacion
@@ -18,7 +18,7 @@ if NOT "%ERRORLEVEL%" == "0" (
     exit /B 1
 )
 
-copy target\unoforall-0.0.1-SNAPSHOT-shaded.jar .\Unoforall_escritorio.jar
+copy build\libs\unoforall-0.0.1-SNAPSHOT.jar .\Unoforall_escritorio.jar
 
 title Compilacion completada
 echo.
