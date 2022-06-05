@@ -123,53 +123,53 @@ public class PrincipalController implements Initializable {
 		});
 		
 		//COMPROBAR SI HABÍA UNA PARTIDA EN CURSO
-		RestAPI apirest = new RestAPI("/api/comprobarPartidaPausada");
-		apirest.addParameter("sesionID", App.getSessionID());
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.setOnError(e -> {
 			if (DEBUG) System.out.println(e);
 		});
-		apirest.openConnection();
-		Sala salaPausada = apirest.receiveObject(Sala.class);
-		estaPausada = !salaPausada.isNoExiste();
-		
-		//SI NO ESTÁ PAUSADA
-		if(!estaPausada) {
-			//PONER TEXTO Y COMPORTAMIENTO BOTONES POR DEFECTO
-		    btnCrearSala.setText("Crear Sala");
-			btnBuscarSala.setText("Buscar Sala");
+		apirest.openConnection("/api/comprobarPartidaPausada");
+		apirest.receiveObject(Sala.class, salaPausada -> {
+			estaPausada = !salaPausada.isNoExiste();
 			
-			btnCrearSala.setStyle("-fx-background-color: #2ec322; ");
-			btnBuscarSala.setStyle("-fx-background-color: #2ec322; ");
-			
-			btnCrearSala.setOnAction(event -> makeRoom(event));
-			btnBuscarSala.setOnAction(event -> searchRooms(event));
-		} else {
-			App.setSalaID(salaPausada.getSalaID());
-			SuscripcionSala.sala = salaPausada;
-			
-			ColorAdjust colorAdjust = new ColorAdjust();
-			colorAdjust.setBrightness(-0.5);
-			colorAdjust.setSaturation(-0.7);
-			
-			imgAmigos.setEffect(colorAdjust);
-			imgAmigos.setDisable(true);
-
-			imgHistorial.setEffect(colorAdjust);
-			imgHistorial.setDisable(true);
-
-			imgNotificaciones.setEffect(colorAdjust);
-			imgNotificaciones.setDisable(true);
-			
-			//CAMBIAR TEXTO Y COMPORTAMIENTO BOTONES
-		    btnCrearSala.setText("Reanudar Partida");
-			btnBuscarSala.setText("Abandonar Sala");
-			
-			btnCrearSala.setStyle("-fx-background-color: #ff9800; ");
-			btnBuscarSala.setStyle("-fx-background-color: #b61d1d; ");
-			
-			btnCrearSala.setOnAction(event -> joinPausedRoom(event));
-			btnBuscarSala.setOnAction(event -> leavePausedRoom(event));
-		}
+			//SI NO ESTÁ PAUSADA
+			if(!estaPausada) {
+				//PONER TEXTO Y COMPORTAMIENTO BOTONES POR DEFECTO
+			    btnCrearSala.setText("Crear Sala");
+				btnBuscarSala.setText("Buscar Sala");
+				
+				btnCrearSala.setStyle("-fx-background-color: #2ec322; ");
+				btnBuscarSala.setStyle("-fx-background-color: #2ec322; ");
+				
+				btnCrearSala.setOnAction(event -> makeRoom(event));
+				btnBuscarSala.setOnAction(event -> searchRooms(event));
+			} else {
+				App.setSalaID(salaPausada.getSalaID());
+				SuscripcionSala.sala = salaPausada;
+				
+				ColorAdjust colorAdjust = new ColorAdjust();
+				colorAdjust.setBrightness(-0.5);
+				colorAdjust.setSaturation(-0.7);
+				
+				imgAmigos.setEffect(colorAdjust);
+				imgAmigos.setDisable(true);
+	
+				imgHistorial.setEffect(colorAdjust);
+				imgHistorial.setDisable(true);
+	
+				imgNotificaciones.setEffect(colorAdjust);
+				imgNotificaciones.setDisable(true);
+				
+				//CAMBIAR TEXTO Y COMPORTAMIENTO BOTONES
+			    btnCrearSala.setText("Reanudar Partida");
+				btnBuscarSala.setText("Abandonar Sala");
+				
+				btnCrearSala.setStyle("-fx-background-color: #ff9800; ");
+				btnBuscarSala.setStyle("-fx-background-color: #b61d1d; ");
+				
+				btnCrearSala.setOnAction(event -> joinPausedRoom(event));
+				btnBuscarSala.setOnAction(event -> leavePausedRoom(event));
+			}
+		});
 	}
 	
 	@FXML
@@ -263,17 +263,16 @@ public class PrincipalController implements Initializable {
 	@FXML
     private void goToHistorial(MouseEvent event) {
 		//BUSCAR DATOS DE MI USUARIO
-		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
-		apirest.addParameter("sesionID", App.getSessionID());
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.setOnError(e -> {
 			if (DEBUG) System.out.println(e);
 		});
-		apirest.openConnection();
-		UsuarioVO usuario = apirest.receiveObject(UsuarioVO.class);
-		
-		//PASAR EL USUARIO A LA VENTANA DE HISTORIAL
-		HistorialController.usuario = usuario;
-		App.setRoot("historial");
+		apirest.openConnection("/api/sacarUsuarioVO");
+		apirest.receiveObject(UsuarioVO.class, usuario -> {
+			//PASAR EL USUARIO A LA VENTANA DE HISTORIAL
+			HistorialController.usuario = usuario;
+			App.setRoot("historial");
+		});
     }
 
 	@FXML
