@@ -65,70 +65,69 @@ public class HistorialController implements Initializable{
     	puntos.setText("Puntos: " + Integer.toString(usuario.getPuntos()));
     	
     	//BUSCAR DATOS DEL HISTORIAL DE PARTIDAS
-    	RestAPI apirest = new RestAPI("/api/sacarPartidasJugadas");
-		apirest.addParameter("sesionID", App.getSessionID());
+    	RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.addParameter("usuarioID", usuario.getId());
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
-		apirest.openConnection();
-		ListaPartidas partidas = apirest.receiveObject(ListaPartidas.class);
-		
-		//COMPROBAR SI HA HABIDO ALGÚN ERROR
-		String error = partidas.getError();
-		if (error != null) {
-			partidas.getPartidas().stream()
-            .map(PartidaJugada::getPartidaJugadaCompacta)
-            .sorted(((partidaJugadaCompacta1, partidaJugadaCompacta2) ->
-                            partidaJugadaCompacta2.getFechaInicio().compareTo(partidaJugadaCompacta1.getFechaInicio())))
-            .forEach(partida -> {
-				try {
-        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("partidaItem.fxml"));
-    	        	VBox salaItem = fxmlLoader.load();
-    	        	
-    	        	//CONFIGURACION DE EFECTO DE HOVER
-    	        	salaItem.setOnMouseEntered(new EventHandler<MouseEvent>() {
-    	    			@Override
-    	    			public void handle(MouseEvent event) {
-    	    				salaItem.setEffect(new Glow(0.3));
-    	    			}
-    	    		});
-    	    		salaItem.setOnMouseExited(new EventHandler<MouseEvent>() {
-    	    			@Override
-    	    			public void handle(MouseEvent event) {
-    	    				salaItem.setEffect(null);
-    	    			}
-    	    		});
-    	        	
-    	        	PartidaItemController partidaItemController = fxmlLoader.getController();
-    	        	partidaItemController.setData(partida);
-    	        	
-        	        listaPartidas.addRow(listaPartidas.getRowCount(), salaItem);
-    			} catch (IOException e) {
-    				if (DEBUG) e.printStackTrace();
-    			}
-            });
-			
-		} else {
-			labelError.setText(StringUtils.parseString(error));
-			if (DEBUG) System.out.println(StringUtils.parseString(error));
-		}
-		//CONFIGURACION DE EFECTO DE HOVER
-		imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				imgMenu.setFitWidth(124);
-				imgMenu.setFitHeight(110);
-				imgMenu.setEffect(new Glow(0.3));
+		apirest.openConnection("/api/sacarPartidasJugadas");
+		apirest.receiveObject(ListaPartidas.class, partidas -> {
+			//COMPROBAR SI HA HABIDO ALGÚN ERROR
+			String error = partidas.getError();
+			if (error != null) {
+				partidas.getPartidas().stream()
+	            .map(PartidaJugada::getPartidaJugadaCompacta)
+	            .sorted(((partidaJugadaCompacta1, partidaJugadaCompacta2) ->
+	                            partidaJugadaCompacta2.getFechaInicio().compareTo(partidaJugadaCompacta1.getFechaInicio())))
+	            .forEach(partida -> {
+					try {
+	        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("partidaItem.fxml"));
+	    	        	VBox salaItem = fxmlLoader.load();
+	    	        	
+	    	        	//CONFIGURACION DE EFECTO DE HOVER
+	    	        	salaItem.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	    	    			@Override
+	    	    			public void handle(MouseEvent event) {
+	    	    				salaItem.setEffect(new Glow(0.3));
+	    	    			}
+	    	    		});
+	    	    		salaItem.setOnMouseExited(new EventHandler<MouseEvent>() {
+	    	    			@Override
+	    	    			public void handle(MouseEvent event) {
+	    	    				salaItem.setEffect(null);
+	    	    			}
+	    	    		});
+	    	        	
+	    	        	PartidaItemController partidaItemController = fxmlLoader.getController();
+	    	        	partidaItemController.setData(partida);
+	    	        	
+	        	        listaPartidas.addRow(listaPartidas.getRowCount(), salaItem);
+	    			} catch (IOException e) {
+	    				if (DEBUG) e.printStackTrace();
+	    			}
+	            });
+				
+			} else {
+				labelError.setText(StringUtils.parseString(error));
+				if (DEBUG) System.out.println(StringUtils.parseString(error));
 			}
-		});;
-		imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				imgMenu.setFitWidth(114);
-				imgMenu.setFitHeight(100);
-				imgMenu.setEffect(null);
-			}
-		});;
+			//CONFIGURACION DE EFECTO DE HOVER
+			imgMenu.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					imgMenu.setFitWidth(124);
+					imgMenu.setFitHeight(110);
+					imgMenu.setEffect(new Glow(0.3));
+				}
+			});
+			imgMenu.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					imgMenu.setFitWidth(114);
+					imgMenu.setFitHeight(100);
+					imgMenu.setEffect(null);
+				}
+			});
+		});
 	}
 
 }
