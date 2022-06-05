@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.api.WebSocketAPI;
 import es.unizar.unoforall.model.RespuestaLogin;
-import es.unizar.unoforall.model.UsuarioVO;
 import es.unizar.unoforall.utils.HashUtils;
 import es.unizar.unoforall.utils.ImageManager;
 import javafx.event.ActionEvent;
@@ -67,25 +66,27 @@ public class LoginController implements Initializable {
     	api.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
     	api.openConnection("/api/login");
     	api.receiveObject(RespuestaLogin.class, respuestaLogin -> {
-    		if(respuestaLogin.isExito()) {
-    			RestAPI api2 = App.apiweb.getRestAPI();
-    			api2.openConnection("/api/sacarUsuarioVO");
-    			api2.receiveObject(UsuarioVO.class, usuarioVO -> {
-    				App.setUsuarioID(usuarioVO.getId());
-	    			if (DEBUG) {
-	    				System.out.println("ID sesión: " + App.apiweb.getSessionID());
-		    			System.out.println("Sesión iniciada");
-	    			}
-    			});
+    		if(respuestaLogin.isExito()) {    			
+    			App.setUsuarioID(respuestaLogin.getUsuarioID());
+    			if (DEBUG) {
+    				System.out.println("ID sesión: " + App.apiweb.getSessionID());
+	    			System.out.println("Sesión iniciada");
+    			}
+    			
+    			App.setRespLogin(respuestaLogin);
     			
     			//OBTENER ASPECTO DE LA APLICACION
-    			App.initializePersonalizacion();
-    			
-    			//ACTIVAR NOTIFICACIONES
-    			App.activarNotificaciones();
-    			
-    			//ENTRAR A LA APLICACION
-	        	App.setRoot("principal");
+    			App.initializePersonalizacion(exito -> {
+    				if(exito) {
+    					//ACTIVAR NOTIFICACIONES
+		    			App.activarNotificaciones();
+		    			
+		    			//ENTRAR A LA APLICACION
+			        	App.setRoot("principal");
+    				}else {
+    					App.apiweb.close();
+    				}	    				
+    			});
     		}else {
     			App.apiweb.close();
     		}

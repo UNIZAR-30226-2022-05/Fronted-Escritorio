@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import es.unizar.unoforall.api.RestAPI;
 import es.unizar.unoforall.api.WebSocketAPI;
@@ -126,7 +127,7 @@ public class App extends Application {
     }
     
 
-    public static void initializePersonalizacion() {
+    public static void initializePersonalizacion(Consumer<Boolean> consumer) {
     	RestAPI apirest = apiweb.getRestAPI();
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
@@ -140,6 +141,7 @@ public class App extends Application {
 			} else {
 				if (DEBUG) System.out.println("No se han podido autocompletar los datos de la cuenta");
 			}
+			consumer.accept(retorno.isExito());
 		});
     }
     
