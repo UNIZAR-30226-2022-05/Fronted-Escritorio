@@ -25,20 +25,20 @@ public class EspecifCorreoController {
     	String correo = cajaCorreo.getText();
 
     	///RESTABLECER PASO 1
-		RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepOne");
+		RestAPI apirest = new RestAPI();
 		apirest.addParameter("correo", correo);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
-		apirest.openConnection();
-    	String error = apirest.receiveObject(String.class);
-    	
-    	if (error == null) {
-    		RecupContrasenyaController.correo = correo;
-        	App.setRoot("recuperacionContrasenya");
-    	} else {
-    		labelError.setText(StringUtils.parseString(error));
-    		if (DEBUG) System.out.println(error);
-    	}
+		apirest.openConnection("/api/reestablecerContrasennaStepOne");
+    	apirest.receiveObject(String.class, error -> {
+    		if (error == null) {
+	    		RecupContrasenyaController.correo = correo;
+	        	App.setRoot("recuperacionContrasenya");
+	    	} else {
+	    		labelError.setText(StringUtils.parseString(error));
+	    		if (DEBUG) System.out.println(error);
+	    	}
+    	});
     }
 	@FXML
     private void onEnter(ActionEvent event) {
