@@ -1,6 +1,6 @@
 @echo off
 
-IF not exist mvnw.cmd (
+IF not exist gradlew.bat (
     echo Error: El archivo "gradlew.bat" no existe
     echo Has colocado "compilar.bat" en el directorio del proyecto?
     pause
