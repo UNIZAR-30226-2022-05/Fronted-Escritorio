@@ -60,18 +60,20 @@ public class ConfAspectoController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//OBTENER CONFIGURACION ACTUAL
-		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
-		String sesionID = App.getSessionID();
-		apirest.addParameter("sesionID",sesionID);
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
-		apirest.openConnection();
-		UsuarioVO usuario = apirest.receiveObject(UsuarioVO.class);
-		if (!usuario.isExito()) {
-			if (DEBUG) System.out.println("No se han podido autocompletar los datos de la cuenta");
-			return;
-		}
-		
+		apirest.openConnection("/api/sacarUsuarioVO");
+		apirest.receiveObject(UsuarioVO.class, usuario -> {
+			if (usuario.isExito()) {
+				mostrarDatosUsuario(usuario);
+			}else {
+				if (DEBUG) System.out.println("No se han podido autocompletar los datos de la cuenta");
+			}
+		});
+	}
+	
+	private void mostrarDatosUsuario(UsuarioVO usuario) {
 		puntuacionUsuario = usuario.getPuntos();
 		labelPuntos.setText("Elige un icono de perfil: Tienes " + puntuacionUsuario + " puntos");
 		
@@ -222,31 +224,31 @@ public class ConfAspectoController implements Initializable {
     private void applyChanges(ActionEvent event) {
 		labelError.setText("");
 		
-		RestAPI apirest = new RestAPI("/api/cambiarAvatar");
-		apirest.addParameter("sesionID", App.getSessionID());
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.addParameter("avatar", avatarSelec);
 		apirest.addParameter("aspectoCartas", cartaSelec);
 		apirest.addParameter("aspectoFondo", tableroSelec);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
-		apirest.openConnection();
-    	String retorno = apirest.receiveObject(String.class);
-    	if (retorno != null) {
-    		labelError.setText(StringUtils.parseString(retorno));
-    		if (DEBUG) System.out.println(StringUtils.parseString(retorno));
-    	} else {
-    		HashMap<String, Integer> personalizacion = new HashMap<String, Integer>();
-			personalizacion.put("avatarSelec", avatarSelec);
-			personalizacion.put("cartaSelec", cartaSelec);
-			personalizacion.put("tableroSelec", tableroSelec);
-    		App.setPersonalizacion(personalizacion);
-    		
-    		App.setRoot("confAspecto");
-    		if (DEBUG) System.out.println("Configuración seleccionada: \n" +
-					"\t Avatar: " + avatarSelec + "\n" +
-					"\t Cartas: " + cartaSelec + "\n" +
-					"\t Tablero: " + tableroSelec);
-    	}
+		apirest.openConnection("/api/cambiarAvatar");
+    	apirest.receiveObject(String.class, retorno -> {
+    		if (retorno != null) {
+	    		labelError.setText(StringUtils.parseString(retorno));
+	    		if (DEBUG) System.out.println(StringUtils.parseString(retorno));
+	    	} else {
+	    		HashMap<String, Integer> personalizacion = new HashMap<String, Integer>();
+				personalizacion.put("avatarSelec", avatarSelec);
+				personalizacion.put("cartaSelec", cartaSelec);
+				personalizacion.put("tableroSelec", tableroSelec);
+	    		App.setPersonalizacion(personalizacion);
+	    		
+	    		App.setRoot("confAspecto");
+	    		if (DEBUG) System.out.println("Configuración seleccionada: \n" +
+						"\t Avatar: " + avatarSelec + "\n" +
+						"\t Cartas: " + cartaSelec + "\n" +
+						"\t Tablero: " + tableroSelec);
+	    	}
+    	});
 	}
 }
 
