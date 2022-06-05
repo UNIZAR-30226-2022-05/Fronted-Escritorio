@@ -18,7 +18,7 @@ if NOT "%ERRORLEVEL%" == "0" (
     exit /B 1
 )
 
-copy target\unoforall-0.0.1-SNAPSHOT-shaded.jar .
+copy target\unoforall-0.0.1-SNAPSHOT-shaded.jar .\Unoforall_escritorio.jar
 
 title Compilacion completada
 echo.
