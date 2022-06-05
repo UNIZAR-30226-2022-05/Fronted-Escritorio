@@ -27,6 +27,7 @@ import javafx.scene.control.DialogEvent;
 import javafx.scene.image.Image;
 //import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import me.i2000c.web_utils.multicast_utils.MulticastClient;
 
 
 /**
@@ -50,6 +51,8 @@ public class App extends Application {
 	public static WebSocketAPI apiweb;
 	private static Alert alertaInvitacionSala;
 	
+	private static MulticastClient client;
+	
 	static {
 		if (MODO_PRODUCCION) {
 			RestAPI.setServerIP(AZURE_IP);
@@ -63,6 +66,8 @@ public class App extends Application {
     
     @Override
     public void start(Stage s) throws IOException {
+    	startMulticastClient();
+    	
     	pantallaActual = Pantalla.LOGIN;
         scene = new Scene(loadFXML(pantallaActual.getFXML()));
         stage = s;
@@ -102,6 +107,12 @@ public class App extends Application {
 				default:
 					pantalla = Pantalla.LOGIN;
     		}
+    	}
+    	
+    	if(pantalla == Pantalla.LOGIN){
+    		restartMulticastClient();
+    	}else{
+    		stopMulticastClient();
     	}
     	
         scene.setRoot(loadFXML(pantalla.getFXML()));
@@ -320,6 +331,27 @@ public class App extends Application {
 			if (DEBUG) e.printStackTrace();
 		}
         return result;
+    }
+    
+    private static void startMulticastClient(){
+    	System.out.println("Buscando servidor...");
+    	client = new MulticastClient();
+    	client.startScan(listaIps -> {
+    		if(!listaIps.isEmpty()){
+    			String ip = listaIps.get(0).toString();
+    			System.out.println("Servidor encontrado: " + ip);
+    			RestAPI.setServerIP(ip);
+    		}
+    	});
+    }
+    private static void stopMulticastClient(){
+    	if(client != null){
+    		client.stopScan();
+    	}
+    }
+    private static void restartMulticastClient(){
+    	stopMulticastClient();
+    	startMulticastClient();
     }
 
 }
