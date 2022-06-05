@@ -38,42 +38,42 @@ public class RecupContrasenyaController {
 		}
 
     	///RESTABLECER PASO 2
-		RestAPI apirest = new RestAPI("/api/reestablecerContrasennaStepTwo");
+		RestAPI apirest = new RestAPI();
 		apirest.addParameter("correo", correo);
 		apirest.addParameter("codigo", codigo);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
     	
-		apirest.openConnection();
-    	String error = apirest.receiveObject(String.class);
-    	
-    	if (error == null) {
-    		String contrasenna = cajaContrasenya.getText();
-    		String contrasenna2 = cajaContrasenya2.getText();
-    		
-    		if (contrasenna.equals(contrasenna2)) {
-    			///RESTABLECER PASO 3
-				apirest = new RestAPI("/api/reestablecerContrasennaStepThree");
-				apirest.addParameter("correo", correo);
-				apirest.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
-				apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
-		    	
-				apirest.openConnection();
-		    	error = apirest.receiveObject(String.class);
-		    	
-		    	if (error == null) {
-		    		App.setRoot("login");
-		    	} else {
-		    		labelError.setText(StringUtils.parseString(error));
-		    		if (DEBUG) System.out.println(error);
-		    	}
-    		} else {
-    			labelError.setText("Las contraseñas no coinciden.");
-    			if (DEBUG) System.out.println("Las contraseñas no coinciden.");
-    		}
-    	} else {
-    		labelError.setText(StringUtils.parseString(error));
-    		if (DEBUG) System.out.println(error);
-    	}
+		apirest.openConnection("/api/reestablecerContrasennaStepTwo");
+    	apirest.receiveObject(String.class, error -> {
+    		if (error == null) {
+	    		String contrasenna = cajaContrasenya.getText();
+	    		String contrasenna2 = cajaContrasenya2.getText();
+	    		
+	    		if (contrasenna.equals(contrasenna2)) {
+	    			///RESTABLECER PASO 3
+					RestAPI apirest2 = new RestAPI();
+					apirest2.addParameter("correo", correo);
+					apirest2.addParameter("contrasenna", HashUtils.cifrarContrasenna(contrasenna));
+					apirest2.setOnError(e -> {if (DEBUG) System.out.println(e);});
+			    	
+					apirest.openConnection("/api/reestablecerContrasennaStepThree");
+			    	apirest.receiveObject(String.class, error2 -> {
+			    		if (error2 == null) {
+				    		App.setRoot("login");
+				    	} else {
+				    		labelError.setText(StringUtils.parseString(error2));
+				    		if (DEBUG) System.out.println(error2);
+				    	}
+			    	});
+	    		} else {
+	    			labelError.setText("Las contraseñas no coinciden.");
+	    			if (DEBUG) System.out.println("Las contraseñas no coinciden.");
+	    		}
+	    	} else {
+	    		labelError.setText(StringUtils.parseString(error));
+	    		if (DEBUG) System.out.println(error);
+	    	}
+    	});
     }
 	
 	@FXML
