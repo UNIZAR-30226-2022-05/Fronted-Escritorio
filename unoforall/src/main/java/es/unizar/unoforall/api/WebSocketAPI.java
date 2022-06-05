@@ -1,192 +1,85 @@
 package es.unizar.unoforall.api;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.UUID;
 import java.util.function.Consumer;
 
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.converter.MessageConversionException;
-import org.springframework.messaging.simp.stomp.StompCommand;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSession.Subscription;
-import org.springframework.messaging.simp.stomp.StompSessionHandler;
-import org.springframework.web.socket.client.WebSocketClient;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
-
-import javafx.application.Platform;
+import me.i2000c.web_utils.client.RestClient;
+import me.i2000c.web_utils.client.WebsocketClient;
 
 public class WebSocketAPI {
-	
-	private static String SERVER_URL = "ws://localhost/unoforall";
+    private WebsocketClient client;
 
-    public static final int GLOBAL_ERROR = 0;
-    public static final int SUBSCRIPTION_ERROR = 1;
-
-    private final Object LOCK = new Object();
-    
-    private final Map<String, Type> receptores;
-    @SuppressWarnings("rawtypes")
-	private final Map<String, Consumer> consumidores;
-    
-    private final Map<String, Subscription> suscripciones;
-    private WebSocketStompClient client;
-    private StompSession sesion;
-    private boolean closed;
-
-    private Consumer<Throwable> onError;
-    public void setOnError(Consumer<Throwable> onError){
-        this.onError = onError;
-    }
-    
-    public static void setServerIP(String serverIP){
-        WebSocketAPI.SERVER_URL = "ws://" + serverIP + "/unoforall";
+    public void setOnError(Consumer<Exception> onError){
+        client.setOnError(onError);
     }
 
-    
     public WebSocketAPI(){
-    	suscripciones = new HashMap<>();
-    	receptores = new HashMap<>();
-    	consumidores = new HashMap<>();
-        
-        WebSocketClient c = new StandardWebSocketClient();
-        client = new WebSocketStompClient(c);
-        client.setMessageConverter(new MappingJackson2MessageConverter());
-        sesion = null;
-        closed = false;
-        onError = t -> {t.printStackTrace(); close();};
+        this.client = new WebsocketClient(RestAPI.SERVER_URL);
+        this.client.setOnError(ex -> {
+            ex.printStackTrace();
+            close();
+        });
     }
-    
-    public void openConnection() throws InterruptedException, ExecutionException{
-    	if(closed){
-            return;
+
+    public UUID getSessionID(){
+        return client.getSessionID();
+    }
+
+    public void openConnection(String path){
+        if(isClosed()){
+            gotoPantallaInicial();
         }
-    	
-    	StompSessionHandler sessionHandler = new StompSessionHandler() {
-			@Override
-			public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-				synchronized (LOCK) {
-					LOCK.notify();
-				}
-			}
-			@Override
-			public void handleFrame(StompHeaders headers, Object payload) {
-			}
-			@Override
-			public Type getPayloadType(StompHeaders headers) {
-				return String.class;
-			}
-			@SuppressWarnings("unchecked")
-			@Override
-			public void handleException(StompSession session, StompCommand command, StompHeaders headers,
-					byte[] payload, Throwable exception) {				
-				if (exception instanceof MessageConversionException) {
-					String message = new String(payload);
-					String topic = headers.getDestination();
-					
-					Type tipo = receptores.get(topic);
-					@SuppressWarnings("rawtypes")
-					Consumer consumidor = consumidores.get(topic);
-					
-					Object objeto = Serializar.deserializar(message, tipo);
-					
-					Platform.runLater(()->consumidor.accept(objeto));
-				} else {
-					onError.accept(exception);
-				}
-			}
-			@Override
-			public void handleTransportError(StompSession session, Throwable exception) {
-				onError.accept(exception);
-			}
-		};
-    	
-    	sesion = client.connect(SERVER_URL, sessionHandler).get();
-		
-		while(!sesion.isConnected()) {
-			synchronized (LOCK) {
-				LOCK.wait();
-			}
-		}
+
+        client.openConnection(path);
     }
-    
+
     public <T> void subscribe(String topic, Class<T> expectedClass, Consumer<T> consumer){
-    	if(closed){
+        if(isClosed()){
+            gotoPantallaInicial();
+        }
+
+        if(consumer == null){
             return;
         }
-    	
-    	receptores.put(topic, expectedClass);
-    	consumidores.put(topic, consumer);
-    	
-    	StompSessionHandler sessionHandler = new StompSessionHandler() {
-			@Override
-			public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-			}
-			@Override
-			public void handleFrame(StompHeaders headers, Object payload) {
-				T dato = expectedClass.cast(payload);
-				consumer.accept(dato);
-			}
-			@Override
-			public Type getPayloadType(StompHeaders headers) {
-				return expectedClass;
-			}
-			@Override
-			public void handleException(StompSession session, StompCommand command, StompHeaders headers,
-					byte[] payload, Throwable exception) {
-				onError.accept(exception);
-			}
-			@Override
-			public void handleTransportError(StompSession session, Throwable exception) {
-				onError.accept(exception);
-			}
-		};
-    	
-    	Subscription s = sesion.subscribe(topic, sessionHandler);
-    	suscripciones.put(topic, s);
+
+        client.subscribe(topic, expectedClass, consumer);
     }
-    
+
     public void unsubscribe(String topic){
-    	if(closed){
-            return;
+        if(isClosed()){
+            gotoPantallaInicial();
         }
-    	
-    	receptores.remove(topic);
-    	consumidores.remove(topic);
-    	
-    	Subscription suscripcion = suscripciones.remove(topic);
-        if(suscripcion != null){
-            suscripcion.unsubscribe();
-        }
+
+        client.unsubscribe(topic);
     }
-    
-    public <T> void sendObject(String topic, T object){
-    	if(closed){
-            return;
+
+    public RestAPI getRestAPI() {
+        if(isClosed()){
+            gotoPantallaInicial();
         }
-    	
-    	sesion.send(topic, object);
+
+        RestClient restClient = client.getRestClient();
+        if(restClient == null){
+            restClient = new RestClient("");
+            restClient.close();
+        }
+
+        RestAPI api = new RestAPI(restClient);
+        if(isClosed()){
+            api.close();
+        }
+        return api;
     }
-    
+
+    public boolean isClosed() {
+        return client.isClosed();
+    }
+
     public void close(){
-        if(closed){
-           return;
-        }
-        
-        sesion.disconnect();
-        suscripciones.clear();
-        closed = true;
+        client.close();
     }
-    
-    
-    @SuppressWarnings("deprecation")
-	@Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        close();
+
+    private void gotoPantallaInicial(){
+        // Volver a la pantalla de login
     }
-    
 }
