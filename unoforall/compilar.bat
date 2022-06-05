@@ -7,7 +7,7 @@ IF not exist mvnw.cmd (
     exit 1
 )
 
-del unoforall-0.0.1-SNAPSHOT-shaded.jar 1>nul 2>nul
+del Unoforall_escritorio.jar 1>nul 2>nul
 
 title Compilando frontend de Escritorio...
 call mvnw package
