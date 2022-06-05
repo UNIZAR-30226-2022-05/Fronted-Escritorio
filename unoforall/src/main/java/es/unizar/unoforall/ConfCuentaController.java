@@ -87,38 +87,36 @@ public class ConfCuentaController implements Initializable {
 	}
 	
 	public void autoCompletar() {	
-		RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
-		String sesionID = App.getSessionID();
-		apirest.addParameter("sesionID",sesionID);
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
-		apirest.openConnection();
-    	UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
-    	if (retorno.isExito()) {
-    		usuario = retorno;
-    		cajaNombre.setText(StringUtils.parseString(retorno.getNombre()));
-    		cajaCorreo.setText(StringUtils.parseString(retorno.getCorreo()));
-    	} else {
-    		labelError.setText("No se han podido autocompletar los datos de la cuenta");
-    	}
+		apirest.openConnection("/api/sacarUsuarioVO");
+    	apirest.receiveObject(UsuarioVO.class, retorno -> {
+    		if (retorno.isExito()) {
+	    		usuario = retorno;
+	    		cajaNombre.setText(StringUtils.parseString(retorno.getNombre()));
+	    		cajaCorreo.setText(StringUtils.parseString(retorno.getCorreo()));
+	    	} else {
+	    		labelError.setText("No se han podido autocompletar los datos de la cuenta");
+	    	}
+    	});
 	}
 	
 	@FXML
     private void goBack(ActionEvent event) {
 		labelError.setText("");
 		if (contenedorOculto.isVisible()) {
-			RestAPI apirest = new RestAPI("/api/actualizarCancel");
-			String sesionID = App.getSessionID();
-			apirest.addParameter("sesionID",sesionID);
+			RestAPI apirest = App.apiweb.getRestAPI();
 			
-			apirest.openConnection();
-	    	String retorno = apirest.receiveObject(String.class);
-	    	if (retorno != null) {
-	    		labelError.setText(StringUtils.parseString(retorno));
-	    		if (DEBUG) System.out.println(StringUtils.parseString(retorno));
-	    	} else {
-				App.setRoot("principal");
-			}
+			apirest.openConnection("/api/actualizarCancel");
+	    	apirest.receiveObject(String.class, retorno -> {
+	    		if (retorno != null) {
+		    		labelError.setText(StringUtils.parseString(retorno));
+		    		if (DEBUG) System.out.println(StringUtils.parseString(retorno));
+		    	} else {
+					App.setRoot("principal");
+				}
+	    	});
 		} else {
 			App.setRoot("principal");
 		}
@@ -128,18 +126,18 @@ public class ConfCuentaController implements Initializable {
     private void goToMain(Event event) {
 		labelError.setText("");
 		if (contenedorOculto.isVisible()) {
-			RestAPI apirest = new RestAPI("/api/actualizarCancel");
-			String sesionID = App.getSessionID();
-			apirest.addParameter("sesionID",sesionID);
+			RestAPI apirest = App.apiweb.getRestAPI();
 			
-			apirest.openConnection();
-	    	String retorno = apirest.receiveObject(String.class);
-	    	if (retorno != null) {
-	    		labelError.setText(StringUtils.parseString(retorno));
-	    		if (DEBUG) System.out.println(retorno);
-	    	}
+			apirest.openConnection("/api/actualizarCancel");
+	    	apirest.receiveObject(String.class, retorno -> {
+	    		if (retorno != null) {
+		    		labelError.setText(StringUtils.parseString(retorno));
+		    		if (DEBUG) System.out.println(retorno);
+		    	}else {
+		    		App.setRoot("principal");
+		    	}
+	    	});
 		}
-    	App.setRoot("principal");
 	}
 
 	@FXML
@@ -162,22 +160,21 @@ public class ConfCuentaController implements Initializable {
 			} else {
 				HashUtils.cifrarContrasenna(nuevaContrasenna);
 			}
-			RestAPI apirest = new RestAPI("/api/actualizarCuentaStepOne");
-			String sesionID = App.getSessionID();
-			apirest.addParameter("sesionID",sesionID);
+			RestAPI apirest = App.apiweb.getRestAPI();
 			apirest.addParameter("correoNuevo",nuevoCorreo);
 			apirest.addParameter("nombre",nuevoNombre);
 			apirest.addParameter("contrasenna",nuevaContrasenna);
 			apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 			
-			apirest.openConnection();
-	    	String retorno = apirest.receiveObject(String.class);
-	    	if (retorno == null) {
-	    		desocultarContenedorOculto();
-	    	} else {
-	    		labelError.setText(StringUtils.parseString(retorno));
-	    		if (DEBUG) System.out.println(retorno);
-	    	}
+			apirest.openConnection("/api/actualizarCuentaStepOne");
+	    	apirest.receiveObject(String.class, retorno -> {
+	    		if (retorno == null) {
+		    		desocultarContenedorOculto();
+		    	} else {
+		    		labelError.setText(StringUtils.parseString(retorno));
+		    		if (DEBUG) System.out.println(retorno);
+		    	}
+	    	});
 		}
 	}
 	
@@ -197,21 +194,20 @@ public class ConfCuentaController implements Initializable {
 			labelError.setText("Por favor introduzca un código válido");
 			return;
 		}
-		RestAPI apirest = new RestAPI("/api/actualizarCuentaStepTwo");
-		String sesionID = App.getSessionID();
-		apirest.addParameter("sesionID",sesionID);
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.addParameter("codigo",codigo);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
-		apirest.openConnection();
-		String retorno = apirest.receiveObject(String.class);
-    	if (retorno == null) {
-    		if (DEBUG) System.out.println("Exito.");
-    		App.setRoot("principal");
-    	} else {
-    		labelError.setText(StringUtils.parseString(retorno));
-    		if (DEBUG) System.out.println(retorno);
-    	}
+		apirest.openConnection("/api/actualizarCuentaStepTwo");
+		apirest.receiveObject(String.class, retorno -> {
+			if (retorno == null) {
+	    		if (DEBUG) System.out.println("Exito.");
+	    		App.setRoot("principal");
+	    	} else {
+	    		labelError.setText(StringUtils.parseString(retorno));
+	    		if (DEBUG) System.out.println(retorno);
+	    	}
+		});
 	}
 	
 	@FXML
@@ -235,21 +231,20 @@ public class ConfCuentaController implements Initializable {
         		if (DEBUG) System.out.println("Segunda confirmación eliminación cuenta.");
         		
         		//DESTRUCCION CUENTA
-        		RestAPI apirest = new RestAPI("/api/borrarCuenta");
-        		String sesionID = App.getSessionID();
-        		apirest.addParameter("sesionID",sesionID);
+        		RestAPI apirest = App.apiweb.getRestAPI();
         		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
         		
-        		apirest.openConnection();
-            	String retorno = apirest.receiveObject(String.class);
-            	if (retorno.equals("BORRADA")) {
-        	    	App.setRoot("login");
-        	        App.cerrarConexion();
-        	    	if (DEBUG) System.out.println("Cuenta eliminada");
-            	} else {
-            		labelError.setText(StringUtils.parseString(retorno));
-            		if (DEBUG) System.out.println(retorno);
-            	}
+        		apirest.openConnection("/api/borrarCuenta");
+            	apirest.receiveObject(String.class, retorno -> {
+            		if (retorno.equals("BORRADA")) {
+	        	    	App.setRoot("login");
+	        	        App.cerrarConexion();
+	        	    	if (DEBUG) System.out.println("Cuenta eliminada");
+	            	} else {
+	            		labelError.setText(StringUtils.parseString(retorno));
+	            		if (DEBUG) System.out.println(retorno);
+	            	}
+            	});
         	}
     	}
 	}
