@@ -40,7 +40,6 @@ public class App extends Application {
     private static Scene scene;
     private static Stage stage;
     private static String nomPantalla;
-	private static String sesionID;
 	private static RespuestaLogin respLogin;
 	private static UUID salaID;
 	private static UUID usuarioID;
@@ -49,7 +48,6 @@ public class App extends Application {
 	private static Alert alertaInvitacionSala;
 	
 	static {
-		apiweb = new WebSocketAPI();
 		if (MODO_PRODUCCION) {
 			RestAPI.setServerIP(AZURE_IP);
 		}
@@ -120,12 +118,6 @@ public class App extends Application {
     	return salaID;
     }
     
-    public static void setSessionID(String sID) {
-    	sesionID = sID;
-    }
-    public static String getSessionID() {
-    	return sesionID;
-    }
     public static void setUsuarioID(UUID uID) {
     	usuarioID = uID;
     }
@@ -135,9 +127,7 @@ public class App extends Application {
     
 
     public static void initializePersonalizacion() {
-    	RestAPI apirest = new RestAPI();
-		String sesionID = App.getSessionID();
-		apirest.addParameter("sesionID",sesionID);
+    	RestAPI apirest = apiweb.getRestAPI();
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
 		apirest.openConnection("/api/sacarUsuarioVO");
@@ -205,8 +195,7 @@ public class App extends Application {
     	if (respuesta == ButtonType.OK) {
 
     		//ACEPTAR PETICION DE AMISTAD
-    		RestAPI apirest = new RestAPI();
-    		apirest.addParameter("sesionID", App.getSessionID());
+    		RestAPI apirest = apiweb.getRestAPI();
     		apirest.addParameter("amigo", remitente.getId());
     		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
     		
@@ -222,8 +211,7 @@ public class App extends Application {
     	} else if (respuesta == ButtonType.CANCEL) {
     		
     		//CANCELAR PETICION
-    		RestAPI apirest = new RestAPI();
-    		apirest.addParameter("sesionID", App.getSessionID());
+    		RestAPI apirest = apiweb.getRestAPI();
     		apirest.addParameter("amigo", remitente.getId());
     		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
     		
