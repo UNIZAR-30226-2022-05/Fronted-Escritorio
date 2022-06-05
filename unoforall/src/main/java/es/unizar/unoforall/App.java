@@ -52,7 +52,6 @@ public class App extends Application {
 		apiweb = new WebSocketAPI();
 		if (MODO_PRODUCCION) {
 			RestAPI.setServerIP(AZURE_IP);
-			WebSocketAPI.setServerIP(AZURE_IP);
 		}
 	}
 	
@@ -136,21 +135,22 @@ public class App extends Application {
     
 
     public static void initializePersonalizacion() {
-    	RestAPI apirest = new RestAPI("/api/sacarUsuarioVO");
+    	RestAPI apirest = new RestAPI();
 		String sesionID = App.getSessionID();
 		apirest.addParameter("sesionID",sesionID);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 		
-		apirest.openConnection();
-		UsuarioVO retorno = apirest.receiveObject(UsuarioVO.class);
-		if (retorno.isExito()) {
-			personalizacion = new HashMap<String, Integer>();
-			personalizacion.put("avatarSelec", retorno.getAvatar());
-			personalizacion.put("cartaSelec", retorno.getAspectoCartas());
-			personalizacion.put("tableroSelec", retorno.getAspectoTablero());
-		} else {
-			if (DEBUG) System.out.println("No se han podido autocompletar los datos de la cuenta");
-		}
+		apirest.openConnection("/api/sacarUsuarioVO");
+		apirest.receiveObject(UsuarioVO.class, retorno -> {
+			if (retorno.isExito()) {
+				personalizacion = new HashMap<String, Integer>();
+				personalizacion.put("avatarSelec", retorno.getAvatar());
+				personalizacion.put("cartaSelec", retorno.getAspectoCartas());
+				personalizacion.put("tableroSelec", retorno.getAspectoTablero());
+			} else {
+				if (DEBUG) System.out.println("No se han podido autocompletar los datos de la cuenta");
+			}
+		});
     }
     
     public static void setPersonalizacion(HashMap<String, Integer> p) {
@@ -205,37 +205,37 @@ public class App extends Application {
     	if (respuesta == ButtonType.OK) {
 
     		//ACEPTAR PETICION DE AMISTAD
-    		RestAPI apirest = new RestAPI("/api/aceptarPeticionAmistad");
+    		RestAPI apirest = new RestAPI();
     		apirest.addParameter("sesionID", App.getSessionID());
     		apirest.addParameter("amigo", remitente.getId());
     		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
     		
-    		apirest.openConnection();
+    		apirest.openConnection("/api/aceptarPeticionAmistad");
     		
-    		String error = apirest.receiveObject(String.class);
-    		if (error != null) {
-    			if(DEBUG) System.out.println("error: " + error);
-    		}
-    		
-    		if (DEBUG) System.out.println("Has aceptado la solicitud.");
-    		
+    		apirest.receiveObject(String.class, error -> {
+    			if (error != null) {
+	    			if(DEBUG) System.out.println("error: " + error);
+	    		}else {
+	    			if (DEBUG) System.out.println("Has aceptado la solicitud.");
+	    		}
+    		});
     	} else if (respuesta == ButtonType.CANCEL) {
     		
     		//CANCELAR PETICION
-    		RestAPI apirest = new RestAPI("/api/cancelarPeticionAmistad");
+    		RestAPI apirest = new RestAPI();
     		apirest.addParameter("sesionID", App.getSessionID());
     		apirest.addParameter("amigo", remitente.getId());
     		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
     		
-    		apirest.openConnection();
+    		apirest.openConnection("/api/cancelarPeticionAmistad");
     		
-    		String error = apirest.receiveObject(String.class);
-    		if (error != null) {
-    			if(DEBUG) System.out.println("error: " + error);
-    		}
-    		
-    		if (DEBUG) System.out.println("Has rechazado la solicitud.");
-    		
+    		apirest.receiveObject(String.class, error -> {
+    			if (error != null) {
+	    			if(DEBUG) System.out.println("error: " + error);
+	    		}else {
+	    			if (DEBUG) System.out.println("Has rechazado la solicitud.");
+	    		}
+    		});
     	} else {
     		if (DEBUG) System.out.println("La solicitud se ha enviado al menú de notificaciones.");
     	}
