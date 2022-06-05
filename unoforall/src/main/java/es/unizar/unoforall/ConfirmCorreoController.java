@@ -23,19 +23,19 @@ public class ConfirmCorreoController {
 	@FXML private void goBack(ActionEvent event) {
 		labelError.setText("");
     	//CANCELACION DE REGISTRO
-		RestAPI apirest = new RestAPI("/api/registerCancel");
+		RestAPI apirest = new RestAPI();
 		apirest.addParameter("correo", correo);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 
-		apirest.openConnection();
-    	String error = apirest.receiveObject(String.class);
-    	
-    	if (error != null) {
-    		labelError.setText(StringUtils.parseString(error));
-    		if (DEBUG) System.out.println(error);
-    	}
-    	
-    	App.setRoot("registro");
+		apirest.openConnection("/api/registerCancel");
+    	apirest.receiveObject(String.class, error -> {
+    		if (error != null) {
+	    		labelError.setText(StringUtils.parseString(error));
+	    		if (DEBUG) System.out.println(error);
+	    	}else {
+	    		App.setRoot("registro");
+	    	}
+    	});
     }
     
 	@FXML
@@ -52,20 +52,20 @@ public class ConfirmCorreoController {
 		}
 
     	//CONFIRMACION DE CORREO
-		RestAPI apirest = new RestAPI("/api/registerStepTwo");
+		RestAPI apirest = new RestAPI();
 		apirest.addParameter("correo", correo);
 		apirest.addParameter("codigo", codigo);
 		apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 
-		apirest.openConnection();
-    	String error = apirest.receiveObject(String.class);
-    	
-    	if (error == null) {
-        	App.setRoot("login");
-    	} else {
-    		labelError.setText(StringUtils.parseString(error));
-    		if (DEBUG) System.out.println(error);
-    	}
+		apirest.openConnection("/api/registerStepTwo");
+    	apirest.receiveObject(String.class, error -> {
+    		if (error == null) {
+	        	App.setRoot("login");
+	    	} else {
+	    		labelError.setText(StringUtils.parseString(error));
+	    		if (DEBUG) System.out.println(error);
+	    	}
+    	});
     }
 	
 	@FXML
