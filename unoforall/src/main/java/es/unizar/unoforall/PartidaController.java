@@ -798,8 +798,7 @@ public class PartidaController extends SalaReceiver implements Initializable {
 			
     		btnUno.setEffect(colorAdjust);
 
-            App.apiweb.sendObject("/app/partidas/botonUNO/" + SuscripcionSala.sala.getSalaID(), "vacio");
-            if (DEBUG) System.out.println("Has pulsado el botón UNO");
+            SuscripcionSala.pulsarBotonUNO();
         }
     }
     
