@@ -45,39 +45,39 @@ public class PeticionItemController {
     @FXML
     private void aceptar(ActionEvent event) {
 		//ACEPTAR PETICION DE AMISTAD
-		RestAPI apirest = new RestAPI("/api/aceptarPeticionAmistad");
-		apirest.addParameter("sesionID", App.getSessionID());
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.addParameter("amigo", usuario.getId());
 		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
 		
-		apirest.openConnection();
+		apirest.openConnection("/api/aceptarPeticionAmistad");
 		
-		String error = apirest.receiveObject(String.class);
-		if (error != null) {
-			if(DEBUG) System.out.println("error: " + error);
-		} else {
-			//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
-			App.setRoot("notificaciones");
-		}
+		apirest.receiveObject(String.class, error -> {
+			if (error != null) {
+				if(DEBUG) System.out.println("error: " + error);
+			} else {
+				//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
+				App.setRoot("notificaciones");
+			}
+		});
     }
 
     @FXML
     private void cancelar(ActionEvent event) {
 		//CANCELAR PETICION
-		RestAPI apirest = new RestAPI("/api/cancelarPeticionAmistad");
-		apirest.addParameter("sesionID", App.getSessionID());
+		RestAPI apirest = App.apiweb.getRestAPI();
 		apirest.addParameter("amigo", usuario.getId());
 		apirest.setOnError(e -> {if(DEBUG) System.out.println(e);});
 		
-		apirest.openConnection();
+		apirest.openConnection("/api/cancelarPeticionAmistad");
 		
-		String error = apirest.receiveObject(String.class);
-		if (error != null) {
-			if(DEBUG) System.out.println("error: " + error);
-		} else {
-			//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
-			App.setRoot("notificaciones");
-		}
+		apirest.receiveObject(String.class, error -> {
+			if (error != null) {
+				if(DEBUG) System.out.println("error: " + error);
+			} else {
+				//ELIMINAR DE PETICIONES RECIBIDAS (RECARGANDO LA PÁGINA)
+				App.setRoot("notificaciones");
+			}
+		});
     }
 
 }
