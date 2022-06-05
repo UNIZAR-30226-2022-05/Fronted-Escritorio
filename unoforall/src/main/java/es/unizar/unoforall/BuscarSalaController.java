@@ -113,81 +113,78 @@ public class BuscarSalaController implements Initializable {
 		labelError.setText("");
 		//BORRAR RESULTADOS ANTERIORES DE LA VENTANA DE RESULTADOS
 		listaSalas.getChildren().clear();
-		String sesionID = App.getSessionID();
 		
 		if (!cajaIdSala.getText().equals("")) {
 			String salaID = cajaIdSala.getText();
 			if (DEBUG) System.out.println("Buscando sala con id: " + salaID);
 			
-			RestAPI apirest = new RestAPI("/api/buscarSalaID");
-			apirest.addParameter("sesionID", sesionID);
+			RestAPI apirest = App.apiweb.getRestAPI();
 			apirest.addParameter("salaID", salaID);
 			apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 	    	
-			apirest.openConnection();
-			Sala r = apirest.receiveObject(Sala.class);
-			
-			if (r == null) {
-				if (DEBUG) System.out.println("Aquí ha pasado algo");
-			} else if (r.isNoExiste()) {
-				labelError.setText("No se ha encontrado ninguna sala con ese ID");
-				if (DEBUG) System.out.println("No se ha encontrado ninguna sala con ese ID");
-    		} else {
-    	        try {
-        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
-    	        	HBox salaItem = fxmlLoader.load();
-    	        	
-    	        	SalaItemController salaItemController = fxmlLoader.getController();
-    	        	salaItemController.setData(r.getConfiguracion(), UUID.fromString(salaID), myListener);
-    	        	
-        	        listaSalas.addRow(listaSalas.getRowCount(), salaItem);
-        			
-        			if (DEBUG) System.out.println("sala encontrada:" + r);
-    			} catch (IOException e) {
-    				if (DEBUG) e.printStackTrace();
-    			}
-    		}
+			apirest.openConnection("/api/buscarSalaID");
+			apirest.receiveObject(Sala.class, r -> {
+				if (r == null) {
+					if (DEBUG) System.out.println("Aquí ha pasado algo");
+				} else if (r.isNoExiste()) {
+					labelError.setText("No se ha encontrado ninguna sala con ese ID");
+					if (DEBUG) System.out.println("No se ha encontrado ninguna sala con ese ID");
+	    		} else {
+	    	        try {
+	        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
+	    	        	HBox salaItem = fxmlLoader.load();
+	    	        	
+	    	        	SalaItemController salaItemController = fxmlLoader.getController();
+	    	        	salaItemController.setData(r.getConfiguracion(), UUID.fromString(salaID), myListener);
+	    	        	
+	        	        listaSalas.addRow(listaSalas.getRowCount(), salaItem);
+	        			
+	        			if (DEBUG) System.out.println("sala encontrada:" + r);
+	    			} catch (IOException e) {
+	    				if (DEBUG) e.printStackTrace();
+	    			}
+	    		}
+			});				
 		} else {
 			if (DEBUG) {
 				System.out.println("Buscando: " + config);
 			}
 			
-			RestAPI apirest = new RestAPI("/api/filtrarSalas");
-			apirest.addParameter("sesionID", sesionID);
+			RestAPI apirest = App.apiweb.getRestAPI();
 			apirest.addParameter("configuracion", config);
 			apirest.setOnError(e -> {if (DEBUG) System.out.println(e);});
 	    	
-			apirest.openConnection();
-			RespuestaSalas r = apirest.receiveObject(RespuestaSalas.class);
-			
-			if (r.isExito()) {
-				if (DEBUG) System.out.println("Filtrado salas con exito.");
-
-				//MOSTRAR LOS RESULTADOS ACTUALIZADOS
-				if (DEBUG) System.out.println("Salas encontradas:");
-				r.getSalas().forEach((k,v) -> {
-	    	        try {
-	        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
-	        	        HBox salaItem = fxmlLoader.load();
-	    	        	
-	    	        	SalaItemController salaItemController = fxmlLoader.getController();
-	    	        	salaItemController.setData(v.getConfiguracion(), k, myListener);
-	    	        	
-	        	        listaSalas.addRow(listaSalas.getRowCount(), salaItem);
-	        	        //ESTABLECER ANCHURA DE ITEM
-	        	        listaSalas.setMinWidth(Region.USE_COMPUTED_SIZE);
-	        	        listaSalas.setPrefWidth(Region.USE_COMPUTED_SIZE);
-	        	        listaSalas.setMaxWidth(Region.USE_PREF_SIZE);
-						
-						if (DEBUG) System.out.println(v.getConfiguracion().toString());
-	    			} catch (IOException e) {
-	    				if (DEBUG) e.printStackTrace();
-	    			}
-				});
-			} else {
-				labelError.setText("Ha habido un error al filtrar las salas.");
-				if (DEBUG) System.out.println("Ha habido un error al filtrar las salas.");
-			}
+			apirest.openConnection("/api/filtrarSalas");
+			apirest.receiveObject(RespuestaSalas.class, r -> {
+				if (r.isExito()) {
+					if (DEBUG) System.out.println("Filtrado salas con exito.");
+	
+					//MOSTRAR LOS RESULTADOS ACTUALIZADOS
+					if (DEBUG) System.out.println("Salas encontradas:");
+					r.getSalas().forEach((k,v) -> {
+		    	        try {
+		        	        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("salaItem.fxml"));
+		        	        HBox salaItem = fxmlLoader.load();
+		    	        	
+		    	        	SalaItemController salaItemController = fxmlLoader.getController();
+		    	        	salaItemController.setData(v.getConfiguracion(), k, myListener);
+		    	        	
+		        	        listaSalas.addRow(listaSalas.getRowCount(), salaItem);
+		        	        //ESTABLECER ANCHURA DE ITEM
+		        	        listaSalas.setMinWidth(Region.USE_COMPUTED_SIZE);
+		        	        listaSalas.setPrefWidth(Region.USE_COMPUTED_SIZE);
+		        	        listaSalas.setMaxWidth(Region.USE_PREF_SIZE);
+							
+							if (DEBUG) System.out.println(v.getConfiguracion().toString());
+		    			} catch (IOException e) {
+		    				if (DEBUG) e.printStackTrace();
+		    			}
+					});
+				} else {
+					labelError.setText("Ha habido un error al filtrar las salas.");
+					if (DEBUG) System.out.println("Ha habido un error al filtrar las salas.");
+				}
+			});
 		}
 	}
 }
