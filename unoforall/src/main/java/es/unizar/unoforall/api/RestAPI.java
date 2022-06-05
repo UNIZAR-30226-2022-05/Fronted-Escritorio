@@ -2,6 +2,7 @@ package es.unizar.unoforall.api;
 
 import java.util.function.Consumer;
 
+import javafx.application.Platform;
 import me.i2000c.web_utils.client.RestClient;
 
 public class RestAPI{
@@ -27,7 +28,9 @@ public class RestAPI{
     }
 
     public void setOnError(Consumer<Exception> onError){
-        restClient.setOnError(onError);
+        restClient.setOnError(error -> {
+        	Platform.runLater(() -> onError.accept(error));
+        });
     }
 
     public <T> void addParameter(String key, T value){
@@ -43,7 +46,9 @@ public class RestAPI{
             return;
         }
 
-        restClient.receiveObject(requestedClass, consumer);
+        restClient.receiveObject(requestedClass, object -> {
+        	Platform.runLater(() -> consumer.accept(object));
+        });
     }
 
     public void close(){

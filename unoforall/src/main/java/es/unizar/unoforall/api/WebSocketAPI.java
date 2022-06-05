@@ -3,6 +3,7 @@ package es.unizar.unoforall.api;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import javafx.application.Platform;
 import me.i2000c.web_utils.client.RestClient;
 import me.i2000c.web_utils.client.WebsocketClient;
 
@@ -10,7 +11,9 @@ public class WebSocketAPI {
     private WebsocketClient client;
 
     public void setOnError(Consumer<Exception> onError){
-        client.setOnError(onError);
+        client.setOnError(error -> {
+        	Platform.runLater(() -> onError.accept(error));
+        });
     }
 
     public WebSocketAPI(){
@@ -42,7 +45,9 @@ public class WebSocketAPI {
             return;
         }
 
-        client.subscribe(topic, expectedClass, consumer);
+        client.subscribe(topic, expectedClass, object -> {
+        	Platform.runLater(() -> consumer.accept(object));
+        });
     }
 
     public void unsubscribe(String topic){
