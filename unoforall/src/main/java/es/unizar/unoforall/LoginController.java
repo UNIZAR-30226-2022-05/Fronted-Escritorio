@@ -104,8 +104,8 @@ public class LoginController implements Initializable {
 			App.apiweb.sendObject("/app/conectarse/" + resp.getClaveInicio(), "vacio");		
 			if (DEBUG) System.out.println("Esperando inicio sesión... ");
     	} else if (resp != null) {
+			labelError.setText(StringUtils.parseString(resp.getErrorInfo()));
     		if (DEBUG) {
-    			labelError.setText(StringUtils.parseString(resp.getErrorInfo()));
 		    	System.out.println("Exito: " + resp.isExito());
 		    	System.out.println("Tipo de error: " + resp.getErrorInfo());
     		}
